@@ -1,0 +1,709 @@
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+
+// --- Mock Data ---
+
+const VALUES = [
+  { 
+    id: 1, 
+    title: "Excellence partagée", 
+    description: "Notre quête d’excellence ne s’arrête pas à nos réalisations immobilières. Elle se vit chaque jour dans notre façon de travailler ensemble : dépassement de soi, envie de progresser et fierté du travail bien fait.",
+    icon: <ValueIcon1 /> 
+  },
+  { 
+    id: 2, 
+    title: "Innovation continue", 
+    description: "Chez Aymen Promotion, vos idées comptent. Nous encourageons la créativité et l’audace : chaque collaborateur peut proposer, innover et contribuer activement à la croissance de l’entreprise.",
+    icon: <ValueIcon2 /> 
+  },
+  { 
+    id: 3, 
+    title: "Respect & bienveillance", 
+    description: "Le respect mutuel est au cœur de notre culture : respect des talents, des parcours, des idées et de l’équilibre entre vie professionnelle et personnelle.",
+    icon: <ValueIcon3 /> 
+  },
+  { 
+    id: 4, 
+    title: "Esprit d’équipe", 
+    description: "La réussite est collective. Nous avançons ensemble en cultivant l’entraide, la solidarité et la fierté d’appartenir à une équipe unie par des objectifs communs.",
+    icon: <ValueIcon4 /> 
+  },
+  { 
+    id: 5, 
+    title: "Engagement durable", 
+    description: "Nous bâtissons un avenir meilleur pour nos clients, pour nos villes et pour nos collaborateurs, avec une vision durable de l’immobilier.",
+    icon: <ValueIcon5 /> 
+  },
+  { 
+    id: 6, 
+    title: "Confiance & transparence", 
+    description: "Nous entretenons une relation basée sur l’écoute, la transparence et la tenue de nos engagements, à chaque étape de votre projet immobilier.",
+    icon: <ValueIcon6 /> 
+  },
+];
+
+const TESTIMONIALS = [
+  {
+    id: 1,
+    name: "M. Sidali Yahia Cherif",
+    project: "Résidence Aymen, Tixeraïne",
+    image: "/temoins/temoin3.png",
+    text: "Ce qui m’a persuadé d’acheter chez Aymen c’est la confiance portée à l’entreprise et la qualité des appartements...",
+  },
+  {
+    id: 2,
+    name: "Dr. Khouchane Mustapha",
+    project: "Résidence Aymen, Tixeraïne",
+    image: "/temoins/temoin1.jpg",
+    text: "Il y a quelque chose d’extraordinaire, c’est un petit abattoire... le jour même, on est appelé à faire le sacrifice, c’est Aymen Promotion qui ramène un boucher, et on fait la fête avec les voisins...",
+  },
+  {
+    id: 3,
+    name: "M. Remila Arab",
+    project: "Résidence Emeraude, les Sources",
+    image: "/temoins/temoin2.png",
+    text: "Ma décision d’acquisition a bien été calculée. Cet achat m’a servi à améliorer mon quotidien, je me sens bien au sein de la résidence Emeraude",
+  },
+  {
+    id: 4,
+    name: "Mme. Rebbat",
+    project: "Résidence Aymen, Tixeraïne",
+    image: "/temoins/temoin4.jpg",
+    text: "Ce qui m’a convaincu d’acheter chez Aymen Promotion Immobilière c’est l’emplacement du projet, la qualité des matériaux...",
+  },
+];
+
+const FAQ_DATA = [
+  {
+    category: "Avant l’achat : Informations générales",
+    items: [
+      {
+        question: "Tout savoir avant de vous engager",
+        answer: "En choisissant Aymen Promotion, vous investissez dans un logement haut standing conçu avec des matériaux de qualité, dans des emplacements stratégiques à Alger, avec un accompagnement personnalisé du premier contact jusqu’à la remise des clés.",
+      },
+      {
+        question: "Comment réserver un appartement ?",
+        answer: "Pour réserver votre appartement, il vous suffit de vous rendre à notre bureau commercial à Saïd Hamdine. Munissez-vous simplement d’une pièce d’identité, d’une fiche de renseignements et d’un premier acompte. Notre équipe est là pour vous guider pas à pas, avec écoute et disponibilité.",
+      },
+      {
+        question: "Puis-je visiter un appartement témoin ?",
+        answer: "Oui, des appartements témoins sont disponibles sur certains projets. Vous pouvez prendre rendez-vous avec un conseiller pour une visite personnalisée.",
+      },
+    ],
+  },
+  {
+    category: "Paiement & Financement",
+    items: [
+      {
+        question: "Quelles sont les modalités de paiement disponibles ?",
+        answer: "Nous offrons des modalités de paiement flexibles, ajustées à votre situation et en fonction des spécificités du projet.",
+      },
+      {
+        question: "Est-il possible d’acheter à crédit ?",
+        answer: "Oui, nous collaborons avec plusieurs établissements bancaires pour faciliter l’obtention d’un crédit immobilier. Notre équipe peut également vous accompagner tout au long des démarches.",
+      },
+    ],
+  },
+  {
+    category: "Personnalisation & Équipements",
+    items: [
+      {
+        question: "Peut-on personnaliser son logement (revêtements, peinture, équipements) ?",
+        answer: "Oui, dans la limite de l’avancement des travaux, nous offrons des options de personnalisation pour les sols, les faïences, ou certains équipements.",
+      },
+      {
+        question: "Les cuisines et salles de bain sont-elles livrées équipées ?",
+        answer: "Nos logements sont livrés avec : une cuisine équipée ainsi que des salles de bain dotées de sanitaires, de robinetterie et de finitions modernes.",
+      },
+      {
+        question: "Est-ce que chaque appartement dispose d’une place de parking ?",
+        answer: "La place de parking est proposée en option, indépendante de l’achat de l’appartement. Elle n’est donc pas systématiquement incluse, mais peut être réservée séparément.",
+      },
+      {
+        question: "Quels équipements sont inclus dans les résidences ?",
+        answer: "Nos résidences adoptent un style inspiré de l’hôtellerie haut de gamme, avec des halls d’entrée élégants et une réception dédiée. Les équipements incluent : ascenseurs, vidéosurveillance, parkings souterrains, contrôle d’accès, espaces détente, aires de jeux, piscines, salles de sport, et même des abattoirs temporaires pour l’Aïd, respectant les normes d’hygiène.",
+      },
+    ],
+  },
+  {
+    category: "Gestion & Copropriété",
+    items: [
+      {
+        question: "Qui gère la copropriété après la livraison ?",
+        answer: "La gestion est assurée par une société spécialisée en gestion immobilière. Elle prend en charge l’entretien, la sécurité, les services, et le respect du règlement de copropriété.",
+      },
+      {
+        question: "Les frais de copropriété sont-ils obligatoires ? Quel est leur montant ?",
+        answer: "Oui, ils sont obligatoires pour assurer le bon fonctionnement de la résidence. Le montant varie selon la résidence.",
+      },
+    ],
+  },
+  {
+    category: "Suivi & Livraison",
+    items: [
+      {
+        question: "Comment suivre l’avancement des travaux ?",
+        answer: "Un service de suivi client est mis à disposition avec des mises à jour régulières par mail. Vous pouvez aussi contacter votre commercial.",
+      },
+      {
+        question: "À quel moment a lieu la remise des clés ?",
+        answer: "La remise des clés intervient après la fin des travaux, la signature de l’acte de vente et le règlement du solde.",
+      },
+    ],
+  },
+  {
+    category: "Autres questions fréquentes",
+    items: [
+      {
+        question: "Peut-on acheter via un tiers ou un partenaire comme Ouedkniss Immobilier ?",
+        answer: "Oui, Aymen Promotion dispose d'une boutique officielle sur Ouedkniss Immobilier. Vous pouvez y consulter nos offres et prendre contact avec notre équipe.",
+      },
+      {
+        question: "Puis-je visiter le chantier pendant les travaux ?",
+        answer: "Les visites sont possibles à certaines étapes, uniquement sur rendez-vous et accompagnées par notre personnel.",
+      },
+    ],
+  },
+];
+
+// --- Icons Components ---
+
+function ValueIcon1() { // Excellence partagée
+  return (
+    <svg width="55" height="55" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M27.4994 53.4138C24.1729 53.4138 21.0804 50.6638 18.7917 45.6704C16.5633 40.8082 15.3359 34.3553 15.3359 27.5004C15.3359 20.6455 16.5633 14.1926 18.7917 9.33039C21.0804 4.33691 24.1729 1.58691 27.4994 1.58691C30.8259 1.58691 33.9183 4.33691 36.2071 9.33039C38.4355 14.1926 39.6629 20.6455 39.6629 27.5004C39.6629 34.3553 38.4355 40.8082 36.2071 45.6704C33.9183 50.6638 30.8259 53.4138 27.4994 53.4138ZM27.4994 2.64461C24.6105 2.64461 21.8596 5.17556 19.7533 9.77102C17.5867 14.498 16.3936 20.7943 16.3936 27.5004C16.3936 34.2064 17.5867 40.5028 19.7533 45.2296C21.8596 49.8252 24.6105 52.3561 27.4994 52.3561C30.3883 52.3561 33.1392 49.8252 35.2455 45.2296C37.4121 40.5028 38.6052 34.2064 38.6052 27.5004C38.6052 20.7944 37.4121 14.498 35.2455 9.77102C33.1392 5.17556 30.3883 2.64461 27.4994 2.64461Z" fill="currentColor"/>
+      <path d="M46.4179 44.9525C46.3299 44.9525 46.2413 44.9306 46.1602 44.8853C41.4232 42.2393 34.6216 40.7217 27.4994 40.7217C20.3772 40.7217 13.5756 42.2393 8.83853 44.8853C8.62245 45.0061 8.35157 44.9608 8.18657 44.7763C3.9301 40.0211 1.58594 33.8857 1.58594 27.5005C1.58594 21.3418 3.7852 15.3723 7.77862 10.6916C7.94965 10.491 8.24199 10.447 8.46443 10.5883C13.2176 13.6063 20.1556 15.3371 27.4994 15.3371C34.8432 15.3371 41.7811 13.6063 46.5345 10.5883C46.7568 10.4471 47.0494 10.4912 47.2202 10.6916C51.2136 15.3723 53.4129 21.3418 53.4129 27.5005C53.4129 33.8858 51.0687 40.0212 46.8122 44.7763C46.709 44.8915 46.5645 44.9525 46.4179 44.9525ZM27.4994 39.664C34.6116 39.664 41.4321 41.1523 46.3006 43.7566C50.2081 39.2413 52.3552 33.4853 52.3552 27.5005C52.3552 21.7448 50.3526 16.1614 46.707 11.726C41.8053 14.6972 34.8393 16.3948 27.4994 16.3948C20.1594 16.3948 13.1934 14.6972 8.29192 11.726C4.64605 16.1614 2.64363 21.7448 2.64363 27.5005C2.64363 33.4853 4.79074 39.2413 8.69807 43.7566C13.5667 41.1523 20.3871 39.664 27.4994 39.664Z" fill="currentColor"/>
+      <path d="M27.4977 16.3946C19.9586 16.3946 12.8139 14.6037 7.89572 11.4811C7.76636 11.399 7.679 11.2648 7.65626 11.1133C7.63352 10.9619 7.67752 10.8079 7.77694 10.6914C12.7133 4.90542 19.9013 1.58691 27.4977 1.58691C35.0942 1.58691 42.282 4.90542 47.2185 10.6914C47.3179 10.808 47.3619 10.9619 47.3392 11.1133C47.3164 11.2648 47.229 11.399 47.0996 11.4811C42.1814 14.6037 35.0367 16.3946 27.4977 16.3946ZM8.98916 10.912C13.7204 13.7295 20.4206 15.3369 27.4977 15.3369C34.5747 15.3369 41.275 13.7295 46.0063 10.912C41.2878 5.64983 34.5777 2.64461 27.4977 2.64461C20.4177 2.64461 13.7076 5.64993 8.98916 10.912Z" fill="currentColor"/>
+      <path d="M27.4984 53.4141C20.1386 53.4141 13.0993 50.2657 8.18561 44.7764C8.07847 44.6567 8.0315 44.4949 8.05805 44.3365C8.08449 44.1781 8.18159 44.0403 8.32174 43.962C13.2117 41.2306 20.2013 39.6641 27.4984 39.6641C34.7956 39.6641 41.7852 41.2306 46.6751 43.962C46.8153 44.0403 46.9124 44.1781 46.9388 44.3365C46.9653 44.4949 46.9184 44.6567 46.8113 44.7764C41.8975 50.2657 34.8583 53.4141 27.4984 53.4141ZM9.42935 44.5663C14.1165 49.5252 20.6634 52.3564 27.4984 52.3564C34.3333 52.3564 40.8804 49.5252 45.5675 44.5663C40.865 42.1176 34.3293 40.7218 27.4984 40.7218C20.6675 40.7218 14.1319 42.1176 9.42935 44.5663Z" fill="currentColor"/>
+      <path d="M27.4995 53.4138C27.2074 53.4138 26.9707 53.1771 26.9707 52.885V2.11576C26.9707 1.82373 27.2074 1.58691 27.4995 1.58691C27.7917 1.58691 28.0284 1.82373 28.0284 2.11576V52.885C28.0284 53.1771 27.7917 53.4138 27.4995 53.4138Z" fill="currentColor"/>
+      <path d="M52.884 28.0294H2.11478C1.82275 28.0294 1.58594 27.7927 1.58594 27.5005C1.58594 27.2084 1.82275 26.9717 2.11478 26.9717H52.884C53.1762 26.9717 53.4129 27.2084 53.4129 27.5005C53.4129 27.7927 53.1762 28.0294 52.884 28.0294Z" fill="currentColor"/>
+    </svg>
+  );
+}
+function ValueIcon2() { // Innovation continue
+  return (
+    <svg width="55" height="55" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M37.0195 22.6595C36.9049 22.6595 36.7912 22.6223 36.6969 22.5498L32.4661 19.2953C32.336 19.1952 32.2598 19.0403 32.2598 18.8761V14.8081C32.2598 14.5161 32.4965 14.2793 32.7886 14.2793H37.0194C37.3115 14.2793 37.5482 14.5161 37.5482 14.8081V22.1307C37.5482 22.3321 37.4338 22.5161 37.253 22.6051C37.179 22.6416 37.099 22.6595 37.0195 22.6595ZM33.3175 18.6158L36.4905 21.0567V15.337H33.3175V18.6158Z" fill="currentColor"/>
+      <path d="M41.2496 25.9139H13.7496C13.5231 25.9139 13.3219 25.7697 13.2489 25.5553C13.176 25.3409 13.2476 25.1039 13.4272 24.9658L27.1772 14.3889C27.3672 14.2428 27.632 14.2428 27.8221 14.3889L41.5721 24.9658C41.7515 25.104 41.8232 25.3409 41.7503 25.5553C41.6774 25.7697 41.476 25.9139 41.2496 25.9139ZM15.3045 24.8562H39.6948L27.4996 15.4753L15.3045 24.8562Z" fill="currentColor"/>
+      <path d="M38.0772 38.6064H16.9234C16.6313 38.6064 16.3945 38.3697 16.3945 38.0776V25.3853C16.3945 25.0933 16.6313 24.8564 16.9234 24.8564H38.0772C38.3694 24.8564 38.6061 25.0933 38.6061 25.3853V38.0776C38.6061 38.3697 38.3694 38.6064 38.0772 38.6064ZM17.4522 37.5488H37.5484V25.9141H17.4522V37.5488Z" fill="currentColor"/>
+      <path d="M30.6719 38.6061H24.3257C24.0337 38.6061 23.7969 38.3694 23.7969 38.0773V29.6158C23.7969 29.3236 24.0337 29.0869 24.3257 29.0869H30.6719C30.964 29.0869 31.2007 29.3236 31.2007 29.6158V38.0773C31.2007 38.3694 30.964 38.6061 30.6719 38.6061ZM24.8546 37.5485H30.143V30.1446H24.8546V37.5485Z" fill="currentColor"/>
+      <path d="M52.8847 28.0292H48.6539C48.3618 28.0292 48.1251 27.7925 48.1251 27.5004C48.1251 16.1277 38.8727 6.87538 27.5001 6.87538C22.1675 6.87538 17.144 8.8852 13.2946 12.547L15.1818 14.4342C15.3183 14.5707 15.3695 14.7707 15.3156 14.956C15.2616 15.1413 15.1109 15.2825 14.9225 15.3244L5.40328 17.4398C5.22686 17.4792 5.04251 17.4253 4.91463 17.2976C4.78686 17.1697 4.73313 16.9853 4.77237 16.8089L6.88776 7.28967C6.92964 7.10119 7.07084 6.95058 7.25615 6.89663C7.44156 6.8428 7.64157 6.89389 7.77802 7.03043L9.5542 8.80651C14.4031 4.14664 20.7548 1.58691 27.5001 1.58691C34.4217 1.58691 40.9293 4.28234 45.8236 9.17681C50.718 14.0713 53.4135 20.5786 53.4135 27.5004C53.4135 27.7925 53.1768 28.0292 52.8847 28.0292ZM49.1763 26.9715H52.3502C52.0681 13.5089 41.0291 2.64461 27.5001 2.64461C20.8608 2.64461 14.619 5.23003 9.92439 9.9247C9.82518 10.0239 9.69075 10.0795 9.55039 10.0795C9.41003 10.0795 9.2756 10.0238 9.17639 9.9247L7.71117 8.45937L5.98502 16.2269L13.7525 14.5007L12.168 12.9163C11.9614 12.7097 11.9614 12.3748 12.168 12.1684C16.2634 8.07311 21.7085 5.81768 27.5001 5.81768C39.2794 5.81768 48.8949 15.2587 49.1763 26.9715Z" fill="currentColor"/>
+      <path d="M27.4994 53.414C20.5777 53.414 14.0702 50.7186 9.17583 45.8241C4.28147 40.9296 1.58594 34.4222 1.58594 27.5005C1.58594 27.2084 1.82275 26.9717 2.11478 26.9717H6.34555C6.63758 26.9717 6.8744 27.2084 6.8744 27.5005C6.8744 38.8732 16.1268 48.1255 27.4994 48.1255C32.5521 48.1255 37.3786 46.2946 41.1518 42.9585L39.8178 41.6244C39.6907 41.4973 39.6368 41.3142 39.6748 41.1385C39.7129 40.9628 39.8376 40.8185 40.006 40.7553L48.4675 37.5822C48.6491 37.5139 48.8536 37.5508 49.0001 37.6782C49.1466 37.8054 49.2116 38.0027 49.1695 38.1921L47.0541 47.7113C47.0122 47.8997 46.8711 48.0503 46.6857 48.1044C46.5008 48.1582 46.3005 48.107 46.164 47.9705L44.8972 46.7038C40.121 51.0352 33.9636 53.414 27.4994 53.414ZM2.64913 28.0294C2.93122 41.492 13.9704 52.3563 27.4994 52.3563C33.8641 52.3563 39.9189 49.9518 44.5487 45.5856C44.7568 45.3895 45.0832 45.3939 45.2854 45.5965L46.2306 46.5415L47.9253 38.9152L41.1464 41.4573L42.2921 42.6031C42.3936 42.7045 42.4495 42.8429 42.4469 42.9863C42.4445 43.1297 42.3837 43.2661 42.2787 43.3638C38.2526 47.1166 33.0038 49.1832 27.4994 49.1832C15.7201 49.1832 6.10451 39.7422 5.82305 28.0294H2.64913Z" fill="currentColor"/>
+    </svg>
+  );
+}
+function ValueIcon3() { // Respect & bienveillance
+  return (
+    <svg width="55" height="55" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M52.884 53.4141H2.11478C1.82275 53.4141 1.58594 53.1774 1.58594 52.8853C1.58594 52.5932 1.82275 52.3564 2.11478 52.3564H52.884C53.1762 52.3564 53.4129 52.5932 53.4129 52.8853C53.4129 53.1774 53.1762 53.4141 52.884 53.4141Z" fill="currentColor"/> 
+      <path d="M49.7117 53.4135H5.28861C4.99658 53.4135 4.75977 53.1768 4.75977 52.8846V48.6538C4.75977 48.3617 4.99658 48.125 5.28861 48.125H49.7117C50.0038 48.125 50.2405 48.3617 50.2405 48.6538V52.8846C50.2405 53.1768 50.0038 53.4135 49.7117 53.4135ZM5.81746 52.3558H49.1828V49.1827H5.81746V52.3558Z" fill="currentColor"/> 
+      <path d="M46.5374 49.183H8.46049C8.16846 49.183 7.93164 48.9463 7.93164 48.6541V44.4234C7.93164 44.1312 8.16846 43.8945 8.46049 43.8945H46.5374C46.8295 43.8945 47.0663 44.1312 47.0663 44.4234V48.6541C47.0663 48.9463 46.8295 49.183 46.5374 49.183ZM8.98933 48.1253H46.0086V44.9522H8.98933V48.1253Z" fill="currentColor"/> 
+      <path d="M16.9217 40.722H12.691C12.3989 40.722 12.1621 40.4853 12.1621 40.1931V23.2701C12.1621 22.978 12.3989 22.7412 12.691 22.7412H16.9217C17.2138 22.7412 17.4506 22.978 17.4506 23.2701V40.1931C17.4506 40.4853 17.2138 40.722 16.9217 40.722ZM13.2198 39.6643H16.3929V23.7989H13.2198V39.6643Z" fill="currentColor"/> 
+      <path d="M29.6151 40.722H25.3843C25.0923 40.722 24.8555 40.4853 24.8555 40.1931V23.2701C24.8555 22.978 25.0923 22.7412 25.3843 22.7412H29.6151C29.9072 22.7412 30.1439 22.978 30.1439 23.2701V40.1931C30.1439 40.4853 29.9072 40.722 29.6151 40.722ZM25.9132 39.6643H29.0862V23.7989H25.9132V39.6643Z" fill="currentColor"/> 
+      <path d="M42.3065 40.722H38.0757C37.7836 40.722 37.5469 40.4853 37.5469 40.1931V23.2701C37.5469 22.978 37.7836 22.7412 38.0757 22.7412H42.3065C42.5986 22.7412 42.8353 22.978 42.8353 23.2701V40.1931C42.8353 40.4853 42.5986 40.722 42.3065 40.722ZM38.6046 39.6643H41.7776V23.7989H38.6046V39.6643Z" fill="currentColor"/> 
+      <path d="M47.5953 19.5678H6.34525C6.05322 19.5678 5.81641 19.3309 5.81641 19.0389V14.8081C5.81641 14.5161 6.05322 14.2793 6.34525 14.2793H47.5953C47.8874 14.2793 48.1241 14.5161 48.1241 14.8081V19.0389C48.1241 19.3309 47.8874 19.5678 47.5953 19.5678ZM6.8741 18.5101H47.0664V15.337H6.8741V18.5101Z" fill="currentColor"/> 
+      <path d="M44.424 15.3369C44.4234 15.3368 44.4225 15.3369 44.4219 15.3369H10.5757C10.2837 15.3369 10.0469 15.1001 10.0469 14.8081C10.0469 7.51792 15.9779 1.58691 23.268 1.58691H31.7296C39.0036 1.58691 44.9247 7.49127 44.9506 14.7595C44.9521 14.7755 44.9528 14.7918 44.9528 14.8081C44.9528 15.1001 44.716 15.3369 44.424 15.3369ZM11.1159 14.2792H43.8816C43.6037 7.81672 38.2592 2.64461 31.7296 2.64461H23.268C16.7384 2.64461 11.3938 7.81672 11.1159 14.2792Z" fill="currentColor"/> 
+      <path d="M19.0373 23.7982H10.5757C10.2837 23.7982 10.0469 23.5614 10.0469 23.2694V19.0386C10.0469 18.7466 10.2837 18.5098 10.5757 18.5098H19.0373C19.3293 18.5098 19.5661 18.7466 19.5661 19.0386V23.2694C19.5661 23.5614 19.3293 23.7982 19.0373 23.7982ZM11.1046 22.7405H18.5084V19.5675H11.1046V22.7405Z" fill="currentColor"/> 
+      <path d="M31.7306 23.7982H23.2691C22.9771 23.7982 22.7402 23.5614 22.7402 23.2694V19.0386C22.7402 18.7466 22.9771 18.5098 23.2691 18.5098H31.7306C32.0228 18.5098 32.2595 18.7466 32.2595 19.0386V23.2694C32.2595 23.5614 32.0228 23.7982 31.7306 23.7982ZM23.7979 22.7405H31.2018V19.5675H23.7979V22.7405Z" fill="currentColor"/> 
+      <path d="M44.422 23.7982H35.9605C35.6684 23.7982 35.4316 23.5614 35.4316 23.2694V19.0386C35.4316 18.7466 35.6684 18.5098 35.9605 18.5098H44.422C44.7142 18.5098 44.9509 18.7466 44.9509 19.0386V23.2694C44.9509 23.5614 44.7142 23.7982 44.422 23.7982ZM36.4893 22.7405H43.8932V19.5675H36.4893V22.7405Z" fill="currentColor"/> 
+      <path d="M19.0373 44.9525H10.5757C10.2837 44.9525 10.0469 44.7158 10.0469 44.4237V40.1929C10.0469 39.9008 10.2837 39.6641 10.5757 39.6641H19.0373C19.3293 39.6641 19.5661 39.9008 19.5661 40.1929V44.4237C19.5661 44.7158 19.3293 44.9525 19.0373 44.9525ZM11.1046 43.8948H18.5084V40.7218H11.1046V43.8948Z" fill="currentColor"/> 
+      <path d="M31.7306 44.9525H23.2691C22.9771 44.9525 22.7402 44.7158 22.7402 44.4237V40.1929C22.7402 39.9008 22.9771 39.6641 23.2691 39.6641H31.7306C32.0228 39.6641 32.2595 39.9008 32.2595 40.1929V44.4237C32.2595 44.7158 32.0228 44.9525 31.7306 44.9525ZM23.7979 43.8948H31.2018V40.7218H23.7979V43.8948Z" fill="currentColor"/> 
+      <path d="M44.422 44.9525H35.9605C35.6684 44.9525 35.4316 44.7158 35.4316 44.4237V40.1929C35.4316 39.9008 35.6684 39.6641 35.9605 39.6641H44.422C44.7142 39.6641 44.9509 39.9008 44.9509 40.1929V44.4237C44.9509 44.7158 44.7142 44.9525 44.422 44.9525ZM36.4893 43.8948H43.8932V40.7218H36.4893V43.8948Z" fill="currentColor"/> 
+    </svg>
+  );
+}
+function ValueIcon4() { // Esprit d’équipe
+  return (
+    <svg width="55" height="55" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M45.4805 14.6318C45.3779 14.6318 45.2756 14.6019 45.1872 14.5429L38.841 10.3121C38.6939 10.2141 38.6055 10.049 38.6055 9.87214V2.11576C38.6055 1.82373 38.8422 1.58691 39.1343 1.58691H45.4805C45.7726 1.58691 46.0093 1.82373 46.0093 2.11576V14.1029C46.0093 14.2979 45.902 14.4771 45.73 14.5691C45.6518 14.6111 45.5661 14.6318 45.4805 14.6318ZM39.6632 9.5892L44.9516 13.1148V2.64461H39.6632V9.5892Z" fill="currentColor"/>
+      <path d="M52.8841 19.5677H2.11486C1.88185 19.5677 1.67623 19.4152 1.60864 19.1921C1.54116 18.9691 1.62758 18.7281 1.82145 18.5988L27.2061 1.67576C27.3838 1.5573 27.6151 1.5573 27.7928 1.67576L53.1774 18.5988C53.3713 18.7281 53.4577 18.969 53.3902 19.1921C53.3227 19.4152 53.1171 19.5677 52.8841 19.5677ZM3.86153 18.51H51.1374L27.4995 2.75133L3.86153 18.51Z" fill="currentColor"/>
+      <path d="M48.6529 53.4136H6.34525C6.05322 53.4136 5.81641 53.1769 5.81641 52.8848V19.0386C5.81641 18.7466 6.05322 18.5098 6.34525 18.5098H48.6529C48.9451 18.5098 49.1818 18.7466 49.1818 19.0386V52.8848C49.1818 53.1769 48.9451 53.4136 48.6529 53.4136ZM6.8741 52.3559H48.1241V19.5675H6.8741V52.3559Z" fill="currentColor"/>
+      <path d="M27.4988 15.3365C25.4576 15.3365 23.7969 13.6758 23.7969 11.6345C23.7969 9.5933 25.4576 7.93262 27.4988 7.93262C29.54 7.93262 31.2007 9.5933 31.2007 11.6345C31.2007 13.6758 29.54 15.3365 27.4988 15.3365ZM27.4988 8.99031C26.0408 8.99031 24.8546 10.1765 24.8546 11.6345C24.8546 13.0926 26.0408 14.2788 27.4988 14.2788C28.9568 14.2788 30.143 13.0926 30.143 11.6345C30.143 10.1765 28.9568 8.99031 27.4988 8.99031Z" fill="currentColor"/>
+      <path d="M16.9217 38.6061C14.2973 38.6061 12.1621 36.471 12.1621 33.8465C12.1621 31.2221 14.2973 29.0869 16.9217 29.0869C19.5462 29.0869 21.6813 31.2221 21.6813 33.8465C21.6813 36.471 19.5462 38.6061 16.9217 38.6061ZM16.9217 30.1446C14.8805 30.1446 13.2198 31.8053 13.2198 33.8465C13.2198 35.8878 14.8805 37.5485 16.9217 37.5485C18.963 37.5485 20.6236 35.8878 20.6236 33.8465C20.6236 31.8053 18.963 30.1446 16.9217 30.1446Z" fill="currentColor"/>
+      <path d="M37.0194 38.6061C34.3949 38.6061 32.2598 36.471 32.2598 33.8465C32.2598 31.2221 34.3949 29.0869 37.0194 29.0869C39.6438 29.0869 41.779 31.2221 41.779 33.8465C41.779 36.471 39.6438 38.6061 37.0194 38.6061ZM37.0194 30.1446C34.9781 30.1446 33.3175 31.8053 33.3175 33.8465C33.3175 35.8878 34.9781 37.5485 37.0194 37.5485C39.0606 37.5485 40.7213 35.8878 40.7213 33.8465C40.7213 31.8053 39.0606 30.1446 37.0194 30.1446Z" fill="currentColor"/>
+      <path d="M43.3657 49.1834H30.6734C30.3812 49.1834 30.1445 48.9467 30.1445 48.6546V44.4238C30.1445 40.633 33.2287 37.5488 37.0195 37.5488C40.8104 37.5488 43.8945 40.633 43.8945 44.4238V48.6546C43.8945 48.9467 43.6578 49.1834 43.3657 49.1834ZM31.2022 48.1258H42.8368V44.4238C42.8368 41.2162 40.2272 38.6065 37.0195 38.6065C33.8119 38.6065 31.2022 41.2162 31.2022 44.4238V48.1258Z" fill="currentColor"/>
+      <path d="M23.268 49.1834H10.5757C10.2837 49.1834 10.0469 48.9467 10.0469 48.6546V44.4238C10.0469 40.633 13.131 37.5488 16.9219 37.5488C20.7128 37.5488 23.7969 40.633 23.7969 44.4238V48.6546C23.7969 48.9467 23.5601 49.1834 23.268 49.1834ZM11.1046 48.1258H22.7392V44.4238C22.7392 41.2162 20.1295 38.6065 16.9219 38.6065C13.7142 38.6065 11.1046 41.2162 11.1046 44.4238V48.1258Z" fill="currentColor"/>
+    </svg>
+  );
+}
+function ValueIcon5() { // Engagement durable
+  return (
+    <svg width="55" height="55" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14.8068 6.87538H6.34525C6.05312 6.87538 5.81641 6.63856 5.81641 6.34653V2.11576C5.81641 1.82373 6.05312 1.58691 6.34525 1.58691H14.8068C15.0988 1.58691 15.3356 1.82373 15.3356 2.11576V6.34653C15.3356 6.63856 15.0988 6.87538 14.8068 6.87538ZM6.8741 5.81768H14.2779V2.64461H6.8741V5.81768Z" fill="currentColor"/> 
+      <path d="M14.8068 53.4136H6.34525C6.05312 53.4136 5.81641 53.1769 5.81641 52.8848V19.0386C5.81641 18.7466 6.05312 18.5098 6.34525 18.5098H14.8068C15.0988 18.5098 15.3356 18.7466 15.3356 19.0386V52.8848C15.3356 53.1769 15.0988 53.4136 14.8068 53.4136ZM6.8741 52.3559H14.2779V19.5675H6.8741V52.3559Z" fill="currentColor"/> 
+      <path d="M52.8848 13.2212H19.0386C18.7465 13.2212 18.5098 12.9844 18.5098 12.6924V6.34623C18.5098 6.0542 18.7465 5.81738 19.0386 5.81738H52.8848C53.1769 5.81738 53.4136 6.0542 53.4136 6.34623V12.6924C53.4136 12.9844 53.1769 13.2212 52.8848 13.2212ZM19.5675 12.1635H52.3559V6.87508H19.5675V12.1635Z" fill="currentColor"/> 
+      <path d="M51.8261 13.2211C51.6909 13.2211 51.5554 13.1695 51.4523 13.0663L45.1061 6.72012C44.8995 6.51356 44.8995 6.17869 45.1061 5.97223C45.3125 5.76577 45.6475 5.76577 45.8539 5.97223L52.2 12.3184C52.4066 12.525 52.4066 12.8598 52.2 13.0663C52.0969 13.1695 51.9614 13.2211 51.8261 13.2211Z" fill="currentColor"/> 
+      <path d="M45.4804 13.2211C45.3452 13.2211 45.2097 13.1695 45.1065 13.0663L38.7604 6.72012C38.5538 6.51356 38.5538 6.17869 38.7604 5.97223C38.9668 5.76577 39.3018 5.76577 39.5082 5.97223L45.8543 12.3184C46.0609 12.525 46.0609 12.8598 45.8543 13.0663C45.7512 13.1695 45.6157 13.2211 45.4804 13.2211Z" fill="currentColor"/> 
+      <path d="M39.1347 13.2211C38.9995 13.2211 38.864 13.1695 38.7608 13.0663L32.4147 6.72012C32.2081 6.51356 32.2081 6.17869 32.4147 5.97223C32.621 5.76577 32.9561 5.76577 33.1625 5.97223L39.5086 12.3184C39.7152 12.525 39.7152 12.8598 39.5086 13.0663C39.4055 13.1695 39.27 13.2211 39.1347 13.2211Z" fill="currentColor"/> 
+      <path d="M32.7871 13.2211C32.6518 13.2211 32.5163 13.1695 32.4132 13.0663L26.067 6.72012C25.8605 6.51356 25.8605 6.17869 26.067 5.97223C26.2735 5.76577 26.6083 5.76577 26.8148 5.97223L33.161 12.3184C33.3676 12.525 33.3676 12.8598 33.161 13.0663C33.0579 13.1695 32.9224 13.2211 32.7871 13.2211Z" fill="currentColor"/> 
+      <path d="M26.4414 13.2211C26.306 13.2211 26.1706 13.1695 26.0674 13.0663L19.7213 6.72012C19.5148 6.51356 19.5148 6.17869 19.7213 5.97223C19.9278 5.76577 20.2626 5.76577 20.4691 5.97223L26.8153 12.3184C27.0219 12.525 27.0219 12.8598 26.8153 13.0663C26.7121 13.1695 26.5767 13.2211 26.4414 13.2211Z" fill="currentColor"/> 
+      <path d="M6.34555 13.2212H2.11478C1.82265 13.2212 1.58594 12.9844 1.58594 12.6924V6.34623C1.58594 6.0542 1.82265 5.81738 2.11478 5.81738H6.34555C6.63758 5.81738 6.8744 6.0542 6.8744 6.34623V12.6924C6.8744 12.9844 6.63758 13.2212 6.34555 13.2212ZM2.64363 12.1635H5.81671V6.87508H2.64363V12.1635Z" fill="currentColor"/> 
+      <path d="M19.0376 19.5674H6.34525C6.05312 19.5674 5.81641 19.3306 5.81641 19.0385V6.34623C5.81641 6.0542 6.05312 5.81738 6.34525 5.81738H19.0376C19.3296 5.81738 19.5664 6.0542 19.5664 6.34623V19.0385C19.5664 19.3306 19.3296 19.5674 19.0376 19.5674ZM6.8741 18.5097H18.5087V6.87508H6.8741V18.5097Z" fill="currentColor"/> 
+      <path d="M14.8068 53.4137C14.6714 53.4137 14.536 53.3621 14.4328 53.2588L5.97125 44.7972C5.76479 44.5908 5.76479 44.2559 5.97125 44.0495C6.17782 43.8429 6.51258 43.8429 6.71915 44.0495L15.1807 52.511C15.3873 52.7175 15.3873 53.0523 15.1807 53.2588C15.0775 53.3621 14.9421 53.4137 14.8068 53.4137Z" fill="currentColor"/> 
+      <path d="M14.8068 44.9518C14.6714 44.9518 14.536 44.9002 14.4328 44.7969L5.97125 36.3353C5.76479 36.1289 5.76479 35.794 5.97125 35.5875C6.17782 35.381 6.51258 35.381 6.71915 35.5875L15.1807 44.0491C15.3873 44.2555 15.3873 44.5904 15.1807 44.7969C15.0775 44.9002 14.9421 44.9518 14.8068 44.9518Z" fill="currentColor"/> 
+      <path d="M14.8068 36.4909C14.6714 36.4909 14.536 36.4393 14.4328 36.336L5.97125 27.8744C5.76479 27.668 5.76479 27.3331 5.97125 27.1265C6.17782 26.9201 6.51258 26.9201 6.71915 27.1265L15.1807 35.5881C15.3873 35.7945 15.3873 36.1294 15.1807 36.3359C15.0775 36.4393 14.9421 36.4909 14.8068 36.4909Z" fill="currentColor"/> 
+      <path d="M14.8068 28.029C14.6714 28.029 14.536 27.9774 14.4328 27.874L5.97125 19.4125C5.76479 19.2059 5.76479 18.8711 5.97125 18.6646C6.17782 18.4582 6.51258 18.4582 6.71915 18.6646L15.1807 27.1261C15.3873 27.3327 15.3873 27.6676 15.1807 27.874C15.0775 27.9774 14.9421 28.029 14.8068 28.029Z" fill="currentColor"/> 
+      <path d="M14.8065 15.3373H10.5757C10.2836 15.3373 10.0469 15.1005 10.0469 14.8084V10.5777C10.0469 10.2856 10.2836 10.0488 10.5757 10.0488H14.8065C15.0985 10.0488 15.3353 10.2856 15.3353 10.5777V14.8084C15.3353 15.1005 15.0985 15.3373 14.8065 15.3373ZM11.1046 14.2796H14.2776V11.1065H11.1046V14.2796Z" fill="currentColor"/> 
+      <path d="M48.6541 27.559C48.5516 27.559 48.4493 27.5291 48.3608 27.4701L44.1301 24.6496C43.983 24.5515 43.8945 24.3864 43.8945 24.2096V19.0386C43.8945 18.7466 44.1312 18.5098 44.4234 18.5098H48.6541C48.9463 18.5098 49.183 18.7466 49.183 19.0386V27.0301C49.183 27.2252 49.0756 27.4043 48.9037 27.4963C48.8255 27.5381 48.7398 27.559 48.6541 27.559ZM44.9522 23.9265L48.1253 26.0419V19.5675H44.9522V23.9265Z" fill="currentColor"/> 
+      <path d="M52.8849 30.1444H19.0387C18.8029 30.1444 18.5955 29.988 18.5303 29.7614C18.4653 29.5345 18.5583 29.2921 18.7583 29.167L35.6814 18.5901C35.8531 18.483 36.0704 18.483 36.2421 18.5901L53.1652 29.167C53.3652 29.2922 53.4583 29.5346 53.3932 29.7614C53.3282 29.988 53.1208 30.1444 52.8849 30.1444ZM20.8827 29.0867H51.041L35.9618 19.6622L20.8827 29.0867Z" fill="currentColor"/> 
+      <path d="M49.7124 53.4138H22.2124C21.9203 53.4138 21.6836 53.1771 21.6836 52.885V29.6158C21.6836 29.3236 21.9203 29.0869 22.2124 29.0869H49.7124C50.0046 29.0869 50.2413 29.3236 50.2413 29.6158V52.885C50.2413 53.1771 50.0046 53.4138 49.7124 53.4138ZM22.7413 52.3561H49.1836V30.1446H22.7413V52.3561Z" fill="currentColor"/> 
+      <path d="M40.1935 53.4141H31.732C31.4398 53.4141 31.2031 53.1774 31.2031 52.8852V40.1929C31.2031 39.9008 31.4398 39.6641 31.732 39.6641H40.1935C40.4856 39.6641 40.7224 39.9008 40.7224 40.1929V52.8852C40.7224 53.1774 40.4856 53.4141 40.1935 53.4141ZM32.2608 52.3564H39.6647V40.7218H32.2608V52.3564Z" fill="currentColor"/> 
+      <path d="M52.8848 53.4132H19.0386C18.7465 53.4132 18.5098 53.1764 18.5098 52.8843C18.5098 52.5922 18.7465 52.3555 19.0386 52.3555H52.8848C53.1769 52.3555 53.4136 52.5922 53.4136 52.8843C53.4136 53.1764 53.1769 53.4132 52.8848 53.4132Z" fill="currentColor"/> 
+    </svg>
+  );
+}
+function ValueIcon6() { // Confiance & transparence
+  return (
+    <svg width="55" height="55" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 25 2 C 12.317 2 2 12.317 2 25 C 2 37.683 12.317 48 25 48 C 37.683 48 48 37.683 48 25 C 48 12.317 37.683 2 25 2 z M 25 4 C 36.609 4 46 13.391 46 25 C 46 36.609 36.609 46 25 46 C 13.391 46 4 36.609 4 25 C 4 13.391 13.391 4 25 4 z M 25 11 C 17.285 11 11 17.285 11 25 C 11 32.715 17.285 39 25 39 C 32.715 39 39 32.715 39 25 C 39 17.285 32.715 11 25 11 z M 25 13 C 31.641 13 37 18.359 37 25 C 37 31.641 31.641 37 25 37 C 18.359 37 13 31.641 13 25 C 13 18.359 18.359 13 25 13 z M 24.984375 16.986328 A 1.0001 1.0001 0 0 0 24 18 L 24 24.585938 L 20.707031 27.878906 A 1.0001 1.0001 0 1 0 22.121094 29.292969 L 25.707031 25.707031 A 1.0001 1.0001 0 0 0 26 25 L 26 18 A 1.0001 1.0001 0 0 0 24.984375 16.986328 z" fill="currentColor"/>
+    </svg>
+  );
+}
+
+
+// --- Page Component ---
+
+export default function AboutPage() {
+  const [activeFaqCategory, setActiveFaqCategory] = useState(0);
+  const [activeFaqIndex, setActiveFaqIndex] = useState(0);
+  const [activeValueId, setActiveValueId] = useState(3); // Default active value (Excellence Partagée)
+  const [activeTestimonialId, setActiveTestimonialId] = useState(2); // Center testimonial active by default
+
+  const activeValue = VALUES.find(v => v.id === activeValueId) || VALUES[0];
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-hidden">
+      {/* Background Texture & Lights */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />
+        <div className="absolute top-[40%] right-[-10%] w-[700px] h-[700px] bg-[radial-gradient(circle,rgba(225,187,127,0.1),transparent_70%)]" />
+        <div className="absolute inset-0 opacity-[0.05] mix-blend-overlay" style={{ 
+          backgroundImage: 'url("/texture.png")', 
+          backgroundSize: '1200px', 
+          backgroundRepeat: 'repeat' 
+        }} />
+      </div>
+
+      <Header className="absolute top-0 left-0 z-40 w-full" />
+
+      {/* 1. Hero / Video Section */}
+      <section className="relative pt-32 pb-20 px-4 md:px-10 z-10">
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 100 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 1.0, ease: "easeOut" }}
+        >
+          <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-widest text-white drop-shadow-lg">
+            A PROPOS
+          </h1>
+        </motion.div>
+        
+        {/* Video Placeholder */}
+        <div className="mx-auto max-w-6xl relative">
+          <motion.div 
+            className="aspect-video w-full bg-[#052620] rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden group cursor-pointer"
+            initial={{ opacity: 0, y: 100 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 1.0, delay: 0.2, ease: "easeOut" }}
+          >
+             <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:scale-110 transition-transform">
+                   <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-white border-b-[10px] border-b-transparent ml-1"></div>
+                </div>
+             </div>
+             <img 
+               src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2000" 
+               alt="Video Thumbnail" 
+               className="w-full h-full object-cover opacity-60 mix-blend-overlay"
+             />
+          </motion.div>
+
+          {/* Overlay Stats Card */}
+          <motion.div 
+            className="relative w-full md:absolute md:bottom-[-40px] md:left-0 md:right-0 md:w-[90%] lg:w-[80%] mx-auto bg-[#1F3A35]/95 backdrop-blur-md border border-white/10 rounded-xl p-6 md:p-8 shadow-2xl mt-6 md:mt-0"
+            initial={{ opacity: 0, y: 100 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 1.0, delay: 0.4, ease: "easeOut" }}
+          >
+             <p className="text-center text-sm md:text-base leading-relaxed text-gray-200">
+               Référence du haut standing, Aymen Promotion vous propose des résidences d'exception dans <strong className="text-white font-bold">plus de 15 communes</strong>, avec <strong className="text-white font-bold">plus de 30 projets</strong> et une expertise de <strong className="text-white font-bold">20 ans</strong> et <strong className="text-white font-bold">une vision</strong> : <br className="hidden md:block"/>
+               Créer des espaces de vie où confort, design architectural et services intégrés se conjuguent harmonieusement.
+             </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* 2. CEO Word Section */}
+      <section className="relative py-24 px-4 md:px-10 z-10 text-center mt-10 md:mt-20">
+         <div className="max-w-4xl mx-auto">
+           <motion.div 
+             className="mb-8"
+             initial={{ opacity: 0, y: 100 }}
+             whileInView={{ opacity: 1, y: 0 }}
+             viewport={{ once: true, amount: 0.3 }}
+             transition={{ duration: 1.0, ease: "easeOut" }}
+           >
+             <span className="font-['PhotographSignature'] text-6xl md:text-7xl text-[#F7C66A] block mb-2">
+               Mot Du
+             </span>
+             <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-widest text-white">
+               PRÉSIDENT-DIRECTEUR<br/>GÉNÉRAL
+             </h2>
+           </motion.div>
+           
+           <motion.div 
+             className="space-y-6 text-sm md:text-[15px] leading-7 text-gray-300 font-light text-justify md:text-center"
+             initial={{ opacity: 0, y: 100 }}
+             whileInView={{ opacity: 1, y: 0 }}
+             viewport={{ once: true, amount: 0.3 }}
+             transition={{ duration: 1.0, delay: 0.2, ease: "easeOut" }}
+           >
+             <p>Chers Clients et Amis d’Aymen Promotion Immobilière</p>
+             <p>
+               Depuis nos humbles débuts, nous avons parcouru un chemin extraordinaire, façonnant des espaces de vie qui incarnent le luxe, le confort et l'élégance. Au fil de ces années d'efforts acharnés, nous avons développé une expertise inégalée dans la conception, la création et la vente de résidences prestigieuses et d'appartements haut standing, redéfinissant ainsi les normes de l'industrie immobilière en Algérie.
+             </p>
+             <p>
+               Le nom d'Aymen Promotion Immobilière est devenu synonyme d'excellence, de qualité et de savoir-faire. Chaque projet que nous entreprenons est une œuvre d'art en soi, résultat de l'engagement passionné de nos équipes, experts dans leurs domaines respectifs, et de notre désir constant de repousser les limites de l'innovation.
+             </p>
+             <p>
+               Aujourd'hui, avec plus de vingt années d'expérience dans le secteur immobilier en Algérie, nous sommes témoins du chemin parcouru et maintenons la vision qui nous guide depuis toujours : créer des espaces qui transcendent les attentes, des lieux où l'art de vivre rencontre la perfection architecturale.
+             </p>
+             <p>
+               À travers ce catalogue, nous espérons vous offrir une abondance d'informations sur notre entreprise, nos résidences ainsi que nos services, pour mieux vous aider et vous accompagner dans votre démarche d'acquisition d'un bien immobilier.
+             </p>
+             <p>
+               Au nom de toute l'équipe d'Aymen Promotion Immobilière, je tiens à vous exprimer ma gratitude la plus sincère pour votre soutien continu et votre confiance. Ensemble, nous continuerons à écrire l'histoire de l'excellence immobilière, une page à la fois.
+             </p>
+             <p className="font-bold italic text-white mt-8">
+               Avec tout mon respect et ma reconnaissance
+             </p>
+           </motion.div>
+         </div>
+      </section>
+
+      {/* 3. Team Section */}
+      <section className="relative py-20 px-4 md:px-10 z-10">
+        <div className="max-w-6xl mx-auto flex flex-col items-center">
+           {/* Image container */}
+           <motion.div 
+             className="w-full relative rounded-3xl overflow-visible mb-12 group"
+             initial={{ opacity: 0, scale: 0.9, y: 100 }}
+             whileInView={{ opacity: 1, scale: 1, y: 0 }}
+             viewport={{ once: true, amount: 0.3 }}
+             transition={{ duration: 1.0, ease: "easeOut" }}
+           >
+             <div className="aspect-[21/9] w-full relative rounded-3xl overflow-hidden shadow-2xl border border-white/5">
+               <img 
+                 src="/equipe.jpg" 
+                 alt="Notre Equipe" 
+                 className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+               />
+               {/* Gradient Overlay for text readability at bottom */}
+               <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#031B17]/90 to-transparent"></div>
+             </div>
+             
+             {/* Overlay Title - Straddling the bottom edge */}
+             <div className="absolute -bottom-6 left-0 w-full text-center z-20">
+               <h2 className="text-4xl md:text-6xl font-bold uppercase text-[#F7C66A] tracking-wide drop-shadow-xl inline-block px-4">
+                 NOTRE EQUIPE
+               </h2>
+             </div>
+           </motion.div>
+
+           {/* Text Content - Centered Below */}
+           <motion.div 
+             className="text-center max-w-4xl mx-auto"
+             initial={{ opacity: 0, y: 100 }}
+             whileInView={{ opacity: 1, y: 0 }}
+             viewport={{ once: true, amount: 0.3 }}
+             transition={{ duration: 1.0, delay: 0.2, ease: "easeOut" }}
+           >
+             <span className="font-['PhotographSignature'] text-4xl md:text-5xl text-white block mb-6">
+               Des Professionnels à Votre Service
+             </span>
+             <p className="text-sm md:text-base text-gray-200 leading-relaxed drop-shadow-md font-light">
+               Chacun des projets initiés par <strong className="text-white font-bold">Aymen Promotion Immobilière</strong> est une œuvre d'art en soi, résultat de l'engagement passionné de ses équipes d'experts, tous des spécialistes chevronnés dans leurs domaines respectifs. Vous pouvez avoir une confiance totale en nos professionnels de l'immobilier, animés par un désir constant de repousser les limites de l'innovation. Ils sauront vous accompagner et vous conseiller tout au long de votre parcours vers l'acquisition d'un appartement.
+             </p>
+           </motion.div>
+        </div>
+      </section>
+
+      {/* 4. Values Section */}
+      <section className="relative py-20 px-4 md:px-10 z-10 text-center animate-fadeInUp" style={{ animationDelay: "1400ms" }}>
+         <div className="mb-16">
+           <span className="font-['PhotographSignature'] text-5xl md:text-6xl text-[#F7C66A] block mb-2">
+             Nos Valeurs
+           </span>
+           <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-wide text-white">
+             AU QUOTIDIEN POUR VOUS
+           </h2>
+         </div>
+
+         <motion.div 
+           className="max-w-6xl mx-auto h-[400px] flex items-center justify-center relative perspective-1000"
+           initial={{ opacity: 0, scale: 0.8, y: 100 }}
+           whileInView={{ opacity: 1, scale: 1, y: 0 }}
+           viewport={{ once: true, amount: 0.3 }}
+           transition={{ duration: 1.0, delay: 0.2, ease: "easeOut" }}
+         >
+            {/* Using the same carousel logic as testimonials but adapted for Values */}
+            {VALUES.map((val, idx) => {
+              const activeIndex = VALUES.findIndex(item => item.id === activeValueId);
+              let visualPosition = 0; 
+              
+              // Determine position relative to active index (circular logic)
+              if (idx === activeIndex) {
+                visualPosition = 0; // Center
+              } else if (idx === (activeIndex - 1 + VALUES.length) % VALUES.length) {
+                visualPosition = -1; // Left
+              } else if (idx === (activeIndex + 1) % VALUES.length) {
+                visualPosition = 1; // Right
+              } else if (idx === (activeIndex - 2 + VALUES.length) % VALUES.length) {
+                 visualPosition = -2; // Far Left
+              } else if (idx === (activeIndex + 2) % VALUES.length) {
+                 visualPosition = 2; // Far Right
+              } else {
+                 visualPosition = 3; // Hidden
+              }
+
+              // Styling based on position
+              let positionClass = "";
+              let zIndex = 0;
+              let opacity = 0;
+              let scale = 0;
+              let x = "0%";
+
+              if (visualPosition === 0) {
+                 zIndex = 30;
+                 opacity = 1;
+                 scale = 1.2;
+                 x = "0%";
+                 positionClass = "bg-[#F7C66A] text-[#031B17] shadow-2xl shadow-[#F7C66A]/20";
+              } else if (visualPosition === -1) {
+                 zIndex = 20;
+                 opacity = 0.7;
+                 scale = 0.9;
+                 x = "-120%";
+                 positionClass = "bg-gray-200/90 text-[#031B17] cursor-pointer hover:bg-white";
+              } else if (visualPosition === 1) {
+                 zIndex = 20;
+                 opacity = 0.7;
+                 scale = 0.9;
+                 x = "120%";
+                 positionClass = "bg-gray-200/90 text-[#031B17] cursor-pointer hover:bg-white";
+              } else if (visualPosition === -2) {
+                 zIndex = 10;
+                 opacity = 0.4;
+                 scale = 0.7;
+                 x = "-220%";
+                 positionClass = "bg-gray-200/60 text-[#031B17] cursor-pointer hover:bg-white";
+              } else if (visualPosition === 2) {
+                 zIndex = 10;
+                 opacity = 0.4;
+                 scale = 0.7;
+                 x = "220%";
+                 positionClass = "bg-gray-200/60 text-[#031B17] cursor-pointer hover:bg-white";
+              } else {
+                 opacity = 0;
+                 scale = 0;
+              }
+
+              if (opacity === 0) return null; // Don't render hidden items to avoid clutter
+
+              return (
+                <motion.div 
+                  key={val.id} 
+                  onClick={() => setActiveValueId(val.id)}
+                  className={`absolute flex items-center justify-center rounded-2xl transition-all duration-500 cursor-pointer ${positionClass}`}
+                  style={{ 
+                    width: "160px", 
+                    height: "160px",
+                    zIndex: zIndex,
+                  }}
+                  animate={{ 
+                    x: x,
+                    scale: scale,
+                    opacity: opacity
+                  }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                >
+                  <div className="transform scale-110">
+                    {val.icon}
+                  </div>
+                </motion.div>
+              );
+            })}
+         </motion.div>
+
+         <motion.div 
+           className="max-w-3xl mx-auto text-center"
+           key={activeValueId}
+           initial={{ opacity: 0, y: 30 }}
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ duration: 0.5 }}
+         >
+           <h3 className="text-xl md:text-2xl font-bold uppercase mb-4 tracking-widest text-white transition-all duration-300">
+             {activeValue.title}
+           </h3>
+           <p className="text-sm md:text-base leading-8 text-gray-300 font-light transition-all duration-300">
+             {activeValue.description}
+           </p>
+         </motion.div>
+      </section>
+
+      {/* 5. Testimonials Section */}
+      <section className="relative py-24 px-4 md:px-10 z-10">
+         <motion.div 
+           className="text-center mb-16"
+           initial={{ opacity: 0, y: 100 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: true, amount: 0.3 }}
+           transition={{ duration: 1.0, ease: "easeOut" }}
+         >
+           <h2 className="text-3xl md:text-4xl font-bold uppercase text-[#F7C66A] tracking-wide">
+             NOS TÉMOIGNAGES
+           </h2>
+         </motion.div>
+
+         <motion.div 
+           className="max-w-6xl mx-auto h-[400px] flex items-center justify-center relative perspective-1000"
+           initial={{ opacity: 0, scale: 0.8, y: 100 }}
+           whileInView={{ opacity: 1, scale: 1, y: 0 }}
+           viewport={{ once: true, amount: 0.3 }}
+           transition={{ duration: 1.0, delay: 0.2, ease: "easeOut" }}
+         >
+           {TESTIMONIALS.map((t, idx) => {
+             const activeIndex = TESTIMONIALS.findIndex(item => item.id === activeTestimonialId);
+             let visualPosition = 0; 
+             if (idx === activeIndex) {
+               visualPosition = 0;
+             } else if (idx === (activeIndex - 1 + TESTIMONIALS.length) % TESTIMONIALS.length) {
+               visualPosition = -1;
+             } else if (idx === (activeIndex + 1) % TESTIMONIALS.length) {
+               visualPosition = 1;
+             } else {
+               visualPosition = 2; // Hidden
+             }
+
+             let positionClass = "";
+             if (visualPosition === 0) {
+               positionClass = "z-20 scale-100 opacity-100 translate-x-0";
+             } else if (visualPosition === -1) {
+                positionClass = "z-10 scale-90 opacity-60 -translate-x-[20%] md:-translate-x-[60%] cursor-pointer hover:opacity-80";
+             } else if (visualPosition === 1) {
+                positionClass = "z-10 scale-90 opacity-60 translate-x-[20%] md:translate-x-[60%] cursor-pointer hover:opacity-80";
+             } else {
+                positionClass = "z-0 scale-75 opacity-0 translate-x-0 pointer-events-none";
+             }
+
+             return (
+               <motion.div 
+                 key={t.id} 
+                 onClick={() => setActiveTestimonialId(t.id)}
+                 className={`absolute w-full max-w-lg bg-[#1F3A35]/60 backdrop-blur-md border border-white/10 rounded-3xl p-8 md:p-12 transition-all duration-700 ease-out shadow-2xl flex flex-col items-center text-center ${positionClass}`}
+               >
+                 <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[#F7C66A] mb-6 shadow-lg">
+                   <img src={t.image} alt={t.name} className="w-full h-full object-cover" />
+                 </div>
+                 <h4 className="font-bold text-white text-lg mb-1">{t.name}</h4>
+                 <p className="text-xs text-[#F7C66A] uppercase tracking-wider mb-6">{t.project}</p>
+                 <p className="text-sm md:text-base text-gray-200 italic leading-relaxed font-light">
+                   "{t.text}"
+                 </p>
+                 <div className="absolute top-8 right-8 text-[#F7C66A]/20 text-6xl font-serif">"</div>
+               </motion.div>
+             );
+           })}
+         </motion.div>
+      </section>
+
+      {/* 6. FAQ Section */}
+      <section className="relative py-24 px-4 md:px-10 z-10">
+         <motion.div 
+           className="text-center mb-16"
+           initial={{ opacity: 0, y: 100 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: true, amount: 0.3 }}
+           transition={{ duration: 1.0, ease: "easeOut" }}
+         >
+           <h2 className="text-3xl md:text-5xl font-bold text-[#F7C66A] mb-4">FAQ</h2>
+           <p className="text-2xl md:text-4xl font-light text-white">
+             Nous avons les réponses à<br/>
+             <span className="font-bold">vos questions</span>
+           </p>
+         </motion.div>
+
+         <motion.div 
+           className="max-w-6xl mx-auto flex flex-col md:flex-row gap-8"
+           initial={{ opacity: 0, y: 100 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: true, amount: 0.3 }}
+           transition={{ duration: 1.0, delay: 0.2, ease: "easeOut" }}
+         >
+            {/* Left Column: Categories */}
+            <div className="w-full md:w-1/3 flex flex-col gap-2">
+               <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden p-2">
+                 {FAQ_DATA.map((cat, idx) => (
+                   <button
+                     key={idx}
+                     onClick={() => { setActiveFaqCategory(idx); setActiveFaqIndex(0); }}
+                     className={`w-full text-left px-5 py-4 rounded-lg text-sm font-medium transition-all duration-300 ${
+                       activeFaqCategory === idx 
+                         ? 'bg-[#009B8D] text-white shadow-lg' 
+                         : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                     }`}
+                   >
+                     {cat.category}
+                   </button>
+                 ))}
+               </div>
+            </div>
+
+            {/* Right Column: Accordion */}
+            <div className="w-full md:w-2/3">
+               <div className="bg-white/5 border border-white/10 rounded-xl p-2 md:p-6">
+                 {FAQ_DATA[activeFaqCategory].items.map((item, idx) => {
+                   const isActive = activeFaqIndex === idx;
+                   return (
+                     <div key={idx} className="mb-4 last:mb-0">
+                       <button
+                         onClick={() => setActiveFaqIndex(isActive ? -1 : idx)}
+                         className={`w-full flex items-center justify-between p-5 rounded-xl transition-all duration-300 ${
+                           isActive ? 'bg-[#009B8D] text-white' : 'bg-transparent text-white hover:bg-white/5 border border-white/10'
+                         }`}
+                       >
+                         <span className="font-bold text-sm md:text-base text-left pr-4">{item.question}</span>
+                         <span className="text-xl font-light">{isActive ? '−' : '+'}</span>
+                       </button>
+                       
+                       <div 
+                         className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                           isActive ? 'max-h-[500px] opacity-100 mt-4' : 'max-h-0 opacity-0'
+                         }`}
+                       >
+                         <div className="p-5 pt-0 text-sm leading-7 text-gray-300 font-light border-l-2 border-[#009B8D] ml-2 pl-6">
+                           {item.answer}
+                         </div>
+                       </div>
+                     </div>
+                   );
+                 })}
+               </div>
+            </div>
+         </motion.div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}

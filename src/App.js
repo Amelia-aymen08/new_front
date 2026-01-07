@@ -1,0 +1,81 @@
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./index.css";
+import HomePage from "./pages/HomePage";
+import ProjectsPage from "./pages/ProjectsPage";
+import ProjectDetailsPage from "./pages/ProjectDetailsPage";
+import LocalityPage from "./pages/LocalityPage";
+import AboutPage from "./pages/AboutPage";
+import BlogPage from "./pages/BlogPage";
+import BlogPostPage from "./pages/BlogPostPage";
+import IntroHero from "./components/IntroHero";
+import CareersPage from "./pages/CareersPage";
+
+function HomeRoute() {
+  const [introDone, setIntroDone] = useState(false);
+
+  // Bloque le scroll tant que l'intro n'est pas terminee
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    if (!introDone) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = originalOverflow || "auto";
+    }
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [introDone]);
+
+  return (
+    <>
+      <div className="ambient-bg" aria-hidden />
+      
+      {/* Contenu principal */}
+      <div className="relative z-10">
+        <div className="relative z-0">
+          <HomePage />
+        </div>
+      </div>
+
+      {/* Intro au-dessus */}
+      {!introDone && <IntroHero onDone={() => setIntroDone(true)} />}
+    </>
+  );
+}
+
+function App() {
+  // Ajuste la variable --vh pour les vues mobiles
+  useEffect(() => {
+    const set = () => {
+      const vh = (window.visualViewport?.height ?? window.innerHeight) * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+    set();
+    window.visualViewport?.addEventListener("resize", set);
+    window.addEventListener("resize", set);
+    return () => {
+      window.visualViewport?.removeEventListener("resize", set);
+      window.removeEventListener("resize", set);
+    };
+  }, []);
+
+  return (
+    <BrowserRouter>
+      <div className="relative min-h-screen text-white">
+        <Routes>
+          <Route path="/" element={<HomeRoute />} />
+          <Route path="/projets" element={<ProjectsPage />} />
+          <Route path="/projet/:id" element={<ProjectDetailsPage />} />
+          <Route path="/localite/:id" element={<LocalityPage />} />
+          <Route path="/a-propos" element={<AboutPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:id" element={<BlogPostPage />} />
+          <Route path="/carriere" element={<CareersPage />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
+  );
+}
+
+export default App;

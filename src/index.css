@@ -1,0 +1,171 @@
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Montserrat (Google Fonts) */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+
+/* Photograph Signature (local) */
+/* IMPORTANT: renomme ton fichier sans espaces si possible:
+   src/assets/fonts/PhotographSignature.ttf
+*/
+@font-face {
+  font-family: "PhotographSignature";
+  src: url("./assets/fonts/Photograph-Signature.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  isolation: isolate;
+}
+
+
+body {
+  margin: 0;
+  font-family: "Montserrat", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background: #031b17;
+}
+
+/* Halo lumineux fixe + texture douce */
+:root {
+  --ambient-base: #031b17;
+  --ambient-highlight: rgba(225, 187, 127, 0.22);
+}
+
+.ambient-bg {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  /* Masque : laisse le hero propre, ambiance ensuite (ajuste 26vh/38vh si besoin) */
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 26vh, rgba(0, 0, 0, 1) 38vh, rgba(0, 0, 0, 1) 100%);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 26vh, rgba(0, 0, 0, 1) 38vh, rgba(0, 0, 0, 1) 100%);
+}
+
+.ambient-bg::before,
+.ambient-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.ambient-bg::before {
+  background:
+    radial-gradient(860px 620px at 15% 46%, var(--ambient-highlight), rgba(3, 27, 23, 0) 62%),
+    radial-gradient(860px 620px at 85% 48%, rgba(225, 187, 127, 0.20), rgba(3, 27, 23, 0) 64%),
+    radial-gradient(720px 520px at 78% 78%, rgba(21, 105, 83, 0.16), rgba(3, 27, 23, 0) 72%),
+    var(--ambient-base);
+}
+
+.ambient-bg::after {
+  background-image: url("../public/texture.png");
+  background-size: 1200px;
+  background-repeat: repeat;
+  opacity: 0.14;
+  mix-blend-mode: soft-light;
+}
+
+@keyframes contactZoom {
+  0% {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.01);
+  }
+}
+.animate-contactZoom {
+  animation: contactZoom 1.8s ease-out forwards;
+}
+
+@keyframes ledSweep {
+  0% {
+    transform: scaleY(0);
+    filter: brightness(0.35);
+  }
+  45% {
+    filter: brightness(0.7);
+  }
+  75% {
+    filter: brightness(1);
+  }
+  100% {
+    transform: scaleY(1);
+    filter: brightness(1);
+  }
+}
+.animate-ledSweep {
+  animation: ledSweep 1s cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
+}
+
+@keyframes ledGlow {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.08);
+  }
+}
+.animate-ledGlow {
+  animation: ledGlow 1.8s ease-in-out infinite;
+}
+
+@keyframes neonPulse {
+  0%,
+  100% {
+    text-shadow: 0 0 12px rgba(225, 187, 127, 0.75), 0 0 28px rgba(225, 187, 127, 0.35),
+      0 10px 40px rgba(0, 0, 0, 0.55);
+  }
+  50% {
+    text-shadow: 0 0 18px rgba(225, 187, 127, 0.95), 0 0 34px rgba(225, 187, 127, 0.55),
+      0 14px 48px rgba(0, 0, 0, 0.6);
+  }
+}
+.animate-neonPulse {
+  animation: neonPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes heroZoomOut {
+  0% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.hero-zoom-out {
+  animation: heroZoomOut 8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0; /* Start hidden */
+}
