@@ -24,21 +24,21 @@ const RESIDENCES: Project[] = [
     title: "RÉSIDENCE AZURITE",
     location: "Kouba, Alger",
     description: "Une résidence d'exception alliant architecture moderne et confort absolu, située au cœur de Kouba.",
-    image: "/projets/azurite.png",
+    image: "/assets/projets/azurite.png",
   },
   {
     id: 6,
     title: "RÉSIDENCE AGATE",
     location: "Kouba, Alger",
     description: "Un havre de paix urbain offrant des appartements haut standing avec des finitions raffinées.",
-    image: "/projets/agate.png",
+    image: "/assets/projets/agate.png",
   },
   {
     id: 1, // Mock ID
     title: "RÉSIDENCE OPALE",
     location: "Kouba, Alger",
     description: "L'élégance au quotidien dans une résidence sécurisée, proche de toutes les commodités.",
-    image: "/projets/ametrine.png", // Placeholder pour Opale
+    image: "/assets/projets/ametrine.png", // Placeholder pour Opale
   },
 ];
 

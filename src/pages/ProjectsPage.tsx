@@ -30,63 +30,63 @@ const PROJECTS: Project[] = [
     title: "RÉSIDENCE CYANITE",
     location: "Cheraga, Alger",
     description: "Fort du succès de notre première résidence Pyrite, nous repoussons encore les limites du raffinement...",
-    image: "/projets/agate.png", // Using existing placeholder
+    image: "/assets/projets/agate.png", // Using existing placeholder
   },
   {
     id: 2,
     title: "RÉSIDENCE AZURITE",
     location: "Kouba, Alger",
     description: "La résidence Azurite, située dans le quartier mythique de Kouba, offre un cadre de vie privilégié...",
-    image: "/projets/azurite.png",
+    image: "/assets/projets/azurite.png",
   },
   {
     id: 3,
     title: "RÉSIDENCE AGATE",
     location: "Oued Romane, Alger",
     description: "Située à Oued Romane (El Achour), un quartier calme et verdoyant, la résidence offre un cadre de vie paisible...",
-    image: "/projets/agate.png",
+    image: "/assets/projets/agate.png",
   },
   {
     id: 4,
     title: "RÉSIDENCE AMÉTRINE",
     location: "Said Hamdine, Alger",
     description: "Résidence Amétrine, le récent chef-d'œuvre d'Aymen Promotion Immobilière, se distingue par...",
-    image: "/projets/ametrine.png",
+    image: "/assets/projets/ametrine.png",
   },
   {
     id: 5,
     title: "RÉSIDENCE CORNALINE",
     location: "Hydra, Alger",
     description: "Érigée au cœur de la commune de Hydra, la résidence Cornaline dévoile ses atouts de caractère...",
-    image: "/projets/cornaline.png",
+    image: "/assets/projets/cornaline.png",
   },
   {
     id: 6,
     title: "RÉSIDENCE SÉRAPHINITE",
     location: "Ruisseau, Alger",
     description: "C'est à Ruisseau, quartier prisé des Algérois, qu'Aymen Promotion Immobilière a choisi d'implanter son nouveau...",
-    image: "/projets/azurite.png", // Placeholder
+    image: "/assets/projets/azurite.png", // Placeholder
   },
   {
     id: 7,
     title: "RÉSIDENCE CÉLESTINE",
     location: "Bab Ezzouar, Alger",
     description: "Aymen Promotion Immobilière lance son premier projet dans la commune dynamique de Bab Ezzouar...",
-    image: "/projets/celestine.png",
+    image: "/assets/projets/celestine.png",
   },
   {
     id: 8,
     title: "RÉSIDENCE LARIMAR",
     location: "Birkhadem, Alger",
     description: "Idéalement située à Tixeraïne, Birkhadem, la résidence Larimar est une perle rare qui émerge en réponse...",
-    image: "/projets/cornaline.png", // Placeholder
+    image: "/assets/projets/cornaline.png", // Placeholder
   },
   {
     id: 9,
     title: "RÉSIDENCE SELENITE",
     location: "Birkhadem, Alger",
     description: "Conçue pour allier esthétisme et fonctionnalité, la résidence one building Sélenite incarne le summum de la modernité...",
-    image: "/projets/agate.png", // Placeholder
+    image: "/assets/projets/agate.png", // Placeholder
   },
 
   // --- FINISHED PROJECTS (Cube Style) ---
@@ -95,7 +95,7 @@ const PROJECTS: Project[] = [
     title: "RÉSIDENCE DIAR EL AMANE",
     location: "Birkhadem, Alger",
     description: "Connue autrefois pour ses champs d'arbres fruitiers à perte de vue, la région des Vergers a...",
-    image: "/projets/cornaline.png", // Using a cube placeholder
+    image: "/assets/projets/cornaline.png", // Using a cube placeholder
     isNightMode: false, // Changed to false to use Cube Style
   },
   {
@@ -137,7 +137,7 @@ const PROJECTS: Project[] = [
     title: "RÉSIDENCE SPINELLE",
     location: "Les Sources, Alger",
     description: "Nous vous présentons la Résidence Spinelle d'Aymen Promotion Immobilière, un havre de tranquillité niché au cœur de la paisible localité...",
-    image: "/projets/static2.png", // Photo placeholder
+    image: "/assets/projets/static2.png", // Photo placeholder
     isNightMode: true,
   },
   {
