@@ -12,7 +12,7 @@ type Project = {
   description: string;
   image: string;
   typology?: string;
-  status?: string;
+  isNightMode?: boolean;
 };
 
 type Locality = {
@@ -22,64 +22,227 @@ type Locality = {
   svgPath: string; // Placeholder for the map shape
 };
 
-// Augmented data to have 7+ items for the layout test
+// Augmented data
 const PROJECTS: Project[] = [
+  // --- CURRENT PROJECTS (Cube Style) ---
   {
     id: 1,
-    title: "RÉSIDENCE AGATE",
-    location: "Oued Romane, Alger",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique pulvinar enim. Mauris ut mauris fringilla, vulputate..",
-    image: "/projets/agate.png",
+    title: "RÉSIDENCE CYANITE",
+    location: "Cheraga, Alger",
+    description: "Fort du succès de notre première résidence Pyrite, nous repoussons encore les limites du raffinement...",
+    image: "/projets/agate.png", // Using existing placeholder
   },
   {
     id: 2,
-    title: "RÉSIDENCE AMETRINE",
-    location: "Said Hamdine, Alger",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique pulvinar enim. Mauris ut mauris fringilla, vulputate..",
-    image: "/projets/ametrine.png",
-  },
-  {
-    id: 3,
     title: "RÉSIDENCE AZURITE",
     location: "Kouba, Alger",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique pulvinar enim. Mauris ut mauris fringilla, vulputate..",
+    description: "La résidence Azurite, située dans le quartier mythique de Kouba, offre un cadre de vie privilégié...",
     image: "/projets/azurite.png",
   },
   {
+    id: 3,
+    title: "RÉSIDENCE AGATE",
+    location: "Oued Romane, Alger",
+    description: "Située à Oued Romane (El Achour), un quartier calme et verdoyant, la résidence offre un cadre de vie paisible...",
+    image: "/projets/agate.png",
+  },
+  {
     id: 4,
-    title: "RÉSIDENCE CELESTINE",
-    location: "Bab Ezzouar, Alger",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique pulvinar enim. Mauris ut mauris fringilla, vulputate..",
-    image: "/projets/celestine.png",
+    title: "RÉSIDENCE AMÉTRINE",
+    location: "Said Hamdine, Alger",
+    description: "Résidence Amétrine, le récent chef-d'œuvre d'Aymen Promotion Immobilière, se distingue par...",
+    image: "/projets/ametrine.png",
   },
   {
     id: 5,
-    title: "RÉSIDENCE CONALINE",
+    title: "RÉSIDENCE CORNALINE",
     location: "Hydra, Alger",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique pulvinar enim. Mauris ut mauris fringilla, vulputate..",
+    description: "Érigée au cœur de la commune de Hydra, la résidence Cornaline dévoile ses atouts de caractère...",
     image: "/projets/cornaline.png",
   },
   {
     id: 6,
-    title: "RÉSIDENCE AZURITE",
-    location: "Kouba, Alger",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique pulvinar enim. Mauris ut mauris fringilla, vulputate..",
-    image: "/projets/azurite.png",
+    title: "RÉSIDENCE SÉRAPHINITE",
+    location: "Ruisseau, Alger",
+    description: "C'est à Ruisseau, quartier prisé des Algérois, qu'Aymen Promotion Immobilière a choisi d'implanter son nouveau...",
+    image: "/projets/azurite.png", // Placeholder
   },
-  // Added 7th project to trigger the layout
   {
     id: 7,
-    title: "RÉSIDENCE OPALE",
+    title: "RÉSIDENCE CÉLESTINE",
+    location: "Bab Ezzouar, Alger",
+    description: "Aymen Promotion Immobilière lance son premier projet dans la commune dynamique de Bab Ezzouar...",
+    image: "/projets/celestine.png",
+  },
+  {
+    id: 8,
+    title: "RÉSIDENCE LARIMAR",
+    location: "Birkhadem, Alger",
+    description: "Idéalement située à Tixeraïne, Birkhadem, la résidence Larimar est une perle rare qui émerge en réponse...",
+    image: "/projets/cornaline.png", // Placeholder
+  },
+  {
+    id: 9,
+    title: "RÉSIDENCE SELENITE",
+    location: "Birkhadem, Alger",
+    description: "Conçue pour allier esthétisme et fonctionnalité, la résidence one building Sélenite incarne le summum de la modernité...",
+    image: "/projets/agate.png", // Placeholder
+  },
+
+  // --- FINISHED PROJECTS (Cube Style) ---
+  {
+    id: 10,
+    title: "RÉSIDENCE DIAR EL AMANE",
+    location: "Birkhadem, Alger",
+    description: "Connue autrefois pour ses champs d'arbres fruitiers à perte de vue, la région des Vergers a...",
+    image: "/projets/cornaline.png", // Using a cube placeholder
+    isNightMode: false, // Changed to false to use Cube Style
+  },
+  {
+    id: 11,
+    title: "RÉSIDENCE PYRITE",
+    location: "Cheraga, Alger",
+    description: "Située à Dar Diaf, au cœur de la commune de Chéraga, la résidence Haut Standing Pyrite s'étend sur...",
+    image: "/projets/ametrine.png", // Using a cube placeholder
+    isNightMode: false, // Changed to false to use Cube Style
+  },
+  {
+    id: 12,
+    title: "RÉSIDENCE JAIS",
     location: "Draria, Alger",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique pulvinar enim. Mauris ut mauris fringilla, vulputate..",
-    image: "/projets/cornaline.png",
+    description: "La résidence Jais, véritable joyau d'Aymen Promotion Immobilière, incarne le calme et la sophistication à l'état...",
+    image: "/projets/agate.png", // Using a cube placeholder
+    isNightMode: false, // Changed to false to use Cube Style
+  },
+  {
+    id: 13,
+    title: "RÉSIDENCE LES CRÊTES",
+    location: "Draria, Alger",
+    description: "Au cœur d'un des quartiers les plus prestigieux de la commune de Draria, se dévoile la somptueuse Résidence...",
+    image: "/projets/azurite.png", // Using a cube placeholder
+    isNightMode: false, // Changed to false to use Cube Style
+  },
+
+  // --- FINISHED PROJECTS (Night Mode / Photo Style) ---
+  {
+    id: 14,
+    title: "RÉSIDENCE TURQUOISE",
+    location: "Les Sources, Alger",
+    description: "Aymen Promotion Immobilière détient l'art subtil de créer des résidences raffinées et intimistes. Parmi...",
+    image: "/projets/turquoise.png", // Photo placeholder
+    isNightMode: true,
+  },
+  {
+    id: 15,
+    title: "RÉSIDENCE SPINELLE",
+    location: "Les Sources, Alger",
+    description: "Nous vous présentons la Résidence Spinelle d'Aymen Promotion Immobilière, un havre de tranquillité niché au cœur de la paisible localité...",
+    image: "/projets/static2.png", // Photo placeholder
+    isNightMode: true,
+  },
+  {
+    id: 16,
+    title: "RÉSIDENCE BERYL",
+    location: "Dely Ibrahim, Alger",
+    description: "Idéalement nichée au cœur de la charmante commune de Dely Ibrahim, la résidence Béryl se dresse dans...",
+    image: "/projets/static1.png", // Photo placeholder
+    isNightMode: true,
+  },
+  {
+    id: 17,
+    title: "RÉSIDENCE BOIS DES CARS",
+    location: "Dely Ibrahim, Alger",
+    description: "La résidence Bois des Cars, sise à Dely Ibrahim, représente un projet exclusif et sophistiqué de la société Aymen Promotion...",
+    image: "/projets/static2.png", // Photo placeholder
+    isNightMode: true,
+  },
+  {
+    id: 18,
+    title: "RÉSIDENCE PÉRIDOT",
+    location: "Hydra, Alger",
+    description: "Raffinée et discrète, la résidence Péridot d'Aymen Promotion Immobilière représente un...",
+    image: "/projets/static1.png", // Photo placeholder
+    isNightMode: true,
+  },
+  {
+    id: 19,
+    title: "RÉSIDENCE CORAIL",
+    location: "Hydra, Alger",
+    description: "Raffinée et discrète, la résidence Péridot d'Aymen Promotion Immobilière représente un...",
+    image: "/projets/static1.png", // Placeholder
+    isNightMode: true,
+  },
+  {
+    id: 20,
+    title: "RÉSIDENCE OPALE",
+    location: "El Achour, Alger",
+    description: "Raffinée et discrète, la résidence Péridot d'Aymen Promotion Immobilière représente...",
+    image: "/projets/static2.png", // Placeholder
+    isNightMode: true,
+  },
+  {
+    id: 21,
+    title: "RÉSIDENCE CITRINE",
+    location: "Birkhadem, Alger",
+    description: "Nous vous présentons la Résidence Spinelle d'Aymen Promotion Immobilière, un havre...",
+    image: "/projets/static1.png", // Placeholder
+    isNightMode: true,
+  },
+  {
+    id: 22,
+    title: "RÉSIDENCE ANGÉLITE",
+    location: "Dar El Beïda, Alger",
+    description: "Idéalement nichée au coeur de la charmante commune de Dély Ibrahim...",
+    image: "/projets/static2.png", // Placeholder
+    isNightMode: true,
+  },
+  {
+    id: 23,
+    title: "RÉSIDENCE RUBIS",
+    location: "El Achour, Alger",
+    description: "Véritable bijou de la promotion immobilière Aymen, la résidence Rubis se d...",
+    image: "/projets/static1.png", // Placeholder
+    isNightMode: true,
+  },
+  {
+    id: 24,
+    title: "RÉSIDENCE ONYX",
+    location: "Oued Romane, Alger",
+    description: "Aymen Promotion Immobilière, reconnue pour ses résidences haut standing, tient une fois ...",
+    image: "/projets/static2.png", // Placeholder
+    isNightMode: true,
+  },
+  {
+    id: 25,
+    title: "RÉSIDENCE EL MORDJANE",
+    location: "Said Hamdine, Alger",
+    description: "Au cœur d'Alger, dans le quartier de Said Hamdine, à quelques pas de la prestigieuse...",
+    image: "/projets/static1.png", // Placeholder
+    isNightMode: true,
+  },
+  {
+    id: 26,
+    title: "RÉSIDENCE 136",
+    location: "Birkhadem, Alger",
+    description: "Située à proximité de la petite ville Birkhadem, plus précisément à Tixeraïne, la résidence...",
+    image: "/projets/static2.png", // Placeholder
+    isNightMode: true,
+  },
+  {
+    id: 27,
+    title: "RÉSIDENCE COQUELICOT",
+    location: "Hydra, Alger",
+    description: "Découvrez le nouvel opus urbain exceptionnel d'Aymen Promotion Immobilière...",
+    image: "/projets/static1.png", // Placeholder
+    isNightMode: true,
+  },
+  {
+    id: 28,
+    title: "RÉSIDENCE PERLA",
+    location: "Dal El Beïda, Alger",
+    description: "Aymen Promotion Immobilière, reconnue pour ses résidences haut standing, tient une...",
+    image: "/projets/static2.png", // Placeholder
+    isNightMode: true,
   },
 ];
 
@@ -264,6 +427,43 @@ function StaticImageCard({ src, alt, style }: { src: string; alt: string; style?
   );
 }
 
+function NightProjectCard({ project, style }: { project: Project; style?: React.CSSProperties }) {
+  return (
+    <Link 
+      to={`/projet/${project.id}`}
+      className="group relative h-64 overflow-hidden rounded-lg shadow-lg transition hover:shadow-2xl animate-fadeInUp md:h-56"
+      style={style}
+    >
+      {/* Background Image */}
+      <img
+        src={project.image}
+        alt={project.title}
+        className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-110"
+      />
+      
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+
+      {/* Content */}
+      <div className="absolute bottom-0 left-0 w-full p-6">
+        <h3 className="mb-1 text-sm font-bold uppercase text-white md:text-base">
+          {project.title}
+        </h3>
+        <div className="mb-2 flex items-center gap-2 text-[10px] font-medium text-[#F7C66A]">
+          <LocationPinIcon />
+          <span>{project.location}</span>
+        </div>
+        <p className="mb-3 text-[10px] text-gray-300 line-clamp-2 leading-relaxed">
+            {project.description}
+        </p>
+        <span className="inline-block border-b border-[#F7C66A] pb-1 text-[10px] font-bold uppercase tracking-widest text-white transition group-hover:text-[#F7C66A]">
+          DÉCOUVRIR
+        </span>
+      </div>
+    </Link>
+  );
+}
+
 function LocalityCard({ locality, style }: { locality: Locality; style?: React.CSSProperties }) {
   return (
     <Link 
@@ -315,6 +515,7 @@ function Pagination() {
 export default function ProjectsPage() {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState<"PROJETS" | "LOCALITÉS">("PROJETS");
+  const [visibleCount, setVisibleCount] = useState(9); // Initial count
 
   useEffect(() => {
     if (location.state?.tab) {
@@ -322,48 +523,24 @@ export default function ProjectsPage() {
     }
   }, [location.state]);
 
-  // Logic to mix projects with static images if count >= 7
+  // Reset visible count when tab changes
+  useEffect(() => {
+    setVisibleCount(9);
+  }, [activeTab]);
+
   const displayItems = useMemo(() => {
     if (activeTab === "LOCALITÉS") return LOCALITIES;
+    // Just return the projects, sliced by visibleCount
+    return PROJECTS.slice(0, visibleCount);
+  }, [activeTab, visibleCount]);
 
-    // Clone array to avoid mutation
-    const items: (Project | { type: "image"; id: string; src: string })[] = [...PROJECTS];
-
-    // Only apply the special layout if we have 7 or more projects
-    if (PROJECTS.length >= 7) {
-      // Insert Static Image 1 at index 1 (Center Top in 3-col grid)
-      // Use a placeholder image or one of the project images as filler for now
-      // The user said: "je modifierais après juste les urls"
-      items.splice(1, 0, {
-        type: "image",
-        id: "static-1",
-        src: "/projets/static1.png", // User will change this
-      });
-
-      // Insert Static Image 2 at index 6 (Bottom Left in 3-col grid)
-      // Note: After first splice, the array length increased by 1.
-      // Original index 6 is now index 7.
-      // But we want it at visual position 6 (0-indexed).
-      // Let's trace:
-      // [P0, IMG1, P1, P2, P3, P4, IMG2, P5, P6...]
-      // Visual indices:
-      // 0: P0
-      // 1: IMG1
-      // 2: P1
-      // 3: P2
-      // 4: P3
-      // 5: P4
-      // 6: IMG2
-      // So we need to insert at index 6 of the *new* array.
-      items.splice(6, 0, {
-        type: "image",
-        id: "static-2",
-        src: "/projets/static2.png", // User will change this
-      });
-    }
-
-    return items;
-  }, [activeTab]);
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => {
+      // Logic: 9 -> 18 -> 28 (End)
+      if (prev === 9) return 18; // Load 9 more
+      return prev + 10; // Load 10 more (total 28)
+    });
+  };
 
   return (
     <div className="min-h-screen bg-[#031B17] font-['Montserrat'] text-white">
@@ -433,31 +610,28 @@ export default function ProjectsPage() {
         {/* Grid */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {activeTab === "PROJETS" ? (
-            // Mixed List (Projects + Static Images)
-            (displayItems as any[]).map((item, idx) => {
-              // Stagger animation delay based on index
-              const delayStyle = { animationDelay: `${0.1 + idx * 0.1}s` };
+            (displayItems as Project[]).map((item, idx) => {
+              const delayStyle = { animationDelay: `${0.1 + (idx % 9) * 0.1}s` };
 
-              if (item.type === "image") {
+              if (item.isNightMode) {
                 return (
-                  <StaticImageCard 
-                    key={item.id} 
-                    src={item.src} 
-                    alt="Featured Project" 
-                    style={delayStyle} 
+                  <NightProjectCard
+                    key={item.id}
+                    project={item}
+                    style={delayStyle}
                   />
                 );
               }
+
               return (
                 <ProjectCard 
-                  key={(item as Project).id} 
-                  project={item as Project} 
+                  key={item.id} 
+                  project={item} 
                   style={delayStyle} 
                 />
               );
             })
           ) : (
-            // Localities List
             LOCALITIES.map((l, idx) => (
               <LocalityCard 
                 key={l.id} 
@@ -468,10 +642,17 @@ export default function ProjectsPage() {
           )}
         </div>
 
-        {/* Pagination */}
-        <div className="animate-fadeInUp" style={{ animationDelay: "0.8s" }}>
-          <Pagination />
-        </div>
+        {/* Load More Button */}
+        {activeTab === "PROJETS" && visibleCount < PROJECTS.length && (
+          <div className="mt-16 flex justify-center animate-fadeInUp" style={{ animationDelay: "0.2s" }}>
+            <button
+              onClick={handleLoadMore}
+              className="group relative px-8 py-3 text-xs font-bold uppercase tracking-widest text-white border border-[#F7C66A] transition-all hover:bg-[#F7C66A] hover:text-[#031B17]"
+            >
+              VOIR PLUS
+            </button>
+          </div>
+        )}
 
       </main>
 
