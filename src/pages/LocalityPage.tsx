@@ -1,46 +1,45 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { LOCALITIES, PROJECTS as MOCK_PROJECTS, Project, Locality } from "../data/mockData";
+import { MapContainer, TileLayer, Marker, useMap, Tooltip } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+import { fetchProjects } from "../services/projectService";
 
-// --- Types ---
-type Project = {
-  id: number;
-  title: string;
-  location: string;
-  description: string;
-  image: string;
+// Fix for default marker icon
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+  iconUrl: require('leaflet/dist/images/marker-icon.png'),
+  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+});
+
+// Custom Icon (Red Pin)
+const createCustomIcon = (isSelected: boolean) => {
+    return L.divIcon({
+        html: `
+         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.5)); transform: translate(-50%, -100%); transition: transform 0.2s;">
+           <path d="M12 0C7.58 0 4 3.58 4 8C4 13.54 12 24 12 24C12 24 20 13.54 20 8C20 3.58 16.42 0 12 0Z" fill="${isSelected ? '#EA4335' : '#F7C66A'}"/>
+           <circle cx="12" cy="8" r="3.5" fill="white"/>
+         </svg>
+        `,
+        className: "", // Remove default class to avoid square box
+        iconSize: [40, 40],
+        iconAnchor: [20, 40], // Tip of the pin
+    });
 };
 
-// --- Mock Data ---
-const LOCALITY_DATA = {
-  title: "LA COMMUNE DE KOUBA",
-  description: `Située sur les hauteurs d'Alger, la commune de Kouba séduit par son équilibre entre patrimoine, dynamisme et cadre de vie résidentiel avec une riche histoire marquée par des édifices emblématiques comme le Fort Ottoman et l’ancienne Église Saint-Vincent-de-Paul, elle abrite également le Palais de la Culture Moufdi Zakaria, haut lieu de la scène artistique algérienne Pour ceux en quête de nature, la Forêt de Kouba propose un espace vert idéal pour la détente et les activités en plein air qui est proche du parc zoologique de Ben Aknoun, du centre commercial de Bab Ezzouar et de plusieurs établissements d’enseignement supérieur, Kouba attire autant les familles que les investisseurs grâce à son cadre de vie harmonieux alliant modernité et commodités`,
-};
+// Component to recenter map when selected project changes
+function MapRecenter({ lat, lng }: { lat: number; lng: number }) {
+  const map = useMap();
+  useEffect(() => {
+    map.setView([lat, lng], 15);
+  }, [lat, lng, map]);
+  return null;
+}
 
-const RESIDENCES: Project[] = [
-  {
-    id: 3,
-    title: "RÉSIDENCE AZURITE",
-    location: "Kouba, Alger",
-    description: "Une résidence d'exception alliant architecture moderne et confort absolu, située au cœur de Kouba.",
-    image: "/assets/projets/azurite.png",
-  },
-  {
-    id: 6,
-    title: "RÉSIDENCE AGATE",
-    location: "Kouba, Alger",
-    description: "Un havre de paix urbain offrant des appartements haut standing avec des finitions raffinées.",
-    image: "/assets/projets/agate.png",
-  },
-  {
-    id: 1, // Mock ID
-    title: "RÉSIDENCE OPALE",
-    location: "Kouba, Alger",
-    description: "L'élégance au quotidien dans une résidence sécurisée, proche de toutes les commodités.",
-    image: "/assets/projets/ametrine.png", // Placeholder pour Opale
-  },
-];
 
 // --- Components ---
 
@@ -96,35 +95,203 @@ function ProjectCard({ project }: { project: Project }) {
   );
 }
 
-function MapMarker({ top, left, label }: { top: string; left: string; label?: string }) {
+function MapCard({ projects }: { projects: Project[] }) {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(projects[0] || null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (projects.length > 0 && !selectedProject) {
+      setSelectedProject(projects[0]);
+    }
+  }, [projects]);
+
+  // Default center (Algiers) if no projects
+  const centerPosition: [number, number] = selectedProject?.lat && selectedProject?.lng 
+    ? [selectedProject.lat, selectedProject.lng] 
+    : [36.7525, 3.0420];
+
   return (
-    <div className="absolute flex flex-col items-center -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10" style={{ top, left }}>
-       {/* Google Maps Style Pin */}
-       <div className="relative drop-shadow-xl hover:scale-110 transition-transform duration-300">
-         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-           <path d="M12 0C7.58 0 4 3.58 4 8C4 13.54 12 24 12 24C12 24 20 13.54 20 8C20 3.58 16.42 0 12 0Z" fill="#EA4335"/>
-           <circle cx="12" cy="8" r="3.5" fill="white"/>
-         </svg>
-       </div>
-       
-       {/* Label (Always visible or on hover based on design, screenshot implies visible for main one) */}
-       {label && (
-         <div className="absolute left-full top-0 ml-2 bg-white px-3 py-1.5 rounded-lg text-[11px] font-bold text-[#333] shadow-lg whitespace-nowrap min-w-[120px] flex flex-col justify-center border border-gray-200">
-           <span className="text-[#EA4335] leading-tight">{label}</span>
-           <span className="text-[9px] text-gray-500 font-normal">Aymen Promotion...</span>
+    <div className="relative w-full h-[600px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#052620] flex flex-col md:flex-row">
+      {/* Left: Map */}
+      <div className="w-full md:w-2/3 h-full relative z-0">
+         <MapContainer 
+            center={centerPosition} 
+            zoom={13} 
+            style={{ width: '100%', height: '100%' }}
+            scrollWheelZoom={false}
+         >
+            <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+            />
+            {selectedProject?.lat && selectedProject?.lng && (
+                <MapRecenter lat={selectedProject.lat} lng={selectedProject.lng} />
+            )}
+            
+            {projects.map((p) => (
+               p.lat && p.lng && (
+                   <Marker 
+                     key={p.id} 
+                     position={[p.lat, p.lng]} 
+                     icon={createCustomIcon(selectedProject?.id === p.id)}
+                     eventHandlers={{
+                        click: () => setSelectedProject(p),
+                     }}
+                   >
+                     <Tooltip direction="top" offset={[0, -40]} opacity={1} className="custom-tooltip">
+                        <span className="font-bold text-[#052620] uppercase text-xs">{p.title}</span>
+                     </Tooltip>
+                   </Marker>
+               )
+            ))}
+         </MapContainer>
+      </div>
+
+      {/* Right: Projects List (Cards) */}
+       <div className="w-full md:w-1/3 bg-[#0F2520] flex flex-col relative z-10 shadow-[-10px_0_20px_rgba(0,0,0,0.2)] h-full border-l border-white/5">
+          <div className="p-6 border-b border-white/10 bg-[#0F2520] z-20">
+             <h3 className="text-lg font-bold text-[#F7C66A] uppercase tracking-wider">
+               Projets ({projects.length})
+             </h3>
+             <p className="text-xs text-white/50 mt-1">Cliquez sur une carte pour localiser</p>
+          </div>
+         
+         {/* Scrollable List of Cards */}
+         <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-4">
+             {projects.map((p) => (
+               <div 
+                 key={p.id}
+                 onClick={() => setSelectedProject(p)}
+                 className={`rounded-2xl p-4 border transition-all cursor-pointer flex flex-col gap-3 group
+                    ${selectedProject?.id === p.id 
+                      ? "bg-[#0A2F25] border-[#F7C66A] shadow-lg scale-[1.02]" 
+                      : "bg-white/5 border-transparent hover:bg-white/10 hover:border-white/10"
+                    }`}
+               >
+                  {/* Top: Image & Info */}
+                  <div className="flex items-start gap-4">
+                    <div className="w-20 h-20 rounded-xl bg-white/5 overflow-hidden flex-shrink-0 border border-white/10 relative">
+                        <img src={p.image} alt={p.title} className="w-full h-full object-contain p-1" />
+                    </div>
+                    <div className="flex-1 min-w-0 pt-1">
+                        <h4 className={`text-sm font-bold uppercase leading-tight ${selectedProject?.id === p.id ? "text-white" : "text-white/90"}`}>
+                        {p.title}
+                        </h4>
+                        <div className="flex items-center gap-1.5 text-[11px] text-[#F7C66A] font-medium mt-2">
+                        <LocationPinIcon />
+                        <span className="truncate">{p.location.split(',')[0]}</span>
+                        </div>
+                    </div>
+                  </div>
+
+                  {/* Bottom: Actions */}
+                  <div className="flex items-center justify-between pt-2 border-t border-white/5 mt-1">
+                     <Link 
+                        to={`/projet/${p.id}`}
+                        className="text-[10px] font-bold uppercase tracking-widest text-white/70 hover:text-[#F7C66A] transition-colors"
+                     >
+                        DÉCOUVRIR
+                     </Link>
+                     
+                     {p.lat && p.lng ? (
+                        <a 
+                            href={`https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[10px] font-bold uppercase tracking-widest text-[#F7C66A] hover:text-white transition-colors flex items-center gap-1"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <span>ITINÉRAIRE</span>
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                     ) : (
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-white/20 cursor-not-allowed">
+                            ITINÉRAIRE
+                        </span>
+                     )}
+                  </div>
+               </div>
+             ))}
          </div>
-       )}
+      </div>
     </div>
   );
 }
 
 export default function LocalityPage() {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const [dbProjects, setDbProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch projects from API
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const loadProjects = async () => {
+      try {
+        const data = await fetchProjects();
+        if (data && data.length > 0) {
+           // Map API data to component Project type
+           const mappedProjects: Project[] = data.map(p => ({
+             id: p.id,
+             title: p.title,
+             location: p.address || "", // API has 'address'
+             description: p.description,
+             image: p.coverImage ? `http://localhost:5000/${p.coverImage}` : "/assets/projets/cyanite.png", // Handle image path
+             lat: p.latitude,
+             lng: p.longitude,
+             typology: p.type,
+             isNightMode: false 
+           }));
+           setDbProjects(mappedProjects);
+        } else {
+           // Fallback to mock data if API empty/fails
+           setDbProjects(MOCK_PROJECTS);
+        }
+      } catch (err) {
+        console.error("Failed to load projects from DB, using mock data", err);
+        setDbProjects(MOCK_PROJECTS);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadProjects();
   }, []);
 
+  const locality = useMemo(() => {
+    return LOCALITIES.find((l) => l.id === Number(id));
+  }, [id]);
+
+  const localityProjects = useMemo(() => {
+    if (!locality) return [];
+    const mainName = locality.name.split(',')[0].trim().toUpperCase();
+    // Use dbProjects instead of static PROJECTS
+    return dbProjects.filter((p) => p.location.toUpperCase().includes(mainName));
+  }, [locality, dbProjects]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
+  if (!locality) {
+    return (
+        <div className="min-h-screen bg-[#031B17] flex items-center justify-center text-white">
+            <div className="text-center">
+                <h1 className="text-4xl font-bold mb-4">Localité non trouvée</h1>
+                <button onClick={() => navigate('/projets')} className="text-[#F7C66A] underline">Retour aux projets</button>
+            </div>
+        </div>
+    );
+  }
+
+  // Format title for "LA COMMUNE DE ..."
+  // locality.name is like "KOUBA, ALGER". We want "LA COMMUNE DE KOUBA"
+  const cityOnly = locality.name.split(',')[0].trim();
+  const displayTitle = `LA COMMUNE DE ${cityOnly}`;
+
   return (
-    <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-hidden">
+    <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-x-hidden">
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />
@@ -139,62 +306,50 @@ export default function LocalityPage() {
       <Header className="absolute top-0 left-0 z-40 w-full" />
       
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-4 md:px-10 z-10 flex flex-col items-center">
-        {/* Container Titre plus étroit */}
-        <div className="max-w-3xl text-center mb-16">
-          {/* Titre style "Découvrez" - Beaucoup plus grand */}
-          <div className="relative mb-0 leading-none">
-             <span className="font-['PhotographSignature'] text-xl md:text-[10rem] text-[#F7C66A] relative z-10 block transform -rotate-3 leading-[0.6]">
-               Découvrez
-             </span>
-          </div>
-          
-          {/* Titre Principal - Plus petit que Découvrez */}
-          <h1 className="text-2xl md:text-4xl font-bold uppercase tracking-[0.2em] text-white drop-shadow-lg mt-6">
-            {LOCALITY_DATA.title}
-          </h1>
-        </div>
-          
-        {/* Boîte de description plus large que le titre */}
-        <div className="w-full max-w-6xl bg-gradient-to-b from-[#1F3A35]/80 to-[#0F2520]/90 backdrop-blur-md rounded-2xl p-8 md:p-14 border border-white/5 shadow-2xl">
-           <p className="text-sm md:text-[17px] leading-8 text-gray-200 text-center font-light tracking-wide">
-             {LOCALITY_DATA.description}
-           </p>
-        </div>
+      <section className="relative w-full h-screen min-h-[800px] flex items-center pt-20">
+         {/* Background Image (Hero) */}
+         <div className="absolute inset-0 z-0">
+             <img 
+               src={locality.heroImage || locality.image} // Fallback to icon if hero missing, but mockData has heroImage
+               alt={locality.name}
+               className="w-full h-full object-cover"
+             />
+             {/* Dark Overlay Gradient */}
+             <div className="absolute inset-0 bg-gradient-to-r from-[#031B17]/90 via-[#031B17]/70 to-transparent" />
+             <div className="absolute inset-0 bg-gradient-to-b from-[#031B17]/30 via-transparent to-[#031B17]" />
+         </div>
+
+         <div className="container mx-auto px-4 md:px-10 relative z-10 flex flex-col md:flex-row items-center h-full">
+            {/* Left Text Content */}
+            <div className="w-full md:w-1/2 pt-20 md:pt-0">
+                <div className="relative mb-4">
+                    <span className="font-['PhotographSignature'] text-5xl md:text-8xl text-[#F7C66A] block transform -rotate-2">
+                    Découvrez
+                    </span>
+                </div>
+                <h1 className="text-4xl md:text-6xl font-bold uppercase tracking-wide text-white mb-8 leading-tight">
+                    {displayTitle}
+                </h1>
+                <p className="text-sm md:text-base leading-relaxed text-gray-200 font-light max-w-xl text-justify">
+                    {locality.description}
+                </p>
+            </div>
+
+            {/* Right Side - Optional Building Overlay or Empty to let BG show */}
+            <div className="w-full md:w-1/2 h-full relative hidden md:block">
+                {/* 
+                   If the background image already contains the building on the right (as per user description "photo pour chaque Hero"), 
+                   we don't need to add anything here. The gradient overlay handles the text readability on the left.
+                */}
+            </div>
+         </div>
       </section>
 
-      {/* Map Section */}
-      <section className="px-4 md:px-10 mb-20">
-        <div className="mx-auto max-w-7xl relative h-[400px] md:h-[500px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#052620]">
-           {/* Map Image */}
-           <img 
-             src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Alger_centre_map.png/800px-Alger_centre_map.png"
-             onError={(e) => {
-               e.currentTarget.src = "https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1600";
-             }}
-             alt="Carte de Kouba, Alger" 
-             className="w-full h-full object-cover filter brightness-[0.7] contrast-[1.1]"
-           />
-           
-           {/* Markers Simulation */}
-           <MapMarker top="40%" left="45%" label="Résidence Azurite" />
-           <MapMarker top="55%" left="52%" label="Résidence Agate" />
-           <MapMarker top="35%" left="60%" label="Résidence Opale" />
-
-           {/* Overlay Gradient */}
-           <div className="absolute inset-0 bg-gradient-to-t from-[#031B17] via-transparent to-transparent pointer-events-none"></div>
-        </div>
-      </section>
-
-      {/* Projects Grid */}
-      <section className="px-4 md:px-10 pb-24">
-        <div className="mx-auto max-w-7xl">
-           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-             {RESIDENCES.map((project, idx) => (
-               <ProjectCard key={idx} project={project} />
-             ))}
-           </div>
-        </div>
+      {/* Map & Featured Project Section */}
+      <section className="px-4 md:px-10 py-20 relative z-10 -mt-20">
+         <div className="container mx-auto">
+             <MapCard projects={localityProjects} />
+         </div>
       </section>
 
       <Footer />

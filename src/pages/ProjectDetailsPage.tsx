@@ -327,7 +327,7 @@ function PlansAndLocation({ plans, location }: { plans: Plan[]; location: Locati
 function DetailsContact() {
   return (
     <section className="mx-auto max-w-7xl px-6 py-20">
-      <h2 className="mb-12 text-3xl font-bold uppercase tracking-wide text-white">Contact</h2>
+      <h2 className="mb-12 text-3xl font-bold uppercase tracking-wide text-white">Devis</h2>
       
       <form className="grid gap-10 lg:grid-cols-2">
         {/* Left Column - Personal & Project Info */}

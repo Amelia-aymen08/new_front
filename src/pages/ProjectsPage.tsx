@@ -2,307 +2,21 @@ import React, { useState, useMemo, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link, useLocation } from "react-router-dom";
+import { PROJECTS, LOCALITIES, Project, Locality } from "../data/mockData";
 
-// --- Types & Mock Data ---
-
-type Project = {
-  id: number;
-  title: string;
-  location: string;
-  description: string;
-  image: string;
-  typology?: string;
-  isNightMode?: boolean;
-};
-
-type Locality = {
-  id: number;
-  name: string; // e.g. "Kouba, Alger"
-  description: string;
-  svgPath: string; // Placeholder for the map shape
-};
-
-// Augmented data
-const PROJECTS: Project[] = [
-  // --- CURRENT PROJECTS (Cube Style) ---
-  {
-    id: 1,
-    title: "RÉSIDENCE CYANITE",
-    location: "Cheraga, Alger",
-    description: "Fort du succès de notre première résidence Pyrite, nous repoussons encore les limites du raffinement...",
-    image: "/assets/projets/agate.png", // Using existing placeholder
-  },
-  {
-    id: 2,
-    title: "RÉSIDENCE AZURITE",
-    location: "Kouba, Alger",
-    description: "La résidence Azurite, située dans le quartier mythique de Kouba, offre un cadre de vie privilégié...",
-    image: "/assets/projets/azurite.png",
-  },
-  {
-    id: 3,
-    title: "RÉSIDENCE AGATE",
-    location: "Oued Romane, Alger",
-    description: "Située à Oued Romane (El Achour), un quartier calme et verdoyant, la résidence offre un cadre de vie paisible...",
-    image: "/assets/projets/agate.png",
-  },
-  {
-    id: 4,
-    title: "RÉSIDENCE AMÉTRINE",
-    location: "Said Hamdine, Alger",
-    description: "Résidence Amétrine, le récent chef-d'œuvre d'Aymen Promotion Immobilière, se distingue par...",
-    image: "/assets/projets/ametrine.png",
-  },
-  {
-    id: 5,
-    title: "RÉSIDENCE CORNALINE",
-    location: "Hydra, Alger",
-    description: "Érigée au cœur de la commune de Hydra, la résidence Cornaline dévoile ses atouts de caractère...",
-    image: "/assets/projets/cornaline.png",
-  },
-  {
-    id: 6,
-    title: "RÉSIDENCE SÉRAPHINITE",
-    location: "Ruisseau, Alger",
-    description: "C'est à Ruisseau, quartier prisé des Algérois, qu'Aymen Promotion Immobilière a choisi d'implanter son nouveau...",
-    image: "/assets/projets/azurite.png", // Placeholder
-  },
-  {
-    id: 7,
-    title: "RÉSIDENCE CÉLESTINE",
-    location: "Bab Ezzouar, Alger",
-    description: "Aymen Promotion Immobilière lance son premier projet dans la commune dynamique de Bab Ezzouar...",
-    image: "/assets/projets/celestine.png",
-  },
-  {
-    id: 8,
-    title: "RÉSIDENCE LARIMAR",
-    location: "Birkhadem, Alger",
-    description: "Idéalement située à Tixeraïne, Birkhadem, la résidence Larimar est une perle rare qui émerge en réponse...",
-    image: "/assets/projets/cornaline.png", // Placeholder
-  },
-  {
-    id: 9,
-    title: "RÉSIDENCE SELENITE",
-    location: "Birkhadem, Alger",
-    description: "Conçue pour allier esthétisme et fonctionnalité, la résidence one building Sélenite incarne le summum de la modernité...",
-    image: "/assets/projets/agate.png", // Placeholder
-  },
-
-  // --- FINISHED PROJECTS (Cube Style) ---
-  {
-    id: 10,
-    title: "RÉSIDENCE DIAR EL AMANE",
-    location: "Birkhadem, Alger",
-    description: "Connue autrefois pour ses champs d'arbres fruitiers à perte de vue, la région des Vergers a...",
-    image: "/assets/projets/cornaline.png", // Using a cube placeholder
-    isNightMode: false, // Changed to false to use Cube Style
-  },
-  {
-    id: 11,
-    title: "RÉSIDENCE PYRITE",
-    location: "Cheraga, Alger",
-    description: "Située à Dar Diaf, au cœur de la commune de Chéraga, la résidence Haut Standing Pyrite s'étend sur...",
-    image: "/projets/ametrine.png", // Using a cube placeholder
-    isNightMode: false, // Changed to false to use Cube Style
-  },
-  {
-    id: 12,
-    title: "RÉSIDENCE JAIS",
-    location: "Draria, Alger",
-    description: "La résidence Jais, véritable joyau d'Aymen Promotion Immobilière, incarne le calme et la sophistication à l'état...",
-    image: "/projets/agate.png", // Using a cube placeholder
-    isNightMode: false, // Changed to false to use Cube Style
-  },
-  {
-    id: 13,
-    title: "RÉSIDENCE LES CRÊTES",
-    location: "Draria, Alger",
-    description: "Au cœur d'un des quartiers les plus prestigieux de la commune de Draria, se dévoile la somptueuse Résidence...",
-    image: "/projets/azurite.png", // Using a cube placeholder
-    isNightMode: false, // Changed to false to use Cube Style
-  },
-
-  // --- FINISHED PROJECTS (Night Mode / Photo Style) ---
-  {
-    id: 14,
-    title: "RÉSIDENCE TURQUOISE",
-    location: "Les Sources, Alger",
-    description: "Aymen Promotion Immobilière détient l'art subtil de créer des résidences raffinées et intimistes. Parmi...",
-    image: "/projets/turquoise.png", // Photo placeholder
-    isNightMode: true,
-  },
-  {
-    id: 15,
-    title: "RÉSIDENCE SPINELLE",
-    location: "Les Sources, Alger",
-    description: "Nous vous présentons la Résidence Spinelle d'Aymen Promotion Immobilière, un havre de tranquillité niché au cœur de la paisible localité...",
-    image: "/assets/projets/static2.png", // Photo placeholder
-    isNightMode: true,
-  },
-  {
-    id: 16,
-    title: "RÉSIDENCE BERYL",
-    location: "Dely Ibrahim, Alger",
-    description: "Idéalement nichée au cœur de la charmante commune de Dely Ibrahim, la résidence Béryl se dresse dans...",
-    image: "/projets/static1.png", // Photo placeholder
-    isNightMode: true,
-  },
-  {
-    id: 17,
-    title: "RÉSIDENCE BOIS DES CARS",
-    location: "Dely Ibrahim, Alger",
-    description: "La résidence Bois des Cars, sise à Dely Ibrahim, représente un projet exclusif et sophistiqué de la société Aymen Promotion...",
-    image: "/projets/static2.png", // Photo placeholder
-    isNightMode: true,
-  },
-  {
-    id: 18,
-    title: "RÉSIDENCE PÉRIDOT",
-    location: "Hydra, Alger",
-    description: "Raffinée et discrète, la résidence Péridot d'Aymen Promotion Immobilière représente un...",
-    image: "/projets/static1.png", // Photo placeholder
-    isNightMode: true,
-  },
-  {
-    id: 19,
-    title: "RÉSIDENCE CORAIL",
-    location: "Hydra, Alger",
-    description: "Raffinée et discrète, la résidence Péridot d'Aymen Promotion Immobilière représente un...",
-    image: "/projets/static1.png", // Placeholder
-    isNightMode: true,
-  },
-  {
-    id: 20,
-    title: "RÉSIDENCE OPALE",
-    location: "El Achour, Alger",
-    description: "Raffinée et discrète, la résidence Péridot d'Aymen Promotion Immobilière représente...",
-    image: "/projets/static2.png", // Placeholder
-    isNightMode: true,
-  },
-  {
-    id: 21,
-    title: "RÉSIDENCE CITRINE",
-    location: "Birkhadem, Alger",
-    description: "Nous vous présentons la Résidence Spinelle d'Aymen Promotion Immobilière, un havre...",
-    image: "/projets/static1.png", // Placeholder
-    isNightMode: true,
-  },
-  {
-    id: 22,
-    title: "RÉSIDENCE ANGÉLITE",
-    location: "Dar El Beïda, Alger",
-    description: "Idéalement nichée au coeur de la charmante commune de Dély Ibrahim...",
-    image: "/projets/static2.png", // Placeholder
-    isNightMode: true,
-  },
-  {
-    id: 23,
-    title: "RÉSIDENCE RUBIS",
-    location: "El Achour, Alger",
-    description: "Véritable bijou de la promotion immobilière Aymen, la résidence Rubis se d...",
-    image: "/projets/static1.png", // Placeholder
-    isNightMode: true,
-  },
-  {
-    id: 24,
-    title: "RÉSIDENCE ONYX",
-    location: "Oued Romane, Alger",
-    description: "Aymen Promotion Immobilière, reconnue pour ses résidences haut standing, tient une fois ...",
-    image: "/projets/static2.png", // Placeholder
-    isNightMode: true,
-  },
-  {
-    id: 25,
-    title: "RÉSIDENCE EL MORDJANE",
-    location: "Said Hamdine, Alger",
-    description: "Au cœur d'Alger, dans le quartier de Said Hamdine, à quelques pas de la prestigieuse...",
-    image: "/projets/static1.png", // Placeholder
-    isNightMode: true,
-  },
-  {
-    id: 26,
-    title: "RÉSIDENCE 136",
-    location: "Birkhadem, Alger",
-    description: "Située à proximité de la petite ville Birkhadem, plus précisément à Tixeraïne, la résidence...",
-    image: "/projets/static2.png", // Placeholder
-    isNightMode: true,
-  },
-  {
-    id: 27,
-    title: "RÉSIDENCE COQUELICOT",
-    location: "Hydra, Alger",
-    description: "Découvrez le nouvel opus urbain exceptionnel d'Aymen Promotion Immobilière...",
-    image: "/projets/static1.png", // Placeholder
-    isNightMode: true,
-  },
-  {
-    id: 28,
-    title: "RÉSIDENCE PERLA",
-    location: "Dal El Beïda, Alger",
-    description: "Aymen Promotion Immobilière, reconnue pour ses résidences haut standing, tient une...",
-    image: "/projets/static2.png", // Placeholder
-    isNightMode: true,
-  },
-];
-
-const LOCALITIES: Locality[] = [
-  {
-    id: 1,
-    name: "Kouba, Alger",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique pulvinar enim. Mauris ut mauris fringilla, vulputate..",
-    svgPath: "M10 10 H 90 V 90 H 10 Z",
-  },
-  {
-    id: 2,
-    name: "Kouba, Alger",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique pulvinar enim. Mauris ut mauris fringilla, vulputate..",
-    svgPath: "M10 10 H 90 V 90 H 10 Z",
-  },
-  {
-    id: 3,
-    name: "Kouba, Alger",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique pulvinar enim. Mauris ut mauris fringilla, vulputate..",
-    svgPath: "M10 10 H 90 V 90 H 10 Z",
-  },
-  {
-    id: 4,
-    name: "Kouba, Alger",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique pulvinar enim. Mauris ut mauris fringilla, vulputate..",
-    svgPath: "M10 10 H 90 V 90 H 10 Z",
-  },
-  {
-    id: 5,
-    name: "Kouba, Alger",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique pulvinar enim. Mauris ut mauris fringilla, vulputate..",
-    svgPath: "M10 10 H 90 V 90 H 10 Z",
-  },
-  {
-    id: 6,
-    name: "Kouba, Alger",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique pulvinar enim. Mauris ut mauris fringilla, vulputate..",
-    svgPath: "M10 10 H 90 V 90 H 10 Z",
-  },
-];
 
 // --- Icons ---
 
-function LocalityShape({ className }: { className?: string }) {
+function LocalityShape({ className, color, path, viewBox }: { className?: string; color?: string; path?: string; viewBox?: string }) {
   // Unique IDs for the filter and gradient to avoid conflicts if used elsewhere
   const filterId = "filter0_d_175_313";
   const gradientId = "paint0_linear_175_313";
+  const defaultPath = "M84.1788 0.00329503C84.1472 0.054396 84.1688 0.0824196 84.1338 0.135169C83.7392 0.746732 83.1614 1.42423 82.5887 2.05723C81.488 3.27705 80.4224 4.25127 80.3375 4.32875L90.1781 13.8962V18.876L80.9119 28.0495L71.689 24.423L61.3189 23.8988L51.2135 15.5545L46.1832 14.9858L39.741 11.6659H34.3129L34.9756 18.3502L38.329 20.2722L39.4763 28.6165L23.1934 26.0829L16.4865 25.8208L14.2353 29.1407C14.2353 29.1407 14.923 29.7935 16.0452 30.626C17.1658 31.4584 18.7327 32.459 20.4144 33.2915C21.2553 33.7069 21.8747 34.3234 22.3559 34.9959C22.8371 35.6685 23.1518 36.435 23.3266 37.1801C23.5015 37.9252 23.5381 38.6406 23.4598 39.2769C23.3816 39.9131 23.2101 40.4588 22.9303 40.8066C22.3692 41.5006 18.2298 43.1605 14.2369 44.6507C10.2441 46.1409 6.38274 47.4464 6.38274 47.4464L4 46.9651L4.5295 52.5137C4.5295 52.5137 8.35253 55.8599 12.5169 59.765C14.5983 61.7184 16.7429 63.8235 18.5628 65.7059C20.3828 67.5884 21.8447 69.2649 22.5341 70.3809C23.2234 71.4968 24.6803 72.926 26.462 74.4871C28.2436 76.0481 30.3683 77.7213 32.4197 79.3796C34.471 81.0379 36.4358 82.6912 37.9361 84.0973C39.4347 85.5034 40.4587 86.6985 40.5836 87.5046C40.8333 89.1168 40.7584 91.352 40.5386 93.7076C40.3188 96.0632 39.9442 98.5457 39.5679 100.654C39.3797 101.707 39.3581 102.584 39.4796 103.362C39.6012 104.14 39.8959 104.798 40.3188 105.372C40.7417 105.945 41.2796 106.419 41.9956 106.857C42.7115 107.296 43.5974 107.708 44.5998 108.08C45.6021 108.453 47.2655 108.627 49.277 108.736C51.2884 108.845 53.6545 108.868 55.9406 108.868C57.0895 108.868 57.4226 108.997 58.4999 109C58.5132 108.964 58.6764 108.563 58.6764 108.563C58.6764 108.563 67.3082 103.582 76.283 98.5161C85.2578 93.4505 94.5773 88.2761 95.9193 87.9448C96.3406 87.8409 100.811 87.6777 102.715 87.5508C102.645 87.5195 102.518 87.4947 102.45 87.4634C101.231 86.9194 100.275 86.4035 99.6258 85.8463C98.9764 85.2892 98.6717 84.7122 98.7866 84.1419C99.2461 81.8654 100.385 78.4268 102.052 75.0113C102.886 73.3035 103.848 71.5974 104.921 70.0314C105.993 68.4654 107.185 67.0642 108.451 65.9252C109.716 64.7861 111.383 63.8086 113.173 62.9547C114.963 62.1009 116.846 61.3838 118.601 60.8134C122.109 59.6744 125 59.109 125 59.109C125 59.109 123.388 55.3308 121.778 51.2889C120.168 47.247 118.556 42.9034 118.556 41.766C118.556 40.9714 119.519 37.9499 120.321 35.3009C120.081 35.474 119.667 35.7822 119.482 35.9124C119.044 36.2223 118.018 36.257 116.746 36.0872C115.474 35.9174 113.965 35.535 112.51 35.0388C111.055 34.5426 109.661 33.9146 108.671 33.2469C108.176 32.914 107.78 32.5892 107.523 32.2414C107.267 31.8936 107.152 31.5342 107.214 31.193C107.715 28.4649 108.699 16.3144 108.449 14.3297C108.386 13.8335 107.788 13.2368 106.861 12.5824C105.933 11.928 104.706 11.2274 103.374 10.5284C100.713 9.13388 97.6843 7.77064 96.1807 6.90193C94.6772 6.03486 91.2288 4.24962 87.9735 2.35889C86.5915 1.55611 85.331 0.77146 84.1788 0V0.00329503Z";
   
+
   return (
     <svg 
-      width="129" 
-      height="117" 
-      viewBox="0 0 129 117" 
+      viewBox={viewBox || "0 0 129 117"} 
       fill="none" 
       xmlns="http://www.w3.org/2000/svg"
       className={className}
@@ -311,12 +25,12 @@ function LocalityShape({ className }: { className?: string }) {
         <path 
           fillRule="evenodd" 
           clipRule="evenodd" 
-          d="M84.1788 0.00329503C84.1472 0.054396 84.1688 0.0824196 84.1338 0.135169C83.7392 0.746732 83.1614 1.42423 82.5887 2.05723C81.488 3.27705 80.4224 4.25127 80.3375 4.32875L90.1781 13.8962V18.876L80.9119 28.0495L71.689 24.423L61.3189 23.8988L51.2135 15.5545L46.1832 14.9858L39.741 11.6659H34.3129L34.9756 18.3502L38.329 20.2722L39.4763 28.6165L23.1934 26.0829L16.4865 25.8208L14.2353 29.1407C14.2353 29.1407 14.923 29.7935 16.0452 30.626C17.1658 31.4584 18.7327 32.459 20.4144 33.2915C21.2553 33.7069 21.8747 34.3234 22.3559 34.9959C22.8371 35.6685 23.1518 36.435 23.3266 37.1801C23.5015 37.9252 23.5381 38.6406 23.4598 39.2769C23.3816 39.9131 23.2101 40.4588 22.9303 40.8066C22.3692 41.5006 18.2298 43.1605 14.2369 44.6507C10.2441 46.1409 6.38274 47.4464 6.38274 47.4464L4 46.9651L4.5295 52.5137C4.5295 52.5137 8.35253 55.8599 12.5169 59.765C14.5983 61.7184 16.7429 63.8235 18.5628 65.7059C20.3828 67.5884 21.8447 69.2649 22.5341 70.3809C23.2234 71.4968 24.6803 72.926 26.462 74.4871C28.2436 76.0481 30.3683 77.7213 32.4197 79.3796C34.471 81.0379 36.4358 82.6912 37.9361 84.0973C39.4347 85.5034 40.4587 86.6985 40.5836 87.5046C40.8333 89.1168 40.7584 91.352 40.5386 93.7076C40.3188 96.0632 39.9442 98.5457 39.5679 100.654C39.3797 101.707 39.3581 102.584 39.4796 103.362C39.6012 104.14 39.8959 104.798 40.3188 105.372C40.7417 105.945 41.2796 106.419 41.9956 106.857C42.7115 107.296 43.5974 107.708 44.5998 108.08C45.6021 108.453 47.2655 108.627 49.277 108.736C51.2884 108.845 53.6545 108.868 55.9406 108.868C57.0895 108.868 57.4226 108.997 58.4999 109C58.5132 108.964 58.6764 108.563 58.6764 108.563C58.6764 108.563 67.3082 103.582 76.283 98.5161C85.2578 93.4505 94.5773 88.2761 95.9193 87.9448C96.3406 87.8409 100.811 87.6777 102.715 87.5508C102.645 87.5195 102.518 87.4947 102.45 87.4634C101.231 86.9194 100.275 86.4035 99.6258 85.8463C98.9764 85.2892 98.6717 84.7122 98.7866 84.1419C99.2461 81.8654 100.385 78.4268 102.052 75.0113C102.886 73.3035 103.848 71.5974 104.921 70.0314C105.993 68.4654 107.185 67.0642 108.451 65.9252C109.716 64.7861 111.383 63.8086 113.173 62.9547C114.963 62.1009 116.846 61.3838 118.601 60.8134C122.109 59.6744 125 59.109 125 59.109C125 59.109 123.388 55.3308 121.778 51.2889C120.168 47.247 118.556 42.9034 118.556 41.766C118.556 40.9714 119.519 37.9499 120.321 35.3009C120.081 35.474 119.667 35.7822 119.482 35.9124C119.044 36.2223 118.018 36.257 116.746 36.0872C115.474 35.9174 113.965 35.535 112.51 35.0388C111.055 34.5426 109.661 33.9146 108.671 33.2469C108.176 32.914 107.78 32.5892 107.523 32.2414C107.267 31.8936 107.152 31.5342 107.214 31.193C107.715 28.4649 108.699 16.3144 108.449 14.3297C108.386 13.8335 107.788 13.2368 106.861 12.5824C105.933 11.928 104.706 11.2274 103.374 10.5284C100.713 9.13388 97.6843 7.77064 96.1807 6.90193C94.6772 6.03486 91.2288 4.24962 87.9735 2.35889C86.5915 1.55611 85.331 0.77146 84.1788 0V0.00329503Z" 
-          fill={`url(#${gradientId})`}
+          d={path || defaultPath}
+          fill={color || `url(#${gradientId})`}
         /> 
       </g> 
       <defs> 
-        <filter id={filterId} x="0" y="0" width="129" height="117" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB"> 
+        <filter id={filterId} x="0" y="0" width="100%" height="100%" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB"> 
           <feFlood floodOpacity="0" result="BackgroundImageFix"/> 
           <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/> 
           <feOffset dy="4"/> 
@@ -326,7 +40,7 @@ function LocalityShape({ className }: { className?: string }) {
           <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_175_313"/> 
           <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_175_313" result="shape"/> 
         </filter> 
-        <linearGradient id={gradientId} x1="64.5" y1="23.0779" x2="64.5" y2="105.169" gradientUnits="userSpaceOnUse"> 
+        <linearGradient id={gradientId} x1="50%" y1="0%" x2="50%" y2="100%" gradientUnits="objectBoundingBox"> 
           <stop stopColor="#F4CE86"/> 
           <stop offset="1" stopColor="#EAB456"/> 
         </linearGradient> 
@@ -431,34 +145,45 @@ function NightProjectCard({ project, style }: { project: Project; style?: React.
   return (
     <Link 
       to={`/projet/${project.id}`}
-      className="group relative h-64 overflow-hidden rounded-lg shadow-lg transition hover:shadow-2xl animate-fadeInUp md:h-56"
+      className="group relative h-64 overflow-hidden rounded-lg shadow-lg transition hover:shadow-2xl animate-fadeInUp"
       style={style}
     >
       {/* Background Image */}
       <img
         src={project.image}
         alt={project.title}
-        className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-110"
+        className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
       />
       
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+      {/* Gradient Overlay - Stronger on the left for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#052620]/95 via-[#052620]/60 to-transparent" />
 
-      {/* Content */}
-      <div className="absolute bottom-0 left-0 w-full p-6">
-        <h3 className="mb-1 text-sm font-bold uppercase text-white md:text-base">
-          {project.title}
-        </h3>
-        <div className="mb-2 flex items-center gap-2 text-[10px] font-medium text-[#F7C66A]">
-          <LocationPinIcon />
-          <span>{project.location}</span>
+      {/* Content - Left Aligned */}
+      <div className="absolute inset-0 flex flex-col p-6 z-10 w-3/4">
+        {/* Header: Title & Location */}
+        <div>
+          <h3 className="mb-2 text-lg font-bold uppercase text-white leading-tight drop-shadow-md">
+            {project.title}
+          </h3>
+          <div className="flex items-center gap-2 text-xs text-[#F7C66A] font-medium drop-shadow-md">
+            <LocationPinIcon />
+            <span>{project.location}</span>
+          </div>
         </div>
-        <p className="mb-3 text-[10px] text-gray-300 line-clamp-2 leading-relaxed">
+
+        {/* Body: Description Centered */}
+        <div className="flex flex-1 flex-col justify-center">
+          <p className="text-[10px] leading-relaxed text-white/90 line-clamp-3 drop-shadow-md font-medium">
             {project.description}
-        </p>
-        <span className="inline-block border-b border-[#F7C66A] pb-1 text-[10px] font-bold uppercase tracking-widest text-white transition group-hover:text-[#F7C66A]">
-          DÉCOUVRIR
-        </span>
+          </p>
+        </div>
+        
+        {/* Footer: CTA */}
+        <div>
+          <span className="w-fit text-xs font-bold uppercase tracking-widest text-[#F7C66A] transition hover:text-white border-b border-transparent hover:border-white pb-0.5 drop-shadow-md">
+            DÉCOUVRIR
+          </span>
+        </div>
       </div>
     </Link>
   );
@@ -468,25 +193,32 @@ function LocalityCard({ locality, style }: { locality: Locality; style?: React.C
   return (
     <Link 
       to={`/localite/${locality.id}`}
-      className="group relative flex overflow-hidden rounded-lg bg-[#1a3c36] shadow-lg transition hover:bg-[#1a3c36]/80 animate-fadeInUp"
+      className="group relative flex h-full overflow-hidden rounded-lg bg-[#243c38] shadow-[0_4px_20px_rgba(0,0,0,0.25)] transition hover:bg-[#243c38]/90 animate-fadeInUp items-center"
       style={style}
     >
-      {/* Left Content */}
-      <div className="flex flex-1 flex-col justify-between p-6">
-        <div>
-           <div className="mb-2 flex items-center gap-2 text-lg font-bold text-white">
-            <LocationPinIcon />
-            <span>{locality.name}</span>
-          </div>
-          <p className="mb-4 text-xs leading-relaxed text-white/60">
-            {locality.description}
-          </p>
-        </div>
+      {/* Left: Map & Pin */}
+      <div className="relative flex w-[35%] shrink-0 flex-col items-center justify-center py-8 pl-4 pr-2">
+         <div className="relative">
+            <img 
+              src={locality.image} 
+              alt={locality.name} 
+              className="h-20 w-20 object-contain drop-shadow-xl opacity-90"
+            />
+           
+         </div>
       </div>
 
-      {/* Right SVG/Shape */}
-      <div className="relative flex w-2/5 items-center justify-center p-4">
-        <LocalityShape className="h-24 w-24 drop-shadow-lg transition duration-500 group-hover:scale-110" />
+      {/* Separator - Vertical line spanning most of the height - Solid Gold */}
+      <div className="h-24 w-[1px] bg-[#F7C66A] opacity-60" />
+
+      {/* Right: Text */}
+      <div className="flex flex-1 flex-col justify-center p-5">
+        <h3 className="mb-2 text-sm font-bold text-[#F7C66A] uppercase tracking-wider leading-tight">
+          {locality.name}
+        </h3>
+        <p className="text-[10px] leading-relaxed text-white line-clamp-4 font-medium opacity-90">
+          {locality.description}
+        </p>
       </div>
     </Link>
   );
@@ -608,7 +340,7 @@ export default function ProjectsPage() {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className={`grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 ${activeTab === "LOCALITÉS" ? "max-w-6xl mx-auto gap-x-8 gap-y-6" : ""}`}>
           {activeTab === "PROJETS" ? (
             (displayItems as Project[]).map((item, idx) => {
               const delayStyle = { animationDelay: `${0.1 + (idx % 9) * 0.1}s` };

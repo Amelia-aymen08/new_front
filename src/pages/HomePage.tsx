@@ -151,6 +151,17 @@ export default function HomePage() {
     setShowHeader(inWipe || topVisible);
   }, [inWipe, topVisible]);
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const slides = useMemo<Slide[]>(
     () => [
       { key: "hero", element: <Hero /> },
@@ -158,7 +169,7 @@ export default function HomePage() {
         key: "s1",
         element: (
           <WipeImageSection
-            src="/sections/1.png"
+            src={isMobile ? "/assets/hero-mobile/1.png" : "/sections/1.png"}
             title="NOS PROJETS"
             description="Aymen Promotion developpe des residences haut standing a Alger avec plus de 20 projets livres qui allient le confort, le design moderne et une finition de qualite!"
             buttonText="DECOUVRIR"
@@ -169,7 +180,7 @@ export default function HomePage() {
         key: "s2",
         element: (
           <WipeImageSection
-            src="/sections/2.png"
+            src={isMobile ? "/assets/hero-mobile/2.png" : "/sections/2.png"}
             title="NOS PROJETS"
             description="Aymen Promotion developpe des residences haut standing a Alger avec plus de 20 projets livres qui allient le confort, le design moderne et une finition de qualite!"
             buttonText="DECOUVRIR"
@@ -180,7 +191,7 @@ export default function HomePage() {
         key: "s3",
         element: (
           <WipeImageSection
-            src="/sections/3.png"
+            src={isMobile ? "/assets/hero-mobile/3.png" : "/sections/3.png"}
             title="NOS PROJETS"
             description="Aymen Promotion developpe des residences haut standing a Alger avec plus de 20 projets livres qui allient le confort, le design moderne et une finition de qualite!"
             buttonText="DECOUVRIR"
@@ -188,7 +199,7 @@ export default function HomePage() {
         ),
       },
     ],
-    []
+    [isMobile]
   );
 
   return (
