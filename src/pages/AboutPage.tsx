@@ -292,54 +292,39 @@ export default function AboutPage() {
 
       <Header className="absolute top-0 left-0 z-40 w-full" />
 
-      {/* 1. Hero / Video Section */}
-      <section className="relative pt-32 pb-20 px-4 md:px-10 z-10">
-        <motion.div 
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 100 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 1.0, ease: "easeOut" }}
-        >
-          <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-widest text-white drop-shadow-lg">
-            A PROPOS
-          </h1>
-        </motion.div>
-        
-        {/* Video Placeholder */}
-        <div className="mx-auto max-w-6xl relative">
-          <motion.div 
-            className="aspect-video w-full bg-[#052620] rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden group cursor-pointer"
-            initial={{ opacity: 0, y: 100 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 1.0, delay: 0.2, ease: "easeOut" }}
-          >
-             <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:scale-110 transition-transform">
-                   <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-white border-b-[10px] border-b-transparent ml-1"></div>
-                </div>
-             </div>
-             <img 
-               src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2000" 
-               alt="Video Thumbnail" 
-               className="w-full h-full object-cover opacity-60 mix-blend-overlay"
-             />
-          </motion.div>
+      {/* 1. Hero Section */}
+      <section className="relative h-screen min-h-[700px] w-full flex items-center justify-center overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="/a-propos.png" 
+            alt="A Propos Hero" 
+            className="w-full h-full object-cover object-[50%_center]"
+          />
+          {/* Dark Overlay for text readability */}
+          <div className="absolute inset-0 bg-black/40" />
+        </div>
 
-          {/* Overlay Stats Card */}
-          <motion.div 
-            className="relative w-full md:absolute md:bottom-[-40px] md:left-0 md:right-0 md:w-[90%] lg:w-[80%] mx-auto bg-[#1F3A35]/95 backdrop-blur-md border border-white/10 rounded-xl p-6 md:p-8 shadow-2xl mt-6 md:mt-0"
-            initial={{ opacity: 0, y: 100 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 1.0, delay: 0.4, ease: "easeOut" }}
-          >
-             <p className="text-center text-sm md:text-base leading-relaxed text-gray-200">
-               Référence du haut standing, Aymen Promotion vous propose des résidences d'exception dans <strong className="text-white font-bold">plus de 15 communes</strong>, avec <strong className="text-white font-bold">plus de 30 projets</strong> et une expertise de <strong className="text-white font-bold">20 ans</strong> et <strong className="text-white font-bold">une vision</strong> : <br className="hidden md:block"/>
-               Créer des espaces de vie où confort, design architectural et services intégrés se conjuguent harmonieusement.
-             </p>
-          </motion.div>
+        <div className="mx-auto max-w-7xl px-4 md:px-10 relative z-10 h-full flex items-center w-full">
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full items-center">
+              {/* Left Text */}
+              <motion.div 
+                className="text-left md:mt-16"
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1.0, ease: "easeOut" }}
+              >
+                <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-wide text-white mb-6">
+                  A PROPOS
+                </h1>
+                <p className="text-sm md:text-lg leading-relaxed text-gray-200 font-light max-w-xl text-justify">
+                  Référence du haut standing, Aymen Promotion vous propose des résidences d'exception dans <strong className="text-white font-bold">plus de 15 communes</strong>, avec <strong className="text-white font-bold">plus de 30 projets</strong> et une expertise de <strong className="text-white font-bold">20 ans</strong> et <strong className="text-white font-bold">une vision</strong> : Créer des espaces de vie où confort, design architectural et services intégrés se conjuguent harmonieusement.
+                </p>
+              </motion.div>
+
+              {/* Right Side (Empty to reveal background image content) */}
+              <div></div>
+           </div>
         </div>
       </section>
 

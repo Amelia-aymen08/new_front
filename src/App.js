@@ -16,15 +16,11 @@ function HomeRoute() {
 
   // Bloque le scroll tant que l'intro n'est pas terminee
   useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
     if (!introDone) {
       document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = originalOverflow || "auto";
+      document.body.style.overflow = "";
     }
-    return () => {
-      document.body.style.overflow = originalOverflow;
-    };
   }, [introDone]);
 
   return (
@@ -62,7 +58,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="relative min-h-screen text-white">
+      {/* Retrait de min-h-screen qui peut parfois causer des conflits de hauteur */}
+      <div className="relative text-white">
         <Routes>
           <Route path="/" element={<HomeRoute />} />
           <Route path="/projets" element={<ProjectsPage />} />

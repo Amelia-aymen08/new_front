@@ -229,7 +229,7 @@ export default function HomePage() {
       </div>
       
       {/* Nouvelles sections apres le scroll wipe */}
-      <div className="relative z-10">
+      <div className="relative z-10 bg-[#031B17] w-full overflow-x-hidden">
         <FadeOnScroll delay={120}>
           <LifestyleSection />
         </FadeOnScroll>
