@@ -169,7 +169,7 @@ export default function HomePage() {
         key: "s1",
         element: (
           <WipeImageSection
-            src={isMobile ? "/assets/hero-mobile/1.png" : "/sections/1.png"}
+            src={isMobile ? "/1-mobile.png" : "/sections/1.png"}
             title="NOS PROJETS"
             description="Aymen Promotion developpe des residences haut standing a Alger avec plus de 20 projets livres qui allient le confort, le design moderne et une finition de qualite!"
             buttonText="DECOUVRIR"
@@ -180,7 +180,7 @@ export default function HomePage() {
         key: "s2",
         element: (
           <WipeImageSection
-            src={isMobile ? "/assets/hero-mobile/2.png" : "/sections/2.png"}
+            src={isMobile ? "/2-mobile.png" : "/sections/2.png"}
             title="NOS PROJETS"
             description="Aymen Promotion developpe des residences haut standing a Alger avec plus de 20 projets livres qui allient le confort, le design moderne et une finition de qualite!"
             buttonText="DECOUVRIR"
@@ -191,7 +191,7 @@ export default function HomePage() {
         key: "s3",
         element: (
           <WipeImageSection
-            src={isMobile ? "/assets/hero-mobile/3.png" : "/sections/3.png"}
+            src={isMobile ? "/3-mobile.png" : "/sections/3.png"}
             title="NOS PROJETS"
             description="Aymen Promotion developpe des residences haut standing a Alger avec plus de 20 projets livres qui allient le confort, le design moderne et une finition de qualite!"
             buttonText="DECOUVRIR"
