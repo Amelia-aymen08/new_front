@@ -87,12 +87,12 @@ export default function LifestyleSection() {
           <h2 className="text-3xl font-bold uppercase tracking-wider">LUXUEUX ET MODERNE</h2>
         </div>
 
-        <div className="mb-12 flex flex-wrap justify-center gap-4">
+        <div className="mb-12 flex flex-wrap justify-center gap-2 md:gap-4 px-4">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCat(cat)}
-              className={`rounded-full border px-6 py-2 text-sm font-semibold uppercase tracking-wide transition-all
+              className={`rounded-full border px-4 py-2 text-xs md:text-sm font-semibold uppercase tracking-wide transition-all
                 ${
                   activeCat === cat
                     ? "border-gold-500 bg-gold-500 text-black"
@@ -105,13 +105,13 @@ export default function LifestyleSection() {
           ))}
         </div>
 
-        <div className="relative mx-auto max-w-6xl px-4 md:px-10" ref={containerRef}>
-          <div className="pointer-events-none absolute left-0 top-0 h-full w-12 bg-gradient-to-r from-[#031B17] to-transparent md:w-16" />
-          <div className="pointer-events-none absolute right-0 top-0 h-full w-12 bg-gradient-to-l from-[#031B17] to-transparent md:w-16" />
+        <div className="relative mx-auto max-w-6xl px-0 md:px-10" ref={containerRef}>
+          <div className="pointer-events-none absolute left-0 top-0 h-full w-4 z-10 bg-gradient-to-r from-[#031B17] to-transparent md:w-16" />
+          <div className="pointer-events-none absolute right-0 top-0 h-full w-4 z-10 bg-gradient-to-l from-[#031B17] to-transparent md:w-16" />
 
           <div
             ref={trackRef}
-            className="flex items-center gap-6 transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)]"
+            className="flex items-center gap-4 md:gap-6 transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)]"
             style={{ transform: `translateX(${translateX}px)` }}
           >
             {paddedSlides.map((slide, i) => {
@@ -127,7 +127,7 @@ export default function LifestyleSection() {
                         ? "scale-[1.02] opacity-100 shadow-[0_18px_50px_rgba(0,0,0,0.45)]"
                         : "scale-[0.95] opacity-80"
                     }
-                    w-[78vw] sm:w-[62vw] md:w-[52vw] lg:w-[480px] xl:w-[520px] aspect-[4/3]
+                    w-[85vw] sm:w-[62vw] md:w-[52vw] lg:w-[480px] xl:w-[520px] aspect-[3/4] md:aspect-[4/3]
                   `}
                 >
                   <img

@@ -88,7 +88,7 @@ export default function ContactSection() {
       <div className="relative grid h-full grid-cols-1 md:grid-cols-12">
         {/* LEFT PANEL */}
         <div
-          className={`relative col-span-1 flex h-full bg-[#0C2A24] px-6 py-10 md:col-span-5 md:px-12 md:py-14 transition-all duration-[1200ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] ${
+          className={`relative col-span-1 flex h-auto md:h-full bg-[#0C2A24] px-6 py-10 md:col-span-5 md:px-12 md:py-14 transition-all duration-[1200ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] ${
             panelsVisible ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
           }`}
           style={{ willChange: "transform, opacity" }}
@@ -99,31 +99,26 @@ export default function ContactSection() {
           />
 
           <div
-            className={`relative flex h-full w-full flex-col justify-center items-end text-right pr-12 transition-transform transition-opacity duration-[1100ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] ${
+            className={`relative flex h-full w-full flex-col justify-start md:justify-center items-start md:items-end text-left md:text-right md:pr-12 transition-transform transition-opacity duration-[1100ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] ${
               contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
             style={{ willChange: "transform, opacity" }}
           >
-            <img src="/logo.png" alt="Aymen Promotion" className="mb-10 h-14 w-auto object-contain" draggable={false} />
-
-            <div className="mb-12 space-y-2">
-              <div className="text-4xl font-extrabold tracking-wide text-[#F7C66A] md:text-5xl">EXPRIMEZ</div>
-              <div className="text-4xl font-regular tracking-wide text-white md:text-5xl">VOTRE</div>
-              <div className="text-4xl font-regular tracking-wide text-white md:text-5xl">INTÉRÊT</div>
+            {/* Logo hidden on mobile, visible on desktop if needed, but simplified here */}
+            
+            <div className="mb-8 md:mb-12 space-y-1 md:space-y-2">
+              <div className="text-3xl md:text-4xl font-extrabold tracking-wide text-[#F7C66A] md:text-5xl">EXPRIMEZ</div>
+              <div className="text-3xl md:text-4xl font-regular tracking-wide text-white md:text-5xl">VOTRE INTÉRÊT</div>
             </div>
 
-            <div className="mb-10 space-y-3 text-base text-white/85">
+            <div className="mb-8 md:mb-10 space-y-3 text-base text-white/85 hidden md:block">
               <button className="group inline-flex items-center gap-3">
                 <span>Exprimez votre intérêt</span>
                 <span className="text-[#F7C66A] transition group-hover:translate-x-0.5">&gt;</span>
               </button><br/>
-              <button className="group inline-flex items-center gap-3">
-                <span>Exprimez votre intérêt</span>
-                <span className="text-[#F7C66A] transition group-hover:translate-x-0.5">&gt;</span>
-              </button>
             </div>
 
-            <div className="mt-15 flex flex-wrap items-center gap-2">
+            <div className="mt-0 md:mt-15 flex flex-wrap items-center gap-2">
               {[
                 { key: "wa", icon: "fa-brands fa-whatsapp" },
                 { key: "ig", icon: "fa-brands fa-instagram" },
@@ -136,16 +131,16 @@ export default function ContactSection() {
               ].map(({ key, icon }) => (
                 <div
                   key={key}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30 text-white/80 transition hover:border-[#F7C66A] hover:text-[#F7C66A]"
+                  className="flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full border border-white/30 text-white/80 transition hover:border-[#F7C66A] hover:text-[#F7C66A]"
                 >
-                  <i className={`${icon} text-base`} aria-hidden />
+                  <i className={`${icon} text-sm md:text-base`} aria-hidden />
                   <span className="sr-only">{key}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-3 bg-gradient-to-r from-transparent to-black/30 md:w-4" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-3 bg-gradient-to-r from-transparent to-black/30 md:w-4 hidden md:block" />
         </div>
 
         {/* RIGHT PANEL */}
@@ -155,35 +150,35 @@ export default function ContactSection() {
           }`}
           style={{ willChange: "transform, opacity" }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/55 to-black/60 backdrop-blur-[3px]" />
+          <div className="absolute inset-0 bg-[#0C2A24] md:bg-gradient-to-r md:from-black/70 md:via-black/55 md:to-black/60 md:backdrop-blur-[3px]" />
 
           <div
-            className={`relative z-10 flex h-full w-full items-center justify-start pl-12 transition-transform transition-opacity duration-[1200ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] ${
+            className={`relative z-10 flex h-full w-full items-start md:items-center justify-start px-6 pt-6 md:pl-12 md:pt-0 transition-transform transition-opacity duration-[1200ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] ${
               contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
             style={{ willChange: "transform, opacity" }}
           >
-            <form className="w-full max-w-xl">
+            <form className="w-full max-w-xl pb-10 md:pb-0">
               <div className="grid grid-cols-1 gap-6">
                 {[
-                  { label: "Nom", type: "text" },
-                  { label: "Num", type: "tel" },
-                  { label: "Email", type: "email" },
+                  { label: "NOM", type: "text" },
+                  { label: "NUM", type: "tel" },
+                  { label: "EMAIL", type: "email" },
                 ].map((field) => (
                   <label key={field.label} className="block">
-                    <span className="mb-1 block text-sm text-white/80">{field.label}</span>
+                    <span className="mb-1 block text-xs md:text-sm text-white/60 uppercase tracking-wider">{field.label}</span>
                     <input
                       type={field.type}
-                      className="w-full border-0 border-b border-[#F7C66A]/80 bg-transparent py-2 text-white outline-none transition focus:border-[#F7C66A] placeholder:text-white/60"
+                      className="w-full border-0 border-b border-[#F7C66A]/50 bg-transparent py-2 text-white outline-none transition focus:border-[#F7C66A] placeholder:text-white/60"
                     />
                   </label>
                 ))}
               </div>
 
-              <div className="mt-8 flex justify-center">
+              <div className="mt-10 flex justify-start md:justify-center">
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center rounded-full border border-[#F7C66A] px-6 py-3 text-sm font-semibold uppercase tracking-widest text-white transition hover:bg-[#F7C66A] hover:text-black"
+                  className="inline-flex items-center justify-center rounded-full border border-[#F7C66A] px-8 py-3 text-xs md:text-sm font-semibold uppercase tracking-widest text-white transition hover:bg-[#F7C66A] hover:text-black w-full md:w-auto"
                 >
                   PRENDRE CONTACT
                 </button>

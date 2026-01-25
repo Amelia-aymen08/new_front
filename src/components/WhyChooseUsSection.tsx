@@ -129,12 +129,12 @@ export default function WhyChooseUsSection() {
 
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-center gap-12 px-6 md:flex-row md:justify-center md:gap-20">
         {/* Main Stat */}
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 w-full md:w-auto border-b border-white/10 pb-8 md:border-0 md:pb-0">
           <StatItem stat={mainStat} visible={visible} delayMs={0} isMain={true} />
         </div>
 
         {/* Secondary Stats */}
-        <div className="flex flex-wrap justify-center gap-12 md:gap-20">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-12 md:flex md:flex-wrap md:justify-center md:gap-20 w-full md:w-auto">
           {secondaryStats.map((stat, idx) => (
             <StatItem key={stat.label} stat={stat} visible={visible} delayMs={1500 + idx * 200} isMain={false} />
           ))}

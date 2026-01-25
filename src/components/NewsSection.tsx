@@ -40,9 +40,10 @@ export default function NewsSection() {
 
       {/* Carousel News */}
       <div className="relative mx-auto max-w-[95%] md:max-w-7xl px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Mobile: Horizontal Scroll, Desktop: Grid */}
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 md:grid md:grid-cols-3 md:gap-8 md:pb-0 hide-scrollbar">
           {news.map((item) => (
-            <div key={item.id} className="group relative flex flex-col text-left">
+            <div key={item.id} className="group relative flex flex-col text-left min-w-[85vw] snap-center md:min-w-0">
               {/* Image Card */}
               <div className="relative mb-6 overflow-hidden rounded-2xl bg-white/5 aspect-[4/3]">
                 <img
@@ -66,11 +67,22 @@ export default function NewsSection() {
               <h4 className="font-['PhotographSignature'] text-3xl text-gold-500 mb-2">
                 {item.title}
               </h4>
-              <p className="text-sm text-white/80 leading-snug max-w-[90%]">
+              <p className="text-sm text-white/80 leading-snug max-w-[90%] mb-4">
                 {item.desc}
               </p>
+              
+              <button className="text-[10px] font-bold uppercase tracking-widest text-[#F7C66A] hover:text-white transition-colors flex items-center gap-2 w-fit">
+                 <span className="text-lg leading-none">▸</span> LIRE L'ARTICLE
+              </button>
             </div>
           ))}
+        </div>
+        
+        {/* Mobile Pagination Dots */}
+        <div className="flex justify-center gap-2 mt-4 md:hidden">
+            {news.map((_, i) => (
+                <div key={i} className={`h-1.5 rounded-full transition-all ${i === 0 ? "w-6 bg-[#F7C66A]" : "w-1.5 bg-white/20"}`} />
+            ))}
         </div>
         
          {/* Navigation buttons (Mock - comme sur l'image) */}
