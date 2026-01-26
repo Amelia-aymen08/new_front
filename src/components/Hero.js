@@ -15,7 +15,7 @@ export default function Hero() {
   return (
     <section className="relative h-screen w-full overflow-hidden">
       <img
-        src={isMobile ? "/hero-mobile.png" : "/hero.png"}
+        src={isMobile ? "/hero-mobile.png" : "/Hero.png"}
         alt="Aymen Promotion"
         className="absolute inset-0 h-full w-full object-cover object-[50%_60%] hero-zoom-out"
         draggable={false}
