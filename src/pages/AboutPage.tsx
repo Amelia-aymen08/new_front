@@ -8,39 +8,33 @@ import Footer from "../components/Footer";
 const VALUES = [
   { 
     id: 1, 
-    title: "Excellence partagée", 
-    description: "Notre quête d’excellence ne s’arrête pas à nos réalisations immobilières. Elle se vit chaque jour dans notre façon de travailler ensemble : dépassement de soi, envie de progresser et fierté du travail bien fait.",
+    title: "Excellence", 
+    description: "Chaque projet est réalisé et pensé avec minutie, et l'excellence se manifeste dans chaque détail",
     icon: <ValueIcon1 /> 
   },
   { 
     id: 2, 
-    title: "Innovation continue", 
-    description: "Chez Aymen Promotion, vos idées comptent. Nous encourageons la créativité et l’audace : chaque collaborateur peut proposer, innover et contribuer activement à la croissance de l’entreprise.",
+    title: "Innovation", 
+    description: "Nous construisons des appartements où les nouvelles technologies simplifient et améliorent votre quotidien.",
     icon: <ValueIcon2 /> 
   },
   { 
     id: 3, 
-    title: "Respect & bienveillance", 
-    description: "Le respect mutuel est au cœur de notre culture : respect des talents, des parcours, des idées et de l’équilibre entre vie professionnelle et personnelle.",
+    title: "Engagement", 
+    description: "À chaque étape du processus, vous pouvez compter sur nous, ce qui vous permettra de nous faire confiance et d’être certain que vos attentes seront réalisées",
     icon: <ValueIcon3 /> 
   },
   { 
     id: 4, 
-    title: "Esprit d’équipe", 
-    description: "La réussite est collective. Nous avançons ensemble en cultivant l’entraide, la solidarité et la fierté d’appartenir à une équipe unie par des objectifs communs.",
+    title: "Luxe", 
+    description: "Chaque détail conçu pour votre confort, avec des finitions raffinées apportant un plaisir quotidien, pour trouver le luxe que vous désirez",
     icon: <ValueIcon4 /> 
   },
   { 
     id: 5, 
-    title: "Engagement durable", 
-    description: "Nous bâtissons un avenir meilleur pour nos clients, pour nos villes et pour nos collaborateurs, avec une vision durable de l’immobilier.",
+    title: "Fiabilité", 
+    description: "Nous construisons chaque résidence sur des fondations solides, pour que vous puissiez compter sur nous et vivre sereinement aujourd'hui et demain",
     icon: <ValueIcon5 /> 
-  },
-  { 
-    id: 6, 
-    title: "Confiance & transparence", 
-    description: "Nous entretenons une relation basée sur l’écoute, la transparence et la tenue de nos engagements, à chaque étape de votre projet immobilier.",
-    icon: <ValueIcon6 /> 
   },
 ];
 
@@ -270,6 +264,14 @@ export default function AboutPage() {
   const [activeFaqIndex, setActiveFaqIndex] = useState(0);
   const [activeValueId, setActiveValueId] = useState(3); // Default active value (Excellence Partagée)
   const [activeTestimonialId, setActiveTestimonialId] = useState(2); // Center testimonial active by default
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const activeValue = VALUES.find(v => v.id === activeValueId) || VALUES[0];
 
@@ -293,43 +295,59 @@ export default function AboutPage() {
       <Header className="absolute top-0 left-0 z-40 w-full" />
 
       {/* 1. Hero Section */}
-      <section className="relative h-screen min-h-[700px] w-full flex items-center justify-center overflow-hidden">
+      <section className={`relative w-full ${isMobile ? 'min-h-screen' : 'h-screen min-h-[700px] flex items-center justify-center'} overflow-hidden`}>
         {/* Background Image */}
-        <div className="absolute inset-0 z-0">
+        <div className={`absolute top-0 left-0 w-full z-0 ${isMobile ? 'h-[65vh]' : 'h-full'}`}>
           <img 
-            src="/a-propos.png" 
+            src={isMobile ? "/a-propos-mobile.png" : "/a-propos.png"} 
             alt="A Propos Hero" 
-            className="w-full h-full object-cover object-[50%_center]"
+            className={`w-full h-full object-cover ${isMobile ? 'object-center' : 'object-[50%_center]'}`}
           />
           {/* Dark Overlay for text readability */}
-          <div className="absolute inset-0 bg-black/40" />
+          <div className={`absolute inset-0 ${isMobile ? 'bg-gradient-to-t from-[#031B17] via-transparent to-transparent' : 'bg-black/40'}`} />
         </div>
 
-        <div className="mx-auto max-w-7xl px-4 md:px-10 relative z-10 h-full flex items-center w-full">
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full items-center">
+        <div className={`mx-auto max-w-7xl px-4 md:px-10 relative z-10 ${isMobile ? 'pt-[55vh] pb-20' : 'h-full flex items-center w-full'}`}>
+           <div className={`grid grid-cols-1 md:grid-cols-2 gap-10 w-full ${isMobile ? '' : 'items-center'}`}>
               {/* Left Text */}
               <motion.div 
-                className="text-left md:mt-16"
+                className={`text-left ${isMobile ? '' : 'md:mt-16'}`}
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1.0, ease: "easeOut" }}
               >
-                <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-wide text-white mb-6">
-                  A PROPOS
-                </h1>
-                <p className="text-sm md:text-lg leading-relaxed text-gray-200 font-light max-w-xl text-justify">
-                  Référence du haut standing, Aymen Promotion vous propose des résidences d'exception dans <strong className="text-white font-bold">plus de 15 communes</strong>, avec <strong className="text-white font-bold">plus de 30 projets</strong> et une expertise de <strong className="text-white font-bold">20 ans</strong> et <strong className="text-white font-bold">une vision</strong> : Créer des espaces de vie où confort, design architectural et services intégrés se conjuguent harmonieusement.
-                </p>
+                {isMobile ? (
+                    <>
+                         <div className="w-8 h-1 bg-white mb-4 rounded-full shadow-lg"></div>
+                         <h1 className="text-3xl font-bold text-white mb-6 leading-tight drop-shadow-lg uppercase">
+                            A PROPOS
+                         </h1>
+                         <div className="relative">
+                            <p className="text-sm leading-relaxed text-gray-200 font-light text-justify">
+                              Depuis <strong className="text-white font-bold">20 ans</strong>, Aymen Promotion façonne l'immobilier de demain en Algérie avec plus de <strong className="text-white font-bold">30 projets</strong>  dans <strong className="text-white font-bold">15 communes</strong>. Nous concevons des <strong className="text-white font-bold">résidences de Haut Standing </strong>où la qualité où le confort et la qualité se rencontrent pour offrir un cadre de vie luxueux
+                            </p>
+                         </div>
+                    </>
+                ) : (
+                    <>
+                        <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-wide text-white mb-6">
+                        A PROPOS
+                        </h1>
+                        <p className="text-sm md:text-lg leading-relaxed text-gray-200 font-light max-w-xl text-justify">
+                        Depuis <strong className="text-white font-bold">20 ans</strong>, Aymen Promotion façonne l'immobilier de demain en Algérie avec plus de <strong className="text-white font-bold">30 projets</strong>  dans <strong className="text-white font-bold">15 communes</strong>. Nous concevons des <strong className="text-white font-bold">résidences de Haut Standing </strong>où la qualité où le confort et la qualité se rencontrent pour offrir un cadre de vie luxueux
+                        </p>
+                    </>
+                )}
               </motion.div>
 
               {/* Right Side (Empty to reveal background image content) */}
-              <div></div>
+              <div className="hidden md:block"></div>
            </div>
         </div>
       </section>
 
       {/* 2. CEO Word Section */}
-      <section className="relative py-24 px-4 md:px-10 z-10 text-center mt-10 md:mt-20">
+      <section className={`relative px-4 md:px-10 z-10 text-center ${isMobile ? '-mt-10' : 'mt-10 md:mt-20 py-24'}`}>
          <div className="max-w-4xl mx-auto">
            <motion.div 
              className="mb-8"
