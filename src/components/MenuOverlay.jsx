@@ -25,7 +25,6 @@ export default function MenuOverlay({ open, onClose }) {
   const links = useMemo(
     () => [
       { label: "PROJETS", href: "/projets" },
-      { label: "LOCAUX", href: "#" },
       { label: "À PROPOS", href: "/a-propos" },
       { label: "LOCALITÉS", href: "/projets", state: { tab: "LOCALITÉS" } },
       { label: "CARRIÈRE", href: "/carriere" },
@@ -100,14 +99,14 @@ export default function MenuOverlay({ open, onClose }) {
           <img
             src="/logo_original.svg"
             alt="Aymen Promotion"
-            className="h-9 w-auto opacity-95"
+            className="h-11 w-auto opacity-95"
             draggable={false}
           />
 
           <button
             type="button"
             onClick={onClose}
-            className="grid h-11 w-11 place-items-center text-white/90 hover:text-white transition"
+            className="grid h-14 w-14 place-items-center text-white/90 hover:text-white transition"
             aria-label="Fermer"
           >
             <XCloseIcon />
@@ -189,7 +188,7 @@ export default function MenuOverlay({ open, onClose }) {
 /* --- Icons --- */
 function XCloseIcon() {
   return (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" className="opacity-95">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" className="opacity-95">
       <path d="M7 7l10 10M17 7L7 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );

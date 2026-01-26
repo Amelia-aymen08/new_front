@@ -22,7 +22,7 @@ export default function Header({ logoSrc = "/logo_original.svg", className = "ab
             <img
               src={logoSrc}
               alt="Aymen Promotion"
-              className="h-8 w-auto md:h-9"
+              className="h-10 w-auto md:h-11"
               draggable={false}
             />
           </Link>
@@ -33,9 +33,9 @@ export default function Header({ logoSrc = "/logo_original.svg", className = "ab
             className="group inline-flex items-center gap-3 text-white/90"
             aria-label="Ouvrir le menu"
           >
-            <span className="text-sm font-medium">Menu</span>
+            <span className="text-base font-medium">Menu</span>
             <span className="text-white/50">|</span>
-            <HamburgerIcon className="h-5 w-6 text-white" />
+            <HamburgerIcon className="h-6 w-7 text-white" />
           </button>
         </div>
       </header>
