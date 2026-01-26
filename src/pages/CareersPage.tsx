@@ -70,6 +70,7 @@ const DEPARTMENTS = [
 export default function CareersPage() {
   const [activeDept, setActiveDept] = useState(DEPARTMENTS[2]); // Marketing default
   const [formDept, setFormDept] = useState(DEPARTMENTS[2].id);
+  const [fileName, setFileName] = useState("");
 
   // Scroll to top
   useEffect(() => {
@@ -83,6 +84,12 @@ export default function CareersPage() {
 
   const scrollToForm = () => {
     document.getElementById("career-form")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFileName(e.target.files[0].name);
+    }
   };
 
   return (
@@ -263,130 +270,214 @@ export default function CareersPage() {
 
       {/* --- APPLICATION FORM SECTION --- */}
       <section id="career-form" className="relative z-10 py-24">
-        <div className="container mx-auto max-w-5xl px-6">
+        <div className="container mx-auto max-w-6xl px-6">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="rounded-3xl bg-[#052620]/80 p-8 shadow-2xl backdrop-blur-md md:p-16 border border-white/5"
+            className="rounded-3xl bg-[#052620]/80 p-8 shadow-2xl backdrop-blur-md md:p-12 border border-white/5"
           >
-            <div className="mb-12 text-center">
-              <span className="font-['PhotographSignature'] text-5xl text-[#F7C66A]">
-                Construisez Votre Avenir
-              </span>
-              <h2 className="mt-2 text-3xl font-bold uppercase tracking-widest text-white md:text-4xl">
-                AVEC NOUS
-              </h2>
-              <p className="mx-auto mt-6 max-w-2xl text-sm text-white/70">
-                Intégrer Aymen Promotion, c'est choisir un parcours professionnel riche de défis et d'opportunités, dans une entreprise leader sur son marché et tournée vers l'avenir. Rejoignez-nous et construisons ensemble les projets de demain.
-              </p>
+            {/* --- 1. IDENTITÉ --- */}
+            <div className="mb-10">
+                <h3 className="text-lg font-bold uppercase tracking-widest text-[#F7C66A] mb-6 border-b border-[#F7C66A]/20 pb-2">
+                    Identité
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-wider text-white/60">Nom *</label>
+                        <input type="text" placeholder="Votre nom" className="w-full rounded border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 transition focus:border-[#F7C66A] focus:outline-none focus:bg-white/10" />
+                    </div>
+                    <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-wider text-white/60">Prénom *</label>
+                        <input type="text" placeholder="Votre prénom" className="w-full rounded border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 transition focus:border-[#F7C66A] focus:outline-none focus:bg-white/10" />
+                    </div>
+                    <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-wider text-white/60">Email *</label>
+                        <input type="email" placeholder="exemple@email.com" className="w-full rounded border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 transition focus:border-[#F7C66A] focus:outline-none focus:bg-white/10" />
+                    </div>
+                    <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-wider text-white/60">Téléphone *</label>
+                        <div className="flex items-center w-full rounded border border-white/10 bg-white/5 px-4 py-3 transition focus-within:border-[#F7C66A] focus-within:bg-white/10">
+                            <span className="mr-3 text-white/60 text-sm">🇩🇿 +213</span>
+                            <input type="tel" className="bg-transparent w-full text-sm text-white placeholder-white/30 focus:outline-none" />
+                        </div>
+                    </div>
+                    <div className="space-y-2 md:col-span-2">
+                        <label className="text-xs uppercase tracking-wider text-white/60">Ville *</label>
+                        <input type="text" placeholder="Sélectionnez ou saisissez votre ville" className="w-full rounded border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 transition focus:border-[#F7C66A] focus:outline-none focus:bg-white/10" />
+                    </div>
+                </div>
             </div>
 
-            <form className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              {/* Nom */}
-              <div className="space-y-1">
-                <input
-                  type="text"
-                  placeholder="NOM"
-                  className="w-full rounded border border-[#F7C66A]/30 bg-transparent px-4 py-3 text-xs uppercase tracking-wider text-white placeholder-white/40 transition focus:border-[#F7C66A] focus:bg-white/5 focus:outline-none"
-                />
-              </div>
+            {/* --- 2. POSTE & OUTILS (Left) / PARCOURS (Right) --- */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-10">
+                {/* Left Column */}
+                <div className="space-y-10">
+                    {/* Poste & Outils */}
+                    <div>
+                        <h3 className="text-lg font-bold uppercase tracking-widest text-[#F7C66A] mb-6 border-b border-[#F7C66A]/20 pb-2">
+                            Poste & Outils
+                        </h3>
+                        <div className="space-y-6">
+                            <div className="space-y-2">
+                                <label className="text-xs uppercase tracking-wider text-white/60">Poste Recherché *</label>
+                                <input type="text" placeholder="Ex: Architecte, Commercial..." className="w-full rounded border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 transition focus:border-[#F7C66A] focus:outline-none focus:bg-white/10" />
+                            </div>
+                            
+                            {/* Radio Groups */}
+                            <div className="space-y-2">
+                                <label className="text-xs uppercase tracking-wider text-white/60 block mb-2">Maîtrise d'un ERP (Odoo, Sage...) ?</label>
+                                <div className="flex gap-6">
+                                    <label className="flex items-center gap-2 cursor-pointer group">
+                                        <input type="radio" name="erp" className="w-4 h-4 accent-[#F7C66A] cursor-pointer" />
+                                        <span className="text-sm text-white/80 group-hover:text-white">Oui</span>
+                                    </label>
+                                    <label className="flex items-center gap-2 cursor-pointer group">
+                                        <input type="radio" name="erp" className="w-4 h-4 accent-[#F7C66A] cursor-pointer" />
+                                        <span className="text-sm text-white/80 group-hover:text-white">Non</span>
+                                    </label>
+                                </div>
+                            </div>
 
-              {/* Prénom */}
-              <div className="space-y-1">
-                <input
-                  type="text"
-                  placeholder="PRÉNOM"
-                  className="w-full rounded border border-[#F7C66A]/30 bg-transparent px-4 py-3 text-xs uppercase tracking-wider text-white placeholder-white/40 transition focus:border-[#F7C66A] focus:bg-white/5 focus:outline-none"
-                />
-              </div>
+                            <div className="space-y-2">
+                                <label className="text-xs uppercase tracking-wider text-white/60 block mb-2">Connaissance BIM (Architectes) ?</label>
+                                <div className="flex gap-6">
+                                    <label className="flex items-center gap-2 cursor-pointer group">
+                                        <input type="radio" name="bim" className="w-4 h-4 accent-[#F7C66A] cursor-pointer" />
+                                        <span className="text-sm text-white/80 group-hover:text-white">Oui</span>
+                                    </label>
+                                    <label className="flex items-center gap-2 cursor-pointer group">
+                                        <input type="radio" name="bim" className="w-4 h-4 accent-[#F7C66A] cursor-pointer" />
+                                        <span className="text-sm text-white/80 group-hover:text-white">Non</span>
+                                    </label>
+                                    <label className="flex items-center gap-2 cursor-pointer group">
+                                        <input type="radio" name="bim" className="w-4 h-4 accent-[#F7C66A] cursor-pointer" />
+                                        <span className="text-sm text-white/80 group-hover:text-white">Pas concerné</span>
+                                    </label>
+                                </div>
+                            </div>
 
-              {/* Téléphone */}
-              <div className="space-y-1">
-                <input
-                  type="tel"
-                  placeholder="+213"
-                  className="w-full rounded border border-[#F7C66A]/30 bg-transparent px-4 py-3 text-xs uppercase tracking-wider text-white placeholder-white/40 transition focus:border-[#F7C66A] focus:bg-white/5 focus:outline-none"
-                />
-              </div>
-
-              {/* Email */}
-              <div className="space-y-1">
-                <input
-                  type="email"
-                  placeholder="EMAIL"
-                  className="w-full rounded border border-[#F7C66A]/30 bg-transparent px-4 py-3 text-xs uppercase tracking-wider text-white placeholder-white/40 transition focus:border-[#F7C66A] focus:bg-white/5 focus:outline-none"
-                />
-              </div>
-
-              {/* Département (Select) - New Requirement */}
-              <div className="space-y-1">
-                <div className="relative">
-                  <select
-                    value={formDept}
-                    onChange={(e) => setFormDept(e.target.value)}
-                    className="w-full appearance-none rounded border border-[#F7C66A]/30 bg-transparent px-4 py-3 text-xs uppercase tracking-wider text-white transition focus:border-[#F7C66A] focus:bg-white/5 focus:outline-none [&>option]:bg-[#031B17] [&>option]:text-white"
-                  >
-                    {DEPARTMENTS.map((dept) => (
-                      <option key={dept.id} value={dept.id}>
-                        DÉPARTEMENT {dept.label}
-                      </option>
-                    ))}
-                  </select>
-                  {/* Custom Arrow */}
-                  <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#F7C66A]/50">
-                    <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
-                      <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </div>
+                            <div className="space-y-2">
+                                <label className="text-xs uppercase tracking-wider text-white/60">Autres Logiciels</label>
+                                <input type="text" placeholder="AutoCAD, Revit, Excel..." className="w-full rounded border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 transition focus:border-[#F7C66A] focus:outline-none focus:bg-white/10" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
 
-              {/* Poste */}
-              <div className="space-y-1">
-                <input
-                  type="text"
-                  placeholder="POSTE SOUHAITÉ"
-                  className="w-full rounded border border-[#F7C66A]/30 bg-transparent px-4 py-3 text-xs uppercase tracking-wider text-white placeholder-white/40 transition focus:border-[#F7C66A] focus:bg-white/5 focus:outline-none"
-                />
-              </div>
+                {/* Right Column */}
+                <div className="space-y-10">
+                    {/* Parcours */}
+                    <div>
+                        <h3 className="text-lg font-bold uppercase tracking-widest text-[#F7C66A] mb-6 border-b border-[#F7C66A]/20 pb-2">
+                            Parcours
+                        </h3>
+                        <div className="space-y-6">
+                            <div className="space-y-2">
+                                <label className="text-xs uppercase tracking-wider text-white/60 block mb-2">Niveau d'expérience</label>
+                                <div className="grid grid-cols-4 gap-2">
+                                    {['Débutant(e)', '0-1 an', '1-3 ans', '+3 ans'].map((exp) => (
+                                        <button key={exp} type="button" className="rounded border border-white/10 bg-white/5 px-2 py-2 text-xs text-white hover:bg-white/10 focus:bg-[#F7C66A] focus:text-[#031B17] focus:border-[#F7C66A] transition">
+                                            {exp}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-xs uppercase tracking-wider text-white/60">Dernier Diplôme *</label>
+                                <input type="text" placeholder="Master, Ingénieur, Licence..." className="w-full rounded border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 transition focus:border-[#F7C66A] focus:outline-none focus:bg-white/10" />
+                            </div>
+                        </div>
+                    </div>
 
-              {/* Lien Portfolio (Full width on mobile, span 2 on desktop if needed, but keeping grid balanced) */}
-              <div className="space-y-1 md:col-span-2">
-                <input
-                  type="url"
-                  placeholder="LIEN VERS VOTRE PORTFOLIO (URL)"
-                  className="w-full rounded border border-[#F7C66A]/30 bg-transparent px-4 py-3 text-xs uppercase tracking-wider text-white placeholder-white/40 transition focus:border-[#F7C66A] focus:bg-white/5 focus:outline-none"
-                />
-              </div>
+                    {/* Disponibilité */}
+                    <div>
+                        <h3 className="text-lg font-bold uppercase tracking-widest text-[#F7C66A] mb-6 border-b border-[#F7C66A]/20 pb-2">
+                            Disponibilité
+                        </h3>
+                        <div className="space-y-4">
+                            <label className="text-xs uppercase tracking-wider text-white/60 block">Démarrage</label>
+                            <label className="flex items-center gap-2 cursor-pointer group">
+                                <input type="radio" name="start" className="w-4 h-4 accent-[#F7C66A] cursor-pointer" />
+                                <span className="text-sm text-white/80 group-hover:text-white">Immédiatement</span>
+                            </label>
+                            <div className="flex items-center gap-2">
+                                <input type="radio" name="start" className="w-4 h-4 accent-[#F7C66A] cursor-pointer" />
+                                <span className="text-sm text-white/80 mr-2">Préavis de</span>
+                                <input type="number" className="w-16 rounded border border-white/10 bg-white/5 px-2 py-1 text-sm text-center text-white focus:border-[#F7C66A] focus:outline-none" />
+                                <span className="text-sm text-white/80">semaines</span>
+                            </div>
+                            
+                            <div className="pt-2">
+                                <label className="text-xs uppercase tracking-wider text-white/60 block mb-2">Mobilité Géographique ?</label>
+                                <div className="flex gap-6">
+                                    <label className="flex items-center gap-2 cursor-pointer group">
+                                        <input type="radio" name="mobility" className="w-4 h-4 accent-[#F7C66A] cursor-pointer" />
+                                        <span className="text-sm text-white/80 group-hover:text-white">Oui</span>
+                                    </label>
+                                    <label className="flex items-center gap-2 cursor-pointer group">
+                                        <input type="radio" name="mobility" className="w-4 h-4 accent-[#F7C66A] cursor-pointer" />
+                                        <span className="text-sm text-white/80 group-hover:text-white">Non</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-              {/* Upload CV Box (Span 2) */}
-              <div className="md:col-span-2">
-                <label className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded border border-dashed border-[#F7C66A]/30 bg-transparent transition hover:border-[#F7C66A] hover:bg-[#F7C66A]/5">
-                  <div className="flex flex-col items-center justify-center pb-6 pt-5 text-center">
-                    <svg className="mb-3 h-8 w-8 text-[#F7C66A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                    </svg>
-                    <p className="text-xs uppercase tracking-wider text-white/80">
-                      <span className="font-bold text-[#F7C66A]">Télécharger votre CV</span>
+            {/* --- 3. DERNIERS DÉTAILS --- */}
+            <div className="mb-10">
+                <h3 className="text-lg font-bold uppercase tracking-widest text-[#F7C66A] mb-6 border-b border-[#F7C66A]/20 pb-2">
+                    Derniers Détails
+                </h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-wider text-white/60">Motivation (en une phrase)</label>
+                        <textarea placeholder="Pourquoi vous ?" rows={4} className="w-full rounded border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 transition focus:border-[#F7C66A] focus:outline-none focus:bg-white/10 resize-none"></textarea>
+                    </div>
+                    
+                    <div className="space-y-4">
+                        <label className="text-xs uppercase tracking-wider text-white/60 block">Comment nous avez-vous connus ?</label>
+                        <div className="grid grid-cols-2 gap-y-3 gap-x-6">
+                            {['Foire de l\'emploi', 'Réseaux sociaux', 'Recommandation', 'Autre'].map((source) => (
+                                <label key={source} className="flex items-center gap-2 cursor-pointer group">
+                                    <input type="radio" name="source" className="w-4 h-4 accent-[#F7C66A] cursor-pointer" />
+                                    <span className="text-sm text-white/80 group-hover:text-white">{source}</span>
+                                </label>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* --- 4. CV & SUBMIT --- */}
+            <div className="pt-6 border-t border-white/10">
+                <div className="mb-6">
+                    <label className="text-xs uppercase tracking-wider text-white/60 block mb-3">Votre CV (PDF UNIQUEMENT) *</label>
+                    <label className="inline-flex items-center gap-3 px-6 py-3 rounded border border-white/20 bg-white/5 cursor-pointer hover:bg-white/10 hover:border-[#F7C66A] transition group">
+                        <svg className="w-5 h-5 text-[#F7C66A]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                        <span className={`text-sm font-medium transition ${fileName ? "text-[#F7C66A]" : "text-white group-hover:text-[#F7C66A]"}`}>
+                          {fileName || "Choisir un fichier"}
+                        </span>
+                        <input type="file" className="hidden" accept=".pdf" onChange={handleFileChange} />
+                    </label>
+                </div>
+
+                <div className="flex items-start gap-3 mb-8">
+                    <input type="checkbox" className="mt-1 w-4 h-4 accent-[#F7C66A] bg-transparent border-white/30 rounded cursor-pointer" />
+                    <p className="text-[10px] md:text-xs text-white/50 leading-relaxed">
+                        En soumettant ce formulaire, j'accepte que mes données soient traitées dans le cadre du processus de recrutement d'Aymen Promotion, conformément à la réglementation en vigueur.
                     </p>
-                    <p className="mt-1 text-[10px] text-white/50">Format PDF uniquement</p>
-                  </div>
-                  <input type="file" className="hidden" accept=".pdf" />
-                </label>
-              </div>
+                </div>
 
-              {/* Submit Button */}
-              <div className="mt-4 flex justify-end md:col-span-2">
-                <button
-                  type="submit"
-                  className="rounded-full bg-[#F7C66A] px-12 py-3 text-sm font-bold uppercase tracking-widest text-[#031B17] transition hover:bg-white hover:text-[#031B17] shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                >
-                  Envoyer
+                <button className="w-full md:w-auto px-10 py-4 bg-[#6A9E96] hover:bg-[#5A8E86] text-white font-bold uppercase tracking-widest text-sm rounded shadow-lg transition transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
+                    ENVOYER MA CANDIDATURE
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </button>
-              </div>
-            </form>
+            </div>
+
           </motion.div>
         </div>
       </section>
