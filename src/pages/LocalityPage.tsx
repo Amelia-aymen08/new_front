@@ -225,6 +225,14 @@ export default function LocalityPage() {
   const navigate = useNavigate();
   const [dbProjects, setDbProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Fetch projects from API
   useEffect(() => {
@@ -288,7 +296,10 @@ export default function LocalityPage() {
   // Format title for "LA COMMUNE DE ..."
   // locality.name is like "KOUBA, ALGER". We want "LA COMMUNE DE KOUBA"
   const cityOnly = locality.name.split(',')[0].trim();
-  const displayTitle = `LA COMMUNE DE ${cityOnly}`;
+  const displayTitle = isMobile ? `Découvrez la commune de ${cityOnly}` : `LA COMMUNE DE ${cityOnly}`;
+
+  // Get mobile hero image path
+  const mobileHeroImage = `/assets/locality-mobile/${cityOnly.toLowerCase().replace(/ /g, '-')}-mobile.png`;
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-x-hidden">
@@ -306,41 +317,60 @@ export default function LocalityPage() {
       <Header className="absolute top-0 left-0 z-40 w-full" />
       
       {/* Hero Section */}
-      <section className="relative w-full h-screen min-h-[800px] flex items-center pt-20">
+      <section className={`relative w-full ${isMobile ? 'min-h-screen' : 'h-screen min-h-[800px] flex items-center pt-20'}`}>
          {/* Background Image (Hero) */}
-         <div className="absolute inset-0 z-0">
+         <div className={`absolute top-0 left-0 w-full z-0 ${isMobile ? 'h-[65vh]' : 'h-full'}`}>
              <img 
-               src={locality.heroImage || locality.image} // Fallback to icon if hero missing, but mockData has heroImage
+               src={isMobile ? mobileHeroImage : (locality.heroImage || locality.image)} 
                alt={locality.name}
                className="w-full h-full object-cover"
+               onError={(e) => {
+                   if (isMobile) e.currentTarget.src = locality.heroImage || locality.image;
+               }}
              />
              {/* Dark Overlay Gradient */}
-             <div className="absolute inset-0 bg-gradient-to-r from-[#031B17]/90 via-[#031B17]/70 to-transparent" />
-             <div className="absolute inset-0 bg-gradient-to-b from-[#031B17]/30 via-transparent to-[#031B17]" />
+             <div className={`absolute inset-0 ${isMobile ? 'bg-gradient-to-t from-[#031B17] via-transparent to-transparent' : 'bg-gradient-to-r from-[#031B17]/90 via-[#031B17]/70 to-transparent'}`} />
          </div>
 
-         <div className="container mx-auto px-4 md:px-10 relative z-10 flex flex-col md:flex-row items-center h-full">
+         <div className={`container mx-auto px-4 md:px-10 relative z-10 ${isMobile ? 'pt-[55vh] pb-20' : 'flex flex-col md:flex-row items-center h-full justify-center'}`}>
             {/* Left Text Content */}
-            <div className="w-full md:w-1/2 pt-20 md:pt-0">
-                <div className="relative mb-4">
-                    <span className="font-['PhotographSignature'] text-5xl md:text-8xl text-[#F7C66A] block transform -rotate-2">
-                    Découvrez
-                    </span>
-                </div>
-                <h1 className="text-4xl md:text-6xl font-bold uppercase tracking-wide text-white mb-8 leading-tight">
-                    {displayTitle}
-                </h1>
-                <p className="text-sm md:text-base leading-relaxed text-gray-200 font-light max-w-xl text-justify">
-                    {locality.description}
-                </p>
+            <div className={`w-full md:w-1/2 ${isMobile ? '' : 'pt-0'}`}>
+                {!isMobile && (
+                    <div className="relative mb-4">
+                        <span className="font-['PhotographSignature'] text-5xl md:text-8xl text-[#F7C66A] block transform -rotate-2">
+                        Découvrez
+                        </span>
+                    </div>
+                )}
+                
+                {isMobile ? (
+                    <>
+                         {/* Mobile Layout */}
+                         <div className="w-8 h-1 bg-white mb-4 rounded-full shadow-lg"></div>
+                         <h1 className="text-3xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
+                            {displayTitle}
+                         </h1>
+                         <div className="relative">
+                            {/* Description continues on background */}
+                            <p className="text-sm leading-relaxed text-gray-200 font-light text-justify">
+                                {locality.description}
+                            </p>
+                         </div>
+                    </>
+                ) : (
+                    <>
+                        <h1 className="text-4xl md:text-6xl font-bold uppercase tracking-wide text-white mb-8 leading-tight">
+                            {displayTitle}
+                        </h1>
+                        <p className="text-sm md:text-base leading-relaxed text-gray-200 font-light max-w-xl text-justify">
+                            {locality.description}
+                        </p>
+                    </>
+                )}
             </div>
 
             {/* Right Side - Optional Building Overlay or Empty to let BG show */}
             <div className="w-full md:w-1/2 h-full relative hidden md:block">
-                {/* 
-                   If the background image already contains the building on the right (as per user description "photo pour chaque Hero"), 
-                   we don't need to add anything here. The gradient overlay handles the text readability on the left.
-                */}
             </div>
          </div>
       </section>
