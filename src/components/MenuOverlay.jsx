@@ -28,7 +28,7 @@ export default function MenuOverlay({ open, onClose }) {
       { label: "À PROPOS", href: "/a-propos" },
       { label: "LOCALITÉS", href: "/projets", state: { tab: "LOCALITÉS" } },
       { label: "CARRIÈRE", href: "/carriere" },
-      { label: "AYMAG", href: "#" },
+      { label: "AYMAG", href: "/aymag" },
       { label: "BLOG", href: "/blog" },
     ],
     []

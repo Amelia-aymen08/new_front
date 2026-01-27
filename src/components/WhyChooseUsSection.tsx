@@ -8,10 +8,10 @@ type Stat = {
 };
 
 const stats: Stat[] = [
-  { value: 1500, prefix: "+", label: "APPARTEMENTS", sub: "LIVRÉS" },
-  { value: 30, prefix: "+", label: "RÉSIDENCES", sub: "HAUT STANDING" },
   { value: 20, prefix: "+", label: "ANS SAVOIR FAIRE" },
+  { value: 30, prefix: "+", label: "RÉSIDENCES", sub: "HAUT STANDING" },
   { value: 15, prefix: "+", label: "COMMUNES", sub: "PRESTIGIEUSES" },
+  { value: 1500, prefix: "+", label: "APPARTEMENTS", sub: "LIVRÉS" },
 ];
 
 function useCountUp(target: number, start: boolean, duration = 1300, delay = 0) {

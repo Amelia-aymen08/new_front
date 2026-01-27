@@ -193,3 +193,17 @@ body {
   animation: fadeInUp 0.6s ease-out forwards;
   opacity: 0; /* Start hidden */
 }
+
+/* Fix react-pdf inside react-pageflip */
+.react-pdf__Page {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+}
+
+.react-pdf__Page__canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+

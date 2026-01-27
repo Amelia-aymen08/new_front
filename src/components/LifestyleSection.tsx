@@ -106,9 +106,6 @@ export default function LifestyleSection() {
         </div>
 
         <div className="relative mx-auto max-w-6xl px-0 md:px-10" ref={containerRef}>
-          <div className="pointer-events-none absolute left-0 top-0 h-full w-4 z-10 bg-gradient-to-r from-[#031B17] to-transparent md:w-16" />
-          <div className="pointer-events-none absolute right-0 top-0 h-full w-4 z-10 bg-gradient-to-l from-[#031B17] to-transparent md:w-16" />
-
           <div
             ref={trackRef}
             className="flex items-center gap-4 md:gap-6 transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)]"
@@ -134,12 +131,12 @@ export default function LifestyleSection() {
                     src={slide.src}
                     alt="Lifestyle"
                     className={`h-full w-full object-cover transition duration-500 group-hover:scale-105 ${
-                      isActive ? "" : "blur-\[0\.5px\] brightness-105"
+                      isActive ? "" : "blur-[0.5px] brightness-105"
                     }`}
                     draggable={false}
                   />
                   {!isActive && (
-                    <div className="pointer-events-none absolute inset-0 bg-white/35 backdrop-blur-\[1px\]" />
+                    <div className="pointer-events-none absolute inset-0 bg-white/35 backdrop-blur-[2px]" />
                   )}
                 </div>
               );
@@ -150,7 +147,7 @@ export default function LifestyleSection() {
             type="button"
             onClick={handlePrev}
             aria-label="Precedent"
-            className="absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#031B17] shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition hover:bg-[#C2A15C] hover:text-black md:left-4"
+            className="absolute left-[50%] -translate-x-[340px] top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#031B17] shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition hover:bg-[#C2A15C] hover:text-black z-20 hidden md:flex"
           >
             <ArrowIcon direction="left" />
           </button>
@@ -158,7 +155,7 @@ export default function LifestyleSection() {
             type="button"
             onClick={handleNext}
             aria-label="Suivant"
-            className="absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#031B17] shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition hover:bg-[#C2A15C] hover:text-black md:right-4"
+            className="absolute right-[50%] translate-x-[340px] top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#031B17] shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition hover:bg-[#C2A15C] hover:text-black z-20 hidden md:flex"
           >
             <ArrowIcon direction="right" />
           </button>

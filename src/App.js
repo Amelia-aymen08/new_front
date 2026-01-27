@@ -10,6 +10,7 @@ import BlogPage from "./pages/BlogPage";
 import BlogPostPage from "./pages/BlogPostPage";
 import IntroHero from "./components/IntroHero";
 import CareersPage from "./pages/CareersPage";
+import AymagPage from "./pages/AymagPage";
 
 function HomeRoute() {
   const [introDone, setIntroDone] = useState(false);
@@ -69,6 +70,7 @@ function App() {
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:id" element={<BlogPostPage />} />
           <Route path="/carriere" element={<CareersPage />} />
+          <Route path="/aymag" element={<AymagPage />} />
         </Routes>
       </div>
     </BrowserRouter>
