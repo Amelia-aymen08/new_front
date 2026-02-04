@@ -24,7 +24,7 @@ const MAGAZINES: Magazine[] = [
     date: "Novembre 2025",
     coverColor: "from-[#031B17] to-[#0A2E25]",
     pages: 24,
-    pdfUrl: "/assets/magazines/AyMag N03 - Novembre 2025.pdf",
+    pdfUrl: "/assets/magazines/aymag-03.pdf",
   },
   {
     id: "aout-2025",
@@ -32,7 +32,7 @@ const MAGAZINES: Magazine[] = [
     date: "Août 2025",
     coverColor: "from-[#C2A15C] to-[#E1BB7F]",
     pages: 13,
-    pdfUrl: "/assets/magazines/AyMag N02 - Août 2025.pdf",
+    pdfUrl: "/assets/magazines/aymag-02.pdf",
   },
   {
     id: "mai-2025",
@@ -40,7 +40,7 @@ const MAGAZINES: Magazine[] = [
     date: "Mai 2025",
     coverColor: "from-[#5A8E86] to-[#6A9E96]",
     pages: 20,
-    pdfUrl: "/assets/magazines/AyMag N01 - Mai 2025.pdf",
+    pdfUrl: "/assets/magazines/aymag-01.pdf",
   },
 ];
 
