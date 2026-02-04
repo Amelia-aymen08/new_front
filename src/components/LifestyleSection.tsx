@@ -2,12 +2,28 @@ import React, { useEffect, useRef, useState } from "react";
 
 const categories = ["CUISINE", "SÉJOUR", "SUITE", "PISCINE", "SALLE D'EAU"];
 
-const slides = [
-  { id: 1, src: "/sections/lifestyle1.png" },
-  { id: 2, src: "/sections/lifestyle2.png" },
-  { id: 3, src: "/sections/lifestyle3.png" },
-  { id: 4, src: "/sections/lifestyle4.png" },
-];
+const categoryMap: Record<string, { folder: string; files: string[] }> = {
+  "CUISINE": {
+    folder: "cuisine",
+    files: ["cuisine.jpg", "cuisine-miniature-1.jpg", "cuisine-miniature-2.jpg", "cuisine-miniature-3.jpg", "cuisine-miniature-4.jpg", "cuisine-miniature-5.jpg"]
+  },
+  "SÉJOUR": {
+    folder: "sejour",
+    files: ["sejour.jpg", "sejour-miniature-1.jpg", "sejour-miniature-2.jpg", "sejour-miniature-3.jpg", "sejour-miniature-4.jpg", "sejour-miniature-5.jpg"]
+  },
+  "SUITE": {
+    folder: "suite",
+    files: ["suite.jpg", "suite-miniature-1.jpg", "suite-miniature-2.jpg", "suite-miniature-3.jpg", "suite-miniature-4.jpg", "suite-miniature-5.jpg"]
+  },
+  "PISCINE": {
+    folder: "piscine",
+    files: ["piscine.jpg", "piscine-miniature-1.jpg", "piscine-miniature-2.jpg", "piscine-miniature-3.jpg", "piscine-miniature-4.jpg", "piscine-miniature-5.jpg"]
+  },
+  "SALLE D'EAU": {
+    folder: "salle-deau",
+    files: ["salle-deau.jpg", "salle-deau-miniature-1.jpg", "salle-deau-miniature-2.jpg", "salle-deau-miniature-3.jpg", "salle-deau-miniature-4.jpg", "salle-deau-miniature-5.jpg"]
+  }
+};
 
 const GAP_PX = 24; // gap-6
 
@@ -31,8 +47,8 @@ function ArrowIcon({ direction = "left" }: { direction?: "left" | "right" }) {
 }
 
 export default function LifestyleSection() {
-  const [activeCat, setActiveCat] = useState("PISCINE");
-  const [index, setIndex] = useState(1);
+  const [activeCat, setActiveCat] = useState("CUISINE");
+  // REMOVED DUPLICATE index state here
   const trackRef = useRef<HTMLDivElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [layout, setLayout] = useState({
@@ -41,7 +57,29 @@ export default function LifestyleSection() {
     gap: GAP_PX,
   });
 
-  const paddedSlides = [slides[slides.length - 1], ...slides, slides[0]];
+  const currentCategoryData = categoryMap[activeCat];
+  const originalSlides = currentCategoryData.files.map((file, i) => ({
+    id: i + 1,
+    src: `/sections/interieurs/${currentCategoryData.folder}/${file}`
+  }));
+
+  // Triple buffer for infinite loop illusion
+  const slides = [...originalSlides, ...originalSlides, ...originalSlides];
+
+  const [index, setIndex] = useState(originalSlides.length);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+
+  // Reset index when category changes
+  useEffect(() => {
+    setIsTransitioning(false);
+    setIndex(originalSlides.length);
+    // Re-enable transition in next frame
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setIsTransitioning(true);
+      });
+    });
+  }, [activeCat, originalSlides.length]);
 
   useEffect(() => {
     const measure = () => {
@@ -62,19 +100,43 @@ export default function LifestyleSection() {
     return () => window.removeEventListener("resize", measure);
   }, []);
 
-  const goTo = (next: number) => {
-    const max = slides.length;
-    setIndex(((next % max) + max) % max);
+  const handleTransitionEnd = () => {
+    const len = originalSlides.length;
+    if (index < len) {
+      setIsTransitioning(false);
+      setIndex(index + len);
+    } else if (index >= 2 * len) {
+      setIsTransitioning(false);
+      setIndex(index - len);
+    }
   };
 
-  const handlePrev = () => goTo(index - 1);
-  const handleNext = () => goTo(index + 1);
+  const handlePrev = () => {
+    if (!isTransitioning) {
+      setIsTransitioning(true);
+      requestAnimationFrame(() => setIndex((prev) => prev - 1));
+    } else {
+      setIndex((prev) => prev - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (!isTransitioning) {
+      setIsTransitioning(true);
+      requestAnimationFrame(() => setIndex((prev) => prev + 1));
+    } else {
+      setIndex((prev) => prev + 1);
+    }
+  };
 
   const slideSpan = layout.slideWidth + layout.gap;
-  const paddedIndex = index + 1;
+  // Center the current slide:
+  // Offset = (ContainerWidth - SlideWidth) / 2
+  // Position = Index * SlideSpan
+  // TranslateX = -(Position - Offset)
   const translateX =
     layout.slideWidth && layout.containerWidth
-      ? -(paddedIndex * slideSpan - (layout.containerWidth - layout.slideWidth) / 2)
+      ? -(index * slideSpan - (layout.containerWidth - layout.slideWidth) / 2)
       : 0;
 
   return (
@@ -108,12 +170,18 @@ export default function LifestyleSection() {
         <div className="relative mx-auto max-w-6xl px-0 md:px-10" ref={containerRef}>
           <div
             ref={trackRef}
-            className="flex items-center gap-4 md:gap-6 transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)]"
+            onTransitionEnd={handleTransitionEnd}
+            className={`flex items-center gap-4 md:gap-6 ease-[cubic-bezier(0.22,0.61,0.36,1)] ${
+              isTransitioning ? "transition-transform duration-700" : "duration-0"
+            }`}
             style={{ transform: `translateX(${translateX}px)` }}
           >
-            {paddedSlides.map((slide, i) => {
-              const realIndex = (i - 1 + slides.length) % slides.length;
-              const isActive = realIndex === index;
+            {slides.map((slide, i) => {
+              // Calculate effective index relative to the middle set for active state
+              const isMiddleSet = i >= originalSlides.length && i < 2 * originalSlides.length;
+              // We want to highlight the slide that corresponds to the current index
+              const isActive = i === index;
+              
               return (
                 <div
                   key={`${slide.id}-${i}`}

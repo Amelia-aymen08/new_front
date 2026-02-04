@@ -111,33 +111,6 @@ export default function ContactSection() {
               <div className="text-3xl md:text-4xl font-regular tracking-wide text-white md:text-5xl">VOTRE INTÉRÊT</div>
             </div>
 
-            <div className="mb-8 md:mb-10 space-y-3 text-base text-white/85 hidden md:block">
-              <button className="group inline-flex items-center gap-3">
-                <span>Exprimez votre intérêt</span>
-                <span className="text-[#F7C66A] transition group-hover:translate-x-0.5">&gt;</span>
-              </button><br/>
-            </div>
-
-            <div className="mt-0 md:mt-15 flex flex-wrap items-center gap-2">
-              {[
-                { key: "wa", icon: "fa-brands fa-whatsapp" },
-                { key: "ig", icon: "fa-brands fa-instagram" },
-                { key: "fb", icon: "fa-brands fa-facebook-f" },
-                { key: "tt", icon: "fa-brands fa-tiktok" },
-                { key: "yt", icon: "fa-brands fa-youtube" },
-                { key: "in", icon: "fa-brands fa-linkedin-in" },
-                { key: "pi", icon: "fa-brands fa-pinterest-p" },
-                { key: "x", icon: "fa-brands fa-x-twitter" },
-              ].map(({ key, icon }) => (
-                <div
-                  key={key}
-                  className="flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full border border-white/30 text-white/80 transition hover:border-[#F7C66A] hover:text-[#F7C66A]"
-                >
-                  <i className={`${icon} text-sm md:text-base`} aria-hidden />
-                  <span className="sr-only">{key}</span>
-                </div>
-              ))}
-            </div>
           </div>
 
           <div className="pointer-events-none absolute inset-y-0 right-0 w-3 bg-gradient-to-r from-transparent to-black/30 md:w-4 hidden md:block" />
@@ -162,20 +135,44 @@ export default function ContactSection() {
               <div className="grid grid-cols-1 gap-6">
                 {[
                   { label: "NOM", type: "text" },
-                  { label: "NUM", type: "tel" },
+                  { label: "TÉLÉPHONE", type: "tel" },
                   { label: "EMAIL", type: "email" },
+                  { label: "MESSAGE", type: "textarea" },
                 ].map((field) => (
                   <label key={field.label} className="block">
                     <span className="mb-1 block text-xs md:text-sm text-white/60 uppercase tracking-wider">{field.label}</span>
-                    <input
-                      type={field.type}
-                      className="w-full border-0 border-b border-[#F7C66A]/50 bg-transparent py-2 text-white outline-none transition focus:border-[#F7C66A] placeholder:text-white/60"
-                    />
+                    {field.label === "NUM" ? (
+                       <div className="flex items-center gap-2 border-b border-[#F7C66A]/50 py-2 transition-colors focus-within:border-[#F7C66A]">
+                          <input 
+                            type="tel" 
+                            className="w-full bg-transparent text-white outline-none placeholder:text-white/60"
+                          />
+                       </div>
+                    ) : field.type === "textarea" ? (
+                      <textarea
+                        rows={2}
+                        className="w-full border-0 border-b border-[#F7C66A]/50 bg-transparent py-2 text-white outline-none transition focus:border-[#F7C66A] placeholder:text-white/60 resize-none"
+                      />
+                    ) : (
+                      <input
+                        type={field.type}
+                        className="w-full border-0 border-b border-[#F7C66A]/50 bg-transparent py-2 text-white outline-none transition focus:border-[#F7C66A] placeholder:text-white/60"
+                      />
+                    )}
                   </label>
                 ))}
               </div>
 
-              <div className="mt-10 flex justify-start md:justify-center">
+              <div className="mt-6 mb-6">
+                 <label className="flex items-start gap-2 cursor-pointer">
+                    <input type="checkbox" className="mt-1 w-3 h-3 accent-[#F7C66A] bg-transparent border-white/30 rounded" />
+                    <span className="text-[10px] text-white/60 leading-tight">
+                      CONSENTEMENT : J'accepte que mes données soient utilisées pour le traitement de ma demande en conformité avec la loi 18-07 révisée et compléter par la loi 11-25.
+                    </span>
+                 </label>
+              </div>
+
+              <div className="mt-4 flex justify-start md:justify-center">
                 <button
                   type="button"
                   className="inline-flex items-center justify-center rounded-full border border-[#F7C66A] px-8 py-3 text-xs md:text-sm font-semibold uppercase tracking-widest text-white transition hover:bg-[#F7C66A] hover:text-black w-full md:w-auto"

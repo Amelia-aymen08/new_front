@@ -11,9 +11,14 @@ import BlogPostPage from "./pages/BlogPostPage";
 import IntroHero from "./components/IntroHero";
 import CareersPage from "./pages/CareersPage";
 import AymagPage from "./pages/AymagPage";
+import ContactPage from "./pages/ContactPage";
+import StickyContactBar from "./components/StickyContactBar";
 
 function HomeRoute() {
-  const [introDone, setIntroDone] = useState(false);
+  // On verifie si l'intro a deja ete vue dans la session
+  const [introDone, setIntroDone] = useState(() => {
+    return sessionStorage.getItem("introSeen") === "true";
+  });
 
   // Bloque le scroll tant que l'intro n'est pas terminee
   useEffect(() => {
@@ -21,6 +26,7 @@ function HomeRoute() {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
+      sessionStorage.setItem("introSeen", "true");
     }
   }, [introDone]);
 
@@ -61,6 +67,7 @@ function App() {
     <BrowserRouter>
       {/* Retrait de min-h-screen qui peut parfois causer des conflits de hauteur */}
       <div className="relative text-white">
+        <StickyContactBar />
         <Routes>
           <Route path="/" element={<HomeRoute />} />
           <Route path="/projets" element={<ProjectsPage />} />
@@ -71,6 +78,7 @@ function App() {
           <Route path="/blog/:id" element={<BlogPostPage />} />
           <Route path="/carriere" element={<CareersPage />} />
           <Route path="/aymag" element={<AymagPage />} />
+          <Route path="/contact" element={<ContactPage />} />
         </Routes>
       </div>
     </BrowserRouter>

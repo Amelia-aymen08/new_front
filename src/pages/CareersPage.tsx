@@ -468,7 +468,7 @@ export default function CareersPage() {
                 <div className="flex items-start gap-3 mb-8">
                     <input type="checkbox" className="mt-1 w-4 h-4 accent-[#F7C66A] bg-transparent border-white/30 rounded cursor-pointer" />
                     <p className="text-[10px] md:text-xs text-white/50 leading-relaxed">
-                        En soumettant ce formulaire, j'accepte que mes données soient traitées dans le cadre du processus de recrutement d'Aymen Promotion, conformément à la réglementation en vigueur.
+                        CONSENTEMENT : J'accepte que mes données soient utilisées pour le recrutement en conformité avec la loi 18-07 révisée et compléter par la loi 11-25.
                     </p>
                 </div>
 

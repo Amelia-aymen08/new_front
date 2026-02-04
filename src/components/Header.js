@@ -22,7 +22,7 @@ export default function Header({ logoSrc = "/logo_original.svg", className = "ab
             <img
               src={logoSrc}
               alt="Aymen Promotion"
-              className="h-10 w-auto md:h-11"
+              className="h-12 w-auto md:h-14"
               draggable={false}
             />
           </Link>

@@ -25,11 +25,11 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer ref={ref} className="relative overflow-hidden bg-[#0a1714] text-white">
+    <footer ref={ref} className="relative -mt-1 overflow-hidden bg-[#0a1714] text-white">
       <div className="absolute inset-0" />
-      <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 py-16 md:flex-row md:items-start md:gap-16 md:py-20">
-        <div className={`flex-1 space-y-6 transition-all duration-700 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-          <img src="/logo.png" alt="Aymen Promotion" className="h-12 w-auto" />
+      <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-16 px-4 py-20 md:flex-row md:items-start md:gap-32 md:px-10 md:py-24">
+        <div className={`flex-1 space-y-8 transition-all duration-700 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+          <img src="/logo_original.svg" alt="Aymen Promotion" className="h-14 w-auto" />
           <h3 className="text-3xl font-semibold leading-tight md:text-4xl">
             Restez au coeur de l'actualité du haut standing
           </h3>
@@ -41,35 +41,41 @@ export default function Footer() {
             />
             <span className="text-white/70">→</span>
           </div>
-          <div className="flex items-center gap-4 text-white/80">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/25">
-              <i className="fa-brands fa-whatsapp text-sm" aria-hidden />
-              <span className="sr-only">WhatsApp</span>
-            </span>
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/25">
-              <i className="fa-brands fa-instagram text-sm" aria-hidden />
-              <span className="sr-only">Instagram</span>
-            </span>
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/25">
-              <i className="fa-brands fa-youtube text-sm" aria-hidden />
-              <span className="sr-only">YouTube</span>
-            </span>
+          <div className="flex items-center gap-6 text-white">
+            <a href="https://www.facebook.com/aymenpromotionimmobiliere" className="transition hover:text-[#F7C66A]" aria-label="Facebook">
+              <i className="fa-brands fa-facebook-f text-lg" />
+            </a>
+            <a href="https://www.instagram.com/aymenpromotion/" className="transition hover:text-[#F7C66A]" aria-label="Instagram">
+              <i className="fa-brands fa-instagram text-lg" />
+            </a>
+            <a href="https://www.linkedin.com/company/aymen-promotion-immobiliere/" className="transition hover:text-[#F7C66A]" aria-label="LinkedIn">
+              <i className="fa-brands fa-linkedin-in text-lg" />
+            </a>
+            <a href="https://www.youtube.com/@aymenpromotionimmobiliere6948" className="transition hover:text-[#F7C66A]" aria-label="YouTube">
+              <i className="fa-brands fa-youtube text-lg" />
+            </a>
+            <a href="https://www.tiktok.com/@aymenpromotionimmo" className="transition hover:text-[#F7C66A]" aria-label="TikTok">
+              <i className="fa-brands fa-tiktok text-lg" />
+            </a>
+            <a href="https://x.com/AymenPromotion" className="transition hover:text-[#F7C66A]" aria-label="X">
+              <i className="fa-brands fa-x-twitter text-lg" />
+            </a>
           </div>
         </div>
 
-        <div className={`flex-1 space-y-10 text-sm transition-all duration-700 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-          <div className="grid grid-cols-2 gap-x-10 gap-y-4">
-            <div className="space-y-3">
+        <div className={`flex-1 space-y-12 text-sm transition-all duration-700 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+          <div className="grid grid-cols-2 gap-x-12 gap-y-6">
+            <div className="space-y-4">
               <p className="text-[12px] uppercase tracking-[0.2em] text-[#F7C66A]">Localités</p>
-              <div className="space-y-2 text-white/85">
+              <div className="space-y-3 text-white/85">
                 {locationsCol1.map((loc) => (
                   <div key={loc}>{loc}</div>
                 ))}
               </div>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-4">
               <p className="text-[12px] uppercase tracking-[0.2em] text-[#F7C66A] invisible">Localités</p>
-              <div className="space-y-2 text-white/85">
+              <div className="space-y-3 text-white/85">
                 {locationsCol2.map((loc) => (
                   <div key={loc}>{loc}</div>
                 ))}
@@ -77,32 +83,27 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-4">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#F7C66A]">Nos coordonnées</p>
-            <div className="space-y-2 text-white/85">
-              <a href="#" className="underline-offset-2 hover:underline">
-                Said Hamdine ilot N 52 section 05, Bir Mourad Rais - Alger 16000
+            <div className="space-y-3 text-white/85">
+              <a href="/" className="block underline-offset-2 hover:underline">
+                Said Hamdine ilot N 52 section 05,<br /> Bir Mourad Rais - Alger 16000
               </a>
-              <div className="flex flex-wrap items-center gap-3">
-                <a href="mailto:contact@aymenpromotion.com" className="underline-offset-2 hover:underline">
-                  contact@aymenpromotion.com
-                </a>
-                <span className="text-white/40">|</span>
-                <a href="tel:+213560582959" className="underline-offset-2 hover:underline">
-                  +213 560 58 29 59
-                </a>
+              <div className="flex flex-col gap-2">
+                {/* 
+                  REMOVED: Old contact links (phone/email) are now in StickyContactBar
+                */}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-3 px-6 pb-12 text-[12px] text-white/60 md:flex-row md:items-center md:justify-between">
+      <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 pb-12 text-[12px] text-white/60 md:flex-row md:items-center md:justify-between md:px-10">
         <div>© Aymen Promotion {year} | All Rights Reserved.</div>
         <div className="flex items-center gap-6">
           <a href="#" className="hover:text-white">Terms & Condition</a>
           <a href="#" className="hover:text-white">Privacy Policy</a>
-          <a href="#" className="hover:text-white">Contact Us</a>
         </div>
       </div>
     </footer>

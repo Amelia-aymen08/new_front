@@ -8,7 +8,6 @@ import WhyChooseUsSection from "../components/WhyChooseUsSection";
 import NewsSection from "../components/NewsSection";
 import ContactSection from "../components/ContactSection";
 import Footer from "../components/Footer";
-import FloatingActions from "../components/FloatingActions";
 
 import { Link } from "react-router-dom";
 
@@ -170,8 +169,8 @@ export default function HomePage() {
         element: (
           <WipeImageSection
             src={isMobile ? "/1-mobile.png" : "/sections/1.png"}
-            title="NOS PROJETS"
-            description="Aymen Promotion developpe des residences haut standing a Alger avec plus de 20 projets livres qui allient le confort, le design moderne et une finition de qualite!"
+            title="PROJETS FINIS"
+            description="Aymen Promotion développe des résidences haut standing à Alger avec plus de 20 projets livrés qui allient le confort, le design moderne et une finition de qualité!"
             buttonText="DECOUVRIR"
           />
         ),
@@ -181,8 +180,8 @@ export default function HomePage() {
         element: (
           <WipeImageSection
             src={isMobile ? "/2-mobile.png" : "/sections/2.png"}
-            title="NOS PROJETS"
-            description="Aymen Promotion developpe des residences haut standing a Alger avec plus de 20 projets livres qui allient le confort, le design moderne et une finition de qualite!"
+            title="PROJETS EN COURS"
+            description="Aymen Promotion développe des résidences haut standing à Alger avec plus de 20 projets en cours qui allient le confort, le design moderne et une finition de qualité!"
             buttonText="DECOUVRIR"
           />
         ),
@@ -192,8 +191,8 @@ export default function HomePage() {
         element: (
           <WipeImageSection
             src={isMobile ? "/3-mobile.png" : "/sections/3.png"}
-            title="NOS PROJETS"
-            description="Aymen Promotion developpe des residences haut standing a Alger avec plus de 20 projets livres qui allient le confort, le design moderne et une finition de qualite!"
+            title="NOS INTÉRIEURS"
+            description="Aymen Promotion développe des résidences haut standing à Alger avec plus de 20 projets l ivrés qui allient le confort, le design moderne et une finition de qualité!"
             buttonText="DECOUVRIR"
           />
         ),
@@ -224,7 +223,6 @@ export default function HomePage() {
             showHeader ? "opacity-100" : "opacity-0 pointer-events-none",
           ].join(" ")}
         />
-        <FloatingActions />
         <WipeStack slides={slides} />
       </div>
       

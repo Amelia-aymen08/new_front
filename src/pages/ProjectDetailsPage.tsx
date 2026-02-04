@@ -395,9 +395,9 @@ function DetailsContact() {
 
         {/* Bottom Full Width */}
         <div className="lg:col-span-2 pt-8 border-t border-white/10">
-          <label className="flex items-center gap-3 text-sm text-white/60 cursor-pointer mb-8">
-             <input type="checkbox" className="h-4 w-4 rounded border-white/30 bg-transparent text-[#F7C66A]" />
-             <span>J'accepte de recevoir des communications d'Aymen Promotion</span>
+          <label className="flex items-start gap-3 text-sm text-white/60 cursor-pointer mb-8">
+             <input type="checkbox" className="mt-1 h-4 w-4 rounded border-white/30 bg-transparent text-[#F7C66A]" />
+             <span className="leading-relaxed">CONSENTEMENT : J'accepte que mes données soient utilisées pour le traitement de ma demande en conformité avec la loi 18-07 révisée et compléter par la loi 11-25.</span>
           </label>
           
           <button type="submit" className="w-full rounded-none border border-[#F7C66A] bg-[#F7C66A] py-4 text-sm font-bold uppercase tracking-widest text-[#031B17] transition hover:bg-transparent hover:text-[#F7C66A]">
