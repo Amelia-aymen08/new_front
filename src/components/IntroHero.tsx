@@ -50,10 +50,17 @@ export default function IntroHero({ onDone }: IntroHeroProps) {
       <video
         ref={videoRef}
         src="/videos/loader.mp4"
+        autoPlay
         muted
         playsInline
+        preload="auto"
         className="h-full w-full object-cover"
         onEnded={handleEnd}
+        onError={(e) => {
+            console.error("Video error:", e);
+            // On error, we should probably finish to avoid being stuck
+            handleEnd();
+        }}
         draggable={false}
       />
     </div>

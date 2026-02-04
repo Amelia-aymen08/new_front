@@ -59,7 +59,7 @@ export default function ContactPage() {
         </div>
 
         {/* Content Container */}
-        <div className="relative z-10 w-full max-w-7xl px-4 md:px-0 mt-40 md:mt-80">
+        <div className="relative z-10 w-full max-w-7xl px-4 md:px-0 mt-80 md:mt-[30rem]">
           {/* Form Container */}
           <motion.div 
             className="bg-[#0C2A24]/80 backdrop-blur-md border border-white/10 rounded-3xl p-6 md:p-12 shadow-2xl"
@@ -250,7 +250,7 @@ export default function ContactPage() {
         </div>
         
         {/* Map Overlay Card */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:translate-x-0 md:left-10 bg-[#0C2A24] p-5 rounded-xl shadow-xl max-w-xs border border-white/10 hidden md:block">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:translate-x-0 md:left-10 bg-[#0C2A24] p-5 rounded-xl shadow-xl max-w-xs border border-white/10 w-[90%] md:w-auto">
            <div className="flex items-start gap-4">
               <div className="text-[#F7C66A] mt-1"><i className="fa-solid fa-location-dot text-2xl"></i></div>
               <div>
