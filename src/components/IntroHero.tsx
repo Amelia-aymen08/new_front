@@ -8,6 +8,13 @@ export default function IntroHero({ onDone }: IntroHeroProps) {
   const [isEnding, setIsEnding] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  const handleEnd = () => {
+    if (isEnding) return;
+    setIsEnding(true);
+    // Attendre la fin de l'animation de sortie (800ms) avant de démonter
+    setTimeout(onDone, 800);
+  };
+
   useEffect(() => {
     // Si la vidéo refuse de jouer (autoplay bloqué), on termine l'intro
     const vid = videoRef.current;
@@ -20,18 +27,18 @@ export default function IntroHero({ onDone }: IntroHeroProps) {
 
     // Fallback de sécurité : 8s max
     const timer = setTimeout(() => {
-      handleEnd();
+      // On ne peut pas appeler handleEnd directement ici sans le mettre dans les dépendances
+      // Mais on peut copier la logique ou utiliser une ref pour éviter les dépendances circulaires
+      // Pour faire simple ici, on déclenche directement la fin
+      if (!isEnding) {
+          setIsEnding(true);
+          setTimeout(onDone, 800);
+      }
     }, 8000);
 
     return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const handleEnd = () => {
-    if (isEnding) return;
-    setIsEnding(true);
-    // Attendre la fin de l'animation de sortie (800ms) avant de démonter
-    setTimeout(onDone, 800);
-  };
 
   return (
     <div
