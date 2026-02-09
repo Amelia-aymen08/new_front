@@ -548,22 +548,20 @@ export default function AboutPage() {
               })}
            </motion.div>
 
-         {!isMobile && (
-             <motion.div 
-             className="max-w-3xl mx-auto text-center"
-             key={activeValueId}
-             initial={{ opacity: 0, y: 30 }}
-             animate={{ opacity: 1, y: 0 }}
-             transition={{ duration: 0.5 }}
-           >
-             <h3 className="text-xl md:text-2xl font-bold uppercase mb-4 tracking-widest text-white transition-all duration-300">
-               {activeValue.title}
-             </h3>
-             <p className="text-sm md:text-base leading-8 text-gray-300 font-light transition-all duration-300">
-               {activeValue.description}
-             </p>
-           </motion.div>
-         )}
+         <motion.div 
+           className="max-w-3xl mx-auto text-center"
+           key={activeValueId}
+           initial={{ opacity: 0, y: 30 }}
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ duration: 0.5 }}
+         >
+           <h3 className="text-xl md:text-2xl font-bold uppercase mb-4 tracking-widest text-white transition-all duration-300">
+             {activeValue.title}
+           </h3>
+           <p className="text-sm md:text-base leading-8 text-gray-300 font-light transition-all duration-300">
+             {activeValue.description}
+           </p>
+         </motion.div>
       </section>
 
       {/* 5. Testimonials Section */}

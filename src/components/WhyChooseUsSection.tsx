@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const stats = [
   {
@@ -42,6 +42,15 @@ const stats = [
 ];
 
 export default function WhyChooseUsSection() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
     <section className="py-24 text-center text-white">
       <div className="mb-10">
@@ -94,18 +103,53 @@ export default function WhyChooseUsSection() {
 
       {/* Stats Section */}
       <div className="mx-auto max-w-7xl px-6">
-        <div className="grid grid-cols-2 gap-y-12 gap-x-8 md:grid-cols-4 md:gap-8">
-          {stats.map((stat) => (
-            <div key={stat.id} className="flex flex-col items-center justify-start">
-              <div className="mb-3 flex h-24 w-full items-center justify-center">
-                {stat.value}
+        {isMobile ? (
+           <div className="flex flex-col items-center mt-12">
+              <div className="flex flex-col items-center mb-12">
+                 <div className="flex items-baseline">
+                     <span className="font-['PhotographSignature'] text-7xl text-white mr-2">20</span>
+                     <span className="font-['PhotographSignature'] text-7xl text-white">ans</span>
+                 </div>
+                 <div className="text-xl uppercase tracking-[0.3em] text-white font-light mt-2">
+                     D'EXPERIENCE
+                 </div>
               </div>
-              <div className="text-base md:text-lg tracking-[0.2em] uppercase text-white w-full leading-relaxed font-light">
-              {stat.label}
-            </div>
-            </div>
-          ))}
-        </div>
+              
+              <div className="flex flex-wrap justify-center gap-y-12 w-full max-w-[300px]">
+                 <div className="flex flex-col items-center w-1/2">
+                    <span className="font-['PhotographSignature'] text-6xl text-white mb-3">+30</span>
+                    <span className="text-[9px] uppercase tracking-[0.2em] text-gray-300 text-center leading-relaxed font-light">
+                      RÉSIDENCES HAUT<br/>STANDING
+                    </span>
+                 </div>
+                 <div className="flex flex-col items-center w-1/2">
+                    <span className="font-['PhotographSignature'] text-6xl text-white mb-3">+15</span>
+                    <span className="text-[9px] uppercase tracking-[0.2em] text-gray-300 text-center leading-relaxed font-light">
+                      COMMUNES<br/>PRESTIGIEUSES
+                    </span>
+                 </div>
+                 <div className="flex flex-col items-center w-full mt-2">
+                    <span className="font-['PhotographSignature'] text-6xl text-white mb-3">+1500</span>
+                    <span className="text-[9px] uppercase tracking-[0.2em] text-gray-300 text-center leading-relaxed font-light">
+                      APPARTEMENTS<br/>LIVRÉS
+                    </span>
+                 </div>
+              </div>
+           </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-y-12 gap-x-8 md:grid-cols-4 md:gap-8">
+            {stats.map((stat) => (
+              <div key={stat.id} className="flex flex-col items-center justify-start">
+                <div className="mb-3 flex h-24 w-full items-center justify-center">
+                  {stat.value}
+                </div>
+                <div className="text-base md:text-lg tracking-[0.2em] uppercase text-white w-full leading-relaxed font-light">
+                {stat.label}
+              </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
