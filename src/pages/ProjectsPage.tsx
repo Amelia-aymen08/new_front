@@ -82,24 +82,25 @@ function ProjectCard({ project, style }: { project: Project; style?: React.CSSPr
   return (
     <Link 
       to={`/projet/${project.id}`}
-      className="group relative flex h-full overflow-hidden rounded-lg bg-[#052620] shadow-lg transition hover:shadow-2xl animate-fadeInUp"
+      className="group relative flex h-full overflow-hidden rounded-lg bg-gradient-to-br from-[#0A2E25] to-[#031B17] border border-white/5 shadow-lg transition hover:shadow-2xl animate-fadeInUp"
       style={style}
     >
       {/* Left Content */}
-      <div className="flex flex-1 flex-col justify-between p-6 z-10">
+      <div className="flex flex-1 flex-col justify-between p-6 z-10 w-[55%]">
         <div>
-          <h3 className="mb-2 text-lg font-bold uppercase text-white leading-tight">
-            {project.title}
+          <h3 className="mb-2 text-white leading-tight">
+            <span className="block text-[10px] font-medium uppercase tracking-widest opacity-70 mb-1">Résidence</span>
+            <span className="text-xl md:text-2xl font-bold uppercase tracking-wide text-[#F7C66A]">{project.title}</span>
           </h3>
-          <div className="mb-4 flex items-center gap-2 text-xs text-white/80 font-medium">
+          <div className="mb-4 flex items-center gap-2 text-xs text-white/60 font-medium">
             <LocationPinIcon />
             <span>{project.location}</span>
           </div>
-          <p className="mb-6 text-[11px] leading-relaxed text-white/60 line-clamp-4">
+          <p className="mb-6 text-xs leading-relaxed text-white/60 line-clamp-4 font-light">
             {project.description}
           </p>
         </div>
-        <span className="w-fit text-xs font-bold uppercase tracking-widest text-[#F7C66A] transition hover:text-white border-b border-transparent hover:border-white pb-0.5">
+        <span className="w-fit text-[10px] font-bold uppercase tracking-[0.2em] text-[#F7C66A] transition hover:text-white border-b border-transparent hover:border-white pb-0.5">
           DÉCOUVRIR
         </span>
       </div>
@@ -110,11 +111,11 @@ function ProjectCard({ project, style }: { project: Project; style?: React.CSSPr
              placed on a transparent background to blend with the card. 
              In the screenshot, it looks like a 3D block. 
          */}
-         <div className="absolute inset-0 flex items-center justify-center">
+         <div className="absolute inset-0 flex items-center justify-center p-2">
             <img
               src={project.image}
               alt={project.title}
-              className="h-[120%] w-full object-contain object-center transition duration-700 group-hover:scale-105"
+              className="h-full w-full object-contain object-center transition duration-700 group-hover:scale-105"
               style={{ filter: "drop-shadow(0px 10px 20px rgba(0,0,0,0.5))" }} 
             />
          </div>
@@ -162,8 +163,9 @@ function NightProjectCard({ project, style }: { project: Project; style?: React.
       <div className="absolute inset-0 flex flex-col p-6 z-10 w-3/4">
         {/* Header: Title & Location */}
         <div>
-          <h3 className="mb-2 text-lg font-bold uppercase text-white leading-tight drop-shadow-md">
-            {project.title}
+          <h3 className="mb-2 text-white leading-tight drop-shadow-md">
+            <span className="block text-[10px] font-medium uppercase tracking-widest opacity-70 mb-1">Résidence</span>
+            <span className="text-xl md:text-xl font-bold uppercase tracking-wide text-[#F7C66A]">{project.title}</span>
           </h3>
           <div className="flex items-center gap-2 text-xs text-[#F7C66A] font-medium drop-shadow-md">
             <LocationPinIcon />
@@ -173,14 +175,14 @@ function NightProjectCard({ project, style }: { project: Project; style?: React.
 
         {/* Body: Description Centered */}
         <div className="flex flex-1 flex-col justify-center">
-          <p className="text-[10px] leading-relaxed text-white/90 line-clamp-3 drop-shadow-md font-medium">
+          <p className="text-xs leading-relaxed text-white/90 line-clamp-4 drop-shadow-md font-medium w-[90%]">
             {project.description}
           </p>
         </div>
         
         {/* Footer: CTA */}
         <div>
-          <span className="w-fit text-xs font-bold uppercase tracking-widest text-[#F7C66A] transition hover:text-white border-b border-transparent hover:border-white pb-0.5 drop-shadow-md">
+          <span className="w-fit text-[10px] font-bold uppercase tracking-[0.2em] text-[#F7C66A] transition hover:text-white border-b border-transparent hover:border-white pb-0.5 drop-shadow-md">
             DÉCOUVRIR
           </span>
         </div>
@@ -216,7 +218,7 @@ function LocalityCard({ locality, style }: { locality: Locality; style?: React.C
         <h3 className="mb-2 text-sm font-bold text-[#F7C66A] uppercase tracking-wider leading-tight">
           {locality.name}
         </h3>
-        <p className="text-[10px] leading-relaxed text-white line-clamp-4 font-medium opacity-90">
+        <p className="text-xs leading-relaxed text-white line-clamp-4 font-medium opacity-90">
           {locality.description}
         </p>
       </div>
@@ -246,12 +248,14 @@ function Pagination() {
 
 export default function ProjectsPage() {
   const location = useLocation();
-  const [activeTab, setActiveTab] = useState<"PROJETS" | "LOCALITÉS">("PROJETS");
+  const [activeTab, setActiveTab] = useState<"FINIS" | "EN COURS" | "LOCALITÉS">("EN COURS");
   const [visibleCount, setVisibleCount] = useState(9); // Initial count
 
   useEffect(() => {
     if (location.state?.tab) {
-      setActiveTab(location.state.tab);
+      // Map legacy tabs if needed, or just assume the new ones are passed correctly
+      if (location.state.tab === "PROJETS") setActiveTab("EN COURS");
+      else setActiveTab(location.state.tab);
     }
   }, [location.state]);
 
@@ -262,8 +266,17 @@ export default function ProjectsPage() {
 
   const displayItems = useMemo(() => {
     if (activeTab === "LOCALITÉS") return LOCALITIES;
-    // Just return the projects, sliced by visibleCount
-    return PROJECTS.slice(0, visibleCount);
+    
+    // Filter projects based on status
+    const filteredProjects = PROJECTS.filter(p => p.status === activeTab);
+    return filteredProjects.slice(0, visibleCount);
+  }, [activeTab, visibleCount]);
+
+  // Helper to check if we have more items to load
+  const hasMoreItems = useMemo(() => {
+    if (activeTab === "LOCALITÉS") return false;
+    const total = PROJECTS.filter(p => p.status === activeTab).length;
+    return visibleCount < total;
   }, [activeTab, visibleCount]);
 
   const handleLoadMore = () => {
@@ -292,24 +305,27 @@ export default function ProjectsPage() {
       <main className="mx-auto max-w-7xl px-4 pt-32 pb-20 md:px-10 relative z-10">
         
         {/* Title */}
-        <h1 className="mb-12 text-center text-4xl font-bold text-[#F7C66A] md:text-5xl animate-fadeInUp">
+        <h1 className="mb-8 text-center text-4xl font-bold text-[#F7C66A] md:text-5xl animate-fadeInUp uppercase tracking-wider">
           {activeTab === "LOCALITÉS" ? "NOS LOCALITÉS" : "NOS PROJETS"}
         </h1>
 
         {/* Tabs */}
         <div className="mb-12 flex justify-center animate-fadeInUp" style={{ animationDelay: "0.1s" }}>
-          <div className="flex gap-8">
-            {(["PROJETS", "LOCALITÉS"] as const).map((tab) => (
+          <div className="flex gap-12 text-sm md:text-base font-medium uppercase tracking-widest">
+            {(["FINIS", "EN COURS", "LOCALITÉS"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`pb-4 text-sm tracking-widest uppercase transition-all
+                className={`pb-2 transition-all relative
                   ${activeTab === tab 
-                    ? "border-b-2 border-[#F7C66A] text-[#F7C66A]" 
-                    : "border-b-2 border-transparent text-white/50 hover:text-white"
+                    ? "text-[#F7C66A]" 
+                    : "text-white/60 hover:text-white"
                   }`}
               >
                 {tab}
+                {activeTab === tab && (
+                  <span className="absolute bottom-0 left-0 h-[2px] w-full bg-[#F7C66A] shadow-[0_0_10px_#F7C66A]" />
+                )}
               </button>
             ))}
           </div>
@@ -319,12 +335,10 @@ export default function ProjectsPage() {
         <div className="relative mb-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-center animate-fadeInUp" style={{ animationDelay: "0.2s" }}>
           {/* Centered Filters */}
           <div className="flex flex-wrap justify-center gap-4">
-            {activeTab === "PROJETS" && (
+            {activeTab !== "LOCALITÉS" && (
               <>
                 <FilterDropdown label="TYPOLOGIE" />
-                <FilterDropdown label="STATUT" />
                 <FilterDropdown label="LOCALITÉ" />
-               
               </>
             )}
           </div>
@@ -332,7 +346,7 @@ export default function ProjectsPage() {
           {/* Right-aligned Sort By (Absolute on desktop) */}
           <div className="flex items-center justify-center gap-2 text-xs font-medium uppercase tracking-wide text-white/80 md:absolute md:right-0">
             <span>SORT BY :</span>
-            <button className="flex items-center gap-1 text-white">
+            <button className="flex items-center gap-1 text-white hover:text-[#F7C66A] transition-colors">
               TOUS
               <ChevronDownIcon />
             </button>
@@ -341,7 +355,7 @@ export default function ProjectsPage() {
 
         {/* Grid */}
         <div className={`grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 ${activeTab === "LOCALITÉS" ? "max-w-6xl mx-auto gap-x-8 gap-y-6" : ""}`}>
-          {activeTab === "PROJETS" ? (
+          {activeTab !== "LOCALITÉS" ? (
             (displayItems as Project[]).map((item, idx) => {
               const delayStyle = { animationDelay: `${0.1 + (idx % 9) * 0.1}s` };
 
@@ -375,7 +389,7 @@ export default function ProjectsPage() {
         </div>
 
         {/* Load More Button */}
-        {activeTab === "PROJETS" && visibleCount < PROJECTS.length && (
+        {activeTab !== "LOCALITÉS" && hasMoreItems && (
           <div className="mt-16 flex justify-center animate-fadeInUp" style={{ animationDelay: "0.2s" }}>
             <button
               onClick={handleLoadMore}

@@ -88,39 +88,46 @@ export default function ProjectDetailsPage() {
 // --- Sub-components ---
 
 function DetailsHero({ data }: { data: typeof projectData }) {
+  // Extract just the name if title is "RÉSIDENCE NAME"
+  const projectName = data.title.replace("RÉSIDENCE ", "");
+
   return (
-    <section className="w-full px-4 pt-32 pb-10 md:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl overflow-hidden rounded-[40px] bg-gradient-to-br from-[#1A4D43] to-[#0A221D] shadow-2xl border border-white/5">
-        <div className="flex flex-col gap-10 p-8 md:flex-row md:items-center md:p-12 lg:gap-16">
+    <section className="w-full px-4 pt-40 pb-20 md:px-10 lg:px-20">
+      <div className="mx-auto max-w-7xl">
+        <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-20">
           
           {/* Left Content */}
           <div className="flex-1 space-y-8">
-            <div className="space-y-2">
-              <h1 className="text-3xl font-bold uppercase leading-tight text-white md:text-4xl lg:text-5xl">
-                {data.title}
+            <div className="space-y-1">
+              <span className="text-2xl font-light text-white/90">Résidence</span>
+              <h1 className="font-['PhotographSignature'] text-6xl md:text-8xl text-[#F7C66A] transform -rotate-2 origin-left">
+                {projectName.charAt(0) + projectName.slice(1).toLowerCase()}
               </h1>
-              <p className="text-sm font-bold uppercase tracking-widest text-[#F7C66A]">
-                {data.status}
-              </p>
             </div>
 
-            <p className="max-w-xl text-sm leading-relaxed text-white/70 md:text-base">
+            <p className="max-w-xl text-sm leading-relaxed text-white/80 md:text-base font-light">
               {data.description}
             </p>
 
-            <div className="flex flex-wrap gap-4">
-              <StatBox label="Adresse" value={data.stats.address} />
-              <StatBox label="Blocs" value={data.stats.blocs} />
-              <StatBox label="Etat D'avancement" value={data.stats.progress} />
+            <div className="space-y-6">
+              <p className="text-sm font-bold uppercase tracking-widest text-[#F7C66A]">
+                {data.status}
+              </p>
+
+              <div className="flex flex-wrap gap-4">
+                <StatBox label="Adresse" value={data.stats.address} />
+                <StatBox label="Blocs" value={data.stats.blocs} />
+                <StatBox label="Etat D'avancement" value={data.stats.progress} />
+              </div>
             </div>
           </div>
 
           {/* Right Image */}
-          <div className="relative h-[300px] w-full flex-1 overflow-hidden rounded-2xl md:h-[400px]">
+          <div className="relative h-[400px] w-full flex-1 overflow-hidden rounded-3xl md:h-[500px] shadow-2xl border border-white/10">
             <img
               src={data.heroImage}
               alt={data.title}
-              className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+              className="h-full w-full object-cover"
             />
           </div>
           
@@ -132,9 +139,9 @@ function DetailsHero({ data }: { data: typeof projectData }) {
 
 function StatBox({ label, value }: { label: string; value: string }) {
   return (
-    <div className="min-w-[140px] rounded-lg bg-white/10 px-5 py-4 backdrop-blur-sm border border-white/5">
-      <div className="text-xs font-medium text-white/60 uppercase tracking-wide">{label}</div>
-      <div className="mt-1 text-lg font-bold text-white">{value}</div>
+    <div className="min-w-[140px] rounded-xl bg-[#2C4A44] px-6 py-4 border border-white/5 shadow-lg">
+      <div className="text-[10px] font-medium text-white/70 uppercase tracking-wide mb-1">{label}</div>
+      <div className="text-xl font-bold text-white">{value}</div>
     </div>
   );
 }

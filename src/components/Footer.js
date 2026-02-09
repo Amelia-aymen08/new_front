@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { LOCALITIES } from "../data/mockData";
 
-const locationsCol1 = ["Hydra", "Dar El Beida", "Bab Ezzouar", "Draria", "Said Hamdine"];
-const locationsCol2 = ["Dely Ibrahim", "Chéraga", "El Achour", "Ruisseau"];
+// Split localities into two columns
+const midPoint = Math.ceil(LOCALITIES.length / 2);
+const localitiesCol1 = LOCALITIES.slice(0, midPoint);
+const localitiesCol2 = LOCALITIES.slice(midPoint);
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -68,16 +72,28 @@ export default function Footer() {
             <div className="space-y-4">
               <p className="text-[12px] uppercase tracking-[0.2em] text-[#F7C66A]">Localités</p>
               <div className="space-y-3 text-white/85">
-                {locationsCol1.map((loc) => (
-                  <div key={loc}>{loc}</div>
+                {localitiesCol1.map((loc) => (
+                  <Link 
+                    key={loc.id} 
+                    to={`/localite/${loc.id}`}
+                    className="block transition hover:text-[#F7C66A]"
+                  >
+                    {loc.name.split(',')[0]}
+                  </Link>
                 ))}
               </div>
             </div>
             <div className="space-y-4">
               <p className="text-[12px] uppercase tracking-[0.2em] text-[#F7C66A] invisible">Localités</p>
               <div className="space-y-3 text-white/85">
-                {locationsCol2.map((loc) => (
-                  <div key={loc}>{loc}</div>
+                {localitiesCol2.map((loc) => (
+                  <Link 
+                    key={loc.id} 
+                    to={`/localite/${loc.id}`}
+                    className="block transition hover:text-[#F7C66A]"
+                  >
+                    {loc.name.split(',')[0]}
+                  </Link>
                 ))}
               </div>
             </div>

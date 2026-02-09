@@ -250,7 +250,8 @@ export default function LocalityPage() {
              lat: p.latitude,
              lng: p.longitude,
              typology: p.type,
-             isNightMode: false 
+             isNightMode: false,
+             status: "EN COURS" 
            }));
            setDbProjects(mappedProjects);
         } else {
@@ -338,8 +339,14 @@ export default function LocalityPage() {
                 {!isMobile && (
                     <div className="relative mb-4">
                         <span className="font-['PhotographSignature'] text-5xl md:text-8xl text-[#F7C66A] block transform -rotate-2">
-                        Découvrez
+                        Nos Signatures
                         </span>
+                        <span className="text-2xl md:text-4xl font-light text-white block uppercase tracking-widest mt-2">
+                        RÉSIDENTIELLES À
+                        </span>
+                        <h1 className="text-4xl md:text-6xl font-bold uppercase tracking-wide text-white leading-tight mt-2">
+                            {cityOnly}
+                        </h1>
                     </div>
                 )}
                 
@@ -359,10 +366,7 @@ export default function LocalityPage() {
                     </>
                 ) : (
                     <>
-                        <h1 className="text-4xl md:text-6xl font-bold uppercase tracking-wide text-white mb-8 leading-tight">
-                            {displayTitle}
-                        </h1>
-                        <p className="text-sm md:text-base leading-relaxed text-gray-200 font-light max-w-xl text-justify">
+                        <p className="text-sm md:text-base leading-relaxed text-gray-200 font-light max-w-xl text-justify mt-8">
                             {locality.description}
                         </p>
                     </>
