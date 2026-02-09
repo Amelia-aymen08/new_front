@@ -140,7 +140,7 @@ export default function LifestyleSection() {
       : 0;
 
   return (
-    <section className="py-20 text-center text-white">
+    <section className="py-20 text-center text-white" id="interiors-carousel">
       <div>
         <div className="mb-10">
           <h3 className="mb-2 font-['PhotographSignature'] text-5xl text-gold-500">
@@ -177,9 +177,6 @@ export default function LifestyleSection() {
             style={{ transform: `translateX(${translateX}px)` }}
           >
             {slides.map((slide, i) => {
-              // Calculate effective index relative to the middle set for active state
-              const isMiddleSet = i >= originalSlides.length && i < 2 * originalSlides.length;
-              // We want to highlight the slide that corresponds to the current index
               const isActive = i === index;
               
               return (
@@ -215,7 +212,7 @@ export default function LifestyleSection() {
             type="button"
             onClick={handlePrev}
             aria-label="Precedent"
-            className="absolute left-[50%] -translate-x-[340px] top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#031B17] shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition hover:bg-[#C2A15C] hover:text-black z-20 hidden md:flex"
+            className="absolute left-2 md:left-[50%] md:-translate-x-[340px] top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#031B17] shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition hover:bg-[#C2A15C] hover:text-black z-20"
           >
             <ArrowIcon direction="left" />
           </button>
@@ -223,7 +220,7 @@ export default function LifestyleSection() {
             type="button"
             onClick={handleNext}
             aria-label="Suivant"
-            className="absolute right-[50%] translate-x-[340px] top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#031B17] shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition hover:bg-[#C2A15C] hover:text-black z-20 hidden md:flex"
+            className="absolute right-2 md:right-[50%] md:translate-x-[340px] top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#031B17] shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition hover:bg-[#C2A15C] hover:text-black z-20"
           >
             <ArrowIcon direction="right" />
           </button>

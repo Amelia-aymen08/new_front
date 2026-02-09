@@ -444,124 +444,167 @@ export default function AboutPage() {
       {/* 4. Values Section */}
       <section className="relative py-20 px-4 md:px-10 z-10 text-center animate-fadeInUp" style={{ animationDelay: "1400ms" }}>
          <div className="mb-16">
-           <span className="font-['PhotographSignature'] text-5xl md:text-6xl text-[#F7C66A] block mb-2">
-             Nos Valeurs
-           </span>
-           <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-wide text-white">
-             AU QUOTIDIEN POUR VOUS
-           </h2>
+           {isMobile ? (
+              // Mobile version for title (Why Choose Us Style)
+              <div className="flex flex-col items-center">
+                 <div className="flex flex-col items-center mb-12">
+                    <div className="flex items-baseline">
+                        <span className="font-['PhotographSignature'] text-7xl text-white mr-2">20</span>
+                        <span className="font-['PhotographSignature'] text-7xl text-white">ans</span>
+                    </div>
+                    <div className="text-xl uppercase tracking-[0.3em] text-white font-light mt-2">
+                        D'EXPERIENCE
+                    </div>
+                 </div>
+                 
+                 <div className="flex flex-wrap justify-center gap-y-12 w-full max-w-[300px]">
+                    <div className="flex flex-col items-center w-1/2">
+                       <span className="font-['PhotographSignature'] text-6xl text-white mb-3">+30</span>
+                       <span className="text-[9px] uppercase tracking-[0.2em] text-gray-300 text-center leading-relaxed font-light">
+                         RÉSIDENCES HAUT<br/>STANDING
+                       </span>
+                    </div>
+                    <div className="flex flex-col items-center w-1/2">
+                       <span className="font-['PhotographSignature'] text-6xl text-white mb-3">+15</span>
+                       <span className="text-[9px] uppercase tracking-[0.2em] text-gray-300 text-center leading-relaxed font-light">
+                         COMMUNES<br/>PRESTIGIEUSES
+                       </span>
+                    </div>
+                    <div className="flex flex-col items-center w-full mt-2">
+                       <span className="font-['PhotographSignature'] text-6xl text-white mb-3">+1500</span>
+                       <span className="text-[9px] uppercase tracking-[0.2em] text-gray-300 text-center leading-relaxed font-light">
+                         APPARTEMENTS<br/>LIVRÉS
+                       </span>
+                    </div>
+                 </div>
+              </div>
+           ) : (
+              // Desktop version
+              <>
+                <span className="font-['PhotographSignature'] text-5xl md:text-6xl text-[#F7C66A] block mb-2">
+                    Nos Valeurs
+                </span>
+                <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-wide text-white">
+                    AU QUOTIDIEN POUR VOUS
+                </h2>
+              </>
+           )}
          </div>
 
-         <motion.div 
-           className="max-w-6xl mx-auto h-[400px] flex items-center justify-center relative perspective-1000"
-           initial={{ opacity: 0, scale: 0.8, y: 100 }}
-           whileInView={{ opacity: 1, scale: 1, y: 0 }}
-           viewport={{ once: true, amount: 0.3 }}
-           transition={{ duration: 1.0, delay: 0.2, ease: "easeOut" }}
-         >
-            {/* Using the same carousel logic as testimonials but adapted for Values */}
-            {VALUES.map((val, idx) => {
-              const activeIndex = VALUES.findIndex(item => item.id === activeValueId);
-              let visualPosition = 0; 
-              
-              // Determine position relative to active index (circular logic)
-              if (idx === activeIndex) {
-                visualPosition = 0; // Center
-              } else if (idx === (activeIndex - 1 + VALUES.length) % VALUES.length) {
-                visualPosition = -1; // Left
-              } else if (idx === (activeIndex + 1) % VALUES.length) {
-                visualPosition = 1; // Right
-              } else if (idx === (activeIndex - 2 + VALUES.length) % VALUES.length) {
-                 visualPosition = -2; // Far Left
-              } else if (idx === (activeIndex + 2) % VALUES.length) {
-                 visualPosition = 2; // Far Right
-              } else {
-                 visualPosition = 3; // Hidden
-              }
+         {!isMobile && (
+             <motion.div 
+             className="max-w-6xl mx-auto h-[400px] flex items-center justify-center relative perspective-1000"
+             initial={{ opacity: 0, scale: 0.8, y: 100 }}
+             whileInView={{ opacity: 1, scale: 1, y: 0 }}
+             viewport={{ once: true, amount: 0.3 }}
+             transition={{ duration: 1.0, delay: 0.2, ease: "easeOut" }}
+           >
+              {/* Using the same carousel logic as testimonials but adapted for Values */}
+              {VALUES.map((val, idx) => {
+                const activeIndex = VALUES.findIndex(item => item.id === activeValueId);
+                let visualPosition = 0; 
+                
+                // Determine position relative to active index (circular logic)
+                if (idx === activeIndex) {
+                  visualPosition = 0; // Center
+                } else if (idx === (activeIndex - 1 + VALUES.length) % VALUES.length) {
+                  visualPosition = -1; // Left
+                } else if (idx === (activeIndex + 1) % VALUES.length) {
+                  visualPosition = 1; // Right
+                } else if (idx === (activeIndex - 2 + VALUES.length) % VALUES.length) {
+                   visualPosition = -2; // Far Left
+                } else if (idx === (activeIndex + 2) % VALUES.length) {
+                   visualPosition = 2; // Far Right
+                } else {
+                   visualPosition = 3; // Hidden
+                }
+  
+                // Styling based on position
+                let positionClass = "";
+                let zIndex = 0;
+                let opacity = 0;
+                let scale = 0;
+                let x = "0%";
+  
+                if (visualPosition === 0) {
+                   zIndex = 30;
+                   opacity = 1;
+                   scale = 1.2;
+                   x = "0%";
+                   positionClass = "bg-[#F7C66A] text-[#031B17] shadow-2xl shadow-[#F7C66A]/20";
+                } else if (visualPosition === -1) {
+                   zIndex = 20;
+                   opacity = 0.7;
+                   scale = 0.9;
+                   x = "-120%";
+                   positionClass = "bg-gray-200/90 text-[#031B17] cursor-pointer hover:bg-white";
+                } else if (visualPosition === 1) {
+                   zIndex = 20;
+                   opacity = 0.7;
+                   scale = 0.9;
+                   x = "120%";
+                   positionClass = "bg-gray-200/90 text-[#031B17] cursor-pointer hover:bg-white";
+                } else if (visualPosition === -2) {
+                   zIndex = 10;
+                   opacity = 0.4;
+                   scale = 0.7;
+                   x = "-220%";
+                   positionClass = "bg-gray-200/60 text-[#031B17] cursor-pointer hover:bg-white";
+                } else if (visualPosition === 2) {
+                   zIndex = 10;
+                   opacity = 0.4;
+                   scale = 0.7;
+                   x = "220%";
+                   positionClass = "bg-gray-200/60 text-[#031B17] cursor-pointer hover:bg-white";
+                } else {
+                   opacity = 0;
+                   scale = 0;
+                }
+  
+                if (opacity === 0) return null; // Don't render hidden items to avoid clutter
+  
+                return (
+                  <motion.div 
+                    key={val.id} 
+                    onClick={() => setActiveValueId(val.id)}
+                    className={`absolute flex items-center justify-center rounded-2xl transition-all duration-500 cursor-pointer ${positionClass}`}
+                    style={{ 
+                      width: "160px", 
+                      height: "160px",
+                      zIndex: zIndex,
+                    }}
+                    animate={{ 
+                      x: x,
+                      scale: scale,
+                      opacity: opacity
+                    }}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  >
+                    <div className="transform scale-110">
+                      {val.icon}
+                    </div>
+                  </motion.div>
+                );
+              })}
+           </motion.div>
+         )}
 
-              // Styling based on position
-              let positionClass = "";
-              let zIndex = 0;
-              let opacity = 0;
-              let scale = 0;
-              let x = "0%";
-
-              if (visualPosition === 0) {
-                 zIndex = 30;
-                 opacity = 1;
-                 scale = 1.2;
-                 x = "0%";
-                 positionClass = "bg-[#F7C66A] text-[#031B17] shadow-2xl shadow-[#F7C66A]/20";
-              } else if (visualPosition === -1) {
-                 zIndex = 20;
-                 opacity = 0.7;
-                 scale = 0.9;
-                 x = "-120%";
-                 positionClass = "bg-gray-200/90 text-[#031B17] cursor-pointer hover:bg-white";
-              } else if (visualPosition === 1) {
-                 zIndex = 20;
-                 opacity = 0.7;
-                 scale = 0.9;
-                 x = "120%";
-                 positionClass = "bg-gray-200/90 text-[#031B17] cursor-pointer hover:bg-white";
-              } else if (visualPosition === -2) {
-                 zIndex = 10;
-                 opacity = 0.4;
-                 scale = 0.7;
-                 x = "-220%";
-                 positionClass = "bg-gray-200/60 text-[#031B17] cursor-pointer hover:bg-white";
-              } else if (visualPosition === 2) {
-                 zIndex = 10;
-                 opacity = 0.4;
-                 scale = 0.7;
-                 x = "220%";
-                 positionClass = "bg-gray-200/60 text-[#031B17] cursor-pointer hover:bg-white";
-              } else {
-                 opacity = 0;
-                 scale = 0;
-              }
-
-              if (opacity === 0) return null; // Don't render hidden items to avoid clutter
-
-              return (
-                <motion.div 
-                  key={val.id} 
-                  onClick={() => setActiveValueId(val.id)}
-                  className={`absolute flex items-center justify-center rounded-2xl transition-all duration-500 cursor-pointer ${positionClass}`}
-                  style={{ 
-                    width: "160px", 
-                    height: "160px",
-                    zIndex: zIndex,
-                  }}
-                  animate={{ 
-                    x: x,
-                    scale: scale,
-                    opacity: opacity
-                  }}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                >
-                  <div className="transform scale-110">
-                    {val.icon}
-                  </div>
-                </motion.div>
-              );
-            })}
-         </motion.div>
-
-         <motion.div 
-           className="max-w-3xl mx-auto text-center"
-           key={activeValueId}
-           initial={{ opacity: 0, y: 30 }}
-           animate={{ opacity: 1, y: 0 }}
-           transition={{ duration: 0.5 }}
-         >
-           <h3 className="text-xl md:text-2xl font-bold uppercase mb-4 tracking-widest text-white transition-all duration-300">
-             {activeValue.title}
-           </h3>
-           <p className="text-sm md:text-base leading-8 text-gray-300 font-light transition-all duration-300">
-             {activeValue.description}
-           </p>
-         </motion.div>
+         {!isMobile && (
+             <motion.div 
+             className="max-w-3xl mx-auto text-center"
+             key={activeValueId}
+             initial={{ opacity: 0, y: 30 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ duration: 0.5 }}
+           >
+             <h3 className="text-xl md:text-2xl font-bold uppercase mb-4 tracking-widest text-white transition-all duration-300">
+               {activeValue.title}
+             </h3>
+             <p className="text-sm md:text-base leading-8 text-gray-300 font-light transition-all duration-300">
+               {activeValue.description}
+             </p>
+           </motion.div>
+         )}
       </section>
 
       {/* 5. Testimonials Section */}
@@ -585,17 +628,53 @@ export default function AboutPage() {
            viewport={{ once: true, amount: 0.3 }}
            transition={{ duration: 1.0, delay: 0.2, ease: "easeOut" }}
          >
+           {/* Navigation Arrows for Mobile */}
+           {isMobile && (
+             <>
+               <button 
+                 onClick={(e) => {
+                   e.stopPropagation();
+                   const prevIndex = TESTIMONIALS.findIndex(item => item.id === activeTestimonialId) - 1;
+                   const newIndex = prevIndex < 0 ? TESTIMONIALS.length - 1 : prevIndex;
+                   setActiveTestimonialId(TESTIMONIALS[newIndex].id);
+                 }}
+                 className="absolute left-0 top-1/2 -translate-y-1/2 z-30 p-2 text-white/50 hover:text-white"
+               >
+                 <i className="fa-solid fa-chevron-left text-2xl"></i>
+               </button>
+               <button 
+                 onClick={(e) => {
+                   e.stopPropagation();
+                   const nextIndex = TESTIMONIALS.findIndex(item => item.id === activeTestimonialId) + 1;
+                   const newIndex = nextIndex >= TESTIMONIALS.length ? 0 : nextIndex;
+                   setActiveTestimonialId(TESTIMONIALS[newIndex].id);
+                 }}
+                 className="absolute right-0 top-1/2 -translate-y-1/2 z-30 p-2 text-white/50 hover:text-white"
+               >
+                 <i className="fa-solid fa-chevron-right text-2xl"></i>
+               </button>
+             </>
+           )}
+
            {TESTIMONIALS.map((t, idx) => {
              const activeIndex = TESTIMONIALS.findIndex(item => item.id === activeTestimonialId);
              let visualPosition = 0; 
-             if (idx === activeIndex) {
-               visualPosition = 0;
-             } else if (idx === (activeIndex - 1 + TESTIMONIALS.length) % TESTIMONIALS.length) {
-               visualPosition = -1;
-             } else if (idx === (activeIndex + 1) % TESTIMONIALS.length) {
-               visualPosition = 1;
+             
+             // Simple carousel logic for mobile
+             if (isMobile) {
+                if (idx === activeIndex) visualPosition = 0;
+                else visualPosition = 2; // Hide others on mobile
              } else {
-               visualPosition = 2; // Hidden
+                // Desktop logic
+                if (idx === activeIndex) {
+                  visualPosition = 0;
+                } else if (idx === (activeIndex - 1 + TESTIMONIALS.length) % TESTIMONIALS.length) {
+                  visualPosition = -1;
+                } else if (idx === (activeIndex + 1) % TESTIMONIALS.length) {
+                  visualPosition = 1;
+                } else {
+                  visualPosition = 2; // Hidden
+                }
              }
 
              let positionClass = "";
@@ -606,13 +685,13 @@ export default function AboutPage() {
              } else if (visualPosition === 1) {
                 positionClass = "z-10 scale-90 opacity-60 translate-x-[20%] md:translate-x-[60%] cursor-pointer hover:opacity-80";
              } else {
-                positionClass = "z-0 scale-75 opacity-0 translate-x-0 pointer-events-none";
+                positionClass = "z-0 scale-75 opacity-0 translate-x-0 pointer-events-none absolute";
              }
 
              return (
                <motion.div 
                  key={t.id} 
-                 onClick={() => setActiveTestimonialId(t.id)}
+                 onClick={() => !isMobile && setActiveTestimonialId(t.id)}
                  className={`absolute w-full max-w-lg bg-[#1F3A35]/60 backdrop-blur-md border border-white/10 rounded-3xl p-8 md:p-12 transition-all duration-700 ease-out shadow-2xl flex flex-col items-center text-center ${positionClass}`}
                >
                  <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[#F7C66A] mb-6 shadow-lg">
@@ -662,7 +741,7 @@ export default function AboutPage() {
                      onClick={() => { setActiveFaqCategory(idx); setActiveFaqIndex(0); }}
                      className={`w-full text-left px-5 py-4 rounded-lg text-sm font-medium transition-all duration-300 ${
                        activeFaqCategory === idx 
-                         ? 'bg-[#009B8D] text-white shadow-lg' 
+                         ? 'bg-[#F7C66A] text-[#031B17] shadow-lg' 
                          : 'text-gray-400 hover:bg-white/5 hover:text-white'
                      }`}
                    >
@@ -682,7 +761,7 @@ export default function AboutPage() {
                        <button
                          onClick={() => setActiveFaqIndex(isActive ? -1 : idx)}
                          className={`w-full flex items-center justify-between p-5 rounded-xl transition-all duration-300 ${
-                           isActive ? 'bg-[#009B8D] text-white' : 'bg-transparent text-white hover:bg-white/5 border border-white/10'
+                           isActive ? 'bg-[#F7C66A] text-[#031B17]' : 'bg-transparent text-white hover:bg-white/5 border border-white/10'
                          }`}
                        >
                          <span className="font-bold text-sm md:text-base text-left pr-4">{item.question}</span>
@@ -694,7 +773,7 @@ export default function AboutPage() {
                            isActive ? 'max-h-[500px] opacity-100 mt-4' : 'max-h-0 opacity-0'
                          }`}
                        >
-                         <div className="p-5 pt-0 text-sm leading-7 text-gray-300 font-light border-l-2 border-[#009B8D] ml-2 pl-6">
+                         <div className="p-5 pt-0 text-sm leading-7 text-gray-300 font-light border-l-2 border-[#F7C66A] ml-2 pl-6">
                            {item.answer}
                          </div>
                        </div>

@@ -233,6 +233,58 @@ export default function ContactPage() {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section className="relative z-10 py-20 px-4 md:px-10 max-w-7xl mx-auto">
+         <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold uppercase text-[#F7C66A] tracking-wide">
+              Foire Aux Questions
+            </h2>
+            <p className="text-gray-300 mt-4 max-w-2xl mx-auto font-light">
+              Retrouvez les réponses aux questions les plus fréquentes sur nos projets et nos services.
+            </p>
+         </div>
+
+         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+            {/* Sidebar Categories */}
+             <div className="md:col-span-4 space-y-2">
+                {["Avant l'achat : Informations générales", "Paiement & Financement", "Personnalisation & Équipements", "Gestion & Copropriété", "Suivi & Livraison", "Autres questions fréquentes"].map((cat, idx) => (
+                   <button 
+                     key={idx}
+                     className={`w-full text-left p-4 rounded-lg transition-all ${idx === 0 ? "bg-[#F7C66A] text-[#031B17] font-bold" : "bg-[#0C2A24] text-white/70 hover:bg-[#15332D]"}`}
+                   >
+                     {cat}
+                   </button>
+                ))}
+             </div>
+
+            {/* Accordion Content */}
+            <div className="md:col-span-8 space-y-4">
+               {/* Active Item */}
+               <div className="bg-[#0C2A24] rounded-xl border border-white/5 overflow-hidden">
+                  <div className="bg-[#F7C66A] p-6 flex justify-between items-center cursor-pointer">
+                     <h3 className="text-[#031B17] font-bold text-lg">Tout savoir avant de vous engager</h3>
+                     <i className="fa-solid fa-minus text-[#031B17]"></i>
+                  </div>
+                  <div className="p-6 border-l-4 border-[#F7C66A] bg-[#0C2A24]">
+                     <p className="text-gray-300 leading-relaxed font-light text-sm">
+                        En choisissant Aymen Promotion, vous investissez dans un logement haut standing conçu avec des matériaux de qualité, dans des emplacements stratégiques à Alger, avec un accompagnement personnalisé du premier contact jusqu'à la remise des clés.
+                     </p>
+                  </div>
+               </div>
+
+               {/* Collapsed Items */}
+               {["Comment réserver un appartement ?", "Puis-je visiter un appartement témoin ?"].map((q, idx) => (
+                  <div key={idx} className="bg-[#0C2A24] rounded-xl border border-white/5 overflow-hidden">
+                     <div className="p-6 flex justify-between items-center cursor-pointer hover:bg-[#15332D] transition-colors">
+                        <h3 className="text-white font-bold text-lg">{q}</h3>
+                        <i className="fa-solid fa-plus text-white"></i>
+                     </div>
+                  </div>
+               ))}
+            </div>
+         </div>
+      </section>
+
       {/* Map Section */}
       <section className="w-full h-[400px] md:h-[500px] relative z-10 mb-20 max-w-7xl mx-auto px-4 md:px-0">
         <div className="w-full h-full rounded-3xl overflow-hidden border border-white/10 shadow-2xl">

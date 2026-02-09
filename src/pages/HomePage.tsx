@@ -17,12 +17,26 @@ function WipeImageSection({
   title,
   description,
   buttonText,
+  targetTab,
+  isInterior
 }: {
   src: string;
   title?: string;
   description?: string;
   buttonText?: string;
+  targetTab?: string;
+  isInterior?: boolean;
 }) {
+  const handleClick = (e: React.MouseEvent) => {
+    if (isInterior) {
+       e.preventDefault();
+       const element = document.getElementById("interiors-carousel");
+       if (element) {
+         element.scrollIntoView({ behavior: "smooth" });
+       }
+    }
+  };
+
   return (
     <section
       className="relative w-full overflow-hidden bg-black"
@@ -50,12 +64,22 @@ function WipeImageSection({
             </p>
           )}
           {buttonText && (
-            <Link
-              to="/projets"
-              className="inline-block rounded-full border border-gold-500 px-8 py-3 text-sm font-semibold uppercase tracking-widest text-white transition hover:bg-gold-500 hover:text-black"
-            >
-              {buttonText}
-            </Link>
+            isInterior ? (
+              <button
+                onClick={handleClick}
+                className="inline-block rounded-full border border-gold-500 px-8 py-3 text-sm font-semibold uppercase tracking-widest text-white transition hover:bg-gold-500 hover:text-black cursor-pointer"
+              >
+                {buttonText}
+              </button>
+            ) : (
+              <Link
+                to="/projets"
+                state={targetTab ? { tab: targetTab } : undefined}
+                className="inline-block rounded-full border border-gold-500 px-8 py-3 text-sm font-semibold uppercase tracking-widest text-white transition hover:bg-gold-500 hover:text-black"
+              >
+                {buttonText}
+              </Link>
+            )
           )}
         </div>
       </div>
@@ -172,6 +196,7 @@ export default function HomePage() {
             title="PROJETS FINIS"
             description="Aymen Promotion développe des résidences haut standing à Alger avec plus de 20 projets livrés qui allient le confort, le design moderne et une finition de qualité!"
             buttonText="DECOUVRIR"
+            targetTab="FINIS"
           />
         ),
       },
@@ -183,6 +208,7 @@ export default function HomePage() {
             title="PROJETS EN COURS"
             description="Aymen Promotion développe des résidences haut standing à Alger avec plus de 20 projets en cours qui allient le confort, le design moderne et une finition de qualité!"
             buttonText="DECOUVRIR"
+            targetTab="EN COURS"
           />
         ),
       },
@@ -194,6 +220,7 @@ export default function HomePage() {
             title="NOS INTÉRIEURS"
             description="Aymen Promotion développe des résidences haut standing à Alger avec plus de 20 projets l ivrés qui allient le confort, le design moderne et une finition de qualité!"
             buttonText="DECOUVRIR"
+            isInterior={true}
           />
         ),
       },
