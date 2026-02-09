@@ -444,55 +444,15 @@ export default function AboutPage() {
       {/* 4. Values Section */}
       <section className="relative py-20 px-4 md:px-10 z-10 text-center animate-fadeInUp" style={{ animationDelay: "1400ms" }}>
          <div className="mb-16">
-           {isMobile ? (
-              // Mobile version for title (Why Choose Us Style)
-              <div className="flex flex-col items-center">
-                 <div className="flex flex-col items-center mb-12">
-                    <div className="flex items-baseline">
-                        <span className="font-['PhotographSignature'] text-7xl text-white mr-2">20</span>
-                        <span className="font-['PhotographSignature'] text-7xl text-white">ans</span>
-                    </div>
-                    <div className="text-xl uppercase tracking-[0.3em] text-white font-light mt-2">
-                        D'EXPERIENCE
-                    </div>
-                 </div>
-                 
-                 <div className="flex flex-wrap justify-center gap-y-12 w-full max-w-[300px]">
-                    <div className="flex flex-col items-center w-1/2">
-                       <span className="font-['PhotographSignature'] text-6xl text-white mb-3">+30</span>
-                       <span className="text-[9px] uppercase tracking-[0.2em] text-gray-300 text-center leading-relaxed font-light">
-                         RÉSIDENCES HAUT<br/>STANDING
-                       </span>
-                    </div>
-                    <div className="flex flex-col items-center w-1/2">
-                       <span className="font-['PhotographSignature'] text-6xl text-white mb-3">+15</span>
-                       <span className="text-[9px] uppercase tracking-[0.2em] text-gray-300 text-center leading-relaxed font-light">
-                         COMMUNES<br/>PRESTIGIEUSES
-                       </span>
-                    </div>
-                    <div className="flex flex-col items-center w-full mt-2">
-                       <span className="font-['PhotographSignature'] text-6xl text-white mb-3">+1500</span>
-                       <span className="text-[9px] uppercase tracking-[0.2em] text-gray-300 text-center leading-relaxed font-light">
-                         APPARTEMENTS<br/>LIVRÉS
-                       </span>
-                    </div>
-                 </div>
-              </div>
-           ) : (
-              // Desktop version
-              <>
-                <span className="font-['PhotographSignature'] text-5xl md:text-6xl text-[#F7C66A] block mb-2">
-                    Nos Valeurs
-                </span>
-                <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-wide text-white">
-                    AU QUOTIDIEN POUR VOUS
-                </h2>
-              </>
-           )}
+           <span className="font-['PhotographSignature'] text-5xl md:text-6xl text-[#F7C66A] block mb-2">
+             Nos Valeurs
+           </span>
+           <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-wide text-white">
+             AU QUOTIDIEN POUR VOUS
+           </h2>
          </div>
 
-         {!isMobile && (
-             <motion.div 
+         <motion.div 
              className="max-w-6xl mx-auto h-[400px] flex items-center justify-center relative perspective-1000"
              initial={{ opacity: 0, scale: 0.8, y: 100 }}
              whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -587,7 +547,6 @@ export default function AboutPage() {
                 );
               })}
            </motion.div>
-         )}
 
          {!isMobile && (
              <motion.div 

@@ -4,7 +4,6 @@ import Hero from "../components/Hero";
 import WipeStack, { Slide } from "../components/WipeStack";
 import Header from "../components/Header";
 import LifestyleSection from "../components/LifestyleSection";
-import WhyChooseUsSection from "../components/WhyChooseUsSection";
 import NewsSection from "../components/NewsSection";
 import ContactSection from "../components/ContactSection";
 import Footer from "../components/Footer";
@@ -259,7 +258,99 @@ export default function HomePage() {
           <LifestyleSection />
         </FadeOnScroll>
         <FadeOnScroll delay={220}>
-          <WhyChooseUsSection />
+          {/* Why Choose Us */}
+          <section className="relative bg-[#031B17] py-20 px-4 md:px-10 text-white z-10">
+            <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
+              
+              {/* Left Content */}
+              <div className="flex-1 space-y-12">
+                <div className="space-y-4">
+                  <span className="font-['PhotographSignature'] text-5xl md:text-6xl text-[#F7C66A] block">
+                    Pourquoi
+                  </span>
+                  <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-wide leading-tight">
+                    CHOISIR<br/>AYMEN PROMOTION ?
+                  </h2>
+                </div>
+
+                <p className="text-gray-300 text-lg font-light leading-relaxed max-w-xl text-justify">
+                  Choisir Aymen Promotion, c'est opter pour l'excellence et la sérénité. Nous nous engageons à offrir bien plus qu'un simple logement : un cadre de vie d'exception, conçu avec des matériaux de qualité et une architecture moderne. Grâce à notre expertise et notre accompagnement personnalisé, chaque étape de votre projet se déroule en toute confiance, jusqu'à la remise des clés.
+                </p>
+
+                {/* Stats Grid */}
+                {isMobile ? (
+                  <div className="flex flex-col items-center mt-12">
+                     <div className="flex flex-col items-center mb-12">
+                        <div className="flex items-baseline">
+                            <span className="font-['PhotographSignature'] text-7xl text-white mr-2">20</span>
+                            <span className="font-['PhotographSignature'] text-7xl text-white">ans</span>
+                        </div>
+                        <div className="text-xl uppercase tracking-[0.3em] text-white font-light mt-2">
+                            D'EXPERIENCE
+                        </div>
+                     </div>
+                     
+                     <div className="flex flex-wrap justify-center gap-y-12 w-full max-w-[300px]">
+                        <div className="flex flex-col items-center w-1/2">
+                           <span className="font-['PhotographSignature'] text-6xl text-white mb-3">+30</span>
+                           <span className="text-[9px] uppercase tracking-[0.2em] text-gray-300 text-center leading-relaxed font-light">
+                             RÉSIDENCES HAUT<br/>STANDING
+                           </span>
+                        </div>
+                        <div className="flex flex-col items-center w-1/2">
+                           <span className="font-['PhotographSignature'] text-6xl text-white mb-3">+15</span>
+                           <span className="text-[9px] uppercase tracking-[0.2em] text-gray-300 text-center leading-relaxed font-light">
+                             COMMUNES<br/>PRESTIGIEUSES
+                           </span>
+                        </div>
+                        <div className="flex flex-col items-center w-full mt-2">
+                           <span className="font-['PhotographSignature'] text-6xl text-white mb-3">+1500</span>
+                           <span className="text-[9px] uppercase tracking-[0.2em] text-gray-300 text-center leading-relaxed font-light">
+                             APPARTEMENTS<br/>LIVRÉS
+                           </span>
+                        </div>
+                     </div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 gap-x-12 gap-y-16 mt-12">
+                    <div>
+                      <span className="font-['PhotographSignature'] text-5xl md:text-6xl text-white block mb-2">20 ans</span>
+                      <p className="text-xs uppercase tracking-[0.2em] text-gray-400">D'EXPERIENCE</p>
+                    </div>
+                    <div>
+                      <span className="font-['PhotographSignature'] text-5xl md:text-6xl text-white block mb-2">+30</span>
+                      <p className="text-xs uppercase tracking-[0.2em] text-gray-400">RÉSIDENCES HAUT STANDING</p>
+                    </div>
+                    <div>
+                      <span className="font-['PhotographSignature'] text-5xl md:text-6xl text-white block mb-2">+15</span>
+                      <p className="text-xs uppercase tracking-[0.2em] text-gray-400">COMMUNES PRESTIGIEUSES</p>
+                    </div>
+                    <div>
+                      <span className="font-['PhotographSignature'] text-5xl md:text-6xl text-white block mb-2">+1500</span>
+                      <p className="text-xs uppercase tracking-[0.2em] text-gray-400">APPARTEMENTS LIVRÉS</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Right Image */}
+              <div className="flex-1 w-full relative group perspective-1000">
+                <div className="relative w-full aspect-[4/5] rounded-[40px] overflow-hidden border border-white/10 shadow-2xl transform transition-transform duration-700 group-hover:rotate-y-12 group-hover:scale-105">
+                  <img 
+                    src="/why-choose-us.jpg" 
+                    alt="Why Choose Aymen Promotion" 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#031B17]/80 via-transparent to-transparent opacity-60"></div>
+                </div>
+                
+                {/* Decorative Elements */}
+                <div className="absolute -bottom-10 -right-10 w-40 h-40 border-2 border-[#F7C66A]/30 rounded-full blur-xl animate-pulse"></div>
+                <div className="absolute -top-10 -left-10 w-60 h-60 bg-[#F7C66A]/5 rounded-full blur-3xl"></div>
+              </div>
+
+            </div>
+          </section>
         </FadeOnScroll>
         <FadeOnScroll delay={320}>
           <NewsSection />
