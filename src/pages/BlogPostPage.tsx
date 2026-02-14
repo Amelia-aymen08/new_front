@@ -37,13 +37,13 @@ export default function BlogPostPage() {
   }
 
   const { attributes } = data.data;
-  const imageUrl =
-    attributes.mignature_image?.data?.attributes?.formats?.medium?.url ||
-    attributes.mignature_image?.data?.attributes?.url ||
-    "";
-  const fullImageUrl = imageUrl.startsWith("http")
-    ? imageUrl
-    : `${STRAPI_URL}${imageUrl}`;
+  // const imageUrl =
+  //   attributes.mignature_image?.data?.attributes?.formats?.medium?.url ||
+  //   attributes.mignature_image?.data?.attributes?.url ||
+  //   "";
+  // const fullImageUrl = imageUrl.startsWith("http")
+  //   ? imageUrl
+  //   : `${STRAPI_URL}${imageUrl}`;
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-hidden">

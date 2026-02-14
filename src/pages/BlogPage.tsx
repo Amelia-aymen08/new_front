@@ -31,7 +31,7 @@ export default function BlogPage() {
   }, [location.search]);
 
   // Extract unique categories
-  const categories = ["Tous", ...Array.from(new Set(blogs.map((b) => b.attributes.category)))];
+  // const categories = ["Tous", ...Array.from(new Set(blogs.map((b) => b.attributes.category)))];
 
   const filteredBlogs = activeCategory === "Tous" 
     ? blogs 
@@ -129,7 +129,7 @@ export default function BlogPage() {
                            </div>
                             
                             {/* Date Badge */}
-                            <div className="absolute bottom-0 right-0 translate-y-1/2 -translate-x-4 bg-white text-black rounded-xl w-14 h-14 flex flex-col items-center justify-center shadow-lg z-20">
+                            <div className="absolute bottom-0 right-0 translate-y-1/2 -translate-x-4 bg-white text-black rounded-xl w-14 h-14 flex flex-col items-center justify-center shadow-lg z-50">
                               <span className="text-[10px] font-bold uppercase leading-none mb-0.5">
                                 {new Date(post.attributes.date).toLocaleDateString("fr-FR", { month: "short" }).replace('.', '')}
                               </span>

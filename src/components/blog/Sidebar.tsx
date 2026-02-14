@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SocialLinks from "./SocialLinks";
 import { useBlogs } from "../../hooks/useBlogs";
 import config from "../../config";
 

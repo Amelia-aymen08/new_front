@@ -99,7 +99,7 @@ const ArticleContentRenderer: React.FC<{ content: ArticleContent }> = ({
 
               // Check if the URL is a YouTube link and extract the video ID
               const youtubeRegex =
-                /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+                /(?:youtube\.com\/(?:[^/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
               const match = url.match(youtubeRegex);
               if (match && match[1]) {
                 const videoId = match[1];
