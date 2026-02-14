@@ -41,8 +41,8 @@ export default function StickyContactBar() {
           <div
             className={`absolute right-[85%] mr-0 flex items-center overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)] h-full ${
               hoveredIndex === index
-                ? "w-auto opacity-100 translate-x-0 pr-4"
-                : "w-0 opacity-0 translate-x-4 pr-0"
+                ? "w-auto opacity-100 translate-x-0"
+                : "w-0 opacity-0 translate-x-4"
             }`}
           >
             <div className="whitespace-nowrap rounded-l-xl bg-[#0C2A24]/90 backdrop-blur-md border border-white/10 px-4 py-3 shadow-[0_0_20px_rgba(247,198,106,0.15)] flex items-center gap-4 min-h-[50px]">

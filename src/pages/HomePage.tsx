@@ -189,26 +189,26 @@ export default function HomePage() {
     () => [
       { key: "hero", element: <Hero /> },
       {
-        key: "s1",
+        key: "s2",
         element: (
           <WipeImageSection
             src={isMobile ? "/1-mobile.png" : "/sections/1.png"}
-            title="PROJETS FINIS"
-            description="Aymen Promotion développe des résidences haut standing à Alger avec plus de 20 projets livrés qui allient le confort, le design moderne et une finition de qualité!"
+            title="PROJETS EN COURS"
+            description="Découvrez nos résidences de haut standing en cours de réalisation. Entre architecture moderne et matériaux nobles, chaque projet offre des appartements d'exception conçus pour votre confort."
             buttonText="DECOUVRIR"
-            targetTab="FINIS"
+            targetTab="EN COURS"
           />
         ),
       },
       {
-        key: "s2",
+        key: "s1",
         element: (
           <WipeImageSection
             src={isMobile ? "/2-mobile.png" : "/sections/2.png"}
-            title="PROJETS EN COURS"
-            description="Aymen Promotion développe des résidences haut standing à Alger avec plus de 20 projets en cours qui allient le confort, le design moderne et une finition de qualité!"
+            title="PROJETS FINIS"
+            description="Parcourez notre galerie de résidences déjà livrées. Ces résidences de luxe allient esthétique intemporelle et fonctionnalité, confirmant notre maîtrise de l'immobilier haut de gamme à travers chaque détail."
             buttonText="DECOUVRIR"
-            targetTab="EN COURS"
+            targetTab="FINIS"
           />
         ),
       },
@@ -218,7 +218,7 @@ export default function HomePage() {
           <WipeImageSection
             src={isMobile ? "/3-mobile.png" : "/sections/3.png"}
             title="NOS INTÉRIEURS"
-            description="Aymen Promotion développe des résidences haut standing à Alger avec plus de 20 projets l ivrés qui allient le confort, le design moderne et une finition de qualité!"
+            description="Plongez dans l'élégance de nos intérieurs de luxe. Chaque espace est sublimé par des matériaux nobles et des finitions méticuleuses, créant une atmosphère raffinée."
             buttonText="DECOUVRIR"
             isInterior={true}
           />

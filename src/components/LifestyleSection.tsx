@@ -84,21 +84,35 @@ export default function LifestyleSection() {
   useEffect(() => {
     const measure = () => {
       const slide = trackRef.current?.querySelector("[data-slide]") as HTMLElement | null;
-      const slideWidth = slide?.clientWidth ?? 0;
-      const computedGap = trackRef.current
-        ? parseFloat(getComputedStyle(trackRef.current).columnGap || `${GAP_PX}`)
-        : GAP_PX;
+      // Use offsetWidth to get the layout width, ignoring transforms (scale)
+      const slideWidth = slide?.offsetWidth ?? 0;
+      
+      let computedGap = GAP_PX;
+      if (trackRef.current) {
+        const style = window.getComputedStyle(trackRef.current);
+        const gapVal = parseFloat(style.columnGap || style.gap);
+        if (Number.isFinite(gapVal)) {
+          computedGap = gapVal;
+        }
+      }
+
       setLayout({
         slideWidth,
         containerWidth: containerRef.current?.clientWidth ?? 0,
-        gap: Number.isFinite(computedGap) ? computedGap : GAP_PX,
+        gap: computedGap,
       });
     };
 
     measure();
+    // Re-measure after a short delay to ensure DOM is ready
+    const timer = setTimeout(measure, 100);
+
     window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, []);
+    return () => {
+      window.removeEventListener("resize", measure);
+      clearTimeout(timer);
+    };
+  }, [activeCat]);
 
   const handleTransitionEnd = () => {
     const len = originalSlides.length;

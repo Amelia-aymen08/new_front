@@ -98,9 +98,9 @@ function DetailsHero({ data }: { data: typeof projectData }) {
           
           {/* Left Content */}
           <div className="flex-1 space-y-8">
-            <div className="space-y-1">
+            <div className="space-y-4">
               <span className="text-2xl font-light text-white/90">Résidence</span>
-              <h1 className="font-['PhotographSignature'] text-6xl md:text-8xl text-[#F7C66A] transform -rotate-2 origin-left">
+              <h1 className="font-['PhotographSignature'] text-6xl md:text-8xl text-[#F7C66A] transform -rotate-2 origin-left leading-[1.2] lg:leading-[1.1] py-2">
                 {projectName.charAt(0) + projectName.slice(1).toLowerCase()}
               </h1>
             </div>

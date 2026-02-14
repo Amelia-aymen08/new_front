@@ -85,12 +85,12 @@ export default function WhyChooseUsSection() {
             className="relative rounded-2xl bg-white/10 backdrop-blur-md ring-1 ring-white/20 before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-r before:from-black/20 before:to-transparent before:content-['']"
             style={{ boxShadow: "inset 0 -12px 16px rgba(0,0,0,0.20), 0 10px 22px rgba(0,0,0,0.22)" }}
           >
-            <div className="relative z-10 flex items-center gap-6 px-8 py-8">
+            <div className={`relative z-10 flex ${isMobile ? 'flex-col text-center' : 'flex-row text-left'} items-center gap-6 px-8 py-8`}>
               <div className="flex h-14 w-14 items-center justify-center">
                 <img src={card.icon} alt="" className="h-14 w-14" />
               </div>
-              <div className="w-[2px] h-14 bg-white/25 rounded" />
-              <div className="flex-1 text-left">
+              {!isMobile && <div className="w-[2px] h-14 bg-white/25 rounded" />}
+              <div className="flex-1">
                 <div className="text-lg font-bold uppercase tracking-wider text-[#F7C66A]">{card.title}</div>
                 <div className="mt-2 text-sm leading-relaxed text-white/85">
                   {card.description}
@@ -105,36 +105,47 @@ export default function WhyChooseUsSection() {
       <div className="mx-auto max-w-7xl px-6">
         {isMobile ? (
            <div className="flex flex-col items-center mt-12">
+              {/* Top Item: 20 ans d'experience */}
               <div className="flex flex-col items-center mb-12">
-                 <div className="flex items-baseline">
-                     <span className="font-['PhotographSignature'] text-7xl text-white mr-2">20</span>
-                     <span className="font-['PhotographSignature'] text-7xl text-white">ans</span>
+                 <div className="flex items-center justify-center mb-2">
+                     {stats[0].value}
                  </div>
-                 <div className="text-xl uppercase tracking-[0.3em] text-white font-light mt-2">
-                     D'EXPERIENCE
+                 <div className="text-xl uppercase tracking-[0.3em] text-white font-light mt-2 text-center">
+                     {stats[0].label}
                  </div>
               </div>
               
-              <div className="flex flex-wrap justify-center gap-y-12 w-full max-w-[300px]">
-                 <div className="flex flex-col items-center w-1/2">
-                    <span className="font-['PhotographSignature'] text-6xl text-white mb-3">+30</span>
-                    <span className="text-[9px] uppercase tracking-[0.2em] text-gray-300 text-center leading-relaxed font-light">
-                      RÉSIDENCES HAUT<br/>STANDING
-                    </span>
-                 </div>
-                 <div className="flex flex-col items-center w-1/2">
-                    <span className="font-['PhotographSignature'] text-6xl text-white mb-3">+15</span>
-                    <span className="text-[9px] uppercase tracking-[0.2em] text-gray-300 text-center leading-relaxed font-light">
-                      COMMUNES<br/>PRESTIGIEUSES
-                    </span>
-                 </div>
-                 <div className="flex flex-col items-center w-full mt-2">
-                    <span className="font-['PhotographSignature'] text-6xl text-white mb-3">+1500</span>
-                    <span className="text-[9px] uppercase tracking-[0.2em] text-gray-300 text-center leading-relaxed font-light">
-                      APPARTEMENTS<br/>LIVRÉS
-                    </span>
-                 </div>
-              </div>
+              <div className="flex flex-row justify-center items-start w-full gap-2 px-2 mt-8">
+                  {/* Middle Row Left: +30 */}
+                  <div className="flex flex-col items-center w-1/3 [&_img]:max-w-[60px] [&_img]:h-auto">
+                     <div className="flex items-center justify-center mb-2 h-12">
+                         {stats[1].value}
+                     </div>
+                     <span className="text-[8px] uppercase tracking-[0.1em] text-white text-center leading-relaxed font-light mt-1">
+                       RÉSIDENCES HAUT<br/>STANDING
+                     </span>
+                  </div>
+                  
+                  {/* Middle Row Right: +15 */}
+                  <div className="flex flex-col items-center w-1/3 [&_img]:max-w-[50px] [&_img]:h-auto">
+                     <div className="flex items-center justify-center mb-2 h-12">
+                         {stats[2].value}
+                     </div>
+                     <span className="text-[8px] uppercase tracking-[0.1em] text-white text-center leading-relaxed font-light mt-1">
+                       COMMUNES<br/>PRESTIGIEUSES
+                     </span>
+                  </div>
+                  
+                  {/* Bottom Row: +1500 */}
+                  <div className="flex flex-col items-center w-1/3 [&_img]:max-w-[70px] [&_img]:h-auto">
+                     <div className="flex items-center justify-center mb-2 h-12">
+                         {stats[3].value}
+                     </div>
+                     <span className="text-[8px] uppercase tracking-[0.1em] text-white text-center leading-relaxed font-light mt-1">
+                       APPARTEMENTS<br/>LIVRÉS
+                     </span>
+                  </div>
+               </div>
            </div>
         ) : (
           <div className="grid grid-cols-2 gap-y-12 gap-x-8 md:grid-cols-4 md:gap-8">
