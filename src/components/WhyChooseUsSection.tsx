@@ -58,41 +58,58 @@ export default function WhyChooseUsSection() {
         <h2 className="mt-2 text-3xl md:text-4xl font-bold uppercase tracking-wider">NOUS CHOISIR ?</h2>
       </div>
 
-      {/* Cards Section */}
-      <div className="mx-auto mb-20 grid max-w-6xl grid-cols-1 gap-6 px-6 md:grid-cols-3">
+      {/* Cards Section alignée */}
+ {/* Cards Section corrigée */}
+      <div className="mx-auto mb-20 grid max-w-6xl grid-cols-1 gap-8 px-6 md:grid-cols-3 items-stretch">
         {[
           {
             id: 1,
             title: "AMÉNAGEMENT",
-            description: "Transformez votre espace de vie avec notre service d'aménagement intérieur...",
-            icon: "/choose.svg"
+            description:
+              "Transformez votre espace de vie avec notre service d'aménagement intérieur...",
+            icon: "/choose.svg",
           },
           {
             id: 2,
             title: "GESTION DE COPROPRIÉTÉ",
-            description: "Notre service de gestion assure une sécurité 24h/24, l'entretien des espaces collectifs...",
-            icon: "/management.svg"
+            description:
+              "Notre service de gestion assure une sécurité 24h/24, l'entretien des espaces collectifs...",
+            icon: "/management.svg",
           },
           {
             id: 3,
             title: "LOCAUX COMMERCIAUX",
-            description: "Boostez votre activité avec nos locaux commerciaux en location dans des zones stratégiques...",
-            icon: "/commercial.svg"
-          }
+            description:
+              "Boostez votre activité avec nos locaux commerciaux en location dans des zones stratégiques...",
+            icon: "/commercial.svg",
+          },
         ].map((card) => (
           <div
             key={card.id}
-            className="relative rounded-2xl bg-white/10 backdrop-blur-md ring-1 ring-white/20 before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-r before:from-black/20 before:to-transparent before:content-['']"
-            style={{ boxShadow: "inset 0 -12px 16px rgba(0,0,0,0.20), 0 10px 22px rgba(0,0,0,0.22)" }}
+            className="relative flex h-full rounded-2xl bg-white/10 backdrop-blur-md ring-1 ring-white/20 before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-r before:from-black/20 before:to-transparent before:content-[''] transition-all duration-300 hover:-translate-y-2"
+            style={{
+              boxShadow:
+                "inset 0 -12px 16px rgba(0,0,0,0.20), 0 10px 22px rgba(0,0,0,0.22)",
+            }}
           >
-            <div className={`relative z-10 flex ${isMobile ? 'flex-col text-center' : 'flex-row text-left'} items-center gap-6 px-8 py-8`}>
-              <div className="flex h-14 w-14 items-center justify-center">
+            <div
+              className={`relative z-10 flex h-full w-full ${
+                isMobile ? "flex-col text-center" : "flex-row text-left"
+              } items-center gap-6 px-8 py-8`}
+            >
+              <div className="flex h-16 w-16 items-center justify-center shrink-0">
                 <img src={card.icon} alt="" className="h-14 w-14" />
               </div>
-              {!isMobile && <div className="w-[2px] h-14 bg-white/25 rounded" />}
-              <div className="flex-1">
-                <div className="text-lg font-bold uppercase tracking-wider text-[#F7C66A]">{card.title}</div>
-                <div className="mt-2 text-sm leading-relaxed text-white/85">
+
+              {!isMobile && (
+                <div className="w-[2px] h-16 bg-white/25 rounded shrink-0" />
+              )}
+
+              <div className="flex flex-col justify-center flex-1">
+                <div className="text-lg font-bold uppercase tracking-wider text-[#F7C66A]">
+                  {card.title}
+                </div>
+                <div className="mt-3 text-sm leading-relaxed text-white/85">
                   {card.description}
                 </div>
               </div>

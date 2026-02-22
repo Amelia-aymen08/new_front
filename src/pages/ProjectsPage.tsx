@@ -248,6 +248,13 @@ function Pagination() {
 
 export default function ProjectsPage() {
   const location = useLocation();
+  useEffect(() => {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "auto", // important : pas smooth
+  });
+}, []);
   const [activeTab, setActiveTab] = useState<"FINIS" | "EN COURS" | "LOCALITÉS">("EN COURS");
   const [visibleCount, setVisibleCount] = useState(9); // Initial count
 
