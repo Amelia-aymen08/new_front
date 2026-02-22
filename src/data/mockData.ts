@@ -152,9 +152,12 @@ Chaque appartement bénéficie d'une finition haut de gamme, avec des matériaux
 
 La Résidence Amétrine se distingue également par sa situation géographique stratégique, avec un accès direct à l'autoroute, et sa proximité immédiate des entreprises, universités, salles de sport, des boutiques prisées de Sidi Yahia, ainsi que des commodités et services de la commune d'Hydra.`,
     gallery: [
-      "/assets/projets/galeries/ametrine/1.png",
-      "/assets/projets/galeries/ametrine/2.png",
-      "/assets/projets/galeries/ametrine/3.png",        
+      "/assets/projets/galeries/ametrine/1.jpg",
+      "/assets/projets/galeries/ametrine/2.jpg",
+      "/assets/projets/galeries/ametrine/3.jpg",  
+      "/assets/projets/galeries/ametrine/4.jpg",
+      "/assets/projets/galeries/ametrine/5.jpg",
+      "/assets/projets/galeries/ametrine/6.jpg",       
     ],
     features: STANDARD_FEATURES,
     details: [
@@ -239,7 +242,7 @@ Optez pour le confort luxueux de la résidence Séraphinite à Ruisseau et de se
     status: "EN COURS",
     isNightMode: false,
 
-    coverImage: "/assets/projets/couvertures/celestine.png",
+    coverImage: "/assets/projets/couvertures/celestine.jpg",
     fullDescription: `Aymen Promotion Immobilière lance son premier projet dans la commune dynamique de Bab Ezzouar !
 
 Ce complexe résidentiel arbore un design extérieur résolument contemporain et dynamique, apportant une touche d'élégance à son environnement urbain immédiat, qui lui-même regorge de nombreux attraits. Bab Ezzouar, en tant que pôle d'affaires et de commerce de premier plan, offre une gamme variée de commodités, notamment des centres commerciaux, des restaurants renommés, une multitude d'entreprises, ainsi que plusieurs installations de divertissement et de bien-être.
@@ -248,8 +251,8 @@ Cette résidence de choix se compose de 07 blocs distincts, s'étendant sur plus
 
 Aymen Promotion Immobilière s'engage à offrir à ses clients un cadre de vie d'exception, en sélectionnant avec soin des matériaux et des finitions de haute qualité. De la conception à la réalisation, nos équipes sont mobilisées pour créer des appartements qui allient confort, sécurité et esthétique.`,
     gallery: [
-      "/assets/projets/galeries/celestine/1.jpg",
-      "/assets/projets/galeries/celestine/2.jpg",
+      "/assets/projets/galeries/celestine/1.png",
+      "/assets/projets/galeries/celestine/2.png",
       "/assets/projets/galeries/celestine/3.jpg", 
     ],
     features: STANDARD_FEATURES,
@@ -337,7 +340,7 @@ Vivez une expérience résidentielle paisible dans ce projet intimiste, où le c
     status: "EN COURS",
     isNightMode: false,
 
-    coverImage: "/assets/projets/couvertures/diar-el-amane.png",
+    coverImage: "/assets/projets/couvertures/diar-el-amane.jpg",
     fullDescription: `Connue autrefois pour ses champs d’arbres fruitiers à perte de vue, la région des Vergers à Birkhadem connaît depuis quelque temps une croissance importante. Devenue une région très recherchée par les acquéreurs, elle abrite aujourd’hui un symbole de la nouvelle génération de résidences en Algérie qui sublime son patrimoine urbain : la résidence Diar El Amane de la prestigieuse promotion immobilière Aymen.
 
 Cette merveille architecturale transcende l'idée de résidence. En effet, en plus de son design épuré et contemporain, les espaces intérieurs bénéficient également d’une conception ingénieuse et d’espaces de vie idéalement agencés. Un vaste choix de typologies vous attend, allant du charmant F2 de 54 m² au spacieux F5 de 188 m² en simplex. Si vous souhaitez plus d’espace, vous pouvez découvrir des duplex exclusifs d'une opulence inégalée, variant du F4 de 134 m² à 188 m².
@@ -777,7 +780,7 @@ Chaque détail a été soigneusement pensé pour offrir un confort optimal. Les 
     image: "/assets/projets/el-mordjane.png", 
     status: "FINIS",
     isNightMode: true,
-    coverImage: "/assets/projets/couvertures/mordjane.jpg",
+    coverImage: "/assets/projets/couvertures/mordjan.jpg",
     fullDescription: `Au cœur d'Alger, dans le quartier de Saïd Hamdine, à quelques pas de la prestigieuse rue Sidi Yahia, se dresse fièrement la résidence El Mordjane d’Aymen Promotion Immobilière. Cette résidence propose une sélection variée de logements, allant du F3 de 88 m² au spacieux F5 de 162 m², répondant parfaitement aux besoins divers de sa clientèle exigeante.
 
 Autour de la résidence, on retrouve des lieux de vie élégants tels que des restaurants chics, des cafés branchés et des boutiques haut de gamme, offrant ainsi une expérience urbaine vibrante. L'intérieur de la résidence est conçu avec une finesse et une attention aux détails qui crée un cadre de vie véritablement unique.`,
