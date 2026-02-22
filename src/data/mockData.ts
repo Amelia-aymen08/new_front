@@ -145,7 +145,7 @@ export const PROJECTS: Project[] = [
     status: "EN COURS",
     isNightMode: false,
 
-    coverImage: "/assets/projets/couvertures/ametrine.png",
+    coverImage: "/assets/projets/couvertures/ametrine.jpg",
     fullDescription: `Résidence Amétrine , le récent chef-d'œuvre d'Aymen Promotion Immobilière, se distingue par son caractère intimiste et son emplacement privilégié à Saïd Hamdine, dans la commune de Bir Mourad Raïs. Ce projet d'exception propose 27 appartements de haut standing , avec diverses typologies s'étendant du F2 de 49 m² au somptueux F5 de 321 m². Le design contemporain des trois façades révèle une esthétique avant-gardiste, s'intégrant harmonieusement dans l'environnement urbain moderne.
 
 Chaque appartement bénéficie d'une finition haut de gamme, avec des matériaux de qualité , et de vastes baies vitrées permettant une luminosité naturelle optimale tout au long de la journée. Certains logements exclusifs disposent de terrasses privées agrémentées de piscines, offrant un espace de détente privilégié à leurs résidents.
