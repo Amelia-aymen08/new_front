@@ -72,7 +72,7 @@ export const PROJECTS: Project[] = [
     details: [
       { label: "Adresse", value: "Chéraga" },
       { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "01 %" },
+      { label: "État d'avancement", value: "04 %" },
     ],
     plans: STANDARD_PLANS
   },
@@ -130,8 +130,8 @@ export const PROJECTS: Project[] = [
     features: STANDARD_FEATURES,
     details: [
       { label: "Adresse", value: "El Achour" },
-      { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "01 %" },
+      { label: "Blocs", value: "02" },
+      { label: "État d'avancement", value: "57 %" },
     ],
     plans: STANDARD_PLANS
   },
@@ -163,7 +163,7 @@ La Résidence Amétrine se distingue également par sa situation géographique s
     details: [
       { label: "Adresse", value: "Said Hamdine" },
       { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "01 %" },
+      { label: "État d'avancement", value: "50 %" },
     ],
     plans: STANDARD_PLANS
   },
@@ -194,7 +194,7 @@ Au cœur de ce havre de paix, les résidents pourront également profiter de par
     details: [
       { label: "Adresse", value: "Hydra" },
       { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "01 %" },
+      { label: "État d'avancement", value: "93 %" },
     ],
     plans: STANDARD_PLANS
   },
@@ -227,8 +227,8 @@ Optez pour le confort luxueux de la résidence Séraphinite à Ruisseau et de se
     features: STANDARD_FEATURES,
     details: [
       { label: "Adresse", value: "Ruisseau" },
-      { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "01 %" },
+      { label: "Blocs", value: "03" },
+      { label: "État d'avancement", value: "15 %" },
     ],
     plans: STANDARD_PLANS
   },
@@ -258,8 +258,8 @@ Aymen Promotion Immobilière s'engage à offrir à ses clients un cadre de vie d
     features: STANDARD_FEATURES,
     details: [
       { label: "Adresse", value: "Bab Ezzouar" },
-      { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "01 %" },
+      { label: "Blocs", value: "07" },
+      { label: "État d'avancement", value: "38 %" },
     ],
     plans: STANDARD_PLANS
   },
@@ -290,8 +290,8 @@ Plongez dans un cadre urbain moderne et élégant, où le confort se marie harmo
     features: STANDARD_FEATURES,
     details: [
       { label: "Adresse", value: "Tixeraïne" },
-      { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "01 %" },
+      { label: "Blocs", value: "02" },
+      { label: "État d'avancement", value: "47 %" },
     ],
     plans: STANDARD_PLANS
   },
@@ -359,8 +359,8 @@ En définitive, la résidence Diar El Amane est une allégorie de l’art de viv
     features: STANDARD_FEATURES,
     details: [
       { label: "Adresse", value: "Birkhadem" },
-      { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "01 %" },
+      { label: "Blocs", value: "04" },
+      { label: "État d'avancement", value: "86 %" },
     ],
     plans: STANDARD_PLANS
   },
@@ -390,8 +390,8 @@ En plus de profiter d’une mobilité aisée et rapide au quotidien, les habitan
     features: STANDARD_FEATURES,
     details: [
       { label: "Adresse", value: "Chéraga" },
-      { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "01 %" },
+      { label: "Blocs", value: "03" },
+      { label: "État d'avancement", value: "100 %" },
       
     ],
     plans: STANDARD_PLANS
@@ -423,8 +423,8 @@ Que vous recherchiez de vastes espaces intérieurs ou un appartement de taille m
     features: STANDARD_FEATURES,
     details: [
       { label: "Adresse", value: "Draria" },
-      { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "01 %" },
+      { label: "Blocs", value: "02" },
+      { label: "État d'avancement", value: "100 %" },
     ],
     plans: STANDARD_PLANS
   },
@@ -455,8 +455,8 @@ Cette résidence offre également toutes les commodités essentielles pour une v
     features: STANDARD_FEATURES,
     details: [
       { label: "Adresse", value: "Draria" },
-      { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "01 %" },
+      { label: "Blocs", value: "04" },
+      { label: "État d'avancement", value: "100 %" },
     ],
     plans: STANDARD_PLANS
   },
@@ -581,7 +581,7 @@ Idéalement situé à seulement 3 minutes des principaux axes autoroutiers, ce p
     features: STANDARD_FEATURES,
     details: [
       { label: "Adresse", value: "Hydra" },
-      { label: "Blocs", value: "01" },
+      { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
     plans: STANDARD_PLANS
@@ -645,7 +645,7 @@ Même si les typologies de ces logements divergent, ils ont en commun une finiti
     features: STANDARD_FEATURES,
     details: [
       { label: "Adresse", value: "El Achour" },
-      { label: "Blocs", value: "01" },
+      { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
     plans: STANDARD_PLANS
@@ -680,7 +680,7 @@ Même si les typologies de ces logements divergent, ils ont en commun une finiti
     features: STANDARD_FEATURES,
     details: [
       { label: "Adresse", value: "Birkhadem" },
-      { label: "Blocs", value: "01" },
+      { label: "Blocs", value: "03" },
       { label: "État d'avancement", value: "100 %" },
     ],
     plans: STANDARD_PLANS
@@ -742,7 +742,7 @@ Que vous recherchiez un espace confortable pour votre vie quotidienne ou un inve
     features: STANDARD_FEATURES,
     details: [
       { label: "Adresse", value: "El Achour" },
-      { label: "Blocs", value: "01" },
+      { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
     plans: STANDARD_PLANS
@@ -766,7 +766,7 @@ Chaque détail a été soigneusement pensé pour offrir un confort optimal. Les 
     features: STANDARD_FEATURES,
     details: [
       { label: "Adresse", value: "Oued Romane" },
-      { label: "Blocs", value: "01" },
+      { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
     plans: STANDARD_PLANS
@@ -790,7 +790,7 @@ Autour de la résidence, on retrouve des lieux de vie élégants tels que des re
     features: STANDARD_FEATURES,
     details: [
       { label: "Adresse", value: "Said Hamdine" },
-      { label: "Blocs", value: "01" },
+      { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
     plans: STANDARD_PLANS
@@ -822,7 +822,7 @@ Offrant une variété d'options, les appartements de la résidence Aymen s'éten
     features: STANDARD_FEATURES,
     details: [
       { label: "Adresse", value: "Birkhadem" },
-      { label: "Blocs", value: "01" },
+      { label: "Blocs", value: "05" },
       { label: "État d'avancement", value: "100 %" },
     ],
     plans: STANDARD_PLANS
@@ -854,7 +854,7 @@ Aussi, vous pouvez vivre en toute sérénité en sachant que votre foyer est pro
     features: STANDARD_FEATURES,
     details: [
       { label: "Adresse", value: "Hydra" },
-      { label: "Blocs", value: "01" },
+      { label: "Blocs", value: "04" },
       { label: "État d'avancement", value: "100 %" },
     ],
     plans: STANDARD_PLANS
@@ -888,7 +888,7 @@ La résidence offre également une aire de jeu sécurisée pour le divertissemen
     features: STANDARD_FEATURES,    
     details: [
       { label: "Adresse", value: "Dar El Beïda" },  
-      { label: "Blocs", value: "01" },
+      { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
      
     ],
