@@ -30,6 +30,19 @@ export default function ContactSection() {
     setLoading(true);
     setStatus({ type: null, message: "" });
 
+    // Simulation d'envoi pour la présentation
+    setTimeout(() => {
+      setStatus({ 
+        type: 'success', 
+        message: "Message envoyé avec succès !" 
+      });
+      setFormData({ fullName: "", phone: "", email: "", message: "" });
+      setConsent(false);
+      setLoading(false);
+    }, 1500);
+
+    // Code réel pour le backend (commenté pour la présentation)
+    /*
     try {
       const response = await fetch(`${API_BASE_URL}/api/contacts`, {
         method: "POST",
@@ -55,6 +68,7 @@ export default function ContactSection() {
     } finally {
       setLoading(false);
     }
+    */
   };
 
   useEffect(() => {
@@ -184,84 +198,112 @@ export default function ContactSection() {
             }`}
             style={{ willChange: "transform, opacity" }}
           >
-            <form onSubmit={handleSubmit} className="w-full max-w-xl pb-10 md:pb-0">
-              <div className="grid grid-cols-1 gap-6">
-                  <label className="block">
-                    <span className="mb-1 block text-xs md:text-sm text-white/60 uppercase tracking-wider">NOM</span>
-                    <input
-                        type="text"
-                        name="fullName"
-                        value={formData.fullName}
-                        onChange={handleChange}
-                        required
-                        className="w-full border-0 border-b border-[#F7C66A]/50 bg-transparent py-2 text-white outline-none transition focus:border-[#F7C66A] placeholder:text-white/60"
-                      />
-                  </label>
-                  <label className="block">
-                    <span className="mb-1 block text-xs md:text-sm text-white/60 uppercase tracking-wider">TÉLÉPHONE</span>
-                    <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        required
-                        className="w-full border-0 border-b border-[#F7C66A]/50 bg-transparent py-2 text-white outline-none transition focus:border-[#F7C66A] placeholder:text-white/60"
-                      />
-                  </label>
-                  <label className="block">
-                    <span className="mb-1 block text-xs md:text-sm text-white/60 uppercase tracking-wider">EMAIL</span>
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        className="w-full border-0 border-b border-[#F7C66A]/50 bg-transparent py-2 text-white outline-none transition focus:border-[#F7C66A] placeholder:text-white/60"
-                      />
-                  </label>
-                  <label className="block">
-                    <span className="mb-1 block text-xs md:text-sm text-white/60 uppercase tracking-wider">MESSAGE</span>
-                    <textarea
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        required
-                        rows={2}
-                        className="w-full border-0 border-b border-[#F7C66A]/50 bg-transparent py-2 text-white outline-none transition focus:border-[#F7C66A] placeholder:text-white/60 resize-none"
-                      />
-                  </label>
-              </div>
-
-              <div className="mt-6 mb-6">
-                 <label className="flex items-start gap-2 cursor-pointer">
-                    <input 
-                        type="checkbox" 
-                        checked={consent}
-                        onChange={(e) => setConsent(e.target.checked)}
-                        className="mt-1 w-3 h-3 accent-[#F7C66A] bg-transparent border-white/30 rounded" 
-                    />
-                    <span className="text-[10px] text-white/60 leading-tight">
-                      CONSENTEMENT : J'accepte que mes données soient utilisées pour le traitement de ma demande en conformité avec la loi 18-07 révisée et compléter par la loi 11-25.
-                    </span>
-                 </label>
-              </div>
-
-              {status.message && (
-                <div className={`mb-4 text-xs ${status.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
-                  {status.message}
+            {status.type === 'success' ? (
+              <div className="w-full max-w-xl py-10">
+                <div className="bg-green-500/20 border border-green-500 rounded-lg p-8 text-center">
+                  <div className="w-20 h-20 mx-auto mb-6 bg-green-500/30 rounded-full flex items-center justify-center">
+                    <i className="fa-solid fa-check text-4xl text-green-300"></i>
+                  </div>
+                  <h3 className="text-2xl font-medium text-green-300 mb-3">Message envoyé !</h3>
+                  <p className="text-green-200 mb-6 text-base">
+                    {status.message || "Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais."}
+                  </p>
+                  <button 
+                    onClick={() => setStatus({ type: null, message: "" })}
+                    className="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium shadow-md text-sm"
+                  >
+                    Envoyer un nouveau message
+                  </button>
                 </div>
-              )}
-
-              <div className="mt-4 flex justify-start md:justify-center">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="inline-flex items-center justify-center rounded-full border border-[#F7C66A] px-8 py-3 text-xs md:text-sm font-semibold uppercase tracking-widest text-white transition hover:bg-[#F7C66A] hover:text-black w-full md:w-auto disabled:opacity-50"
-                >
-                  {loading ? 'ENVOI...' : 'PRENDRE CONTACT'}
-                </button>
               </div>
-            </form>
+            ) : (
+              <form onSubmit={handleSubmit} className="w-full max-w-xl pb-10 md:pb-0">
+                <div className="grid grid-cols-1 gap-6">
+                    <label className="block">
+                      <span className="mb-1 block text-xs md:text-sm text-white/60 uppercase tracking-wider">NOM</span>
+                      <input
+                          type="text"
+                          name="fullName"
+                          value={formData.fullName}
+                          onChange={handleChange}
+                          required
+                          className="w-full border-0 border-b border-[#F7C66A]/50 bg-transparent py-2 text-white outline-none transition focus:border-[#F7C66A] placeholder:text-white/60"
+                        />
+                    </label>
+                    <label className="block">
+                      <span className="mb-1 block text-xs md:text-sm text-white/60 uppercase tracking-wider">TÉLÉPHONE</span>
+                      <input
+                          type="tel"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          required
+                          className="w-full border-0 border-b border-[#F7C66A]/50 bg-transparent py-2 text-white outline-none transition focus:border-[#F7C66A] placeholder:text-white/60"
+                        />
+                    </label>
+                    <label className="block">
+                      <span className="mb-1 block text-xs md:text-sm text-white/60 uppercase tracking-wider">EMAIL</span>
+                      <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          required
+                          className="w-full border-0 border-b border-[#F7C66A]/50 bg-transparent py-2 text-white outline-none transition focus:border-[#F7C66A] placeholder:text-white/60"
+                        />
+                    </label>
+                    <label className="block">
+                      <span className="mb-1 block text-xs md:text-sm text-white/60 uppercase tracking-wider">MESSAGE</span>
+                      <textarea
+                          name="message"
+                          value={formData.message}
+                          onChange={handleChange}
+                          required
+                          rows={2}
+                          className="w-full border-0 border-b border-[#F7C66A]/50 bg-transparent py-2 text-white outline-none transition focus:border-[#F7C66A] placeholder:text-white/60 resize-none"
+                        />
+                    </label>
+                </div>
+
+                <div className="mt-6 mb-6">
+                   <label className="flex items-start gap-2 cursor-pointer">
+                      <input 
+                          type="checkbox" 
+                          checked={consent}
+                          onChange={(e) => setConsent(e.target.checked)}
+                          className="mt-1 w-3 h-3 accent-[#F7C66A] bg-transparent border-white/30 rounded" 
+                      />
+                      <span className="text-[10px] text-white/60 leading-tight">
+                        CONSENTEMENT : J'accepte que mes données soient utilisées pour le traitement de ma demande en conformité avec la loi 18-07 révisée et compléter par la loi 11-25.
+                      </span>
+                   </label>
+                </div>
+
+                {status.type === 'error' && (
+                  <div className="mb-4 p-3 bg-red-500/20 border border-red-500 rounded-lg text-red-200 text-xs flex items-center gap-2">
+                    <i className="fa-solid fa-circle-exclamation"></i>
+                    <span>{status.message}</span>
+                  </div>
+                )}
+
+                <div className="mt-4 flex justify-start md:justify-center">
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="inline-flex items-center justify-center rounded-full border border-[#F7C66A] px-8 py-3 text-xs md:text-sm font-semibold uppercase tracking-widest text-white transition hover:bg-[#F7C66A] hover:text-black w-full md:w-auto disabled:opacity-50 disabled:cursor-not-allowed gap-2"
+                  >
+                    {loading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-3 w-3 border-2 border-white border-t-transparent"></div>
+                        ENVOI...
+                      </>
+                    ) : (
+                      'PRENDRE CONTACT'
+                    )}
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </div>

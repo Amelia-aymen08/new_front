@@ -464,6 +464,35 @@ function DetailsContact({ projectTitle }: { projectTitle?: string }) {
     setLoading(true);
     setStatus({ type: null, message: "" });
 
+    // Simulation d'envoi pour la présentation
+    setTimeout(() => {
+      setStatus({ 
+        type: 'success', 
+        message: "Votre demande de devis a été envoyée avec succès !" 
+      });
+      setFormData({
+        email: "",
+        lastName: "",
+        firstName: "",
+        phone: "",
+        country: "",
+        wilaya: "",
+        budget: "",
+        profession: "",
+        financing: "",
+        interest: "",
+        locations: [],
+        contactDays: [],
+        contactTime: "",
+        projectStatus: "",
+        consent: false,
+        sourceProject: projectTitle || "RÉSIDENCE AZURITE"
+      });
+      setLoading(false);
+    }, 1500);
+
+    // Code réel pour le backend (commenté pour la présentation)
+    /*
     try {
       const response = await fetch("http://localhost:5000/api/quotes", {
         method: "POST",
@@ -501,121 +530,150 @@ function DetailsContact({ projectTitle }: { projectTitle?: string }) {
     } finally {
       setLoading(false);
     }
+    */
   };
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-20">
       <h2 className="mb-12 text-3xl font-bold uppercase tracking-wide text-white">Devis</h2>
       
-      <form onSubmit={handleSubmit} className="grid gap-10 lg:grid-cols-2">
-        {/* Left Column - Personal & Project Info */}
-        <div className="space-y-6">
-           <InputGroup label="Email*" name="email" type="email" value={formData.email} onChange={handleChange} required />
-           <div className="grid grid-cols-2 gap-4">
-             <InputGroup label="Nom*" name="lastName" type="text" value={formData.lastName} onChange={handleChange} required />
-             <InputGroup label="Prénom*" name="firstName" type="text" value={formData.firstName} onChange={handleChange} required />
-           </div>
-           
-           {/* Phone */}
-           <div className="border-b border-white/20 pt-4">
-             <div className="flex items-center gap-2">
-                <div className="flex items-center gap-2 border-r border-white/20 pr-3">
-                   <img src="https://flagcdn.com/w20/dz.png" alt="DZ" className="h-4 w-6 object-cover" />
-                   <span className="text-white">+213</span>
-                </div>
-                <input 
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                  className="w-full bg-transparent py-2 text-white placeholder-white/50 focus:outline-none focus:placeholder-[#F7C66A] transition-colors" 
-                  placeholder="Téléphone"
-                />
-             </div>
-           </div>
-
-           <SelectGroup label="Pays" name="country" value={formData.country} onChange={handleChange} options={["Algeria", "France", "Canada", "Autre"]} />
-           <SelectGroup label="Wilaya *" name="wilaya" value={formData.wilaya} onChange={handleChange} options={["Alger", "Oran", "Constantine", "Autre"]} required />
-           <SelectGroup label="Budget estimé *" name="budget" value={formData.budget} onChange={handleChange} options={["< 20M DA", "20M DA - 40M DA", "> 40M DA"]} required />
-           <SelectGroup label="Secteur d'activité *" name="profession" value={formData.profession} onChange={handleChange} options={["Salarié", "Profession Libérale", "Commerçant", "Autre"]} required />
-           <SelectGroup label="Type de financement *" name="financing" value={formData.financing} onChange={handleChange} options={["Fonds Propres", "Crédit Bancaire", "Mixte"]} required />
-           <SelectGroup label="Intéressé par *" name="interest" value={formData.interest} onChange={handleChange} options={["Appartement", "Duplex", "Local Commercial", "Bureau"]} required />
-        </div>
-
-        {/* Right Column - Preferences */}
-        <div className="space-y-8">
-           {/* Localisation */}
-           <div>
-             <label className="mb-4 block text-sm font-bold uppercase text-[#F7C66A]">Localisation souhaitée</label>
-             <div className="grid grid-cols-2 gap-y-3 sm:grid-cols-3">
-                {["Hydra", "Dely Ibrahim", "Draria", "Ruisseau", "Birkhadem", "Bad Ezzouar", "El Achour", "Kouba", "Dar el Beida", "Chéraga", "Said Hamdine"].map(loc => (
-                  <label key={loc} className="flex items-center gap-3 text-white/80 cursor-pointer hover:text-white">
-                    <input 
-                        type="checkbox" 
-                        value={loc}
-                        checked={formData.locations.includes(loc)}
-                        onChange={(e) => handleArrayCheckboxChange(e, 'locations')}
-                        className="h-4 w-4 rounded border-white/30 bg-transparent text-[#F7C66A] focus:ring-[#F7C66A]" 
-                    />
-                    <span className="text-sm">{loc}</span>
-                  </label>
-                ))}
-             </div>
-           </div>
-
-           {/* Jours de contact */}
-           <div>
-             <label className="mb-4 block text-sm font-bold uppercase text-[#F7C66A]">Jours de contact préférés *</label>
-             <div className="grid grid-cols-2 gap-y-3 sm:grid-cols-3">
-                {["Samedi", "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi"].map(day => (
-                  <label key={day} className="flex items-center gap-3 text-white/80 cursor-pointer hover:text-white">
-                    <input 
-                        type="checkbox" 
-                        value={day}
-                        checked={formData.contactDays.includes(day)}
-                        onChange={(e) => handleArrayCheckboxChange(e, 'contactDays')}
-                        className="h-4 w-4 rounded border-white/30 bg-transparent text-[#F7C66A] focus:ring-[#F7C66A]" 
-                    />
-                    <span className="text-sm">{day}</span>
-                  </label>
-                ))}
-             </div>
-           </div>
-
-           <SelectGroup label="Heure de contact préférée" name="contactTime" value={formData.contactTime} onChange={handleChange} options={["Matin (9h-12h)", "Après-midi (13h-17h)", "Soir (17h-20h)"]} />
-           <SelectGroup label="Statut du projet *" name="projectStatus" value={formData.projectStatus} onChange={handleChange} options={["Urgent", "Moyen terme", "Long terme"]} required />
-        </div>
-
-        {/* Bottom Full Width */}
-        <div className="lg:col-span-2 pt-8 border-t border-white/10">
-          <label className="flex items-start gap-3 text-sm text-white/60 cursor-pointer mb-8">
-             <input 
-                type="checkbox" 
-                name="consent"
-                checked={formData.consent}
-                onChange={handleChange}
-                required
-                className="mt-1 h-4 w-4 rounded border-white/30 bg-transparent text-[#F7C66A]" 
-             />
-             <span className="leading-relaxed">CONSENTEMENT : J'accepte que mes données soient utilisées pour le traitement de ma demande en conformité avec la loi 18-07 révisée et compléter par la loi 11-25.</span>
-          </label>
-          
-          {status.message && (
-            <div className={`p-4 mb-4 rounded-md ${status.type === 'success' ? 'bg-green-500/20 text-green-200' : 'bg-red-500/20 text-red-200'}`}>
-              {status.message}
-            </div>
-          )}
-
+      {status.type === 'success' ? (
+        <div className="bg-green-500/20 border border-green-500 rounded-lg p-12 text-center max-w-3xl mx-auto">
+          <div className="w-24 h-24 mx-auto mb-8 bg-green-500/30 rounded-full flex items-center justify-center">
+            <i className="fa-solid fa-check text-5xl text-green-300"></i>
+          </div>
+          <h3 className="text-3xl font-medium text-green-300 mb-4">Demande envoyée !</h3>
+          <p className="text-green-200 mb-8 text-lg">
+            {status.message || "Votre demande de devis a été envoyée avec succès. Un conseiller vous contactera dans les plus brefs délais."}
+          </p>
           <button 
-            type="submit" 
-            disabled={loading}
-            className="w-full rounded-none border border-[#F7C66A] bg-[#F7C66A] py-4 text-sm font-bold uppercase tracking-widest text-[#031B17] transition hover:bg-transparent hover:text-[#F7C66A] disabled:opacity-50"
+            onClick={() => setStatus({ type: null, message: "" })}
+            className="bg-green-600 text-white px-10 py-4 rounded-lg hover:bg-green-700 transition-colors font-medium shadow-md text-lg"
           >
-             {loading ? 'ENVOI EN COURS...' : 'ENVOYER'}
+            Nouvelle demande
           </button>
         </div>
-      </form>
+      ) : (
+        <form onSubmit={handleSubmit} className="grid gap-10 lg:grid-cols-2">
+          {/* Left Column - Personal & Project Info */}
+          <div className="space-y-6">
+            <InputGroup label="Email*" name="email" type="email" value={formData.email} onChange={handleChange} required />
+            <div className="grid grid-cols-2 gap-4">
+              <InputGroup label="Nom*" name="lastName" type="text" value={formData.lastName} onChange={handleChange} required />
+              <InputGroup label="Prénom*" name="firstName" type="text" value={formData.firstName} onChange={handleChange} required />
+            </div>
+            
+            {/* Phone */}
+            <div className="border-b border-white/20 pt-4">
+              <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 border-r border-white/20 pr-3">
+                    <img src="https://flagcdn.com/w20/dz.png" alt="DZ" className="h-4 w-6 object-cover" />
+                    <span className="text-white">+213</span>
+                  </div>
+                  <input 
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                    className="w-full bg-transparent py-2 text-white placeholder-white/50 focus:outline-none focus:placeholder-[#F7C66A] transition-colors" 
+                    placeholder="Téléphone"
+                  />
+              </div>
+            </div>
+
+            <SelectGroup label="Pays" name="country" value={formData.country} onChange={handleChange} options={["Algeria", "France", "Canada", "Autre"]} />
+            <SelectGroup label="Wilaya *" name="wilaya" value={formData.wilaya} onChange={handleChange} options={["Alger", "Oran", "Constantine", "Autre"]} required />
+            <SelectGroup label="Budget estimé *" name="budget" value={formData.budget} onChange={handleChange} options={["< 20M DA", "20M DA - 40M DA", "> 40M DA"]} required />
+            <SelectGroup label="Secteur d'activité *" name="profession" value={formData.profession} onChange={handleChange} options={["Salarié", "Profession Libérale", "Commerçant", "Autre"]} required />
+            <SelectGroup label="Type de financement *" name="financing" value={formData.financing} onChange={handleChange} options={["Fonds Propres", "Crédit Bancaire", "Mixte"]} required />
+            <SelectGroup label="Intéressé par *" name="interest" value={formData.interest} onChange={handleChange} options={["Appartement", "Duplex", "Local Commercial", "Bureau"]} required />
+          </div>
+
+          {/* Right Column - Preferences */}
+          <div className="space-y-8">
+            {/* Localisation */}
+            <div>
+              <label className="mb-4 block text-sm font-bold uppercase text-[#F7C66A]">Localisation souhaitée</label>
+              <div className="grid grid-cols-2 gap-y-3 sm:grid-cols-3">
+                  {["Hydra", "Dely Ibrahim", "Draria", "Ruisseau", "Birkhadem", "Bad Ezzouar", "El Achour", "Kouba", "Dar el Beida", "Chéraga", "Said Hamdine"].map(loc => (
+                    <label key={loc} className="flex items-center gap-3 text-white/80 cursor-pointer hover:text-white">
+                      <input 
+                          type="checkbox" 
+                          value={loc}
+                          checked={formData.locations.includes(loc)}
+                          onChange={(e) => handleArrayCheckboxChange(e, 'locations')}
+                          className="h-4 w-4 rounded border-white/30 bg-transparent text-[#F7C66A] focus:ring-[#F7C66A]" 
+                      />
+                      <span className="text-sm">{loc}</span>
+                    </label>
+                  ))}
+              </div>
+            </div>
+
+            {/* Jours de contact */}
+            <div>
+              <label className="mb-4 block text-sm font-bold uppercase text-[#F7C66A]">Jours de contact préférés *</label>
+              <div className="grid grid-cols-2 gap-y-3 sm:grid-cols-3">
+                  {["Samedi", "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi"].map(day => (
+                    <label key={day} className="flex items-center gap-3 text-white/80 cursor-pointer hover:text-white">
+                      <input 
+                          type="checkbox" 
+                          value={day}
+                          checked={formData.contactDays.includes(day)}
+                          onChange={(e) => handleArrayCheckboxChange(e, 'contactDays')}
+                          className="h-4 w-4 rounded border-white/30 bg-transparent text-[#F7C66A] focus:ring-[#F7C66A]" 
+                      />
+                      <span className="text-sm">{day}</span>
+                    </label>
+                  ))}
+              </div>
+            </div>
+
+            <SelectGroup label="Heure de contact préférée" name="contactTime" value={formData.contactTime} onChange={handleChange} options={["Matin (9h-12h)", "Après-midi (13h-17h)", "Soir (17h-20h)"]} />
+            <SelectGroup label="Statut du projet *" name="projectStatus" value={formData.projectStatus} onChange={handleChange} options={["Urgent", "Moyen terme", "Long terme"]} required />
+          </div>
+
+          {/* Bottom Full Width */}
+          <div className="lg:col-span-2 pt-8 border-t border-white/10">
+            <label className="flex items-start gap-3 text-sm text-white/60 cursor-pointer mb-8">
+              <input 
+                  type="checkbox" 
+                  name="consent"
+                  checked={formData.consent}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 h-4 w-4 rounded border-white/30 bg-transparent text-[#F7C66A]" 
+              />
+              <span className="leading-relaxed">CONSENTEMENT : J'accepte que mes données soient utilisées pour le traitement de ma demande en conformité avec la loi 18-07 révisée et compléter par la loi 11-25.</span>
+            </label>
+            
+            {status.type === 'error' && (
+              <div className="bg-red-500/20 border border-red-500 rounded-lg p-4 text-red-200 mb-6">
+                <div className="flex items-center gap-2">
+                  <i className="fa-solid fa-circle-exclamation"></i>
+                  <span>{status.message}</span>
+                </div>
+              </div>
+            )}
+
+            <button 
+              type="submit" 
+              disabled={loading}
+              className="w-full rounded-none border border-[#F7C66A] bg-[#F7C66A] py-4 text-sm font-bold uppercase tracking-widest text-[#031B17] transition hover:bg-transparent hover:text-[#F7C66A] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {loading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-[#031B17] border-t-transparent"></div>
+                  ENVOI EN COURS...
+                </>
+              ) : (
+                'ENVOYER'
+              )}
+            </button>
+          </div>
+        </form>
+      )}
     </section>
   );
 }

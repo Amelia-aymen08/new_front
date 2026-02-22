@@ -39,6 +39,18 @@ export default function ContactPage() {
     setLoading(true);
     setStatus({ type: null, message: "" });
 
+    // Simulation d'envoi pour la présentation
+    setTimeout(() => {
+      setStatus({ 
+        type: 'success', 
+        message: "Votre message a été envoyé avec succès !" 
+      });
+      setFormData({ fullName: "", email: "", phone: "", subject: "", message: "", type: "" });
+      setLoading(false);
+    }, 1500);
+
+    // Code réel pour le backend (commenté pour la présentation)
+    /*
     try {
       const response = await fetch(`${API_BASE_URL}/api/contacts`, {
         method: "POST",
@@ -64,6 +76,7 @@ export default function ContactPage() {
     } finally {
       setLoading(false);
     }
+    */
   };
 
   useEffect(() => {
@@ -115,118 +128,146 @@ export default function ContactPage() {
               </h1>
             </div>
 
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-1">
-                  <label className="text-xs uppercase tracking-wider text-gray-300">Nom et Prénom* :</label>
-                  <input required name="fullName" value={formData.fullName} onChange={handleChange} type="text" className="w-full bg-transparent border-b border-white/30 py-2 focus:border-[#F7C66A] outline-none transition-colors" />
+            {status.type === 'success' ? (
+              <div className="bg-green-500/20 border border-green-500 rounded-lg p-12 text-center">
+                <div className="w-24 h-24 mx-auto mb-8 bg-green-500/30 rounded-full flex items-center justify-center">
+                  <i className="fa-solid fa-check text-5xl text-green-300"></i>
                 </div>
-                <div className="space-y-1">
-                  <label className="text-xs uppercase tracking-wider text-gray-300">Email* :</label>
-                  <input required name="email" value={formData.email} onChange={handleChange} type="email" className="w-full bg-transparent border-b border-white/30 py-2 focus:border-[#F7C66A] outline-none transition-colors" />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-1">
-                  <label className="text-xs uppercase tracking-wider text-gray-300">Téléphone* :</label>
-                  <div className="flex items-center gap-2 border-b border-white/30 py-2 transition-colors focus-within:border-[#F7C66A]">
-                    <div className="relative">
-                      <button 
-                        type="button"
-                        onClick={() => setShowCountryDropdown(!showCountryDropdown)}
-                        className="flex items-center gap-1 pr-2 border-r border-white/30 hover:bg-white/5 rounded px-1 transition-colors"
-                      >
-                        <img src={`https://flagcdn.com/w20/${selectedCountry.flag}.png`} alt={selectedCountry.name} className="h-4 w-6 object-cover rounded-[2px]" />
-                        <span className="text-white text-sm">{selectedCountry.code}</span>
-                        <i className={`fa-solid fa-caret-down text-[10px] text-white/70 ml-1 transition-transform ${showCountryDropdown ? "rotate-180" : ""}`}></i>
-                      </button>
-                      
-                      {showCountryDropdown && (
-                        <div className="absolute top-full left-0 mt-2 w-48 max-h-60 overflow-y-auto bg-[#0C2A24] border border-white/10 rounded-lg shadow-xl z-50">
-                          {countries.map((country) => (
-                            <button
-                              key={`${country.flag}-${country.code}`}
-                              type="button"
-                              onClick={() => {
-                                setSelectedCountry(country);
-                                setShowCountryDropdown(false);
-                              }}
-                              className="flex items-center gap-3 w-full px-4 py-2 hover:bg-white/10 transition-colors text-left"
-                            >
-                              <img src={`https://flagcdn.com/w20/${country.flag}.png`} alt={country.name} className="h-4 w-6 object-cover rounded-[2px]" />
-                              <span className="text-white text-sm">{country.name}</span>
-                              <span className="text-white/50 text-xs ml-auto">{country.code}</span>
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                    <input required name="phone" value={formData.phone} onChange={handleChange} type="tel" className="w-full bg-transparent text-white outline-none placeholder:text-white/60 pl-2" />
-                  </div>
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs uppercase tracking-wider text-gray-300">Objet* :</label>
-                  <input required name="subject" value={formData.subject} onChange={handleChange} type="text" className="w-full bg-transparent border border-white/30 rounded-lg px-4 py-2 focus:border-[#F7C66A] outline-none transition-colors" />
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs uppercase tracking-wider text-gray-300">MESSAGE* :</label>
-                <textarea required name="message" value={formData.message} onChange={handleChange} rows={4} className="w-full bg-transparent border border-white/30 rounded-lg px-4 py-2 focus:border-[#F7C66A] outline-none transition-colors resize-none"></textarea>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs uppercase tracking-wider text-gray-300">TYPE DE DEMANDE * :</label>
-                <div className="relative">
-                  <select name="type" value={formData.type} onChange={handleChange} className="w-full bg-transparent border border-white/30 rounded-lg px-4 py-3 appearance-none focus:border-[#F7C66A] outline-none transition-colors cursor-pointer text-white">
-                    <option className="bg-[#0C2A24]" value="">-- Choisir un type --</option>
-                    <option className="bg-[#0C2A24]" value="Information">Information</option>
-                    <option className="bg-[#0C2A24]" value="Devis">Devis</option>
-                    <option className="bg-[#0C2A24]" value="Réclamation">Réclamation</option>
-                    <option className="bg-[#0C2A24]" value="Demande d'emploi">Demande d'emploi</option>
-                    <option className="bg-[#0C2A24]" value="Offre de service">Offre de service</option>
-                    <option className="bg-[#0C2A24]" value="Vente de terrain">Vente de terrain</option>
-                    <option className="bg-[#0C2A24]" value="Autres">Autres</option>
-                  </select>
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                    <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M1 1.5L6 6.5L11 1.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs uppercase tracking-wider text-gray-300">PIÈCE JOINTE</label>
-                <div className="flex items-center justify-between border-b border-white/30 py-2">
-                  <span className="text-sm text-gray-400 italic">Aucun fichier sélectionné</span>
-                  <label className="cursor-pointer bg-[#F7C66A] text-[#031B17] px-4 py-1 rounded-full text-xs font-bold uppercase hover:bg-white transition-colors">
-                    CHOISIR UN FICHIER
-                    <input type="file" className="hidden" />
-                  </label>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3 mt-4">
-                <input required type="checkbox" id="terms" className="mt-1 accent-[#F7C66A]" />
-                <label htmlFor="terms" className="text-xs text-gray-300 leading-relaxed">
-                  CONSENTEMENT : J'accepte que mes données soient utilisées pour le traitement de ma demande en conformité avec la loi 18-07 révisée et compléter par la loi 11-25.
-                </label>
-              </div>
-
-              {status.message && (
-                <div className={`p-4 rounded-md ${status.type === 'success' ? 'bg-green-500/20 text-green-200' : 'bg-red-500/20 text-red-200'}`}>
-                  {status.message}
-                </div>
-              )}
-
-              <div className="flex justify-center mt-8">
-                <button disabled={loading} type="submit" className="bg-[#F7C66A] text-[#031B17] px-10 py-3 rounded-md font-bold uppercase tracking-wider hover:bg-white transition-colors shadow-lg shadow-[#F7C66A]/20 disabled:opacity-50">
-                  {loading ? 'ENVOI EN COURS...' : 'PRENDRE CONTACT'}
+                <h3 className="text-3xl font-medium text-green-300 mb-4">Message envoyé !</h3>
+                <p className="text-green-200 mb-8 text-lg">
+                  {status.message || "Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais."}
+                </p>
+                <button 
+                  onClick={() => setStatus({ type: null, message: "" })}
+                  className="bg-green-600 text-white px-10 py-4 rounded-lg hover:bg-green-700 transition-colors font-medium shadow-md text-lg"
+                >
+                  Envoyer un autre message
                 </button>
               </div>
-            </form>
+            ) : (
+              <form className="space-y-6" onSubmit={handleSubmit}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-1">
+                    <label className="text-xs uppercase tracking-wider text-gray-300">Nom et Prénom* :</label>
+                    <input required name="fullName" value={formData.fullName} onChange={handleChange} type="text" className="w-full bg-transparent border-b border-white/30 py-2 focus:border-[#F7C66A] outline-none transition-colors" />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs uppercase tracking-wider text-gray-300">Email* :</label>
+                    <input required name="email" value={formData.email} onChange={handleChange} type="email" className="w-full bg-transparent border-b border-white/30 py-2 focus:border-[#F7C66A] outline-none transition-colors" />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-1">
+                    <label className="text-xs uppercase tracking-wider text-gray-300">Téléphone* :</label>
+                    <div className="flex items-center gap-2 border-b border-white/30 py-2 transition-colors focus-within:border-[#F7C66A]">
+                      <div className="relative">
+                        <button 
+                          type="button"
+                          onClick={() => setShowCountryDropdown(!showCountryDropdown)}
+                          className="flex items-center gap-1 pr-2 border-r border-white/30 hover:bg-white/5 rounded px-1 transition-colors"
+                        >
+                          <img src={`https://flagcdn.com/w20/${selectedCountry.flag}.png`} alt={selectedCountry.name} className="h-4 w-6 object-cover rounded-[2px]" />
+                          <span className="text-white text-sm">{selectedCountry.code}</span>
+                          <i className={`fa-solid fa-caret-down text-[10px] text-white/70 ml-1 transition-transform ${showCountryDropdown ? "rotate-180" : ""}`}></i>
+                        </button>
+                        
+                        {showCountryDropdown && (
+                          <div className="absolute top-full left-0 mt-2 w-48 max-h-60 overflow-y-auto bg-[#0C2A24] border border-white/10 rounded-lg shadow-xl z-50">
+                            {countries.map((country) => (
+                              <button
+                                key={`${country.flag}-${country.code}`}
+                                type="button"
+                                onClick={() => {
+                                  setSelectedCountry(country);
+                                  setShowCountryDropdown(false);
+                                }}
+                                className="flex items-center gap-3 w-full px-4 py-2 hover:bg-white/10 transition-colors text-left"
+                              >
+                                <img src={`https://flagcdn.com/w20/${country.flag}.png`} alt={country.name} className="h-4 w-6 object-cover rounded-[2px]" />
+                                <span className="text-white text-sm">{country.name}</span>
+                                <span className="text-white/50 text-xs ml-auto">{country.code}</span>
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <input required name="phone" value={formData.phone} onChange={handleChange} type="tel" className="w-full bg-transparent text-white outline-none placeholder:text-white/60 pl-2" />
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs uppercase tracking-wider text-gray-300">Objet* :</label>
+                    <input required name="subject" value={formData.subject} onChange={handleChange} type="text" className="w-full bg-transparent border border-white/30 rounded-lg px-4 py-2 focus:border-[#F7C66A] outline-none transition-colors" />
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs uppercase tracking-wider text-gray-300">MESSAGE* :</label>
+                  <textarea required name="message" value={formData.message} onChange={handleChange} rows={4} className="w-full bg-transparent border border-white/30 rounded-lg px-4 py-2 focus:border-[#F7C66A] outline-none transition-colors resize-none"></textarea>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs uppercase tracking-wider text-gray-300">TYPE DE DEMANDE * :</label>
+                  <div className="relative">
+                    <select name="type" value={formData.type} onChange={handleChange} className="w-full bg-transparent border border-white/30 rounded-lg px-4 py-3 appearance-none focus:border-[#F7C66A] outline-none transition-colors cursor-pointer text-white">
+                      <option className="bg-[#0C2A24]" value="">-- Choisir un type --</option>
+                      <option className="bg-[#0C2A24]" value="Information">Information</option>
+                      <option className="bg-[#0C2A24]" value="Devis">Devis</option>
+                      <option className="bg-[#0C2A24]" value="Réclamation">Réclamation</option>
+                      <option className="bg-[#0C2A24]" value="Demande d'emploi">Demande d'emploi</option>
+                      <option className="bg-[#0C2A24]" value="Offre de service">Offre de service</option>
+                      <option className="bg-[#0C2A24]" value="Vente de terrain">Vente de terrain</option>
+                      <option className="bg-[#0C2A24]" value="Autres">Autres</option>
+                    </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                      <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 1.5L6 6.5L11 1.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs uppercase tracking-wider text-gray-300">PIÈCE JOINTE</label>
+                  <div className="flex items-center justify-between border-b border-white/30 py-2">
+                    <span className="text-sm text-gray-400 italic">Aucun fichier sélectionné</span>
+                    <label className="cursor-pointer bg-[#F7C66A] text-[#031B17] px-4 py-1 rounded-full text-xs font-bold uppercase hover:bg-white transition-colors">
+                      CHOISIR UN FICHIER
+                      <input type="file" className="hidden" />
+                    </label>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 mt-4">
+                  <input required type="checkbox" id="terms" className="mt-1 accent-[#F7C66A]" />
+                  <label htmlFor="terms" className="text-xs text-gray-300 leading-relaxed">
+                    CONSENTEMENT : J'accepte que mes données soient utilisées pour le traitement de ma demande en conformité avec la loi 18-07 révisée et compléter par la loi 11-25.
+                  </label>
+                </div>
+
+                {status.type === 'error' && (
+                  <div className="bg-red-500/20 border border-red-500 rounded-lg p-4 text-red-200">
+                    <div className="flex items-center gap-2">
+                      <i className="fa-solid fa-circle-exclamation"></i>
+                      <span>{status.message}</span>
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex justify-center mt-8">
+                  <button disabled={loading} type="submit" className="bg-[#F7C66A] text-[#031B17] px-10 py-3 rounded-md font-bold uppercase tracking-wider hover:bg-white transition-colors shadow-lg shadow-[#F7C66A]/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 min-w-[200px]">
+                    {loading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-[#031B17] border-t-transparent"></div>
+                        ENVOI EN COURS...
+                      </>
+                    ) : (
+                      'PRENDRE CONTACT'
+                    )}
+                  </button>
+                </div>
+              </form>
+            )}
           </motion.div>
         </div>
 
