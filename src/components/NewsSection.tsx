@@ -86,10 +86,10 @@ export default function NewsSection() {
 
         {/* Carousel News */}
         <div className="relative mx-auto max-w-[95%] md:max-w-7xl px-4">
-          {/* Flèches de navigation globales - Centrées sur les images */}
+          {/* Flèches de navigation globales - Légèrement remontées */}
           <button 
             onClick={prevSlide}
-            className="absolute left-0 md:-left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F7C66A] text-[#031B17] flex items-center justify-center hover:bg-white transition-all shadow-xl"
+            className="absolute left-0 md:-left-4 top-[45%] -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F7C66A] text-[#031B17] flex items-center justify-center hover:bg-white transition-all shadow-xl"
             aria-label="Article précédent"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -99,7 +99,7 @@ export default function NewsSection() {
           
           <button 
             onClick={nextSlide}
-            className="absolute right-0 md:-right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F7C66A] text-[#031B17] flex items-center justify-center hover:bg-white transition-all shadow-xl"
+            className="absolute right-0 md:-right-4 top-[45%] -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F7C66A] text-[#031B17] flex items-center justify-center hover:bg-white transition-all shadow-xl"
             aria-label="Article suivant"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -134,37 +134,34 @@ export default function NewsSection() {
                       return (
                         <div key={item.id} className="group relative flex flex-col text-left">
                           {/* Image Card */}
-                          <div className="relative mb-4">
-                            {/* Conteneur d'image avec fond vert */}
-                            <div className="relative overflow-hidden rounded-2xl bg-[#052620] aspect-[4/3] flex items-center justify-center">
-                              <Link to={`/blog/${item.attributes.slug}`} className="block w-full h-full flex items-center justify-center">
-                                <img
-                                  src={fullImageUrl || "/sections/b1.jpg"}
-                                  alt={item.attributes.titre}
-                                  className="w-full h-full object-contain p-4 transition duration-500 group-hover:scale-105"
-                                  onError={(e) => {
-                                    e.currentTarget.src = "/sections/b1.jpg";
-                                  }}
-                                />
-                              </Link>
-                              
-                              {/* Date Badge - Positionné en bas à droite */}
-                              <div className="absolute bottom-3 right-3 flex flex-col items-center rounded-lg bg-white/90 backdrop-blur-sm px-3 py-2 text-black shadow-lg z-10">
-                                <span className="text-[10px] font-bold uppercase text-gray-600">
-                                  {new Date(item.attributes.date).toLocaleDateString("fr-FR", { month: "short" }).toUpperCase().replace('.', '')}
-                                </span>
-                                <span className="text-lg font-bold leading-none">
-                                  {new Date(item.attributes.date).getDate().toString().padStart(2, '0')}
-                                </span>
-                              </div>
+                          <div className="relative mb-4 overflow-hidden rounded-2xl bg-white/5 aspect-[4/3]">
+                            <Link to={`/blog/${item.attributes.slug}`} className="block w-full h-full">
+                              <img
+                                src={fullImageUrl || "/sections/b1.jpg"}
+                                alt={item.attributes.titre}
+                                className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
+                                onError={(e) => {
+                                  e.currentTarget.src = "/sections/b1.jpg";
+                                }}
+                              />
+                            </Link>
+                            
+                            {/* Date Badge */}
+                            <div className="absolute bottom-4 right-4 flex flex-col items-center rounded-lg bg-white px-3 py-2 text-black shadow-lg">
+                              <span className="text-xs font-semibold uppercase text-gray-500">
+                                {new Date(item.attributes.date).toLocaleDateString("fr-FR", { month: "short" }).replace('.', '').toUpperCase()}
+                              </span>
+                              <span className="text-xl font-bold leading-none">
+                                {new Date(item.attributes.date).getDate().toString().padStart(2, '0')}
+                              </span>
                             </div>
                           </div>
 
-                          {/* Texte - Aligné à gauche */}
-                          <h4 className="font-['PhotographSignature'] text-2xl md:text-3xl text-[#F7C66A] mb-2 line-clamp-1">
+                          {/* Texte */}
+                          <h4 className="font-['PhotographSignature'] text-3xl text-[#F7C66A] mb-2 line-clamp-1">
                             {item.attributes.titre}
                           </h4>
-                          <p className="text-xs md:text-sm text-white/80 leading-relaxed max-w-[95%] mb-4 line-clamp-2">
+                          <p className="text-sm text-white/80 leading-snug max-w-[90%] mb-4 line-clamp-2">
                             {item.attributes.description || "Immobilier pour un Patrimoine Durable avec Aymen Promotion"}
                           </p>
                           
