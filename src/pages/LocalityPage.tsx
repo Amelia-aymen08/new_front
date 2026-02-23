@@ -317,8 +317,8 @@ export default function LocalityPage() {
 
       <Header className="absolute top-0 left-0 z-40 w-full" />
       
-      {/* Hero Section */}
-      <section className={`relative w-full ${isMobile ? 'min-h-screen' : 'h-screen min-h-[800px] flex items-center pt-20'}`}>
+      {/* Hero Section - Added mb-20 for spacing */}
+      <section className={`relative w-full ${isMobile ? 'min-h-screen' : 'h-screen min-h-[800px] flex items-center pt-20'} mb-20`}>
          {/* Background Image (Hero) */}
          <div className={`absolute top-0 left-0 w-full z-0 ${isMobile ? 'h-[65vh]' : 'h-full'}`}>
              <img 
@@ -380,7 +380,7 @@ export default function LocalityPage() {
       </section>
 
       {/* Map & Featured Project Section */}
-      <section className="px-4 md:px-10 py-20 relative z-10 -mt-20">
+      <section className="px-4 md:px-10 py-20 relative z-10">
          <div className="container mx-auto">
              <MapCard projects={localityProjects} />
          </div>
