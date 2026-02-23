@@ -86,10 +86,10 @@ export default function NewsSection() {
 
         {/* Carousel News */}
         <div className="relative mx-auto max-w-[95%] md:max-w-7xl px-4">
-          {/* Flèches de navigation globales - Bien remontées */}
+          {/* Flèches de navigation globales - Légèrement remontées */}
           <button 
             onClick={prevSlide}
-            className="absolute left-0 md:-left-4 top-[42%] -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F7C66A] text-[#031B17] flex items-center justify-center hover:bg-white transition-all shadow-xl"
+            className="absolute left-0 md:-left-4 top-[45%] -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F7C66A] text-[#031B17] flex items-center justify-center hover:bg-white transition-all shadow-xl"
             aria-label="Article précédent"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -99,7 +99,7 @@ export default function NewsSection() {
           
           <button 
             onClick={nextSlide}
-            className="absolute right-0 md:-right-4 top-[42%] -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F7C66A] text-[#031B17] flex items-center justify-center hover:bg-white transition-all shadow-xl"
+            className="absolute right-0 md:-right-4 top-[45%] -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F7C66A] text-[#031B17] flex items-center justify-center hover:bg-white transition-all shadow-xl"
             aria-label="Article suivant"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -133,13 +133,13 @@ export default function NewsSection() {
 
                       return (
                         <div key={item.id} className="group relative flex flex-col text-left">
-                          {/* Image Card - Avec object-contain pour éviter le découpage */}
-                          <div className="relative mb-4 overflow-hidden rounded-2xl bg-[#0A2F25] aspect-[4/3] flex items-center justify-center">
-                            <Link to={`/blog/${item.attributes.slug}`} className="block w-full h-full flex items-center justify-center">
+                          {/* Image Card */}
+                          <div className="relative mb-4 overflow-hidden rounded-2xl bg-white/5 aspect-[4/3]">
+                            <Link to={`/blog/${item.attributes.slug}`} className="block w-full h-full">
                               <img
                                 src={fullImageUrl || "/sections/b1.jpg"}
                                 alt={item.attributes.titre}
-                                className="w-full h-full object-contain p-2 transition duration-500 group-hover:scale-105"
+                                className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
                                 onError={(e) => {
                                   e.currentTarget.src = "/sections/b1.jpg";
                                 }}
