@@ -8,10 +8,10 @@ const STRAPI_URL = config.STRAPI_URL;
 export default function NewsSection() {
   const { blogs, loading, error } = useBlogs();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [visibleCount, setVisibleCount] = useState(3); // 3 articles visibles à la fois sur desktop
+  const [visibleCount, setVisibleCount] = useState(3);
   const carouselRef = useRef(null);
 
-  // Récupérer les 6 derniers articles (triés par date) - CORRECTION ICI
+  // Récupérer les 6 derniers articles (triés par date)
   const latestBlogs = React.useMemo(() => {
     if (!blogs || blogs.length === 0) return [];
     
@@ -19,7 +19,7 @@ export default function NewsSection() {
       .sort((a, b) => {
         const dateA = new Date(a.attributes.date).getTime();
         const dateB = new Date(b.attributes.date).getTime();
-        return dateB - dateA; // Tri décroissant (plus récent d'abord)
+        return dateB - dateA;
       })
       .slice(0, 6);
   }, [blogs]);
@@ -30,7 +30,7 @@ export default function NewsSection() {
     if (currentIndex < totalSlides - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      setCurrentIndex(0); // Retour au début
+      setCurrentIndex(0);
     }
   };
 
@@ -38,7 +38,7 @@ export default function NewsSection() {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
     } else {
-      setCurrentIndex(totalSlides - 1); // Aller à la fin
+      setCurrentIndex(totalSlides - 1);
     }
   };
 
@@ -46,11 +46,11 @@ export default function NewsSection() {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
-        setVisibleCount(1); // Mobile: 1 article
+        setVisibleCount(1);
       } else if (window.innerWidth < 1024) {
-        setVisibleCount(2); // Tablet: 2 articles
+        setVisibleCount(2);
       } else {
-        setVisibleCount(3); // Desktop: 3 articles
+        setVisibleCount(3);
       }
     };
 
@@ -68,7 +68,7 @@ export default function NewsSection() {
   }
 
   if (error || latestBlogs.length === 0) {
-    return null; // Ne rien afficher s'il n'y a pas d'articles
+    return null;
   }
 
   return (
@@ -85,11 +85,11 @@ export default function NewsSection() {
         </div>
 
         {/* Carousel News */}
-        <div className="relative mx-auto max-w-[95%] md:max-w-7xl px-4 md:px-12">
-          {/* Navigation buttons - Centrés verticalement */}
+        <div className="relative mx-auto max-w-[95%] md:max-w-7xl px-4">
+          {/* Flèches de navigation globales - Centrées sur les images */}
           <button 
             onClick={prevSlide}
-            className="absolute -left-2 md:-left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F7C66A] text-[#031B17] flex items-center justify-center hover:bg-white transition-all shadow-xl"
+            className="absolute left-0 md:-left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F7C66A] text-[#031B17] flex items-center justify-center hover:bg-white transition-all shadow-xl"
             aria-label="Article précédent"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -99,7 +99,7 @@ export default function NewsSection() {
           
           <button 
             onClick={nextSlide}
-            className="absolute -right-2 md:-right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F7C66A] text-[#031B17] flex items-center justify-center hover:bg-white transition-all shadow-xl"
+            className="absolute right-0 md:-right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F7C66A] text-[#031B17] flex items-center justify-center hover:bg-white transition-all shadow-xl"
             aria-label="Article suivant"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -118,7 +118,7 @@ export default function NewsSection() {
               {Array.from({ length: totalSlides }).map((_, slideIndex) => (
                 <div 
                   key={slideIndex} 
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 w-full flex-shrink-0"
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full flex-shrink-0"
                 >
                   {latestBlogs
                     .slice(slideIndex * visibleCount, (slideIndex + 1) * visibleCount)
@@ -134,42 +134,46 @@ export default function NewsSection() {
                       return (
                         <div key={item.id} className="group relative flex flex-col text-left">
                           {/* Image Card */}
-                          <div className="relative mb-6 overflow-hidden rounded-2xl bg-white/5 aspect-[4/3]">
-                            <Link to={`/blog/${item.attributes.slug}`}>
-                              <img
-                                src={fullImageUrl || "/sections/b1.jpg"}
-                                alt={item.attributes.titre}
-                                className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                                onError={(e) => {
-                                  e.currentTarget.src = "/sections/b1.jpg";
-                                }}
-                              />
-                            </Link>
-                            
-                            {/* Date Badge */}
-                            <div className="absolute bottom-4 right-4 flex flex-col items-center rounded-lg bg-white px-3 py-2 text-black shadow-lg">
-                              <span className="text-xs font-semibold uppercase text-gray-500">
-                                {new Date(item.attributes.date).toLocaleDateString("fr-FR", { month: "short" }).replace('.', '')}
-                              </span>
-                              <span className="text-xl font-bold leading-none">
-                                {new Date(item.attributes.date).getDate().toString().padStart(2, '0')}
-                              </span>
+                          <div className="relative mb-4">
+                            {/* Conteneur d'image avec fond vert */}
+                            <div className="relative overflow-hidden rounded-2xl bg-[#052620] aspect-[4/3] flex items-center justify-center">
+                              <Link to={`/blog/${item.attributes.slug}`} className="block w-full h-full flex items-center justify-center">
+                                <img
+                                  src={fullImageUrl || "/sections/b1.jpg"}
+                                  alt={item.attributes.titre}
+                                  className="w-full h-full object-contain p-4 transition duration-500 group-hover:scale-105"
+                                  onError={(e) => {
+                                    e.currentTarget.src = "/sections/b1.jpg";
+                                  }}
+                                />
+                              </Link>
+                              
+                              {/* Date Badge - Positionné en bas à droite */}
+                              <div className="absolute bottom-3 right-3 flex flex-col items-center rounded-lg bg-white/90 backdrop-blur-sm px-3 py-2 text-black shadow-lg z-10">
+                                <span className="text-[10px] font-bold uppercase text-gray-600">
+                                  {new Date(item.attributes.date).toLocaleDateString("fr-FR", { month: "short" }).toUpperCase().replace('.', '')}
+                                </span>
+                                <span className="text-lg font-bold leading-none">
+                                  {new Date(item.attributes.date).getDate().toString().padStart(2, '0')}
+                                </span>
+                              </div>
                             </div>
                           </div>
 
-                          {/* Texte */}
-                          <h4 className="font-['PhotographSignature'] text-3xl text-[#F7C66A] mb-2 line-clamp-1">
+                          {/* Texte - Aligné à gauche */}
+                          <h4 className="font-['PhotographSignature'] text-2xl md:text-3xl text-[#F7C66A] mb-2 line-clamp-1">
                             {item.attributes.titre}
                           </h4>
-                          <p className="text-sm text-white/80 leading-snug max-w-[90%] mb-4 line-clamp-2">
+                          <p className="text-xs md:text-sm text-white/80 leading-relaxed max-w-[95%] mb-4 line-clamp-2">
                             {item.attributes.description || "Immobilier pour un Patrimoine Durable avec Aymen Promotion"}
                           </p>
                           
                           <Link 
                             to={`/blog/${item.attributes.slug}`}
-                            className="text-[10px] font-bold uppercase tracking-widest text-[#F7C66A] hover:text-white transition-colors flex items-center gap-2 w-fit"
+                            className="text-[10px] font-bold uppercase tracking-widest text-[#F7C66A] hover:text-white transition-colors flex items-center gap-2 w-fit group"
                           >
-                            <span className="text-lg leading-none">▸</span> LIRE L'ARTICLE
+                            <span className="text-lg leading-none transform group-hover:translate-x-1 transition-transform">▸</span> 
+                            <span>LIRE L'ARTICLE</span>
                           </Link>
                         </div>
                       );
