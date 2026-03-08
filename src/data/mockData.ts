@@ -35,6 +35,42 @@ const STANDARD_PLANS = [
   { type: "DUPLEX EN F5", area: "150 à 220 m²", image: "/plans/F5.png" },
 ];
 
+const CYANITE_PLANS = [
+  { type: "F3", area: "80 à 130 m²", image: "/plans/f3-cyanite.jpg" },
+  { type: "F4", area: "120 à 160 m²", image: "/plans/F4-cyanite.jpg" },
+  { type: "F5", area: "150 à 200 m²", image: "/plans/F5.png" },
+];
+
+const AZURITE_PLANS = [
+  { type: "F3", area: "75 à 110 m²", image: "/plans/F3.jpg" },
+  { type: "F4", area: "100 à 140 m²", image: "/plans/F4.png" },
+  { type: "DUPLEX", area: "160 à 240 m²", image: "/plans/duplex-azurite.jpg" },
+];
+
+const LARIMAR_PLANS = [
+  { type: "F2", area: "50 à 70 m²", image: "/plans/f2-larimar.jpg" },
+  { type: "F3", area: "80 à 120 m²", image: "/plans/F3.jpg" },
+  { type: "F4", area: "110 à 150 m²", image: "/plans/f4-larimar.jpg" },
+];
+
+const RUBIS_PLANS = [
+  { type: "F3", area: "85 à 125 m²", image: "/plans/f3-2.jpg" },
+  { type: "F4", area: "130 à 170 m²", image: "/plans/Rubis F4 + surface.png" },
+  { type: "F5", area: "160 à 210 m²", image: "/plans/F5-2.png" },
+];
+
+const MIX_PLANS_1 = [
+  { type: "F3", area: "70 à 115 m²", image: "/plans/f3-2.jpg" },
+  { type: "F4", area: "100 à 145 m²", image: "/plans/F4.png" },
+  { type: "F5", area: "140 à 190 m²", image: "/plans/F5-2.png" },
+];
+
+const MIX_PLANS_2 = [
+  { type: "F3", area: "65 à 110 m²", image: "/plans/F3.jpg" },
+  { type: "F4", area: "95 à 135 m²", image: "/plans/F4.png" },
+  { type: "DUPLEX", area: "155 à 230 m²", image: "/plans/F5.png" },
+];
+
 // Features standards pour toutes les résidences (avec les icônes SVG)
 const STANDARD_FEATURES = [
   "RECEPTION",
@@ -46,6 +82,33 @@ const STANDARD_FEATURES = [
 
 export const PROJECTS: Project[] = [
   // --- PROJETS EN COURS ---
+  {
+    id: 29,
+    title: "ALTHEA",
+    location: "Alger",
+    description: "C’est à Chevalley, quartier résidentiel prisé, qu’Aymen Promotion Immobilière présente la résidence Althéa...",
+    image: "/assets/projets/les-cretes.png",
+    status: "EN COURS",
+    isNightMode: false,  
+    coverImage: "/assets/projets/couvertures/althea.png",            
+    fullDescription: `C’est à Chevalley, quartier résidentiel prisé, qu’Aymen Promotion Immobilière présente la résidence Althéa, une adresse conçue pour offrir confort, sérénité et accessibilité. Idéalement située, la résidence se trouve à proximité de l’Université de Médecine de Ben Aknoun, de l’Université des Langues, des commerces, marchés et structures hospitalières. Les grands axes routiers, le Complexe Olympique du 5 Juillet et son annexe la mythique Coupole, le terrain de golf, l’hôtel militaire ainsi que les centres commerciaux de Ben Aknoun et d’El Biar complètent un environnement dynamique et pratique. Althéa se distingue par son architecture contemporaine, marquée par des volumes élégants et un éclairage LED qui sublime les façades la nuit`,
+    gallery: [
+      "/assets/projets/galeries/Althea/1.jpeg",
+      "/assets/projets/galeries/Althea/2.jpeg",
+      "/assets/projets/galeries/Althea/3.png",
+      "/assets/projets/galeries/Althea/4.png",
+      "/assets/projets/galeries/Althea/5.png",
+      "/assets/projets/galeries/Althea/6.png", 
+    ],
+    features: STANDARD_FEATURES,
+    details: [
+      { label: "Adresse", value: "Alger" },
+      { label: "Blocs", value: "02" },
+      { label: "État d'avancement", value: "00 %" },
+    ],
+    plans: MIX_PLANS_2
+  },
+
   {
     id: 1,
     title: "CYANITE",
@@ -72,9 +135,9 @@ export const PROJECTS: Project[] = [
     details: [
       { label: "Adresse", value: "Chéraga" },
       { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "04 %" },
+      { label: "État d'avancement", value: "10 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: CYANITE_PLANS
   },
 
   {
@@ -103,9 +166,9 @@ export const PROJECTS: Project[] = [
     details: [
       { label: "Adresse", value: "Kouba" },
       { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "01 %" },
+      { label: "État d'avancement", value: "10 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: AZURITE_PLANS
   },
 
   {
@@ -131,9 +194,9 @@ export const PROJECTS: Project[] = [
     details: [
       { label: "Adresse", value: "El Achour" },
       { label: "Blocs", value: "02" },
-      { label: "État d'avancement", value: "57 %" },
+      { label: "État d'avancement", value: "76 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_1
   },
 
   {
@@ -163,9 +226,9 @@ La Résidence Amétrine se distingue également par sa situation géographique s
     details: [
       { label: "Adresse", value: "Said Hamdine" },
       { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "50 %" },
+      { label: "État d'avancement", value: "79 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_2
   },
 
   {
@@ -194,9 +257,9 @@ Au cœur de ce havre de paix, les résidents pourront également profiter de par
     details: [
       { label: "Adresse", value: "Hydra" },
       { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "93 %" },
+      { label: "État d'avancement", value: "98 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_1
   },
 
   {
@@ -228,9 +291,9 @@ Optez pour le confort luxueux de la résidence Séraphinite à Ruisseau et de se
     details: [
       { label: "Adresse", value: "Ruisseau" },
       { label: "Blocs", value: "03" },
-      { label: "État d'avancement", value: "15 %" },
+      { label: "État d'avancement", value: "63 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_2
   },
 
   {
@@ -259,9 +322,9 @@ Aymen Promotion Immobilière s'engage à offrir à ses clients un cadre de vie d
     details: [
       { label: "Adresse", value: "Bab Ezzouar" },
       { label: "Blocs", value: "07" },
-      { label: "État d'avancement", value: "38 %" },
+      { label: "État d'avancement", value: "71 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_1
   },
 
   {
@@ -291,9 +354,9 @@ Plongez dans un cadre urbain moderne et élégant, où le confort se marie harmo
     details: [
       { label: "Adresse", value: "Tixeraïne" },
       { label: "Blocs", value: "02" },
-      { label: "État d'avancement", value: "47 %" },
+      { label: "État d'avancement", value: "71 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: LARIMAR_PLANS
   },
 
   {
@@ -302,8 +365,8 @@ Plongez dans un cadre urbain moderne et élégant, où le confort se marie harmo
     location: "Birkhadem, Alger",
     description: "Conçue pour allier esthétisme et fonctionnalité, la résidence one building Sélenite...",
     image: "/assets/projets/selenite.png",
-    status: "EN COURS",
-    isNightMode: false,
+    status: "FINIS",
+    isNightMode: true,
 
     coverImage: "/assets/projets/couvertures/selenite.png",
     fullDescription: `Conçue pour allier esthétisme et fonctionnalité, la résidence one building Sélénite incarne le summum de la modernité. Cet édifice élégant se positionne judicieusement dans la commune affectionnée de Birkhadem.
@@ -326,9 +389,9 @@ Vivez une expérience résidentielle paisible dans ce projet intimiste, où le c
     details: [
       { label: "Adresse", value: "Birkhadem" },
       { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "01 %" },
+      { label: "État d'avancement", value: "100 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_1
   },
 
   {
@@ -360,9 +423,9 @@ En définitive, la résidence Diar El Amane est une allégorie de l’art de viv
     details: [
       { label: "Adresse", value: "Birkhadem" },
       { label: "Blocs", value: "04" },
-      { label: "État d'avancement", value: "86 %" },
+      { label: "État d'avancement", value: "94 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_2
   },
 
   {
@@ -371,8 +434,8 @@ En définitive, la résidence Diar El Amane est une allégorie de l’art de viv
     location: "Cheraga, Alger",
     description: "Située à Dar Diaf, au cœur de la commune de Chéraga...",
     image: "/assets/projets/pyrite.png",
-    status: "EN COURS",
-    isNightMode: false,
+    status: "FINIS",
+    isNightMode: true,
 
     coverImage: "/assets/projets/couvertures/pyrite.png",
     fullDescription: `Située à Dar Diaf, au cœur de la commune dynamique de Chéraga, la résidence Haut Standing Pyrite s'étend sur 3 blocs et propose une large variété de logements d'exception. Ce projet innovant donne sur les accès autoroutiers, facilitant grandement les déplacements des résidents.
@@ -394,7 +457,7 @@ En plus de profiter d’une mobilité aisée et rapide au quotidien, les habitan
       { label: "État d'avancement", value: "100 %" },
       
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_1
   },
 
   {
@@ -403,8 +466,8 @@ En plus de profiter d’une mobilité aisée et rapide au quotidien, les habitan
     location: "Draria, Alger",
     description: "La résidence Jais, véritable joyau d'Aymen Promotion Immobilière...",
     image: "/assets/projets/jais.png",
-    status: "EN COURS",
-    isNightMode: false,
+    status: "FINIS",
+    isNightMode: true,
 
     coverImage: "/assets/projets/couvertures/jais.png",
     fullDescription: `La résidence Jais, véritable joyau d’Aymen Promotion Immobilière, incarne le calme et la sophistication à l’état pur et offre une multitude d'aménagements pour un cadre de vie des plus confortables.
@@ -426,7 +489,7 @@ Que vous recherchiez de vastes espaces intérieurs ou un appartement de taille m
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_2
   },
 
   {
@@ -435,8 +498,8 @@ Que vous recherchiez de vastes espaces intérieurs ou un appartement de taille m
     location: "Draria, Alger",
     description: "Au cœur d'un des quartiers les plus prestigieux de la commune de Draria...",
     image: "/assets/projets/les-cretes.png",
-    status: "EN COURS",
-    isNightMode: false,
+    status: "FINIS",
+    isNightMode: true,
 
     coverImage: "/assets/projets/couvertures/les-cretes.png",
     fullDescription: `Au cœur d'un des quartiers les plus prestigieux de la commune de Draria, se dévoile la somptueuse Résidence Les Crêtes. Présentant un design moderne et raffiné, cette résidence se distingue par ses façades ornées de magnifiques angles vitrés. Implanté sur plusieurs niveaux, ce projet immobilier contemporain s'intègre harmonieusement au tissu urbain environnant. Il offre une gamme d'appartements allant du F2 de 47 m² au F5 de 210 m² en simplex, répartis sur quatre blocs disposés autour d'une esplanade, espace de détente et de convivialité agrémenté d'une aire de jeux, pour le plus grand plaisir des petits et des grands !
@@ -458,7 +521,7 @@ Cette résidence offre également toutes les commodités essentielles pour une v
       { label: "Blocs", value: "04" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_1
   },
 
   // --- PROJETS FINIS ---
@@ -483,9 +546,9 @@ Cette résidence d'exception se compose de 14 appartements, allant du F2 au F7 e
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_2
   },
-  
+
   {
     id: 15,
     title: "SPINELLE",
@@ -510,9 +573,9 @@ La Résidence Spinelle se distingue par ses 12 logements fonctionnels conçus po
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_1
   },
-  
+
   {
     id: 16,
     title: "BERYL",
@@ -538,9 +601,9 @@ Chaque logement est conçu avec soin pour offrir des espaces à vivre généreux
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_2
   },
-  
+
   {
     id: 17,
     title: "BOIS DES CARS",
@@ -560,9 +623,9 @@ Chaque logement est conçu avec soin pour offrir des espaces à vivre généreux
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_1
   },
-  
+
   {
     id: 18,
     title: "PÉRIDOT",
@@ -584,9 +647,9 @@ Idéalement situé à seulement 3 minutes des principaux axes autoroutiers, ce p
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_2
   },
-  
+
   {
     id: 19,
     title: "CORAIL",
@@ -615,9 +678,9 @@ Chaque résident pourra personnaliser son expérience selon ses préférences. A
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_1
   },
-  
+
   {
     id: 20,
     title: "OPALE",
@@ -648,9 +711,9 @@ Même si les typologies de ces logements divergent, ils ont en commun une finiti
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_2
   },
-  
+
   {
     id: 21,
     title: "CITRINE",
@@ -683,9 +746,9 @@ Même si les typologies de ces logements divergent, ils ont en commun une finiti
       { label: "Blocs", value: "03" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_1
   },
-  
+
   {
     id: 22,
     title: "ANGÉLITE",
@@ -713,9 +776,9 @@ Ce projet immobilier bénéficie d'un emplacement privilégié à proximité de 
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_2
   },
-  
+
   {
     id: 23,
     title: "RUBIS",
@@ -745,7 +808,7 @@ Que vous recherchiez un espace confortable pour votre vie quotidienne ou un inve
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: RUBIS_PLANS
   },
   
   {
@@ -769,9 +832,9 @@ Chaque détail a été soigneusement pensé pour offrir un confort optimal. Les 
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_1
   },
-  
+
   {
     id: 25,
     title: "EL MORDJANE",
@@ -793,9 +856,9 @@ Autour de la résidence, on retrouve des lieux de vie élégants tels que des re
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_2
   },
-  
+
   {
     id: 26,
     title: "Aymen",
@@ -825,7 +888,7 @@ Offrant une variété d'options, les appartements de la résidence Aymen s'éten
       { label: "Blocs", value: "05" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_1
   },
   
   {
@@ -857,9 +920,9 @@ Aussi, vous pouvez vivre en toute sérénité en sachant que votre foyer est pro
       { label: "Blocs", value: "04" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_2
   },
-  
+
   {
     id: 28,
     title: "PERLA",
@@ -892,34 +955,9 @@ La résidence offre également une aire de jeu sécurisée pour le divertissemen
       { label: "État d'avancement", value: "100 %" },
      
     ],
-    plans: STANDARD_PLANS
+    plans: MIX_PLANS_1
   },
   
-  {
-    id: 29,
-    title: "ALTHEA",
-    location: "Alger",
-    description: "C’est à Chevalley, quartier résidentiel prisé, qu’Aymen Promotion Immobilière présente la résidence Althéa...",
-    image: "/assets/projets/les-cretes.png",
-    status: "EN COURS",
-    isNightMode: false,  
-    coverImage: "/assets/projets/couvertures/althea.png",            
-    fullDescription: `C’est à Chevalley, quartier résidentiel prisé, qu’Aymen Promotion Immobilière présente la résidence Althéa, une adresse conçue pour offrir confort, sérénité et accessibilité. Idéalement située, la résidence se trouve à proximité de l’Université de Médecine de Ben Aknoun, de l’Université des Langues, des commerces, marchés et structures hospitalières. Les grands axes routiers, le Complexe Olympique du 5 Juillet et son annexe la mythique Coupole, le terrain de golf, l’hôtel militaire ainsi que les centres commerciaux de Ben Aknoun et d’El Biar complètent un environnement dynamique et pratique. Althéa se distingue par son architecture contemporaine, marquée par des volumes élégants et un éclairage LED qui sublime les façades la nuit`,
-    gallery: [
-      "/assets/projets/galeries/Althea/1.png",
-      "/assets/projets/galeries/Althea/2.png",
-      "/assets/projets/galeries/Althea/3.png",
-      "/assets/projets/galeries/Althea/4.png", 
-    ],
-    features: STANDARD_FEATURES,
-    details: [
-      { label: "Adresse", value: "Alger" },
-      { label: "Blocs", value: "02" },
-      { label: "État d'avancement", value: "00 %" },
-    ],
-    plans: STANDARD_PLANS
-  },
-
 ];
 
 export const LOCALITIES: Locality[] = [

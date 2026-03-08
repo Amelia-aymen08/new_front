@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link, useLocation } from "react-router-dom";
@@ -68,13 +68,55 @@ function LocationPinIcon() {
 
 // --- Components ---
 
-function FilterDropdown({ label }: { label: string }) {
+function FilterDropdown({ label, options, value, onChange }: { label: string, options: string[], value: string, onChange: (val: string) => void }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close on click outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
-    <button className="flex items-center justify-between gap-4 rounded border-[0.2px] border-[#F7C66A] px-4 py-2 text-xs font-medium uppercase tracking-wider text-white transition hover:bg-[#F7C66A]/10">
-      {label}
-      <ChevronDownIcon />
-    </button>
+    <div className="relative" ref={dropdownRef}>
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className={`flex items-center justify-between gap-4 rounded border-[0.2px] border-[#F7C66A] px-4 py-2 text-xs font-medium uppercase tracking-wider text-white transition hover:bg-[#F7C66A]/10 ${isOpen ? "bg-[#F7C66A]/10" : ""}`}
+      >
+        {value === "TOUTES" || value === "TOUS" ? label : value}
+        <ChevronDownIcon />
+      </button>
+
+      {isOpen && (
+        <div className="absolute top-full left-0 z-50 mt-2 w-48 rounded bg-[#031B17] border border-[#F7C66A]/30 shadow-xl max-h-60 overflow-y-auto">
+          {options.map((option) => (
+            <button
+              key={option}
+              onClick={() => {
+                onChange(option);
+                setIsOpen(false);
+              }}
+              className="block w-full px-4 py-2 text-left text-xs text-white hover:bg-[#F7C66A] hover:text-[#031B17] transition-colors"
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   );
+}
+
+function getProgress(project: Project) {
+  const details = project.details?.find(d => d.label === "État d'avancement");
+  if (!details) return 0;
+  return parseInt(details.value.replace(/\D/g, '')) || 0;
 }
 
 // "Cube" Card for Projects
@@ -96,9 +138,25 @@ function ProjectCard({ project, style }: { project: Project; style?: React.CSSPr
             <LocationPinIcon />
             <span>{project.location}</span>
           </div>
-          <p className="mb-6 text-xs leading-relaxed text-white/60 line-clamp-4 font-light">
+          <p className="mb-4 text-xs leading-relaxed text-white/60 line-clamp-3 font-light">
             {project.description}
           </p>
+
+          {/* Progress Bar */}
+          {project.status !== "FINIS" && (
+            <div className="mb-6">
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-[10px] font-medium uppercase tracking-wider text-white/60">Avancement</span>
+                <span className="text-[10px] font-bold text-[#F7C66A]">{getProgress(project)}%</span>
+              </div>
+              <div className="h-1 w-full rounded-full bg-white/10">
+                <div 
+                  className="h-full rounded-full bg-[#F7C66A] transition-all duration-1000 ease-out"
+                  style={{ width: `${getProgress(project)}%` }}
+                />
+              </div>
+            </div>
+          )}
         </div>
         <span className="w-fit text-[10px] font-bold uppercase tracking-[0.2em] text-[#F7C66A] transition hover:text-white border-b border-transparent hover:border-white pb-0.5">
           DÉCOUVRIR
@@ -175,9 +233,25 @@ function NightProjectCard({ project, style }: { project: Project; style?: React.
 
         {/* Body: Description Centered */}
         <div className="flex flex-1 flex-col justify-center">
-          <p className="text-xs leading-relaxed text-white/90 line-clamp-4 drop-shadow-md font-medium w-[90%]">
+          <p className="text-xs leading-relaxed text-white/90 line-clamp-3 drop-shadow-md font-medium w-[90%]">
             {project.description}
           </p>
+
+          {/* Progress Bar */}
+          {project.status !== "FINIS" && (
+            <div className="mt-4 w-[90%]">
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-[10px] font-medium uppercase tracking-wider text-white/80 drop-shadow-md">Avancement</span>
+                <span className="text-[10px] font-bold text-[#F7C66A] drop-shadow-md">{getProgress(project)}%</span>
+              </div>
+              <div className="h-1 w-full rounded-full bg-white/20 backdrop-blur-sm">
+                <div 
+                  className="h-full rounded-full bg-[#F7C66A] transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(247,198,106,0.5)]"
+                  style={{ width: `${getProgress(project)}%` }}
+                />
+              </div>
+            </div>
+          )}
         </div>
         
         {/* Footer: CTA */}
@@ -257,6 +331,8 @@ export default function ProjectsPage() {
 }, []);
   const [activeTab, setActiveTab] = useState<"FINIS" | "EN COURS" | "LOCALITÉS">("EN COURS");
   const [visibleCount, setVisibleCount] = useState(9); // Initial count
+  const [selectedLocality, setSelectedLocality] = useState("TOUTES");
+  const [selectedTypology, setSelectedTypology] = useState("TOUS");
 
   useEffect(() => {
     if (location.state?.tab) {
@@ -266,25 +342,57 @@ export default function ProjectsPage() {
     }
   }, [location.state]);
 
-  // Reset visible count when tab changes
+  // Reset visible count when filters change
   useEffect(() => {
     setVisibleCount(9);
-  }, [activeTab]);
+  }, [activeTab, selectedLocality, selectedTypology]);
 
-  const displayItems = useMemo(() => {
+  // Get unique locations
+  const localities = useMemo(() => {
+    const locs = new Set(PROJECTS.map(p => {
+      // Handle "City, Country" or just "City"
+      return p.location.includes(',') ? p.location.split(',')[0].trim() : p.location;
+    }));
+    return ["TOUTES", ...Array.from(locs).sort()];
+  }, []);
+
+  // Define typologies
+  const typologies = ["TOUS", "F2", "F3", "F4", "F5", "DUPLEX", "TRIPLEX", "STUDIO"];
+
+  const filteredItems = useMemo(() => {
     if (activeTab === "LOCALITÉS") return LOCALITIES;
     
-    // Filter projects based on status
-    const filteredProjects = PROJECTS.filter(p => p.status === activeTab);
-    return filteredProjects.slice(0, visibleCount);
-  }, [activeTab, visibleCount]);
+    let filtered = PROJECTS.filter(p => p.status === activeTab);
+
+    // Filter by Locality
+    if (selectedLocality !== "TOUTES") {
+      filtered = filtered.filter(p => p.location.includes(selectedLocality));
+    }
+
+    // Filter by Typology
+    if (selectedTypology !== "TOUS") {
+      filtered = filtered.filter(p => {
+        // Check plans
+        if (p.plans?.some(plan => plan.type.toUpperCase().includes(selectedTypology))) return true;
+        // Check description as fallback
+        if (p.description.toUpperCase().includes(selectedTypology)) return true;
+        if (p.fullDescription?.toUpperCase().includes(selectedTypology)) return true;
+        return false;
+      });
+    }
+
+    return filtered;
+  }, [activeTab, selectedLocality, selectedTypology]);
+
+  const displayItems = useMemo(() => {
+    return filteredItems.slice(0, visibleCount);
+  }, [filteredItems, visibleCount]);
 
   // Helper to check if we have more items to load
   const hasMoreItems = useMemo(() => {
     if (activeTab === "LOCALITÉS") return false;
-    const total = PROJECTS.filter(p => p.status === activeTab).length;
-    return visibleCount < total;
-  }, [activeTab, visibleCount]);
+    return visibleCount < filteredItems.length;
+  }, [activeTab, visibleCount, filteredItems]);
 
   const handleLoadMore = () => {
     setVisibleCount((prev) => {
@@ -339,13 +447,23 @@ export default function ProjectsPage() {
         </div>
 
         {/* Filters & Sort */}
-        <div className="relative mb-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-center animate-fadeInUp" style={{ animationDelay: "0.2s" }}>
+        <div className="relative mb-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-center animate-fadeInUp z-20" style={{ animationDelay: "0.2s" }}>
           {/* Centered Filters */}
           <div className="flex flex-wrap justify-center gap-4">
             {activeTab !== "LOCALITÉS" && (
               <>
-                <FilterDropdown label="TYPOLOGIE" />
-                <FilterDropdown label="LOCALITÉ" />
+                <FilterDropdown 
+                  label="TYPOLOGIE" 
+                  options={typologies} 
+                  value={selectedTypology} 
+                  onChange={setSelectedTypology} 
+                />
+                <FilterDropdown 
+                  label="LOCALITÉ" 
+                  options={localities} 
+                  value={selectedLocality} 
+                  onChange={setSelectedLocality} 
+                />
               </>
             )}
           </div>

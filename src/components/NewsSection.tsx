@@ -75,11 +75,11 @@ export default function NewsSection() {
     <section className="py-12 text-center text-white pb-0 overflow-hidden">
       <div>
         {/* Titre */}
-        <div className="mb-12">
-          <h3 className="font-['PhotographSignature'] text-5xl text-[#F7C66A] mb-2">
+        <div className="mb-16 flex flex-col items-center justify-center relative">
+          <h3 className="font-['PhotographSignature'] text-6xl md:text-8xl text-[#F7C66A] absolute -top-8 md:-top-12 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap">
             Actualités
           </h3>
-          <h2 className="text-3xl font-bold uppercase tracking-wider">
+          <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-widest text-white mt-8 md:mt-4 z-0">
             D'AYMEN PROMOTION
           </h2>
         </div>
@@ -158,20 +158,14 @@ export default function NewsSection() {
                           </div>
 
                           {/* Texte */}
-                          <h4 className="font-['PhotographSignature'] text-3xl text-[#F7C66A] mb-2 line-clamp-1">
-                            {item.attributes.titre}
-                          </h4>
-                          <p className="text-sm text-white/80 leading-snug max-w-[90%] mb-4 line-clamp-2">
-                            {item.attributes.description || "Immobilier pour un Patrimoine Durable avec Aymen Promotion"}
-                          </p>
-                          
-                          <Link 
-                            to={`/blog/${item.attributes.slug}`}
-                            className="text-[10px] font-bold uppercase tracking-widest text-[#F7C66A] hover:text-white transition-colors flex items-center gap-2 w-fit group"
-                          >
-                            <span className="text-lg leading-none transform group-hover:translate-x-1 transition-transform">▸</span> 
-                            <span>LIRE L'ARTICLE</span>
-                          </Link>
+                          <div className="mt-4">
+                            <h4 className="text-xl font-bold text-[#F7C66A] mb-2 line-clamp-1">
+                              {item.attributes.titre}
+                            </h4>
+                            <p className="text-sm text-white leading-snug w-full mb-0 line-clamp-2">
+                              {item.attributes.description || "Immobilier pour un Patrimoine Durable avec Aymen Promotion"}
+                            </p>
+                          </div>
                         </div>
                       );
                     })}
