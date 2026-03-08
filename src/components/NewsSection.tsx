@@ -75,11 +75,11 @@ export default function NewsSection() {
     <section className="py-12 text-center text-white pb-0 overflow-hidden">
       <div>
         {/* Titre */}
-        <div className="mb-16 flex flex-col items-center justify-center relative pt-12">
-          <h3 className="font-['PhotographSignature'] text-6xl md:text-8xl text-[#F7C66A] absolute -top-12 md:-top-20 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap">
+        <div className="mb-16 flex flex-col items-center justify-center relative pt-24 md:pt-32">
+          <h3 className="font-['PhotographSignature'] text-6xl md:text-8xl text-[#F7C66A] absolute top-4 md:top-8 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap">
             Actualités
           </h3>
-          <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-widest text-white mt-12 md:mt-16 z-0">
+          <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-widest text-white mt-8 z-0">
             D'AYMEN PROMOTION
           </h2>
         </div>
