@@ -87,7 +87,7 @@ export const PROJECTS: Project[] = [
     title: "ALTHEA",
     location: "Alger",
     description: "C’est à Chevalley, quartier résidentiel prisé, qu’Aymen Promotion Immobilière présente la résidence Althéa...",
-    image: "/assets/projets/les-cretes.png",
+    image: "/assets/projets/althea.png",
     status: "EN COURS",
     isNightMode: false,  
     coverImage: "/assets/projets/couvertures/althea.png",            
