@@ -76,10 +76,10 @@ export default function NewsSection() {
       <div>
         {/* Titre */}
         <div className="mb-16 flex flex-col items-center justify-center relative">
-          <h3 className="font-['PhotographSignature'] text-6xl md:text-8xl text-[#F7C66A] absolute -top-8 md:-top-12 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap">
+          <h3 className="font-['PhotographSignature'] text-6xl md:text-8xl text-[#F7C66A] absolute -top-12 md:-top-20 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap">
             Actualités
           </h3>
-          <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-widest text-white mt-8 md:mt-4 z-0">
+          <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-widest text-white mt-12 md:mt-8 z-0">
             D'AYMEN PROMOTION
           </h2>
         </div>
