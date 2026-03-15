@@ -102,16 +102,20 @@ export default function Footer() {
           <div className="space-y-4">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#F7C66A]">Nos coordonnées</p>
             <div className="space-y-3 text-white/85">
-              <div className="block">
-                <span className="block font-semibold text-[#F7C66A] mb-1">Siège Commercial</span>
-                <a href="https://maps.app.goo.gl/t9Y9vL6f9Q9z9z9z9" target="_blank" rel="noopener noreferrer" className="block underline-offset-2 hover:underline mb-3">
-                  Said Hamdine ilot N 52 section 05,<br /> Bir Mourad Rais - Alger 16000
-                </a>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+                <div>
+                  <span className="block font-semibold text-[#F7C66A] mb-1">Siège Commercial</span>
+                  <a href="https://maps.app.goo.gl/t9Y9vL6f9Q9z9z9z9" target="_blank" rel="noopener noreferrer" className="block underline-offset-2 hover:underline">
+                    Said Hamdine ilot N 52 section 05,<br /> Bir Mourad Rais - Alger 16000
+                  </a>
+                </div>
 
-                <span className="block font-semibold text-[#F7C66A] mb-1">Direction Générale</span>
-                <a href="https://maps.app.goo.gl/YvrothxkmnrYBNHZ9" target="_blank" rel="noopener noreferrer" className="block underline-offset-2 hover:underline">
-                  64 Route Nationale N°1, lot N31,<br /> Bir Mourad Raïs
-                </a>
+                <div>
+                  <span className="block font-semibold text-[#F7C66A] mb-1">Direction Générale</span>
+                  <a href="https://maps.app.goo.gl/YvrothxkmnrYBNHZ9" target="_blank" rel="noopener noreferrer" className="block underline-offset-2 hover:underline">
+                    64 Route Nationale N°1, lot N31,<br /> Bir Mourad Raïs
+                  </a>
+                </div>
               </div>
               <div className="flex flex-col gap-2">
                 {/* 
@@ -124,10 +128,10 @@ export default function Footer() {
       </div>
 
       <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 pb-12 text-[12px] text-white/60 md:flex-row md:items-center md:justify-between md:px-10">
-        <div>© Aymen Promotion {year} | All Rights Reserved.</div>
+        <div>© Aymen Promotion {year} | Tous droits réservés.</div>
         <div className="flex items-center gap-6">
-          <a href="#" className="hover:text-white">Terms & Condition</a>
-          <a href="#" className="hover:text-white">Privacy Policy</a>
+          <Link to="/cgu" className="hover:text-white">Conditions Générales</Link>
+          <Link to="/confidentialite" className="hover:text-white">Politique de Confidentialité</Link>
         </div>
       </div>
     </footer>

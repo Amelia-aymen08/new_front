@@ -1038,4 +1038,11 @@ export const LOCALITIES: Locality[] = [
     image: "/assets/locality-icon/ruisseau-icon.png",
     heroImage: "/assets/locality/ruisseau.png",
   },
+  {
+    id: 12,
+    name: "CHEVALLEY, ALGER",
+    description: "Chevalley est un quartier prestigieux situé dans la commune de Bouzareah à Alger. Stratégiquement positionné, à la jonction des quartiers résidentiels d'El Biar et de Ben Aknoun, il bénéficie d'une excellente connectivité aux grands axes routiers, permettant de rejoindre aisément l'ensemble des communes d'Alger. Au cœur de ce secteur prisé se trouve un périmètre réputé pour ses villas de luxe au design contemporain et son niveau de sécurité d'exception. Le quartier dispose d'une offre de proximité complète, alliant marchés traditionnels, commerces, restaurants et cafés à l'ambiance conviviale. Établissements universitaires, structures hospitalières, instituts de beauté et salles de sport modernes complètent un environnement pensé pour le bien-être au quotidien. Les amateurs de loisirs profitent de la proximité du complexe sportif du 5 Juillet et d'un terrain de golf, tandis que le Parc Dounia et la forêt de Ben Aknoun offrent de véritables escapades en plein air, idéales pour se ressourcer en famille. Conjuguant héritage architectural et modernité, Chevalley s'affirme aujourd'hui comme l'une des adresses résidentielles les plus recherchées d'Alger.",
+    image: "/assets/locality-icon/chevalley-icon.png",
+    heroImage: "/assets/locality/chevalley.png",
+  },
 ];

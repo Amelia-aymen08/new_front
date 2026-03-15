@@ -251,7 +251,7 @@ export default function CareersPage() {
       {/* --- HERO SECTION --- */}
       <section className="relative h-[80vh] w-full overflow-hidden">
         <img
-          src="/careers-hero.png"
+          src="/careers-hero.jpg"
           alt="Team Aymen Promotion"
           className="absolute inset-0 h-full w-full object-cover"
         />
@@ -280,7 +280,7 @@ export default function CareersPage() {
       </section>
 
       {/* --- DEPARTMENTS SECTION --- */}
-      <section className="relative z-10 py-24 text-center">
+      <section className="relative z-10 py-12 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -407,7 +407,7 @@ export default function CareersPage() {
       </section>
 
       {/* --- APPLICATION FORM SECTION --- */}
-      <section id="career-form" className="relative z-10 py-24">
+      <section id="career-form" className="relative z-10 py-12">
         <div className="container mx-auto max-w-6xl px-6">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}

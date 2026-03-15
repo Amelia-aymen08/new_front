@@ -134,6 +134,17 @@ const ReaderModal = ({ cat, onClose }: { cat: Catalogue; onClose: () => void }) 
 
   const pagesArray = Array.from({ length: numPages }, (_, i) => i + 1);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!bookRef.current) return;
+      if (e.key === "ArrowRight") bookRef.current.pageFlip().flipNext();
+      if (e.key === "ArrowLeft") bookRef.current.pageFlip().flipPrev();
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -148,6 +159,23 @@ const ReaderModal = ({ cat, onClose }: { cat: Catalogue; onClose: () => void }) 
       </button>
 
       <div className="relative w-full h-full flex flex-col items-center justify-center">
+        
+        {/* Flèche Gauche */}
+        <button 
+          onClick={() => bookRef.current?.pageFlip().flipPrev()}
+          className="hidden md:flex absolute left-10 top-1/2 -translate-y-1/2 z-50 w-14 h-14 bg-white/10 hover:bg-[#F7C66A] text-white hover:text-black rounded-full items-center justify-center transition-all backdrop-blur-md shadow-xl border border-white/20"
+        >
+          <i className="fa-solid fa-chevron-left text-2xl"></i>
+        </button>
+
+        {/* Flèche Droite */}
+        <button 
+          onClick={() => bookRef.current?.pageFlip().flipNext()}
+          className="hidden md:flex absolute right-10 top-1/2 -translate-y-1/2 z-50 w-14 h-14 bg-white/10 hover:bg-[#F7C66A] text-white hover:text-black rounded-full items-center justify-center transition-all backdrop-blur-md shadow-xl border border-white/20"
+        >
+          <i className="fa-solid fa-chevron-right text-2xl"></i>
+        </button>
+
         {cat.pdfUrl ? (
           <Document
             file={cat.pdfUrl}
@@ -177,13 +205,13 @@ const ReaderModal = ({ cat, onClose }: { cat: Catalogue; onClose: () => void }) 
                 maxWidth={1600}
                 minHeight={200}
                 maxHeight={1200}
-                maxShadowOpacity={0.8} // Ombre plus forte
+                maxShadowOpacity={0.8} 
                 showCover={true}
                 mobileScrollSupport={true}
-                className="shadow-2xl bg-transparent" // Transparent pour voir les pages tourner
+                className="shadow-2xl bg-transparent" 
                 ref={bookRef}
-                flippingTime={1000} // Animation plus lente (1 seconde) pour bien voir l'effet
-                usePortrait={true} // Force l'affichage d'une seule page à la fois
+                flippingTime={600} // Accéléré de 1000ms à 600ms pour plus de fluidité
+                usePortrait={false} // Désactivé pour afficher deux pages (meilleur rendu catalogue)
                 startPage={0}
                 drawShadow={true}
                 autoSize={true}

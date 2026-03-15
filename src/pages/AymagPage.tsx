@@ -180,6 +180,17 @@ const ReaderModal = ({ mag, onClose }: { mag: Magazine; onClose: () => void }) =
 
   const pagesArray = Array.from({ length: numPages }, (_, i) => i + 1);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!bookRef.current) return;
+      if (e.key === "ArrowRight") bookRef.current.pageFlip().flipNext();
+      if (e.key === "ArrowLeft") bookRef.current.pageFlip().flipPrev();
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -194,6 +205,23 @@ const ReaderModal = ({ mag, onClose }: { mag: Magazine; onClose: () => void }) =
       </button>
 
       <div className="relative w-full max-w-6xl h-full flex flex-col items-center justify-center">
+        
+        {/* Flèche Gauche */}
+        <button 
+          onClick={() => bookRef.current?.pageFlip().flipPrev()}
+          className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-50 w-12 h-12 bg-white/10 hover:bg-[#F7C66A] text-white hover:text-black rounded-full items-center justify-center transition-all backdrop-blur-md"
+        >
+          <i className="fa-solid fa-chevron-left text-xl"></i>
+        </button>
+
+        {/* Flèche Droite */}
+        <button 
+          onClick={() => bookRef.current?.pageFlip().flipNext()}
+          className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-50 w-12 h-12 bg-white/10 hover:bg-[#F7C66A] text-white hover:text-black rounded-full items-center justify-center transition-all backdrop-blur-md"
+        >
+          <i className="fa-solid fa-chevron-right text-xl"></i>
+        </button>
+
         {mag.pdfUrl ? (
           <Document
             file={mag.pdfUrl}

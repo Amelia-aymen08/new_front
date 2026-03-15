@@ -14,7 +14,8 @@ import AymagPage from "./pages/AymagPage";
 import CataloguePage from "./pages/CataloguePage";
 import ContactPage from "./pages/ContactPage";
 import StickyContactBar from "./components/StickyContactBar";
-
+import TermsPage from "./pages/TermsPage";
+import PrivacyPage from "./pages/PrivacyPage";
 function HomeRoute() {
   // On verifie si l'intro a deja ete vue dans la session
   const [introDone, setIntroDone] = useState(() => {
@@ -81,6 +82,8 @@ function App() {
           <Route path="/aymag" element={<AymagPage />} />
           <Route path="/catalogue" element={<CataloguePage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/cgu" element={<TermsPage />} />
+          <Route path="/confidentialite" element={<PrivacyPage />} />
         </Routes>
       </div>
     </BrowserRouter>

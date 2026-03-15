@@ -318,9 +318,9 @@ export default function LocalityPage() {
       <Header className="absolute top-0 left-0 z-40 w-full" />
       
       {/* Hero Section - Added mb-20 for spacing */}
-      <section className={`relative w-full ${isMobile ? 'min-h-screen' : 'h-screen min-h-[800px] flex items-center pt-20'} mb-20`}>
+      <section className={`relative w-full ${isMobile ? 'h-[70vh] flex flex-col justify-end pb-12' : 'h-screen min-h-[800px] flex items-center pt-20'} mb-10`}>
          {/* Background Image (Hero) */}
-         <div className={`absolute top-0 left-0 w-full z-0 ${isMobile ? 'h-[65vh]' : 'h-full'}`}>
+         <div className={`absolute top-0 left-0 w-full z-0 h-full`}>
              <img 
                src={isMobile ? mobileHeroImage : (locality.heroImage || locality.image)} 
                alt={locality.name}
@@ -333,38 +333,22 @@ export default function LocalityPage() {
              <div className={`absolute inset-0 ${isMobile ? 'bg-gradient-to-t from-[#031B17] via-transparent to-transparent' : 'bg-gradient-to-r from-[#031B17]/90 via-[#031B17]/70 to-transparent'}`} />
          </div>
 
-         <div className={`container mx-auto px-4 md:px-10 relative z-10 ${isMobile ? 'pt-[55vh] pb-20' : 'flex flex-col md:flex-row items-center h-full justify-center'}`}>
+         <div className={`container mx-auto px-4 md:px-10 relative z-10 ${isMobile ? 'px-2' : 'flex flex-col md:flex-row items-center h-full justify-center'}`}>
             {/* Left Text Content */}
-            <div className={`w-full md:w-1/2 ${isMobile ? '' : 'pt-0'}`}>
-                {!isMobile && (
-                    <div className="relative mb-4">
-                        <span className="font-['PhotographSignature'] text-5xl md:text-8xl text-[#F7C66A] block transform -rotate-2">
-                        Nos Signatures
-                        </span>
-                        <span className="text-2xl md:text-4xl font-light text-white block uppercase tracking-widest mt-2">
-                        RÉSIDENTIELLES À
-                        </span>
-                        <h1 className="text-4xl md:text-6xl font-bold uppercase tracking-wide text-white leading-tight mt-2">
-                            {cityOnly}
-                        </h1>
-                    </div>
-                )}
+            <div className={`w-full md:w-1/2 ${isMobile ? 'px-2' : 'pt-0'}`}>
+                <div className="relative mb-4">
+                    <span className={`font-['PhotographSignature'] text-[#F7C66A] block transform -rotate-2 ${isMobile ? 'text-5xl' : 'text-5xl md:text-8xl'}`}>
+                    Nos Signatures
+                    </span>
+                    <span className={`font-light text-white block uppercase tracking-widest mt-2 ${isMobile ? 'text-xl' : 'text-2xl md:text-4xl'}`}>
+                    RÉSIDENTIELLES À
+                    </span>
+                    <h1 className={`font-bold uppercase tracking-wide text-white leading-tight mt-2 ${isMobile ? 'text-3xl' : 'text-4xl md:text-6xl'}`}>
+                        {cityOnly}
+                    </h1>
+                </div>
                 
-                {isMobile ? (
-                    <>
-                         {/* Mobile Layout */}
-                         <div className="w-8 h-1 bg-white mb-4 rounded-full shadow-lg"></div>
-                         <h1 className="text-3xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
-                            {displayTitle}
-                         </h1>
-                         <div className="relative">
-                            {/* Description continues on background */}
-                            <p className="text-sm leading-relaxed text-gray-200 font-light text-justify">
-                                {locality.description}
-                            </p>
-                         </div>
-                    </>
-                ) : (
+                {!isMobile && (
                     <>
                         <p className="text-sm md:text-base leading-relaxed text-gray-200 font-light max-w-xl text-justify mt-8">
                             {locality.description}
@@ -378,6 +362,18 @@ export default function LocalityPage() {
             </div>
          </div>
       </section>
+
+      {/* Mobile Description Section */}
+      {isMobile && (
+          <section className="px-4 py-8 relative z-10">
+             <div className="container mx-auto">
+                <div className="w-8 h-1 bg-[#F7C66A] mb-6 rounded-full shadow-lg"></div>
+                <p className="text-sm leading-relaxed text-gray-200 font-light text-justify">
+                    {locality.description}
+                </p>
+             </div>
+          </section>
+      )}
 
       {/* Map & Featured Project Section */}
       <section className="px-4 md:px-10 py-20 relative z-10">

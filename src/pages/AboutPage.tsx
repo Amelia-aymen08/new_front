@@ -347,7 +347,7 @@ export default function AboutPage() {
       </section>
 
       {/* 2. CEO Word Section */}
-      <section className={`relative px-4 md:px-10 z-10 text-center ${isMobile ? '-mt-10' : 'mt-10 md:mt-20 py-24'}`}>
+      <section className={`relative px-4 md:px-10 z-10 text-center ${isMobile ? '-mt-10' : 'mt-8 md:mt-12 py-12'}`}>
          <div className="max-w-4xl mx-auto">
            <motion.div 
              className="mb-8"
@@ -395,7 +395,7 @@ export default function AboutPage() {
       </section>
 
       {/* 3. Team Section */}
-      <section className="relative py-20 px-4 md:px-10 z-10">
+      <section className="relative py-12 px-4 md:px-10 z-10">
         <div className="max-w-6xl mx-auto flex flex-col items-center">
            {/* Image container */}
            <motion.div 
@@ -442,7 +442,7 @@ export default function AboutPage() {
       </section>
 
       {/* 4. Values Section */}
-      <section className="relative py-20 px-4 md:px-10 z-10 text-center animate-fadeInUp" style={{ animationDelay: "1400ms" }}>
+      <section className="relative py-12 px-4 md:px-10 z-10 text-center animate-fadeInUp" style={{ animationDelay: "1400ms" }}>
          <div className="mb-16">
            <span className="font-['PhotographSignature'] text-5xl md:text-6xl text-[#F7C66A] block mb-2">
              Nos Valeurs
@@ -565,7 +565,7 @@ export default function AboutPage() {
       </section>
 
       {/* 5. Testimonials Section */}
-      <section className="relative py-24 px-4 md:px-10 z-10">
+      <section className="relative py-12 px-4 md:px-10 z-10">
          <motion.div 
            className="text-center mb-16"
            initial={{ opacity: 0, y: 100 }}
@@ -667,7 +667,7 @@ export default function AboutPage() {
       </section>
 
       {/* 6. FAQ Section */}
-      <section className="relative py-24 px-4 md:px-10 z-10">
+      <section className="relative py-12 px-4 md:px-10 z-10">
          <motion.div 
            className="text-center mb-16"
            initial={{ opacity: 0, y: 100 }}
