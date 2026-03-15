@@ -294,8 +294,19 @@ export default function ContactPage() {
               <div className="w-10 h-10 mb-2 flex items-center justify-center text-white group-hover:text-[#F7C66A] transition-colors">
                 <i className="fa-solid fa-location-dot text-2xl"></i>
               </div>
-              <h3 className="text-white font-bold uppercase tracking-wider">ADRESSE</h3>
-              <p className="text-gray-300 text-sm font-light">Ilot N 52 Section 05,<br/>Bir Mourad Rais, Alger 16000</p>
+              <h3 className="text-white font-bold uppercase tracking-wider">ADRESSES</h3>
+              <div className="text-gray-300 text-sm font-light space-y-4">
+                <div>
+                  <span className="block font-semibold text-[#F7C66A] mb-1">Siège Commercial</span>
+                  <p>Ilot N 52 Section 05,<br/>Bir Mourad Rais, Alger 16000</p>
+                </div>
+                <div>
+                  <span className="block font-semibold text-[#F7C66A] mb-1">Direction Générale</span>
+                  <a href="https://maps.app.goo.gl/YvrothxkmnrYBNHZ9" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                    64 Route Nationale N°1, lot N31,<br/>Bir Mourad Raïs
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -369,24 +380,47 @@ export default function ContactPage() {
           ></iframe>
         </div>
         
-        {/* Map Overlay Card */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:translate-x-0 md:left-10 bg-[#0C2A24] p-5 rounded-xl shadow-xl max-w-xs border border-white/10 w-[90%] md:w-auto">
-           <div className="flex items-start gap-4">
-              <div className="text-[#F7C66A] mt-1"><i className="fa-solid fa-location-dot text-2xl"></i></div>
-              <div>
-                 <h4 className="text-white font-bold text-sm mb-1">Aymen Promotion Immobilière</h4>
-                 <p className="text-white/70 text-xs mb-3">Siège commercial, Said Hamdine, Alger</p>
-                 <a 
-                   href="https://www.google.com/maps/dir//Aymen+Promotion+Immobili%C3%A8re,+Said+Hamdine+ilot+N+52+section+05,+Bir+Mourad+Ra%C3%AFs+16000/@36.7312404,3.0561572,17z" 
-                   target="_blank" 
-                   rel="noopener noreferrer"
-                   className="text-[#F7C66A] text-xs font-bold uppercase tracking-wider hover:underline flex items-center gap-2"
-                 >
-                   Itinéraire
-                   <i className="fa-solid fa-arrow-right"></i>
-                 </a>
-              </div>
-           </div>
+        {/* Map Overlay Cards */}
+        <div className="absolute top-4 left-4 md:top-10 md:left-10 space-y-4 w-[90%] md:w-auto">
+          {/* Siège Commercial */}
+          <div className="bg-[#0C2A24] p-5 rounded-xl shadow-xl max-w-xs border border-white/10">
+             <div className="flex items-start gap-4">
+                <div className="text-[#F7C66A] mt-1"><i className="fa-solid fa-location-dot text-2xl"></i></div>
+                <div>
+                   <h4 className="text-white font-bold text-sm mb-1">Siège Commercial</h4>
+                   <p className="text-white/70 text-xs mb-3">Said Hamdine, Alger</p>
+                   <a 
+                     href="https://www.google.com/maps/dir//Aymen+Promotion+Immobili%C3%A8re,+Said+Hamdine+ilot+N+52+section+05,+Bir+Mourad+Ra%C3%AFs+16000/@36.7312404,3.0561572,17z" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     className="text-[#F7C66A] text-xs font-bold uppercase tracking-wider hover:underline flex items-center gap-2"
+                   >
+                     Itinéraire
+                     <i className="fa-solid fa-arrow-right"></i>
+                   </a>
+                </div>
+             </div>
+          </div>
+
+          {/* Direction Générale */}
+          <div className="bg-[#0C2A24] p-5 rounded-xl shadow-xl max-w-xs border border-white/10">
+             <div className="flex items-start gap-4">
+                <div className="text-[#F7C66A] mt-1"><i className="fa-solid fa-building text-2xl"></i></div>
+                <div>
+                   <h4 className="text-white font-bold text-sm mb-1">Direction Générale</h4>
+                   <p className="text-white/70 text-xs mb-3">Bir Mourad Raïs, Alger</p>
+                   <a 
+                     href="https://maps.app.goo.gl/YvrothxkmnrYBNHZ9" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     className="text-[#F7C66A] text-xs font-bold uppercase tracking-wider hover:underline flex items-center gap-2"
+                   >
+                     Itinéraire
+                     <i className="fa-solid fa-arrow-right"></i>
+                   </a>
+                </div>
+             </div>
+          </div>
         </div>
       </section>
 

@@ -25,12 +25,12 @@ export default function MenuOverlay({ open, onClose }) {
   const links = useMemo(
     () => [
       { label: "PROJETS", href: "/projets" },
-      { label: "À PROPOS", href: "/a-propos" },
       { label: "LOCALITÉS", href: "/projets", state: { tab: "LOCALITÉS" } },
       { label: "CARRIÈRE", href: "/carriere" },
       { label: "AYMAG", href: "/aymag" },
       { label: "CATALOGUE", href: "/catalogue" },
       { label: "BLOG", href: "/blog" },
+      { label: "À PROPOS", href: "/a-propos" },
       { label: "CONTACT", href: "/contact" },
     ],
     []
@@ -40,8 +40,8 @@ export default function MenuOverlay({ open, onClose }) {
     () => [
       { label: "Facebook", href: "https://www.facebook.com/aymenpromotionimmobiliere", icon: "fa-brands fa-facebook-f" },
       { label: "Instagram", href: "https://www.instagram.com/aymenpromotion/", icon: "fa-brands fa-instagram" },
-      { label: "LinkedIn", href: "https://www.linkedin.com/company/aymen-promotion-immobili%C3%A8re", icon: "fa-brands fa-linkedin-in" }, 
-      { label: "YouTube", href: "https://www.youtube.com/@aymenpromotionimmo", icon: "fa-brands fa-youtube" },
+      { label: "LinkedIn", href: "https://www.linkedin.com/company/aymen-promotion-immobiliere", icon: "fa-brands fa-linkedin-in" }, 
+      { label: "YouTube", href: "https://www.youtube.com/@aymenpromotionimmobiliere6948", icon: "fa-brands fa-youtube" },
       { label: "TikTok", href: "https://www.tiktok.com/@aymenpromotionimmo", icon: "fa-brands fa-tiktok" },
       { label: "X", href: "https://x.com/AymenPromotion", icon: "fa-brands fa-x-twitter" }, 
     ],

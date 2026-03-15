@@ -89,7 +89,7 @@ export default function NewsSection() {
           {/* Flèches de navigation globales - Légèrement remontées */}
           <button 
             onClick={prevSlide}
-            className="absolute left-0 md:-left-4 top-[45%] -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F7C66A] text-[#031B17] flex items-center justify-center hover:bg-white transition-all shadow-xl"
+            className="absolute left-0 md:-left-4 top-[45%] -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white text-[#031B17] flex items-center justify-center hover:bg-[#F7C66A] transition-all shadow-xl"
             aria-label="Article précédent"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -99,7 +99,7 @@ export default function NewsSection() {
           
           <button 
             onClick={nextSlide}
-            className="absolute right-0 md:-right-4 top-[45%] -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F7C66A] text-[#031B17] flex items-center justify-center hover:bg-white transition-all shadow-xl"
+            className="absolute right-0 md:-right-4 top-[45%] -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white text-[#031B17] flex items-center justify-center hover:bg-[#F7C66A] transition-all shadow-xl"
             aria-label="Article suivant"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -159,12 +159,14 @@ export default function NewsSection() {
 
                           {/* Texte */}
                           <div className="mt-4">
-                            <h4 className="text-xl font-bold text-[#F7C66A] mb-2 line-clamp-1">
-                              {item.attributes.titre}
-                            </h4>
-                            <p className="text-sm text-white leading-snug w-full mb-0 line-clamp-2">
-                              {item.attributes.description || "Immobilier pour un Patrimoine Durable avec Aymen Promotion"}
-                            </p>
+                            <Link to={`/blog/${item.attributes.slug}`} className="block group-hover:opacity-80 transition-opacity">
+                              <h4 className="text-xl font-bold text-[#F7C66A] mb-2 line-clamp-1">
+                                {item.attributes.titre}
+                              </h4>
+                              <p className="text-sm text-white leading-snug w-full mb-0 line-clamp-2">
+                                {item.attributes.description || "Immobilier pour un Patrimoine Durable avec Aymen Promotion"}
+                              </p>
+                            </Link>
                           </div>
                         </div>
                       );

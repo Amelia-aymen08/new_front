@@ -102,9 +102,17 @@ export default function Footer() {
           <div className="space-y-4">
             <p className="text-[12px] uppercase tracking-[0.2em] text-[#F7C66A]">Nos coordonnées</p>
             <div className="space-y-3 text-white/85">
-              <a href="/" className="block underline-offset-2 hover:underline">
-                Said Hamdine ilot N 52 section 05,<br /> Bir Mourad Rais - Alger 16000
-              </a>
+              <div className="block">
+                <span className="block font-semibold text-[#F7C66A] mb-1">Siège Commercial</span>
+                <a href="https://maps.app.goo.gl/t9Y9vL6f9Q9z9z9z9" target="_blank" rel="noopener noreferrer" className="block underline-offset-2 hover:underline mb-3">
+                  Said Hamdine ilot N 52 section 05,<br /> Bir Mourad Rais - Alger 16000
+                </a>
+
+                <span className="block font-semibold text-[#F7C66A] mb-1">Direction Générale</span>
+                <a href="https://maps.app.goo.gl/YvrothxkmnrYBNHZ9" target="_blank" rel="noopener noreferrer" className="block underline-offset-2 hover:underline">
+                  64 Route Nationale N°1, lot N31,<br /> Bir Mourad Raïs
+                </a>
+              </div>
               <div className="flex flex-col gap-2">
                 {/* 
                   REMOVED: Old contact links (phone/email) are now in StickyContactBar

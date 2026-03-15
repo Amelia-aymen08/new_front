@@ -155,7 +155,7 @@ export default function ContactSection() {
       <div className="relative grid h-full grid-cols-1 md:grid-cols-12">
         {/* LEFT PANEL */}
         <div
-          className={`relative col-span-1 flex h-auto md:h-full bg-[#0C2A24] px-6 py-10 md:col-span-5 md:px-12 md:py-14 transition-all duration-[1200ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] ${
+          className={`relative col-span-1 flex h-auto md:h-full bg-[#0C2A24] px-6 py-10 md:col-span-5 md:px-12 md:py-14 transition-all duration-[800ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] ${
             panelsVisible ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
           }`}
           style={{ willChange: "transform, opacity" }}
@@ -166,7 +166,7 @@ export default function ContactSection() {
           />
 
           <div
-            className={`relative flex h-full w-full flex-col justify-start md:justify-center items-start md:items-end text-left md:text-right md:pr-12 transition-transform transition-opacity duration-[1100ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] ${
+            className={`relative flex h-full w-full flex-col justify-start md:justify-center items-start md:items-end text-left md:text-right md:pr-12 transition-transform transition-opacity duration-[700ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] ${
               contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
             style={{ willChange: "transform, opacity" }}
@@ -185,7 +185,7 @@ export default function ContactSection() {
 
         {/* RIGHT PANEL */}
         <div
-          className={`relative col-span-1 flex h-full md:col-span-7 transition-all duration-[1200ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] ${
+          className={`relative col-span-1 flex h-full md:col-span-7 transition-all duration-[800ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] ${
             panelsVisible ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
           }`}
           style={{ willChange: "transform, opacity" }}
@@ -193,7 +193,7 @@ export default function ContactSection() {
           <div className="absolute inset-0 bg-[#0C2A24] md:bg-gradient-to-r md:from-black/70 md:via-black/55 md:to-black/60 md:backdrop-blur-[3px]" />
 
           <div
-            className={`relative z-10 flex h-full w-full items-start md:items-center justify-start px-6 pt-6 md:pl-12 md:pt-0 transition-transform transition-opacity duration-[1200ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] ${
+            className={`relative z-10 flex h-full w-full items-start md:items-center justify-start px-6 pt-6 md:pl-12 md:pt-0 transition-transform transition-opacity duration-[800ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] ${
               contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
             style={{ willChange: "transform, opacity" }}
