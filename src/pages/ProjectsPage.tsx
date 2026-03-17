@@ -426,7 +426,7 @@ export default function ProjectsPage() {
 
         {/* Tabs */}
         <div className="mb-12 flex justify-center animate-fadeInUp" style={{ animationDelay: "0.1s" }}>
-          <div className="flex gap-12 text-sm md:text-base font-medium uppercase tracking-widest">
+          <div className="flex gap-6 md:gap-12 text-lg md:text-2xl font-bold uppercase tracking-widest">
             {(["FINIS", "EN COURS", "LOCALITÉS"] as const).map((tab) => (
               <button
                 key={tab}
@@ -439,7 +439,7 @@ export default function ProjectsPage() {
               >
                 {tab}
                 {activeTab === tab && (
-                  <span className="absolute bottom-0 left-0 h-[2px] w-full bg-[#F7C66A] shadow-[0_0_10px_#F7C66A]" />
+                  <span className="absolute bottom-0 left-0 h-[3px] w-full bg-[#F7C66A] shadow-[0_0_15px_#F7C66A]" />
                 )}
               </button>
             ))}

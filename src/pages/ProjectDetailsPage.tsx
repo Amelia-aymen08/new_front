@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { PROJECTS } from "../data/mockData";
@@ -11,22 +11,33 @@ import {
   AireDeJeuxIcon 
 } from "../components/icons/AmenityIcons";
 
-// --- SVG Icons Map ---
-const AMENITIES_ICONS: Record<string, React.ReactNode> = {
-  "RECEPTION": <ReceptionIcon />,
-  "DOMOTIQUE": <DomotiqueIcon />,
-  "CLIMATISATION CENTRALISÉE": <ClimatisationIcon />,
-  "ABATTOIR": <AbattoirIcon />,
-  "AIRE DE JEUX": <AireDeJeuxIcon />,
-  
-  // Icônes génériques (utilisant FontAwesome par défaut)
-  "PARKING SOUS-SOL": <i className="fa-solid fa-square-parking"></i>,
-  "GARDIENNAGE 24/7": <i className="fa-solid fa-shield-halved"></i>,
-  "CUISINE ÉQUIPÉE": <i className="fa-solid fa-kitchen-set"></i>,
-  "VUE DÉGAGÉE": <i className="fa-solid fa-mountain"></i>,
-  "ACCÈS AUTOROUTE": <i className="fa-solid fa-road"></i>,
-  "ARCHITECTURE MODERNE": <i className="fa-solid fa-building"></i>,
-  "ESPACES VERTS": <i className="fa-solid fa-tree"></i>
+// --- Amenities Configuration ---
+const AMENITIES_ICONS: Record<string, string> = {
+  "Climatisation centralisée": "/assets/comodites/climatisation.png",
+  "Reception": "/assets/comodites/reception.png",
+  "Bache a eau": "/assets/comodites/bache a eau.png",
+  "Ascenseur": "/assets/comodites/ascenseur.png",
+  "Cuisine": "/assets/comodites/cuisine.png",
+  "Groupe electrogene": "/assets/comodites/groupe electrogene.png",
+  "Abattoir": "/assets/comodites/abattoir.png",
+  "Parking de Stationnement": "/assets/comodites/Parking.png",
+  "Parking de stationnement": "/assets/comodites/Parking.png",
+  "Domotique": "/assets/comodites/domotique.png",
+  "Dressing": "/assets/comodites/dressing.png",
+  "Isolation Phonique": "/assets/comodites/isolation phonique.png",
+  "Isolation phonique": "/assets/comodites/isolation phonique.png",
+  "Fenetre": "/assets/comodites/fenetre.png",
+  "gestion copropriété": "/assets/comodites/gestion_copro.png", // Fallback if missing
+  "Gestion copropriété": "/assets/comodites/gestion_copro.png", // Fallback if missing
+  "Salle d'eau": "/assets/comodites/salle d'eau.png",
+  "Piscine Privative": "/assets/comodites/piscine privative.png",
+  "Piscine privative": "/assets/comodites/piscine privative.png",
+  "Aire de jeux": "/assets/comodites/aire de jeux.png",
+  "Piscine Commune": "/assets/comodites/piscine_commune.png", // Fallback if missing
+  "Salle de sport": "/assets/comodites/salle de sport.png",
+  "Spa Hammam Sauna": "/assets/comodites/spa.png",
+  "Spa": "/assets/comodites/spa.png",
+  "Creche garderie": "/assets/comodites/creche_garderie.png", // Fallback if missing
 };
 
 type ProjectData = {
@@ -41,7 +52,7 @@ type ProjectData = {
     surface?: string;
   };
   heroImage: string;
-  amenities: { label: string; svg?: React.ReactNode; icon?: string }[];
+  amenities: { label: string; iconSrc?: string; fallbackIcon?: string }[];
   gallery: string[];
   plans: { type: string; area: string; image: string }[];
   location: { mapUrl: string; description: string };
@@ -49,8 +60,8 @@ type ProjectData = {
 
 type Amenity = {
   label: string;
-  svg?: React.ReactNode;
-  icon?: string;
+  iconSrc?: string;
+  fallbackIcon?: string;
 };
 type Plan = ProjectData["plans"][0];
 type LocationData = ProjectData["location"];
@@ -98,8 +109,8 @@ export default function ProjectDetailsPage() {
     heroImage: project.coverImage || project.image,
     amenities: (project.features || []).map(f => ({
       label: f,
-      svg: AMENITIES_ICONS[f] || undefined,
-      icon: !AMENITIES_ICONS[f] ? "fa-solid fa-check" : undefined
+      iconSrc: AMENITIES_ICONS[f] || undefined,
+      fallbackIcon: !AMENITIES_ICONS[f] ? "fa-solid fa-check" : undefined
     })),
     gallery: galleryImages,
     plans: (project.plans || []).map(p => ({
@@ -225,26 +236,121 @@ function StatBox({ label, value }: { label: string; value: string }) {
 }
 
 function AmenitiesList({ amenities }: { amenities: Amenity[] }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Pour le desktop (md et +), on affiche jusqu'à 6 items.
+  // Pour le mobile, on n'en affiche que 3 à la fois pour éviter l'écrasement.
+  const itemsPerViewDesktop = 6;
+  const itemsPerViewMobile = 3;
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % amenities.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + amenities.length) % amenities.length);
+  };
+
+  // On duplicate les items pour faire un carousel infini visuellement
+  // On s'assure d'avoir assez d'items dupliqués pour remplir l'écran même si amenities est petit
+  const carouselItems = amenities.length > 0 ? [...amenities, ...amenities, ...amenities, ...amenities] : [];
+
+  // Si on a plus de 6 items, on active le carousel.
+  const needsCarousel = amenities.length > 6;
+
+  // Handle window resize for dynamic translation
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
-    <section className="py-16 px-6">
-      <div className="mx-auto flex max-w-7xl flex-wrap justify-center gap-10 md:gap-20">
-        {amenities.map((item, idx) => (
-          <div key={idx} className="flex flex-col items-center gap-4 text-center group">
-            <div className="flex h-24 w-24 items-center justify-center text-4xl text-white transition-all duration-300 group-hover:scale-110 group-hover:text-[#F7C66A]">
-               {/* Render SVG if available, otherwise fallback to Icon */}
-               {item.svg ? (
-                 <div className="h-full w-full [&>svg]:h-full [&>svg]:w-full [&>svg]:fill-current">
-                   {item.svg}
-                 </div>
-               ) : (
-                 <i className={item.icon}></i>
-               )}
+    <section className="py-16 px-2 md:px-6 overflow-hidden">
+      <div className="mx-auto max-w-7xl relative">
+        {needsCarousel ? (
+          <div className="relative group">
+            {/* Flèche gauche */}
+            <button 
+              onClick={prevSlide}
+              className="absolute left-0 md:-left-8 top-1/2 -translate-y-1/2 z-10 bg-[#031B17]/80 text-[#F7C66A] p-2 md:p-3 rounded-full hover:bg-[#F7C66A] hover:text-[#031B17] transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100 shadow-lg"
+            >
+              <i className="fa-solid fa-chevron-left text-lg md:text-xl"></i>
+            </button>
+
+            {/* Carousel Container */}
+            <div className="overflow-hidden px-8 md:px-12">
+              <div 
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{ 
+                  // On mobile (width < 768px), it will show 3 items. On desktop it shows 6.
+                  // We handle this responsiveness via Tailwind classes on the items.
+                  transform: `translateX(-${currentIndex * (100 / (isMobile ? itemsPerViewMobile : itemsPerViewDesktop))}%)`,
+                }}
+              >
+                {carouselItems.map((item, idx) => (
+                  <div 
+                    key={idx} 
+                    className="flex-none flex flex-col items-center gap-4 text-center px-2 md:px-4 w-[33.333%] md:w-[16.666%]" // 3 par vue sur mobile, 6 sur desktop
+                  >
+                    <div className="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center transition-all duration-300 hover:scale-110">
+                       {item.iconSrc ? (
+                         <img 
+                           src={item.iconSrc} 
+                           alt={item.label}
+                           className="h-full w-full object-contain"
+                           onError={(e) => {
+                             e.currentTarget.src = "/assets/comodites/fenetre.png";
+                           }}
+                         />
+                       ) : (
+                         <i className={`${item.fallbackIcon} text-3xl md:text-4xl text-white hover:text-[#F7C66A]`}></i>
+                       )}
+                    </div>
+                    <span className="max-w-[100px] md:max-w-[120px] text-[10px] md:text-xs font-bold uppercase tracking-wider text-white hover:text-[#F7C66A] transition-colors leading-tight">
+                      {item.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <span className="max-w-[120px] text-xs font-bold uppercase tracking-wider text-white">
-              {item.label}
-            </span>
+
+            {/* Flèche droite */}
+            <button 
+              onClick={nextSlide}
+              className="absolute right-0 md:-right-8 top-1/2 -translate-y-1/2 z-10 bg-[#031B17]/80 text-[#F7C66A] p-2 md:p-3 rounded-full hover:bg-[#F7C66A] hover:text-[#031B17] transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100 shadow-lg"
+            >
+              <i className="fa-solid fa-chevron-right text-lg md:text-xl"></i>
+            </button>
           </div>
-        ))}
+        ) : (
+          /* Affichage normal si peu d'items */
+          <div className="flex flex-wrap justify-center gap-6 md:gap-20">
+            {amenities.map((item, idx) => (
+              <div key={idx} className="flex flex-col items-center gap-4 text-center group">
+                <div className="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center transition-all duration-300 group-hover:scale-110">
+                   {item.iconSrc ? (
+                     <img 
+                       src={item.iconSrc} 
+                       alt={item.label}
+                       className="h-full w-full object-contain"
+                       onError={(e) => {
+                         e.currentTarget.src = "/assets/comodites/fenetre.png";
+                       }}
+                     />
+                   ) : (
+                     <i className={`${item.fallbackIcon} text-3xl md:text-4xl text-white group-hover:text-[#F7C66A]`}></i>
+                   )}
+                </div>
+                <span className="max-w-[100px] md:max-w-[120px] text-[10px] md:text-xs font-bold uppercase tracking-wider text-white group-hover:text-[#F7C66A] transition-colors leading-tight">
+                  {item.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -348,12 +454,12 @@ function PlansAndLocation({ plans, location }: { plans: Plan[]; location: Locati
       <div className="flex flex-col rounded-3xl bg-[#052620] p-8 shadow-2xl">
         <h2 className="mb-2 text-2xl font-bold uppercase tracking-wide">Typologies</h2>
         <p className="mb-8 text-[#F7C66A] font-bold">
-          <span className="font-extrabold">{activeTab}</span> {currentPlan.area}
+          <span className="font-extrabold">{activeTab}</span> {currentPlan.area && !currentPlan.area.toLowerCase().includes("consultable") && currentPlan.area}
         </p>
         
         <div className="mb-8 flex-1 flex items-center justify-center">
            {/* Plan Image */}
-           <img src={currentPlan.image} alt={activeTab} className="max-h-[500px] w-full object-contain filter invert opacity-90" />
+           <img src={currentPlan.image} alt={activeTab} className="max-h-[500px] w-full object-contain opacity-90" />
         </div>
 
         <div className="flex flex-wrap gap-4">

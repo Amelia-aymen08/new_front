@@ -1,3 +1,4 @@
+
 export type Project = {
   id: number;
   title: string;
@@ -28,48 +29,15 @@ export type Locality = {
   heroImage?: string;
 };
 
-// Plans standards pour toutes les résidences
-const STANDARD_PLANS = [
-  { type: "F3", area: "67 à 142 m²", image: "/plans/F3.jpg" },
-  { type: "F4", area: "80 à 160 m²", image: "/plans/F4.png" },
-  { type: "DUPLEX EN F5", area: "150 à 220 m²", image: "/plans/F5.png" },
-];
-
-const CYANITE_PLANS = [
-  { type: "F3", area: "80 à 130 m²", image: "/plans/f3-cyanite.jpg" },
-  { type: "F4", area: "120 à 160 m²", image: "/plans/F4-cyanite.jpg" },
-  { type: "F5", area: "150 à 200 m²", image: "/plans/F5.png" },
-];
-
-const AZURITE_PLANS = [
-  { type: "F3", area: "75 à 110 m²", image: "/plans/F3.jpg" },
-  { type: "F4", area: "100 à 140 m²", image: "/plans/F4.png" },
-  { type: "DUPLEX", area: "160 à 240 m²", image: "/plans/duplex-azurite.jpg" },
-];
-
-const LARIMAR_PLANS = [
-  { type: "F2", area: "50 à 70 m²", image: "/plans/f2-larimar.jpg" },
-  { type: "F3", area: "80 à 120 m²", image: "/plans/F3.jpg" },
-  { type: "F4", area: "110 à 150 m²", image: "/plans/f4-larimar.jpg" },
-];
-
-const RUBIS_PLANS = [
-  { type: "F3", area: "85 à 125 m²", image: "/plans/f3-2.jpg" },
-  { type: "F4", area: "130 à 170 m²", image: "/plans/Rubis F4 + surface.png" },
-  { type: "F5", area: "160 à 210 m²", image: "/plans/F5-2.png" },
-];
-
-const MIX_PLANS_1 = [
-  { type: "F3", area: "70 à 115 m²", image: "/plans/f3-2.jpg" },
-  { type: "F4", area: "100 à 145 m²", image: "/plans/F4.png" },
-  { type: "F5", area: "140 à 190 m²", image: "/plans/F5-2.png" },
-];
-
-const MIX_PLANS_2 = [
-  { type: "F3", area: "65 à 110 m²", image: "/plans/F3.jpg" },
-  { type: "F4", area: "95 à 135 m²", image: "/plans/F4.png" },
-  { type: "DUPLEX", area: "155 à 230 m²", image: "/plans/F5.png" },
-];
+// --- CONSTANTES IMAGES PLANS ---
+const PLAN_F2 = "/plans/f2-1.png";
+const PLAN_F3_1 = "/plans/f3-1.png";
+const PLAN_F3_2 = "/plans/f3-2.png";
+const PLAN_F4_1 = "/plans/F4-1.png";
+const PLAN_F4_2 = "/plans/f4-2.png";
+const PLAN_F5 = "/plans/F5-2.png";
+const PLAN_DUPLEX = "/plans/duplex.png";
+const PLAN_STATIC = "/plans/static.png";
 
 // Features standards pour toutes les résidences (avec les icônes SVG)
 const STANDARD_FEATURES = [
@@ -100,13 +68,19 @@ export const PROJECTS: Project[] = [
       "/assets/projets/galeries/Althea/5.png",
       "/assets/projets/galeries/Althea/6.png", 
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Reception", "Bache a eau", "Ascenseur", "Cuisine", "Groupe electrogene"],
     details: [
       { label: "Adresse", value: "Alger" },
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "00 %" },
     ],
-    plans: MIX_PLANS_2
+    plans: [
+        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "Duplex de type F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_DUPLEX },
+    ]
   },
 
   {
@@ -131,13 +105,18 @@ export const PROJECTS: Project[] = [
       "/assets/projets/galeries/cyanite/6.png",
       "/assets/projets/galeries/cyanite/7.png",
     ],
-    features: STANDARD_FEATURES,
+    features: ["Piscine Privative", "Isolation Phonique", "Dressing", "Domotique", "Reception", "Parking de Stationnement", "Aire de jeux", "Abattoir", "Climatisation centralisée"],
     details: [
       { label: "Adresse", value: "Chéraga" },
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "10 %" },
     ],
-    plans: CYANITE_PLANS
+    plans: [
+        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
+        { type: "F3", area: "80 à 130 m²", image: PLAN_F3_2 },
+        { type: "F4", area: "120 à 160 m²", image: PLAN_F4_2 },
+        { type: "Duplex en F5", area: "150 à 200 m²", image: PLAN_DUPLEX },
+    ]
   },
 
   {
@@ -162,13 +141,17 @@ export const PROJECTS: Project[] = [
       "/assets/projets/galeries/azurite/6.png",
       "/assets/projets/galeries/azurite/7.png",
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique"],
     details: [
       { label: "Adresse", value: "Kouba" },
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "10 %" },
     ],
-    plans: AZURITE_PLANS
+    plans: [
+        { type: "F3", area: "75 à 110 m²", image: PLAN_F3_1 },
+        { type: "F4", area: "100 à 140 m²", image: PLAN_F4_1 },
+        { type: "F6", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
+    ]
   },
 
   {
@@ -190,13 +173,18 @@ export const PROJECTS: Project[] = [
       "/assets/projets/galeries/agate/5.png",
       "/assets/projets/galeries/agate/6.png",
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Aire de jeux", "Parking de stationnement", "Reception", "Domotique", "Dressing", "Isolation phonique"],
     details: [
       { label: "Adresse", value: "El Achour" },
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "76 %" },
     ],
-    plans: MIX_PLANS_1
+    plans: [
+        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
+        { type: "F5 en Duplex", area: "Consultable au niveau de la direction commerciale", image: PLAN_DUPLEX },
+    ]
   },
 
   {
@@ -210,7 +198,7 @@ export const PROJECTS: Project[] = [
 
     coverImage: "/assets/projets/couvertures/ametrine.jpg",
     fullDescription: `Résidence Amétrine , le récent chef-d'œuvre d'Aymen Promotion Immobilière, se distingue par son caractère intimiste et son emplacement privilégié à Saïd Hamdine, dans la commune de Bir Mourad Raïs. Ce projet d'exception propose 27 appartements de haut standing , avec diverses typologies s'étendant du F2 de 49 m² au somptueux F5 de 321 m². Le design contemporain des trois façades révèle une esthétique avant-gardiste, s'intégrant harmonieusement dans l'environnement urbain moderne.
-
+    
 Chaque appartement bénéficie d'une finition haut de gamme, avec des matériaux de qualité , et de vastes baies vitrées permettant une luminosité naturelle optimale tout au long de la journée. Certains logements exclusifs disposent de terrasses privées agrémentées de piscines, offrant un espace de détente privilégié à leurs résidents.
 
 La Résidence Amétrine se distingue également par sa situation géographique stratégique, avec un accès direct à l'autoroute, et sa proximité immédiate des entreprises, universités, salles de sport, des boutiques prisées de Sidi Yahia, ainsi que des commodités et services de la commune d'Hydra.`,
@@ -222,13 +210,18 @@ La Résidence Amétrine se distingue également par sa situation géographique s
       "/assets/projets/galeries/ametrine/5.jpg",
       "/assets/projets/galeries/ametrine/6.jpg",       
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Aire de jeux", "Parking de stationnement", "Reception", "Dressing", "Isolation phonique", "Piscine Commune", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété"],
     details: [
       { label: "Adresse", value: "Said Hamdine" },
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "79 %" },
     ],
-    plans: MIX_PLANS_2
+    plans: [
+        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+    ]
   },
 
   {
@@ -253,13 +246,19 @@ Au cœur de ce havre de paix, les résidents pourront également profiter de par
       "/assets/projets/galeries/cornaline/1.png",
       "/assets/projets/galeries/cornaline/2.png",     
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "Hydra" },
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "98 %" },
     ],
-    plans: MIX_PLANS_1
+    plans: [
+        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "Duplex", area: "Consultable au niveau de la direction commerciale", image: PLAN_DUPLEX },
+    ]
   },
 
   {
@@ -287,13 +286,20 @@ Optez pour le confort luxueux de la résidence Séraphinite à Ruisseau et de se
       "/assets/projets/galeries/seraphinite/5.jpg",
       "/assets/projets/galeries/seraphinite/6.jpg",
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Aire de jeux", "Parking de stationnement", "Reception", "Dressing", "Isolation phonique", "Piscine Commune", "Salle de sport", "Piscine privative", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "Ruisseau" },
       { label: "Blocs", value: "03" },
       { label: "État d'avancement", value: "63 %" },
     ],
-    plans: MIX_PLANS_2
+    plans: [
+        { type: "Studio", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
+        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "Triplex", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
+    ]
   },
 
   {
@@ -318,13 +324,19 @@ Aymen Promotion Immobilière s'engage à offrir à ses clients un cadre de vie d
       "/assets/projets/galeries/celestine/2.png",
       "/assets/projets/galeries/celestine/3.jpg", 
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Aire de jeux", "Parking de stationnement", "Reception", "Dressing", "Isolation phonique", "Piscine Commune", "Salle de sport", "Piscine privative", "Bache a eau", "Ascenseur", "Creche garderie", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "Bab Ezzouar" },
       { label: "Blocs", value: "07" },
       { label: "État d'avancement", value: "71 %" },
     ],
-    plans: MIX_PLANS_1
+    plans: [
+        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
+        { type: "Triplex en F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
+        { type: "Triplex en F6", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
+    ]
   },
 
   {
@@ -350,13 +362,19 @@ Plongez dans un cadre urbain moderne et élégant, où le confort se marie harmo
       "/assets/projets/galeries/larimar/5.png",
       "/assets/projets/galeries/larimar/6.png",   
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "Tixeraïne" },
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "71 %" },
     ],
-    plans: LARIMAR_PLANS
+    plans: [
+        { type: "F2", area: "50 à 70 m²", image: PLAN_F2 },
+        { type: "F3", area: "80 à 120 m²", image: PLAN_F3_1 },
+        { type: "F4", area: "110 à 150 m²", image: PLAN_F4_1 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "Duplex", area: "Consultable au niveau de la direction commerciale", image: PLAN_DUPLEX },
+    ]
   },
 
   {
@@ -385,13 +403,16 @@ Vivez une expérience résidentielle paisible dans ce projet intimiste, où le c
       "/assets/projets/galeries/selenite/6.png", 
       "/assets/projets/galeries/selenite/7.png",  
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe Electrogene", "gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "Birkhadem" },
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: MIX_PLANS_1
+    plans: [
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+    ]
   },
 
   {
@@ -419,13 +440,21 @@ En définitive, la résidence Diar El Amane est une allégorie de l’art de viv
       "/assets/projets/galeries/diar-el-amane/5.jpg",
       "/assets/projets/galeries/diar-el-amane/6.png",  
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Aire de jeux", "Parking de stationnement", "Reception", "Dressing", "Isolation phonique", "Piscine Commune", "Salle de sport", "Piscine privative", "Spa Hammam Sauna", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "Birkhadem" },
       { label: "Blocs", value: "04" },
       { label: "État d'avancement", value: "94 %" },
     ],
-    plans: MIX_PLANS_2
+    plans: [
+        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "Duplex F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_DUPLEX },
+        { type: "Duplex F6", area: "Consultable au niveau de la direction commerciale", image: PLAN_DUPLEX },
+        { type: "F6", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
+    ]
   },
 
   {
@@ -450,14 +479,19 @@ En plus de profiter d’une mobilité aisée et rapide au quotidien, les habitan
       "/assets/projets/galeries/pyrite/6.JPG",      
       "/assets/projets/galeries/pyrite/7.png",  
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "Chéraga" },
       { label: "Blocs", value: "03" },
       { label: "État d'avancement", value: "100 %" },
       
     ],
-    plans: MIX_PLANS_1
+    plans: [
+        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+    ]
   },
 
   {
@@ -483,13 +517,19 @@ Que vous recherchiez de vastes espaces intérieurs ou un appartement de taille m
       "/assets/projets/galeries/jais/3.JPG",
       "/assets/projets/galeries/jais/4.JPG",    
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe Electrogene", "gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "Draria" },
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: MIX_PLANS_2
+    plans: [
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
+        { type: "F3 en duplex", area: "Consultable au niveau de la direction commerciale", image: PLAN_DUPLEX },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
+        { type: "F4 en duplex", area: "Consultable au niveau de la direction commerciale", image: PLAN_DUPLEX },
+        { type: "F5 en duplex", area: "Consultable au niveau de la direction commerciale", image: PLAN_DUPLEX },
+    ]
   },
 
   {
@@ -515,13 +555,18 @@ Cette résidence offre également toutes les commodités essentielles pour une v
       "/assets/projets/galeries/les-cretes/7.png",
       "/assets/projets/galeries/les-cretes/8.png",  
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe Electrogene", "gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "Draria" },
       { label: "Blocs", value: "04" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: MIX_PLANS_1
+    plans: [
+        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+    ]
   },
 
   // --- PROJETS FINIS ---
@@ -540,68 +585,66 @@ Cette résidence d'exception se compose de 14 appartements, allant du F2 au F7 e
     gallery: [
       "/assets/projets/galeries/turquoise/1.jpg",
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "Les Sources" },
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: MIX_PLANS_2
+    plans: [
+        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+    ]
   },
 
   {
     id: 15,
-    title: "SPINELLE",
-    location: "Les Sources, Alger",
-    description: "Nous vous présentons la Résidence Spinelle d'Aymen Promotion Immobilière...",
-    image: "/assets/projets/spinelle.png", 
+    title: "CÉLESTINE",
+    location: "Bousmail, Tipaza",
+    description: "Bénéficiant de l'air marin, Célestine à Bousmail...",
+    image: "/assets/projets/celestine.png",
     status: "FINIS",
     isNightMode: true,
-    coverImage: "/assets/projets/couvertures/spinelle.png",
-    fullDescription: `Nous vous présentons la Résidence Spinelle d’Aymen Promotion Immobilière, un havre de tranquillité niché au cœur de la paisible localité des Sources. Avec un souci constant de qualité et de haut standing, notre résidence exclusive offre une opportunité unique de vivre dans le confort moderne, entouré par la sérénité de son environnement.
-
-La Résidence Spinelle se distingue par ses 12 logements fonctionnels conçus pour répondre aux normes les plus élevées de qualité et de design. Ces espaces de vie vont du F2 de 78 m² au F4 de 140 m² en simplex, offrant ainsi une variété d'options pour répondre aux besoins et préférences spécifiques de chacun. Les intérieurs élégamment aménagés reflètent une attention minutieuse aux détails, mettant en valeur les matériaux de première qualité et les finitions soignées. Située dans une impasse, la Résidence Spinelle offre une retraite paisible loin de l'agitation urbaine, tout en étant à proximité des commodités essentielles et des axes routiers.`,
+    coverImage: "/assets/projets/couvertures/celestine.jpg",
+    fullDescription: `Bénéficiant de l'air marin, Célestine à Bousmail offre des appartements lumineux conçus pour profiter pleinement du climat côtier.`,
     gallery: [
-      "/assets/projets/galeries/spinelle/1.JPG",
-      "/assets/projets/galeries/spinelle/2.JPG",
-      "/assets/projets/galeries/spinelle/3.JPG",
-      "/assets/projets/galeries/spinelle/4.JPG",    
+      "/assets/projets/galeries/celestine/1.png",
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Aire de jeux", "Parking de stationnement", "Reception", "Dressing", "Isolation phonique", "Piscine Commune", "Salle de sport", "Piscine privative", "Bache a eau", "Ascenseur", "Creche garderie", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
-      { label: "Adresse", value: "Les Sources" },
+      { label: "Adresse", value: "Bousmail" },
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: MIX_PLANS_1
+    plans: [
+        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
+    ]
   },
 
   {
     id: 16,
-    title: "BERYL",
-    location: "Dely Ibrahim, Alger",
-    description: "Idéalement nichée au cœur de la charmante commune de Dely Ibrahim...",
-    image: "/assets/projets/beryl.png", 
+    title: "TURQUOISE",
+    location: "Bousmail, Tipaza",
+    description: "Turquoise, à Bousmail, est une résidence de charme...",
+    image: "/assets/projets/turquoise.png", 
     status: "FINIS",
     isNightMode: true,
-    coverImage: "/assets/projets/couvertures/beryl.jpg",
-    fullDescription: `Idéalement nichée au cœur de la charmante commune de Dély Ibrahim, la résidence Béryl se dresse dans un environnement des plus prisés, à proximité immédiate de prestigieux restaurants, de boutiques raffinées, d'établissements de remise en forme, et même d'un parc verdoyant.
-
-Cette résidence d’exception déploie ses attraits luxueux dans une atmosphère intime, offrant à ses résidents une harmonie parfaite entre sécurité et bien-être. Elle est composée d’appartements haut standing, allant du F3 de 78 m² au F5 de 298 m².
-
-Chaque logement est conçu avec soin pour offrir des espaces à vivre généreux et accueillants, agrémentés de plusieurs salles d'eau pour une commodité absolue, de balcons pittoresques et de terrasses baignées de soleil invitant la lumière naturelle et l'air frais à entrer. Au-delà des finitions impeccables, soigneusement proposées par Aymen Promotion Immobilière, vous aurez le plaisir de découvrir au sein de certaines propriétés exclusives de rafraîchissantes piscines intérieures, une véritable évasion aquatique pour vous ressourcer durant les chaudes journées d’été.`,
+    coverImage: "/assets/projets/couvertures/turquoise.jpg",
+    fullDescription: `Turquoise, à Bousmail, est une résidence de charme alliant architecture méditerranéenne et confort moderne.`,
     gallery: [
-      "/assets/projets/galeries/beryl/1.jpg",
-      "/assets/projets/galeries/beryl/2.jpg",
-      "/assets/projets/galeries/beryl/3.jpg",
+      "/assets/projets/galeries/turquoise/1.jpg",
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
-      { label: "Adresse", value: "Dely Ibrahim" },
+      { label: "Adresse", value: "Bousmail" },
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: MIX_PLANS_2
+    plans: [
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
+    ]
   },
 
   {
@@ -617,13 +660,17 @@ Chaque logement est conçu avec soin pour offrir des espaces à vivre généreux
     gallery: [
       "/assets/projets/galeries/bois-des-cars/1.jpg", 
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "Dely Ibrahim" },
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: MIX_PLANS_1
+    plans: [
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+    ]
   },
 
   {
@@ -641,13 +688,17 @@ Idéalement situé à seulement 3 minutes des principaux axes autoroutiers, ce p
     gallery: [
       "/assets/projets/galeries/peridot/1.jpg",
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "Hydra" },
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: MIX_PLANS_2
+    plans: [
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+    ]
   },
 
   {
@@ -672,13 +723,18 @@ Chaque résident pourra personnaliser son expérience selon ses préférences. A
       "/assets/projets/galeries/corail/1.png",
       "/assets/projets/galeries/corail/2.png",  
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "Hydra" },
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: MIX_PLANS_1
+    plans: [
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "F6", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
+    ]
   },
 
   {
@@ -705,13 +761,19 @@ Même si les typologies de ces logements divergent, ils ont en commun une finiti
       "/assets/projets/galeries/opale/3.JPG", 
       "/assets/projets/galeries/opale/4.JPG",    
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "El Achour" },
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: MIX_PLANS_2
+    plans: [
+        { type: "Studio", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
+        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+    ]
   },
 
   {
@@ -740,13 +802,19 @@ Même si les typologies de ces logements divergent, ils ont en commun une finiti
       "/assets/projets/galeries/citrine/5.JPG",
       "/assets/projets/galeries/citrine/6.png",
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation phonique", "Salle de sport", "Spa", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "Birkhadem" },
       { label: "Blocs", value: "03" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: MIX_PLANS_1
+    plans: [
+        { type: "Studio", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
+        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+    ]
   },
 
   {
@@ -770,13 +838,17 @@ Ce projet immobilier bénéficie d'un emplacement privilégié à proximité de 
       "/assets/projets/galeries/angelite/2.jpg",
       "/assets/projets/galeries/angelite/3.jpg",
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "Dar El Beïda" },
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: MIX_PLANS_2
+    plans: [
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+    ]
   },
 
   {
@@ -802,13 +874,18 @@ Que vous recherchiez un espace confortable pour votre vie quotidienne ou un inve
       "/assets/projets/galeries/rubis/4.png",
       "/assets/projets/galeries/rubis/5.jpg",   
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "El Achour" },
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: RUBIS_PLANS
+    plans: [
+        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
+        { type: "F3", area: "85 à 125 m²", image: PLAN_F3_1 },
+        { type: "F4", area: "130 à 170 m²", image: PLAN_F4_2 },
+        { type: "F5", area: "160 à 210 m²", image: PLAN_F5 },
+    ]
   },
   
   {
@@ -832,13 +909,18 @@ Chaque détail a été soigneusement pensé pour offrir un confort optimal. Les 
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: MIX_PLANS_1
+    plans: [
+        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+    ]
   },
 
   {
     id: 25,
     title: "EL MORDJANE",
-    location: "Said Hamdine, Alger",
+    location: "Ain Benian, Alger",
     description: "Au cœur d'Alger, dans le quartier de Said Hamdine...",
     image: "/assets/projets/el-mordjane.png", 
     status: "FINIS",
@@ -850,19 +932,23 @@ Autour de la résidence, on retrouve des lieux de vie élégants tels que des re
     gallery: [
       "/assets/projets/galeries/el-mordjane/1.jpg",
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "Said Hamdine" },
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: MIX_PLANS_2
+    plans: [
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+    ]
   },
 
   {
     id: 26,
     title: "Aymen",
-    location: "Birkhadem, Alger",
+    location: "El Biar, Alger",
     description: "Située à proximité de la petite ville Birkhadem...",
     image: "/assets/projets/136.png", 
     status: "FINIS",
@@ -882,13 +968,17 @@ Offrant une variété d'options, les appartements de la résidence Aymen s'éten
       "/assets/projets/galeries/Aymen/6.JPG",
       "/assets/projets/galeries/Aymen/7.JPG",
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Creche garderie", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
       { label: "Adresse", value: "Birkhadem" },
       { label: "Blocs", value: "05" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: MIX_PLANS_1
+    plans: [
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+    ]
   },
   
   {
@@ -920,7 +1010,12 @@ Aussi, vous pouvez vivre en toute sérénité en sachant que votre foyer est pro
       { label: "Blocs", value: "04" },
       { label: "État d'avancement", value: "100 %" },
     ],
-    plans: MIX_PLANS_2
+    plans: [
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "F6", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
+    ]
   },
 
   {
@@ -948,14 +1043,19 @@ La résidence offre également une aire de jeu sécurisée pour le divertissemen
       "/assets/projets/galeries/perla/6.JPG",
       "/assets/projets/galeries/perla/7.JPG",
     ],
-    features: STANDARD_FEATURES,    
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],    
     details: [
       { label: "Adresse", value: "Dar El Beïda" },  
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
      
     ],
-    plans: MIX_PLANS_1
+    plans: [
+        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
+        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
+        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "F6", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
+    ]
   },
   
 ];

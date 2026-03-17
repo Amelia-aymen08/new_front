@@ -338,10 +338,10 @@ export default function LocalityPage() {
             <div className={`w-full md:w-1/2 ${isMobile ? 'px-2' : 'pt-0'}`}>
                 <div className="relative mb-4">
                     <span className={`font-['PhotographSignature'] text-[#F7C66A] block transform -rotate-2 ${isMobile ? 'text-5xl' : 'text-5xl md:text-8xl'}`}>
-                    Nos Signatures
+                    {localityProjects.length === 1 ? "Notre Signature" : "Nos Signatures"}
                     </span>
                     <span className={`font-light text-white block uppercase tracking-widest mt-2 ${isMobile ? 'text-xl' : 'text-2xl md:text-4xl'}`}>
-                    RÉSIDENTIELLES À
+                    {localityProjects.length === 1 ? "RÉSIDENTIELLE À" : "RÉSIDENTIELLES À"}
                     </span>
                     <h1 className={`font-bold uppercase tracking-wide text-white leading-tight mt-2 ${isMobile ? 'text-3xl' : 'text-4xl md:text-6xl'}`}>
                         {cityOnly}

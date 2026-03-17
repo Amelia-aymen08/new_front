@@ -29,6 +29,94 @@ export default function ContactPage() {
   });
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{ type: 'success' | 'error' | null, message: string }>({ type: null, message: "" });
+  const faqCategories = [
+    "Avant l'achat : Informations générales",
+    "Paiement & Financement",
+    "Personnalisation & Équipements",
+    "Gestion & Copropriété",
+    "Suivi & Livraison",
+    "Autres questions fréquentes"
+  ];
+  
+  const [activeCategory, setActiveCategory] = useState(0);
+  const [openFAQ, setOpenFAQ] = useState<number | null>(0);
+
+  const toggleFAQ = (index: number) => {
+    setOpenFAQ(openFAQ === index ? null : index);
+  };
+
+  const faqsByCategory = [
+    // Avant l'achat
+    [
+      {
+        question: "Tout savoir avant de vous engager",
+        answer: "En choisissant Aymen Promotion, vous investissez dans un logement haut standing conçu avec des matériaux de qualité, dans des emplacements stratégiques à Alger, avec un accompagnement personnalisé du premier contact jusqu'à la remise des clés."
+      },
+      {
+        question: "Comment réserver un appartement ?",
+        answer: "Vous pouvez réserver un appartement en nous contactant directement via ce formulaire, par téléphone ou en visitant notre direction générale."
+      },
+      {
+        question: "Puis-je visiter un appartement témoin ?",
+        answer: "Oui, des appartements témoins sont disponibles pour la plupart de nos projets en cours de réalisation. N'hésitez pas à prendre rendez-vous."
+      }
+    ],
+    // Paiement & Financement
+    [
+      {
+        question: "Proposez-vous des facilités de paiement ?",
+        answer: "Oui, nous proposons des échéanciers de paiement adaptés à l'avancement des travaux pour nos projets en cours de réalisation."
+      },
+      {
+        question: "Acceptez-vous les crédits bancaires ?",
+        answer: "Oui, nous collaborons avec plusieurs banques pour faciliter l'obtention de votre crédit immobilier."
+      }
+    ],
+    // Personnalisation
+    [
+      {
+        question: "Puis-je modifier les plans intérieurs ?",
+        answer: "Sous certaines conditions et selon l'état d'avancement des travaux, des modifications mineures de l'aménagement intérieur peuvent être envisagées."
+      },
+      {
+        question: "Peut-on choisir les finitions ?",
+        answer: "Nous proposons une sélection de finitions haut de gamme (revêtements, sanitaires) parmi lesquelles vous pourrez faire votre choix."
+      }
+    ],
+    // Gestion & Copropriété
+    [
+      {
+        question: "Comment est gérée la copropriété ?",
+        answer: "Aymen Promotion assure la gestion de la copropriété durant les premières années pour garantir l'entretien parfait des espaces communs et le bon fonctionnement des équipements."
+      },
+      {
+        question: "Quels sont les frais de gestion ?",
+        answer: "Les frais sont calculés de manière transparente et couvrent le gardiennage, le nettoyage, l'entretien des ascenseurs et des espaces verts."
+      }
+    ],
+    // Suivi & Livraison
+    [
+      {
+        question: "Comment suivre l'avancement des travaux ?",
+        answer: "Vous recevrez des mises à jour régulières et pourrez visiter le chantier sur rendez-vous à des étapes clés de la construction."
+      },
+      {
+        question: "Que se passe-t-il lors de la remise des clés ?",
+        answer: "Une visite de réception minutieuse est organisée. Vous vérifierez avec nos équipes que tout est conforme à vos attentes avant la remise officielle des clés."
+      }
+    ],
+    // Autres
+    [
+      {
+        question: "Proposez-vous des locaux commerciaux ?",
+        answer: "Oui, la plupart de nos résidences intègrent des locaux commerciaux au rez-de-chaussée. Contactez notre service commercial pour les disponibilités."
+      },
+      {
+        question: "Les résidences disposent-elles de parkings ?",
+        answer: "Absolument, toutes nos résidences sont équipées de parkings en sous-sol sécurisés."
+      }
+    ]
+  ];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -326,10 +414,14 @@ export default function ContactPage() {
          <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
             {/* Sidebar Categories */}
              <div className="md:col-span-4 space-y-2">
-                {["Avant l'achat : Informations générales", "Paiement & Financement", "Personnalisation & Équipements", "Gestion & Copropriété", "Suivi & Livraison", "Autres questions fréquentes"].map((cat, idx) => (
+                {faqCategories.map((cat, idx) => (
                    <button 
                      key={idx}
-                     className={`w-full text-left p-4 rounded-lg transition-all ${idx === 0 ? "bg-[#F7C66A] text-[#031B17] font-bold" : "bg-[#0C2A24] text-white/70 hover:bg-[#15332D]"}`}
+                     onClick={() => {
+                        setActiveCategory(idx);
+                        setOpenFAQ(0); // Reset le FAQ ouvert lors du changement de catégorie
+                     }}
+                     className={`w-full text-left p-4 rounded-lg transition-all ${idx === activeCategory ? "bg-[#F7C66A] text-[#031B17] font-bold" : "bg-[#0C2A24] text-white/70 hover:bg-[#15332D]"}`}
                    >
                      {cat}
                    </button>
@@ -338,27 +430,25 @@ export default function ContactPage() {
 
             {/* Accordion Content */}
             <div className="md:col-span-8 space-y-4">
-               {/* Active Item */}
-               <div className="bg-[#0C2A24] rounded-xl border border-white/5 overflow-hidden">
-                  <div className="bg-[#F7C66A] p-6 flex justify-between items-center cursor-pointer">
-                     <h3 className="text-[#031B17] font-bold text-lg">Tout savoir avant de vous engager</h3>
-                     <i className="fa-solid fa-minus text-[#031B17]"></i>
-                  </div>
-                  <div className="p-6 border-l-4 border-[#F7C66A] bg-[#0C2A24]">
-                     <p className="text-gray-300 leading-relaxed font-light text-sm">
-                        En choisissant Aymen Promotion, vous investissez dans un logement haut standing conçu avec des matériaux de qualité, dans des emplacements stratégiques à Alger, avec un accompagnement personnalisé du premier contact jusqu'à la remise des clés.
-                     </p>
-                  </div>
-               </div>
-
-               {/* Collapsed Items */}
-               {["Comment réserver un appartement ?", "Puis-je visiter un appartement témoin ?"].map((q, idx) => (
-                  <div key={idx} className="bg-[#0C2A24] rounded-xl border border-white/5 overflow-hidden">
-                     <div className="p-6 flex justify-between items-center cursor-pointer hover:bg-[#15332D] transition-colors">
-                        <h3 className="text-white font-bold text-lg">{q}</h3>
-                        <i className="fa-solid fa-plus text-white"></i>
-                     </div>
-                  </div>
+               {faqsByCategory[activeCategory].map((faq, idx) => (
+                 <div key={idx} className="bg-[#0C2A24] rounded-xl border border-white/5 overflow-hidden">
+                    <div 
+                      className={`p-6 flex justify-between items-center cursor-pointer transition-colors ${openFAQ === idx ? 'bg-[#F7C66A]' : 'hover:bg-[#15332D]'}`}
+                      onClick={() => toggleFAQ(idx)}
+                    >
+                       <h3 className={`font-bold text-lg ${openFAQ === idx ? 'text-[#031B17]' : 'text-white'}`}>
+                         {faq.question}
+                       </h3>
+                       <i className={`fa-solid ${openFAQ === idx ? 'fa-minus text-[#031B17]' : 'fa-plus text-white'}`}></i>
+                    </div>
+                    {openFAQ === idx && (
+                      <div className="p-6 border-l-4 border-[#F7C66A] bg-[#0C2A24]">
+                         <p className="text-gray-300 leading-relaxed font-light text-sm">
+                            {faq.answer}
+                         </p>
+                      </div>
+                    )}
+                 </div>
                ))}
             </div>
          </div>

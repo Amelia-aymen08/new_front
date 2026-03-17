@@ -105,7 +105,7 @@ export default function Footer() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
                 <div>
                   <span className="block font-semibold text-[#F7C66A] mb-1">Siège Commercial</span>
-                  <a href="https://maps.app.goo.gl/t9Y9vL6f9Q9z9z9z9" target="_blank" rel="noopener noreferrer" className="block underline-offset-2 hover:underline">
+                  <a href="https://maps.app.goo.gl/maEexPKHdoVp5GMM9" target="_blank" rel="noopener noreferrer" className="block underline-offset-2 hover:underline">
                     Said Hamdine ilot N 52 section 05,<br /> Bir Mourad Rais - Alger 16000
                   </a>
                 </div>

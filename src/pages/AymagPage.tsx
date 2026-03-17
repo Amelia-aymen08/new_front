@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { motion, AnimatePresence } from "framer-motion";
 import { Document, Page as PdfPage, pdfjs } from "react-pdf";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import "react-pdf/dist/esm/Page/TextLayer.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { PDF_WORKER_URL } from "../config";
@@ -23,7 +25,7 @@ const MAGAZINES: Magazine[] = [
     title: "L'Art de Vivre",
     date: "Novembre 2025",
     coverColor: "from-[#031B17] to-[#0A2E25]",
-    pages: 24,
+    pages: 11,
     pdfUrl: "/assets/magazines/aymag-03.pdf",
   },
   {
@@ -39,12 +41,12 @@ const MAGAZINES: Magazine[] = [
     title: "Architecture & Design",
     date: "Mai 2025",
     coverColor: "from-[#5A8E86] to-[#6A9E96]",
-    pages: 20,
+    pages: 13,
     pdfUrl: "/assets/magazines/aymag-01.pdf",
   },
 ];
 
-const A4_RATIO = 1.41421356237;
+const A4_RATIO = 1.41421356237; // Ratio A4 normal
 
 const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
 
@@ -142,7 +144,7 @@ const ReaderModal = ({ mag, onClose }: { mag: Magazine; onClose: () => void }) =
   const [numPages, setNumPages] = useState<number>(mag.pages);
   const [isPdfLoaded, setIsPdfLoaded] = useState(false);
 
-  // Taille responsive d’UNE page (A4), le flipbook gère le spread
+  // Taille pour le format A3 coupé en deux (A4)
   const [pageSize, setPageSize] = useState<{ w: number; h: number }>({
     w: 420,
     h: Math.round(420 * A4_RATIO),
@@ -156,13 +158,17 @@ const ReaderModal = ({ mag, onClose }: { mag: Magazine; onClose: () => void }) =
       const maxBookW = window.innerWidth - paddingW;
       const maxBookH = window.innerHeight - paddingH;
 
-      // largeur d'une page si on veut pouvoir afficher 2 pages côte à côte
+      // On veut que chaque page du flipbook soit un A4 (ratio ~1.414)
+      // La largeur d'une page A4 doit être la moitié de la largeur max disponible
       const maxPageWFromWidth = Math.floor(maxBookW / 2);
 
-      // contrainte hauteur A4 => w = h / ratio
+      // La hauteur de la page A4 dicte sa largeur (w = h / ratio)
       const maxPageWFromHeight = Math.floor(maxBookH / A4_RATIO);
 
+      // On choisit la largeur la plus restrictive pour que ça rentre
       const w = clamp(Math.min(maxPageWFromWidth, maxPageWFromHeight), 320, 700);
+      
+      // On recalcule la hauteur exacte basée sur cette largeur et le ratio A4 pour éviter tout étirement
       const h = Math.round(w * A4_RATIO);
 
       setPageSize({ w, h });
@@ -247,25 +253,78 @@ const ReaderModal = ({ mag, onClose }: { mag: Magazine; onClose: () => void }) =
                 height={pageSize.h}
                 size="fixed"
                 maxShadowOpacity={0.5}
-                showCover={true}  // mets false si tu ne veux PAS la page blanche à gauche sur la couverture
+                showCover={true} // Obligatoire pour avoir un mode livre normal (page 1 à droite, puis 2 et 3 ensemble)
                 mobileScrollSupport={true}
                 className="shadow-2xl"
                 ref={bookRef}
+                usePortrait={false} // Mode double page normal
               >
-                {pagesArray.map((pageNum) => (
-                  <Page key={pageNum} number={pageNum} noPadding>
-                    {/* Conteneur strictement à la taille de la page */}
-                    <div className="absolute inset-0 overflow-hidden">
-                      {/* Le PdfPage doit occuper 100% du conteneur via CSS (globals.css) */}
-                      <PdfPage
-                        pageNumber={pageNum}
-                        width={pageSize.w}
-                        renderTextLayer={false}
-                        renderAnnotationLayer={false}
-                      />
-                    </div>
-                  </Page>
-                ))}
+                {/* 
+                  IMPORTANT: Logique de rendu des pages
+                  - Page 1 (Couverture) : A4 simple (Page PDF 1)
+                  - Pages intermédiaires : Spreads A3 (Pages PDF 2, 3, etc.) qu'on coupe en deux
+                  - Dernière page (Dos) : A4 simple (Dernière page PDF)
+                */}
+                {Array.from({ length: numPages > 1 ? (numPages * 2) - 2 : 1 }).map((_, index) => {
+                  const totalFlipPages = numPages > 1 ? (numPages * 2) - 2 : 1;
+                  const isCover = index === 0;
+                  const isBackCover = index === totalFlipPages - 1 && numPages > 1;
+                  
+                  let pdfPageNum: number;
+                  let renderWidth: number;
+                  let renderLeft: number;
+
+                  if (isCover) {
+                    pdfPageNum = 1;
+                    renderWidth = pageSize.w; // A4 standard
+                    renderLeft = 0;
+                  } else if (isBackCover) {
+                    pdfPageNum = numPages;
+                    renderWidth = pageSize.w; // A4 standard
+                    renderLeft = 0;
+                  } else {
+                    // Pages du milieu (A3 Spreads)
+                    // Index 1 -> PDF 2 (Gauche)
+                    // Index 2 -> PDF 2 (Droite)
+                    // Index 3 -> PDF 3 (Gauche)
+                    // etc.
+                    pdfPageNum = Math.floor((index + 1) / 2) + 1;
+                    renderWidth = pageSize.w * 2; // A3 (Double largeur)
+                    
+                    // Si index impair (1, 3...) -> Page Gauche du livre -> Moitié Gauche du PDF (left: 0)
+                    // Si index pair (2, 4...) -> Page Droite du livre -> Moitié Droite du PDF (left: -W)
+                    if (index % 2 === 0) {
+                      renderLeft = -pageSize.w;
+                    } else {
+                      renderLeft = 0;
+                    }
+                  }
+                  
+                  return (
+                    <Page key={index} number={index + 1} noPadding>
+                      {/* Le conteneur fait la taille d'un A4 (la moitié du A3) */}
+                      <div className="absolute inset-0 overflow-hidden bg-white">
+                        <div 
+                          className="absolute top-0"
+                          style={{
+                            width: renderWidth,
+                            height: pageSize.h,
+                            left: renderLeft,
+                          }}
+                        >
+                          <PdfPage
+                            pageNumber={pdfPageNum}
+                            width={renderWidth}
+                            height={pageSize.h} // On force la hauteur pour éviter l'étirement
+                            renderTextLayer={false}
+                            renderAnnotationLayer={false}
+                            className="absolute top-0 left-0 max-w-none" // Empêcher le redimensionnement automatique
+                          />
+                        </div>
+                      </div>
+                    </Page>
+                  );
+                })}
               </HTMLFlipBook>
             )}
           </Document>

@@ -250,11 +250,14 @@ export default function CareersPage() {
 
       {/* --- HERO SECTION --- */}
       <section className="relative h-[80vh] w-full overflow-hidden">
-        <img
-          src="/careers-hero.jpg"
-          alt="Team Aymen Promotion"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
+        <picture>
+          <source media="(max-width: 768px)" srcSet="/carriere-mobile.png" />
+          <img
+            src="/careers-hero.jpg"
+            alt="Team Aymen Promotion"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </picture>
         <div className="absolute inset-0 bg-black/40" />
 
         <div className="absolute inset-0 z-10 flex flex-col justify-end px-6 pb-12 md:px-20 md:pb-24">

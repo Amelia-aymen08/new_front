@@ -3,8 +3,17 @@ import { Link } from "react-router-dom";
 import HamburgerIcon from "./icons/HamburgerIcon";
 import MenuOverlay from "./MenuOverlay";
 
-export default function Header({ logoSrc = "/logo_original.svg", className = "absolute left-0 top-0 z-30 w-full" }) {
+export default function Header({ logoSrc = "/logo_original.svg", className = "" }) {
   const [open, setOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     const onKeyDown = (e) => {
@@ -16,13 +25,17 @@ export default function Header({ logoSrc = "/logo_original.svg", className = "ab
 
   return (
     <>
-      <header className={className}>
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 md:px-10">
+      <header 
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+          isScrolled ? "bg-[#031B17]/95 backdrop-blur-md shadow-lg py-2" : "bg-transparent py-4"
+        } ${className.replace("absolute", "").replace("top-0", "").replace("left-0", "").replace("z-40", "").replace("w-full", "")}`}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 md:px-10">
           <Link to="/">
             <img
               src={logoSrc}
               alt="Aymen Promotion"
-              className="h-12 w-auto md:h-14"
+              className={`w-auto transition-all duration-300 ${isScrolled ? "h-10 md:h-12" : "h-12 md:h-14"}`}
               draggable={false}
             />
           </Link>
