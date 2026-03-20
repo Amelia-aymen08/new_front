@@ -75,7 +75,7 @@ export default function Footer() {
                 {localitiesCol1.map((loc) => (
                   <Link 
                     key={loc.id} 
-                    to={`/localite/${loc.id}`}
+                    to={`/localite/${loc.name.split(',')[0].trim().toLowerCase().replace(/ /g, '-')}`}
                     className="block transition hover:text-[#F7C66A]"
                   >
                     {loc.name.split(',')[0]}
@@ -89,7 +89,7 @@ export default function Footer() {
                 {localitiesCol2.map((loc) => (
                   <Link 
                     key={loc.id} 
-                    to={`/localite/${loc.id}`}
+                    to={`/localite/${loc.name.split(',')[0].trim().toLowerCase().replace(/ /g, '-')}`}
                     className="block transition hover:text-[#F7C66A]"
                   >
                     {loc.name.split(',')[0]}

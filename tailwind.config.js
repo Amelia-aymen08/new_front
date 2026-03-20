@@ -62,6 +62,10 @@ keyframes: {
     "35%":      { opacity: "0.85", boxShadow: "0 0 0 10px rgba(225,187,127,.18)" },
     "55%":      { opacity: "0.35", boxShadow: "0 0 0 16px rgba(225,187,127,.08)" },
   },
+  scrollWheel: {
+    "0%": { transform: "translateY(0)", opacity: "1" },
+    "100%": { transform: "translateY(15px)", opacity: "0" },
+  }
 },
 animation: {
   ledOn: "ledOn 900ms ease-out forwards",
@@ -74,6 +78,7 @@ animation: {
    infoBlink: "infoBlink 1.2s ease-in-out infinite",
     infoGlow: "infoGlow 1.2s ease-in-out infinite",
     attnBlink: "attnBlink 1.25s ease-in-out infinite",
+    "scroll-wheel": "scrollWheel 1.5s cubic-bezier(0.15, 0.41, 0.69, 0.94) infinite",
 },
 
     },

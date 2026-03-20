@@ -18,7 +18,9 @@ export type Project = {
   gallery?: string[]; // Pour la compatibilité avec le format existant
   features?: string[]; // Points forts (ex: ["RECEPTION", "DOMOTIQUE"])
   details?: { label: string; value: string }[]; // Infos techniques (ex: Surface, Date)
-  plans?: { type: string; area: string; image: string }[]; // Plans avec le nouveau format
+  plans?: { type: string; area: string; image?: string }[]; // Plans avec le nouveau format
+  mapEmbedUrl?: string; // Lien d'intégration Google Maps (iframe src)
+  mapLinkUrl?: string; // Lien direct Google Maps pour le bouton "Voir sur la carte"
 };
 
 export type Locality = {
@@ -72,14 +74,14 @@ export const PROJECTS: Project[] = [
     details: [
       { label: "Adresse", value: "Alger" },
       { label: "Blocs", value: "02" },
-      { label: "État d'avancement", value: "00 %" },
+      { label: "État d'avancement", value: "0 %" },
     ],
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3195.8987225432584!2d3.0117632999999997!3d36.772997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb1001d3fccbd%3A0x7b39d683a56f93b5!2sR%C3%A9sidence%20Alth%C3%A9a%2C%20Aymen%20Promotion!5e0!3m2!1sfr!2sdz!4v1774041984311!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/jpB7DcvNSNMBdS4j6",
     plans: [
-        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
-        { type: "Duplex de type F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_DUPLEX },
+        { type: "F2", area: "de 45 à 86 m²" },
+        { type: "F3", area: "de 77 à 93 m²" },
+        { type: "F4", area: "de 128 à 175 m²" }
     ]
   },
 
@@ -111,11 +113,13 @@ export const PROJECTS: Project[] = [
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "10 %" },
     ],
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3196.23760280708!2d2.974886876268521!3d36.76486706968977!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb10040bbf7a5%3A0xce81910a714b5a2!2sR%C3%A9sidence%20cyanite%20Aymen%20promotion%20immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774041626213!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/Uq6w6fmFtPx9jqVh8",
     plans: [
-        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
-        { type: "F3", area: "80 à 130 m²", image: PLAN_F3_2 },
-        { type: "F4", area: "120 à 160 m²", image: PLAN_F4_2 },
-        { type: "Duplex en F5", area: "150 à 200 m²", image: PLAN_DUPLEX },
+        { type: "Duplex en F5", area: "149 à 361 m²" },
+        { type: "F2", area: "46 à 64 m²" },
+        { type: "F3", area: "82 à 111 m²" },
+        { type: "F4", area: "114 à 166 m²" }
     ]
   },
 
@@ -147,10 +151,12 @@ export const PROJECTS: Project[] = [
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "10 %" },
     ],
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.7363195114867!2d3.078613776267278!3d36.728893471715274!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad7bb83c8ea5%3A0x50a7ffdd575e55c4!2sR%C3%A9sidence%20Azurite%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774042127769!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/yRphs45tYaWyNTye8",
     plans: [
-        { type: "F3", area: "75 à 110 m²", image: PLAN_F3_1 },
-        { type: "F4", area: "100 à 140 m²", image: PLAN_F4_1 },
-        { type: "F6", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
+        { type: "Duplex en F5", area: "175 à 194 m²" },
+        { type: "F3", area: "67 à 142 m²" },
+        { type: "F4", area: "97 à 144 m²" }
     ]
   },
 
@@ -179,11 +185,13 @@ export const PROJECTS: Project[] = [
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "76 %" },
     ],
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.4521053162093!2d3.0047102762675215!3d36.735717771331124!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf6f323ad649%3A0x486fb2be25922103!2sR%C3%A9sidence%20Agate%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774042714270!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/XMJv7AKvSifAYDCLA",
     plans: [
-        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
-        { type: "F5 en Duplex", area: "Consultable au niveau de la direction commerciale", image: PLAN_DUPLEX },
+        { type: "F5", area: "de 168 à 213 m²" },
+        { type: "F2", area: "de 55 à 77 m²" },
+        { type: "F3", area: "de 72 à 102 m²" },
+        { type: "F4", area: "de 109 à 125 m²" }
     ]
   },
 
@@ -216,11 +224,13 @@ La Résidence Amétrine se distingue également par sa situation géographique s
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "79 %" },
     ],
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.464692113453!2d3.030681076267498!3d36.73541557134814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad14f143aacd%3A0x8cdae64c5b935328!2sR%C3%A9sidence%20Am%C3%A9trine%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774042805526!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/hbDKZQBrtYuqscnQA",
     plans: [
-        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "F2", area: "de 49 m² à 79 m²" },
+        { type: "F3", area: "de 65 m² à 121 m²" },
+        { type: "F4", area: "de 126 m² à 226 m²" },
+        { type: "F5", area: "321 m²" }
     ]
   },
 
@@ -252,12 +262,14 @@ Au cœur de ce havre de paix, les résidents pourront également profiter de par
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "98 %" },
     ],
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.114852661403!2d3.0367976762678013!3d36.743814170875346!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fadf8fe60d695%3A0x94468592c12c7c0d!2sR%C3%A9sidence%20Cornaline%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774042859806!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/kwAxUXzTKrq52jJN7",
     plans: [
-        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
-        { type: "Duplex", area: "Consultable au niveau de la direction commerciale", image: PLAN_DUPLEX },
+        { type: "Duplex", area: "de 323 m² et 386 m²" },
+        { type: "F2", area: "de 67 m² et 71 m²" },
+        { type: "F3", area: "de 77 m² à 118 m²" },
+        { type: "F4", area: "de 154 m² à 164 m²" },
+        { type: "F5", area: "202 m²" }
     ]
   },
 
@@ -292,13 +304,14 @@ Optez pour le confort luxueux de la résidence Séraphinite à Ruisseau et de se
       { label: "Blocs", value: "03" },
       { label: "État d'avancement", value: "63 %" },
     ],
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.045189812168!2d3.0798578762678632!3d36.7454863707811!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb3aa2c424905%3A0xec2b8f2e7c25b4c2!2sR%C3%A9sidence%20S%C3%A9raphinite%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774042946095!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/ZJcFqx35UEMvZxix7",
     plans: [
-        { type: "Studio", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
-        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
-        { type: "Triplex", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
+        { type: "F2", area: "55 m²" },
+        { type: "F3", area: "de 96 m² à 147 m²" },
+        { type: "F4", area: "de 112 m² à 160 m²" },
+        { type: "F5", area: "186 m²" },
+        { type: "Triplex", area: "de 355 m² à 500 m²" }
     ]
   },
 
@@ -330,12 +343,13 @@ Aymen Promotion Immobilière s'engage à offrir à ses clients un cadre de vie d
       { label: "Blocs", value: "07" },
       { label: "État d'avancement", value: "71 %" },
     ],
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.479402976189!2d3.1908907762674947!3d36.73506237136796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e51de8836bb85%3A0xa2c5507a03025529!2sR%C3%A9sidence%20C%C3%A9lestine%20-%20aymen%20promotion%20immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774043007067!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/cZBVhmJPB7GyRP5n9",
     plans: [
-        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
-        { type: "Triplex en F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
-        { type: "Triplex en F6", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
+        { type: "F2", area: "de 55 m² à 78 m²" },
+        { type: "F3", area: "de 92 m² à 121 m²" },
+        { type: "F4", area: "de 111 m² à 156 m²" },
+        { type: "Triplex", area: "de 254 m² à 339 m²" }
     ]
   },
 
@@ -368,12 +382,11 @@ Plongez dans un cadre urbain moderne et élégant, où le confort se marie harmo
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "71 %" },
     ],
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.1853190337097!2d3.031054276266902!3d36.718110272322065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad0b0eb287fb%3A0xe8b6e1c1a9628bb3!2sR%C3%A9sidence%20Larimar%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774043074220!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/boZbn72ew8LqyJv88",
     plans: [
-        { type: "F2", area: "50 à 70 m²", image: PLAN_F2 },
-        { type: "F3", area: "80 à 120 m²", image: PLAN_F3_1 },
-        { type: "F4", area: "110 à 150 m²", image: PLAN_F4_1 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
-        { type: "Duplex", area: "Consultable au niveau de la direction commerciale", image: PLAN_DUPLEX },
+        { type: "F3", area: "de 80 m² à 94 m²" },
+        { type: "F4", area: "de 117 m² à 141 m²" }
     ]
   },
 
@@ -409,9 +422,11 @@ Vivez une expérience résidentielle paisible dans ce projet intimiste, où le c
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.0780094888632!2d3.047403876267012!3d36.72068767217687!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad91dcbed98d%3A0xf66b2423dbe2ae65!2sR%C3%A9sidence%20S%C3%A9l%C3%A9nite%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774043128432!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/8TaPdKNP2uKAY4n86",
     plans: [
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "F4", area: "de 103 m² à 207 m²" },
+        { type: "F5", area: "250 m²" }
     ]
   },
 
@@ -446,14 +461,15 @@ En définitive, la résidence Diar El Amane est une allégorie de l’art de viv
       { label: "Blocs", value: "04" },
       { label: "État d'avancement", value: "94 %" },
     ],
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.8717491506304!2d3.049064176267157!3d36.72564127189821!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fadb0f0a065d5%3A0xd3f3d2aa088a3be5!2sR%C3%A9sidence%20Diar%20El%20Amane%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774043858867!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/PWdWuSaFd3phn6c37",
     plans: [
-        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
-        { type: "Duplex F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_DUPLEX },
-        { type: "Duplex F6", area: "Consultable au niveau de la direction commerciale", image: PLAN_DUPLEX },
-        { type: "F6", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
+        { type: "F2", area: "de 54 m² à 64 m²" },
+        { type: "F4", area: "de 100 m² à 244 m²" },
+        { type: "F5", area: "de 145 m² à 309 m²" },
+        { type: "F6", area: "de 218 m² à 396 m²" },
+        { type: "F7", area: "de 253 m² à 530 m²" },
+        { type: "F8", area: "423 m²" }
     ]
   },
 
@@ -486,11 +502,13 @@ En plus de profiter d’une mobilité aisée et rapide au quotidien, les habitan
       { label: "État d'avancement", value: "100 %" },
       
     ],
+     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d51139.59996388404!2d2.900291548632811!3d36.7651695!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb1a012718dbf%3A0x6b5b59f84fd539d8!2sR%C3%A9sidence%20Pyrite%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774043957032!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/mLXTZtLCnc811PKA9",
     plans: [
-        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "F2", area: "de 41 m² à 68 m²" },
+        { type: "F3", area: "de 61 m² à 113 m²" },
+        { type: "F4", area: "de 115 m² à 154 m²" },
+        { type: "F5", area: "de 149 m² à 165 m²" }
     ]
   },
 
@@ -523,12 +541,12 @@ Que vous recherchiez de vastes espaces intérieurs ou un appartement de taille m
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
+     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.018090026358!2d3.0124101762670312!3d36.722126772095976!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf4dd21a4553%3A0x4831d5f8c5a69072!2sR%C3%A9sidence%20Jais%20-%20Aymen%20promotion%20immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044178547!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/rk9PbuRArnoxquB1A",
     plans: [
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
-        { type: "F3 en duplex", area: "Consultable au niveau de la direction commerciale", image: PLAN_DUPLEX },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
-        { type: "F4 en duplex", area: "Consultable au niveau de la direction commerciale", image: PLAN_DUPLEX },
-        { type: "F5 en duplex", area: "Consultable au niveau de la direction commerciale", image: PLAN_DUPLEX },
+        { type: "Duplex", area: "de 133 m² à 226 m²" },
+        { type: "F3", area: "de 79 m² à 105 m²" },
+        { type: "F4", area: "de 88 m² à 144 m²" }
     ]
   },
 
@@ -561,11 +579,13 @@ Cette résidence offre également toutes les commodités essentielles pour une v
       { label: "Blocs", value: "04" },
       { label: "État d'avancement", value: "100 %" },
     ],
+     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.745460188751!2d2.989030776266416!3d36.70465407307895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf2c739b35a5%3A0x3192e8819a499890!2sR%C3%A9sidence%20Les%20Cr%C3%AAtes%20-%20aymen%20promotion!5e0!3m2!1sfr!2sdz!4v1774044224869!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/t7mirZ4wCvr8FDPd6",
     plans: [
-        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "F2", area: "de 41 m² à 70 m²" },
+        { type: "F3", area: "de 61 m² à 155 m²" },
+        { type: "F4", area: "de 92 m² à 155 m²" },
+        { type: "F5", area: "de 140 m² à 210 m²" }
     ]
   },
 
@@ -591,61 +611,18 @@ Cette résidence d'exception se compose de 14 appartements, allant du F2 au F7 e
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
+     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.4997655752104!2d3.054970976267499!3d36.734573471395414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad271494c921%3A0x7bcfde55e4d25c10!2sR%C3%A9sidence%20Turquoise%20-%20Aymen%20Promotion!5e0!3m2!1sfr!2sdz!4v1774044268787!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/H8M8mpQJkkHg8oV48",
     plans: [
-        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "F2", area: "de 58 m² et 61 m²" },
+        { type: "F3", area: "de 80 m² à 95 m²" },
+        { type: "F4", area: "de 117 m² à 144 m²" },
+        { type: "F5", area: "154 m²" },
+        { type: "F6", area: "256 m²" },
+        { type: "F8", area: "426 m²" }
     ]
   },
 
-  {
-    id: 15,
-    title: "CÉLESTINE",
-    location: "Bousmail, Tipaza",
-    description: "Bénéficiant de l'air marin, Célestine à Bousmail...",
-    image: "/assets/projets/celestine.png",
-    status: "FINIS",
-    isNightMode: true,
-    coverImage: "/assets/projets/couvertures/celestine.jpg",
-    fullDescription: `Bénéficiant de l'air marin, Célestine à Bousmail offre des appartements lumineux conçus pour profiter pleinement du climat côtier.`,
-    gallery: [
-      "/assets/projets/galeries/celestine/1.png",
-    ],
-    features: ["Climatisation centralisée", "Abattoir", "Aire de jeux", "Parking de stationnement", "Reception", "Dressing", "Isolation phonique", "Piscine Commune", "Salle de sport", "Piscine privative", "Bache a eau", "Ascenseur", "Creche garderie", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
-    details: [
-      { label: "Adresse", value: "Bousmail" },
-      { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "100 %" },
-    ],
-    plans: [
-        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
-    ]
-  },
-
-  {
-    id: 16,
-    title: "TURQUOISE",
-    location: "Bousmail, Tipaza",
-    description: "Turquoise, à Bousmail, est une résidence de charme...",
-    image: "/assets/projets/turquoise.png", 
-    status: "FINIS",
-    isNightMode: true,
-    coverImage: "/assets/projets/couvertures/turquoise.jpg",
-    fullDescription: `Turquoise, à Bousmail, est une résidence de charme alliant architecture méditerranéenne et confort moderne.`,
-    gallery: [
-      "/assets/projets/galeries/turquoise/1.jpg",
-    ],
-    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
-    details: [
-      { label: "Adresse", value: "Bousmail" },
-      { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "100 %" },
-    ],
-    plans: [
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
-    ]
-  },
 
   {
     id: 17,
@@ -666,10 +643,12 @@ Cette résidence d'exception se compose de 14 appartements, allant du F2 au F7 e
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
+     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3196.2855997976017!2d2.9844818762684575!3d36.763715469754665!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb1ec974211b9%3A0xbf573ff6bb5925e4!2sR%C3%A9sidence%20Bois%20des%20Cars%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044506155!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/atAuFgCQisBMTf4A8",
     plans: [
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "F3", area: "de 105 m² à 112 m²" },
+        { type: "F4", area: "de 117 m² à 163 m²" },
+        { type: "F5", area: "de 276 m² et 280 m²" }
     ]
   },
 
@@ -694,10 +673,13 @@ Idéalement situé à seulement 3 minutes des principaux axes autoroutiers, ce p
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
+     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.1543154030037!2d3.0368419762677465!3d36.74286687092868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad97f3d3ae1b%3A0xf6da9dbeff7dc837!2sR%C3%A9sidence%20P%C3%A9ridot%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044646152!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/CZTbcy4RMZGhu8YQ9",
     plans: [
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "Duplex", area: "de 147 m² à 188 m²" },
+        { type: "F2", area: "de 58 m²" },
+        { type: "F3", area: "de 59 m² à 92 m²" },
+        { type: "F4", area: "de 106 m² à 191 m²" }
     ]
   },
 
@@ -729,11 +711,13 @@ Chaque résident pourra personnaliser son expérience selon ses préférences. A
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
+     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.1543154030037!2d3.0368419762677465!3d36.74286687092868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb3baed307d15%3A0x4d892b04ec34cd23!2sR%C3%A9sidence%20CORAIL%20-%20Aymen%20promotion%20immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044732026!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/VWWCFePkhZv3UUU87",
     plans: [
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
-        { type: "F6", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
+        { type: "F2", area: "45 m²" },
+        { type: "F4", area: "de 121 m² à 185 m²" },
+        { type: "F5", area: "314 m²" },
+        { type: "F6", area: "321 m²" }
     ]
   },
 
@@ -767,12 +751,14 @@ Même si les typologies de ces logements divergent, ils ont en commun une finiti
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
+     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.493468146657!2d3.0053718762674935!3d36.73472467138717!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf6906783591%3A0x5031396afe05cbcc!2sR%C3%A9sidence%20Opale%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044834111!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/i4qB6Wn2JAF6gUrp8",
     plans: [
-        { type: "Studio", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
-        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "Duplex", area: "247 m²" },
+        { type: "F2", area: "de 46 m² à 65 m²" },
+        { type: "F3", area: "de 67 m² à 120 m²" },
+        { type: "F4", area: "de 100 m² à 146 m²" },
+        { type: "Studio", area: "30 m²" }
     ]
   },
 
@@ -808,12 +794,14 @@ Même si les typologies de ces logements divergent, ils ont en commun une finiti
       { label: "Blocs", value: "03" },
       { label: "État d'avancement", value: "100 %" },
     ],
+     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.059926856193!2d3.0473577762669963!3d36.72112197215251!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad0efaaa02b9%3A0xd4de34abc3e7343f!2sR%C3%A9sidence%20Citrine%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044889941!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/xPpAs44H9ZmUtsJj6",
     plans: [
-        { type: "Studio", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
-        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "F2", area: "de 65 m² à 66 m²" },
+        { type: "F3", area: "de 81 m² à 114 m²" },
+        { type: "F4", area: "de 109 m² à 183 m²" },
+        { type: "F5", area: "de 276 m²" },
+        { type: "F6", area: "311 m²" }
     ]
   },
 
@@ -844,10 +832,12 @@ Ce projet immobilier bénéficie d'un emplacement privilégié à proximité de 
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
+     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.1499301651847!2d3.2033662762669284!3d36.718960272274174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e519deea7f9c9%3A0x5d53691e933a4ea1!2sR%C3%A9sidence%20Ang%C3%A9lite%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044942560!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/uj2rzGjkhPGNQC2u5",
     plans: [
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "F3", area: "de 70 m² à 114 m²" },
+        { type: "F4", area: "de 97 m² à 145 m²" },
+        { type: "F5", area: "de 194 m² à 207 m²" }
     ]
   },
 
@@ -880,11 +870,13 @@ Que vous recherchiez un espace confortable pour votre vie quotidienne ou un inve
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
+     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.570451849796!2d3.0036080762674042!3d36.7328762714911!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf273876846f%3A0xceb1dfe124bcce47!2sR%C3%A9sidence%20Rubis!5e0!3m2!1sfr!2sdz!4v1774045054805!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/cyTPJ4zsQdvUo2hi7",
     plans: [
-        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
-        { type: "F3", area: "85 à 125 m²", image: PLAN_F3_1 },
-        { type: "F4", area: "130 à 170 m²", image: PLAN_F4_2 },
-        { type: "F5", area: "160 à 210 m²", image: PLAN_F5 },
+        { type: "F2", area: "de 60 m² à 84 m²" },
+        { type: "F3", area: "de 79 m² à 103 m²" },
+        { type: "F4", area: "de 93 m² à 161 m²" },
+        { type: "F5", area: "de 171 m²" }
     ]
   },
   
@@ -909,11 +901,13 @@ Chaque détail a été soigneusement pensé pour offrir un confort optimal. Les 
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
+     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.4101792275524!2d3.0055608762675385!3d36.73672437127432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fafe307eabde9%3A0x566f03c019a0740c!2sR%C3%A9sidence%20Onyx%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774045117534!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/Pn4oFqrSAeJNovYu5",
     plans: [
-        { type: "F2", area: "Consultable au niveau de la direction commerciale", image: PLAN_F2 },
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "F2", area: "de 52 m² à 94 m²" },
+        { type: "F3", area: "de 73 m² à 113 m²" },
+        { type: "F4", area: "de 110 m² à 173 m²" },
+        { type: "F5", area: "156 m²" }
     ]
   },
 
@@ -938,10 +932,13 @@ Autour de la résidence, on retrouve des lieux de vie élégants tels que des re
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
+     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.4149566689553!2d3.0287269762675857!3d36.73660967128083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad0060742b89%3A0x24a961e90cc4aa09!2sR%C3%A9sidence%20El%20Mordjane!5e0!3m2!1sfr!2sdz!4v1774045178393!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/1D2GTMH4HNhLXmAk7",
     plans: [
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "F2", area: "71 m²" },
+        { type: "F3", area: "de 78 m² à 132 m²" },
+        { type: "F4", area: "de 100 m² à 171 m²" },
+        { type: "F5", area: "161 m²" }
     ]
   },
 
@@ -974,10 +971,12 @@ Offrant une variété d'options, les appartements de la résidence Aymen s'éten
       { label: "Blocs", value: "05" },
       { label: "État d'avancement", value: "100 %" },
     ],
+     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.878540766086!2d3.0261116762671247!3d36.72547817190747!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad007a5bd173%3A0x1778cd0831322818!2sResidence%20Aymen%20136%20tixeraine!5e0!3m2!1sfr!2sdz!4v1774045267369!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/mJnV3a9iXrzuVFDE9",
     plans: [
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
+        { type: "Duplex", area: "de 171 m² à 281 m²" },
+        { type: "F3", area: "de 73 m² à 108 m²" },
+        { type: "F4", area: "de 118 m² à 194 m²" }
     ]
   },
   
@@ -1010,11 +1009,12 @@ Aussi, vous pouvez vivre en toute sérénité en sachant que votre foyer est pro
       { label: "Blocs", value: "04" },
       { label: "État d'avancement", value: "100 %" },
     ],
+     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3196.9742118911804!2d3.0176324762678886!3d36.747190070685306!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb3f252322f81%3A0xe6f0a1bfdcd638c5!2sR%C3%A9sidence%20Le%20Coquelicot%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774045320709!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/ZQJGZtbhoKQMf6Y9A",
     plans: [
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_1 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_2 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
-        { type: "F6", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
+        { type: "F3", area: "de 63 m² à 115 m²" },
+        { type: "F4", area: "de 112 m² à 161 m²" },
+        { type: "F5", area: "171 m²" }
     ]
   },
 
@@ -1050,11 +1050,12 @@ La résidence offre également une aire de jeu sécurisée pour le divertissemen
       { label: "État d'avancement", value: "100 %" },
      
     ],
+     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.0463866204304!2d3.2043432762670236!3d36.72144717213418!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e5156309178f7%3A0x81ac68e98d3b97c!2sR%C3%A9sidence%20Perla%20Aymen%20Promotion!5e0!3m2!1sfr!2sdz!4v1774045372160!5m2!1sfr!2sdz",
+    mapLinkUrl: "https://maps.app.goo.gl/ySCxerVwdxEJcFnn9",
     plans: [
-        { type: "F3", area: "Consultable au niveau de la direction commerciale", image: PLAN_F3_2 },
-        { type: "F4", area: "Consultable au niveau de la direction commerciale", image: PLAN_F4_1 },
-        { type: "F5", area: "Consultable au niveau de la direction commerciale", image: PLAN_F5 },
-        { type: "F6", area: "Consultable au niveau de la direction commerciale", image: PLAN_STATIC },
+        { type: "Duplex", area: "de 222 m² à 310 m²" },
+        { type: "F3", area: "de 90 m² à 125 m²" },
+        { type: "F4", area: "de 129 m² à 192 m²" }
     ]
   },
   

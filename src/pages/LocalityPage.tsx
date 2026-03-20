@@ -40,7 +40,6 @@ function MapRecenter({ lat, lng }: { lat: number; lng: number }) {
   return null;
 }
 
-
 // --- Components ---
 
 function LocationPinIcon() {
@@ -55,7 +54,7 @@ function LocationPinIcon() {
 function ProjectCard({ project }: { project: Project }) {
   return (
     <Link 
-      to={`/projet/${project.id}`}
+      to={`/projet/${project.title.toLowerCase()}`}
       className="group relative flex h-full overflow-hidden rounded-lg bg-[#052620] shadow-lg transition hover:shadow-2xl animate-fadeInUp"
     >
       {/* Left Content */}
@@ -95,7 +94,7 @@ function ProjectCard({ project }: { project: Project }) {
   );
 }
 
-function MapCard({ projects }: { projects: Project[] }) {
+function MapCard({ projects, locality }: { projects: Project[], locality: Locality }) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(projects[0] || null);
   const navigate = useNavigate();
 
@@ -105,7 +104,9 @@ function MapCard({ projects }: { projects: Project[] }) {
     }
   }, [projects]);
 
-  // Default center (Algiers) if no projects
+  // Default center: try to use the first project with coordinates, 
+  // otherwise fallback to some default coordinates for the locality if we had them (for now Algiers center)
+  // The map will automatically recenter on selectedProject if it has coordinates.
   const centerPosition: [number, number] = selectedProject?.lat && selectedProject?.lng 
     ? [selectedProject.lat, selectedProject.lng] 
     : [36.7525, 3.0420];
@@ -114,10 +115,11 @@ function MapCard({ projects }: { projects: Project[] }) {
     <div className="relative w-full h-[600px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#052620] flex flex-col md:flex-row">
       {/* Left: Map */}
       <div className="w-full md:w-2/3 h-full relative z-0">
+         {/* Always render the map, even if there are no projects with coordinates */}
          <MapContainer 
             center={centerPosition} 
-            zoom={13} 
-            style={{ width: '100%', height: '100%' }}
+            zoom={10} 
+            style={{ width: '100%', height: '100%', zIndex: 0 }}
             scrollWheelZoom={false}
          >
             <TileLayer
@@ -187,15 +189,15 @@ function MapCard({ projects }: { projects: Project[] }) {
                   {/* Bottom: Actions */}
                   <div className="flex items-center justify-between pt-2 border-t border-white/5 mt-1">
                      <Link 
-                        to={`/projet/${p.id}`}
+                        to={`/projet/${p.title.toLowerCase()}`}
                         className="text-[10px] font-bold uppercase tracking-widest text-white/70 hover:text-[#F7C66A] transition-colors"
                      >
                         DÉCOUVRIR
                      </Link>
                      
-                     {p.lat && p.lng ? (
+                     {p.mapLinkUrl || (p.lat && p.lng) ? (
                         <a 
-                            href={`https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`}
+                            href={p.mapLinkUrl || `https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-[10px] font-bold uppercase tracking-widest text-[#F7C66A] hover:text-white transition-colors flex items-center gap-1"
@@ -221,7 +223,7 @@ function MapCard({ projects }: { projects: Project[] }) {
 }
 
 export default function LocalityPage() {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [dbProjects, setDbProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
@@ -241,7 +243,7 @@ export default function LocalityPage() {
         const data = await fetchProjects();
         if (data && data.length > 0) {
            // Map API data to component Project type
-           const mappedProjects: Project[] = data.map(p => ({
+           const mappedProjects: Project[] = data.map((p: any) => ({
              id: p.id,
              title: p.title,
              location: p.address || "", // API has 'address'
@@ -249,6 +251,7 @@ export default function LocalityPage() {
              image: p.coverImage ? `http://localhost:5000/${p.coverImage}` : "/assets/projets/cyanite.png", // Handle image path
              lat: p.latitude,
              lng: p.longitude,
+             mapLinkUrl: p.mapLinkUrl || undefined, // Map this from API if available
              typology: p.type,
              isNightMode: false,
              status: "EN COURS" 
@@ -269,8 +272,11 @@ export default function LocalityPage() {
   }, []);
 
   const locality = useMemo(() => {
-    return LOCALITIES.find((l) => l.id === Number(id));
-  }, [id]);
+    return LOCALITIES.find((l) => 
+        l.name.split(',')[0].trim().toLowerCase().replace(/ /g, '-') === slug?.toLowerCase() || 
+        l.id === Number(slug)
+    );
+  }, [slug]);
 
   const localityProjects = useMemo(() => {
     if (!locality) return [];
@@ -281,7 +287,7 @@ export default function LocalityPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [id]);
+  }, [slug]);
 
   if (!locality) {
     return (
@@ -378,7 +384,23 @@ export default function LocalityPage() {
       {/* Map & Featured Project Section */}
       <section className="px-4 md:px-10 py-20 relative z-10">
          <div className="container mx-auto">
-             <MapCard projects={localityProjects} />
+             {localityProjects.length > 0 ? (
+                 <MapCard projects={localityProjects} locality={locality} />
+             ) : (
+                 <div className="flex flex-col items-center justify-center p-12 bg-white/5 rounded-3xl border border-white/10 text-center">
+                     <LocationPinIcon />
+                     <h3 className="mt-4 text-xl font-bold text-white uppercase tracking-wider">Aucun projet</h3>
+                     <p className="mt-2 text-white/60 max-w-md mx-auto">
+                         Il n'y a actuellement aucun projet disponible dans la commune de {locality.name.split(',')[0]}.
+                     </p>
+                     <button 
+                         onClick={() => navigate('/projets')}
+                         className="mt-6 px-6 py-3 bg-[#F7C66A] text-[#031B17] font-bold rounded-full hover:bg-white transition-colors uppercase tracking-wider text-sm"
+                     >
+                         Voir tous nos projets
+                     </button>
+                 </div>
+             )}
          </div>
       </section>
 

@@ -123,7 +123,7 @@ function getProgress(project: Project) {
 function ProjectCard({ project, style }: { project: Project; style?: React.CSSProperties }) {
   return (
     <Link 
-      to={`/projet/${project.id}`}
+      to={`/projet/${project.title.toLowerCase()}`}
       className="group relative flex h-full overflow-hidden rounded-lg bg-gradient-to-br from-[#0A2E25] to-[#031B17] border border-white/5 shadow-lg transition hover:shadow-2xl animate-fadeInUp"
       style={style}
     >
@@ -203,7 +203,7 @@ function StaticImageCard({ src, alt, style }: { src: string; alt: string; style?
 function NightProjectCard({ project, style }: { project: Project; style?: React.CSSProperties }) {
   return (
     <Link 
-      to={`/projet/${project.id}`}
+      to={`/projet/${project.title.toLowerCase()}`}
       className="group relative h-64 overflow-hidden rounded-lg shadow-lg transition hover:shadow-2xl animate-fadeInUp"
       style={style}
     >
@@ -268,7 +268,7 @@ function NightProjectCard({ project, style }: { project: Project; style?: React.
 function LocalityCard({ locality, style }: { locality: Locality; style?: React.CSSProperties }) {
   return (
     <Link 
-      to={`/localite/${locality.id}`}
+      to={`/localite/${locality.name.split(',')[0].trim().toLowerCase().replace(/ /g, '-')}`}
       className="group relative flex h-full overflow-hidden rounded-lg bg-[#243c38] shadow-[0_4px_20px_rgba(0,0,0,0.25)] transition hover:bg-[#243c38]/90 animate-fadeInUp items-center"
       style={style}
     >

@@ -73,8 +73,8 @@ function App() {
         <Routes>
           <Route path="/" element={<HomeRoute />} />
           <Route path="/projets" element={<ProjectsPage />} />
-          <Route path="/projet/:id" element={<ProjectDetailsPage />} />
-          <Route path="/localite/:id" element={<LocalityPage />} />
+          <Route path="/projet/:slug" element={<ProjectDetailsPage />} />
+          <Route path="/localite/:slug" element={<LocalityPage />} />
           <Route path="/a-propos" element={<AboutPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:id" element={<BlogPostPage />} />

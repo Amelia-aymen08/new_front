@@ -54,8 +54,8 @@ type ProjectData = {
   heroImage: string;
   amenities: { label: string; iconSrc?: string; fallbackIcon?: string }[];
   gallery: string[];
-  plans: { type: string; area: string; image: string }[];
-  location: { mapUrl: string; description: string };
+  plans: { type: string; area: string; image?: string }[];
+  location: { mapUrl: string; description: string; mapEmbedUrl?: string };
 };
 
 type Amenity = {
@@ -67,8 +67,15 @@ type Plan = ProjectData["plans"][0];
 type LocationData = ProjectData["location"];
 
 export default function ProjectDetailsPage() {
-  const { id } = useParams();
-  const project = PROJECTS.find(p => p.id === Number(id));
+  const { slug } = useParams();
+  
+  // Utilise le slug (en minuscule) pour trouver le projet, 
+  // sinon retombe sur l'id pour garder la compatibilité avec les anciens liens
+  const project = PROJECTS.find(p => 
+    p.title.toLowerCase() === slug?.toLowerCase() || 
+    p.id === Number(slug)
+  );
+
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
 
   useEffect(() => {
@@ -119,9 +126,17 @@ export default function ProjectDetailsPage() {
         image: p.image
     })),
     location: {
-      mapUrl: `https://www.google.com/maps/search/?api=1&query=${project.lat || 36.7},${project.lng || 3.0}`,
-      description: project.location
+      mapUrl: project.mapLinkUrl || `https://www.google.com/maps/search/?api=1&query=${project.lat || 36.7},${project.lng || 3.0}`,
+      description: project.location,
+      mapEmbedUrl: project.mapEmbedUrl
     }
+  };
+
+  // Composant pour les plans et la localisation (Ancienne disposition avec placeholders)
+  const renderPlansAndLocation = (plans: Plan[], location: LocationData) => {
+    // Si nous n'avons pas de plans, on ne rend rien ou juste la carte.
+    // On utilise un état local pour le tab actif
+    return <PlansAndLocationWrapper plans={plans} location={location} />;
   };
 
   return (
@@ -158,10 +173,10 @@ export default function ProjectDetailsPage() {
         
         {projectData.plans.length > 0 && (
           <FadeInSection delay={400}>
-            <PlansAndLocation plans={projectData.plans} location={projectData.location} />
+            {renderPlansAndLocation(projectData.plans, projectData.location)}
           </FadeInSection>
         )}
-        
+
         <FadeInSection delay={500}>
           <DetailsContact projectTitle={project.title} />
         </FadeInSection>
@@ -441,77 +456,107 @@ function ProjectGallery({ images }: { images: string[] }) {
   );
 }
 
-function PlansAndLocation({ plans, location }: { plans: Plan[]; location: LocationData }) {
-  const [activeTab, setActiveTab] = useState(plans[0]?.type);
-  
+// We can remove PlansAndLocation completely since it was just the map, 
+// and we already put the map directly in the main component.
+
+function PlansAndLocationWrapper({ plans, location }: { plans: Plan[]; location: LocationData }) {
   if (!plans || plans.length === 0) return null;
 
-  const currentPlan = plans.find(p => p.type === activeTab) || plans[0];
+  // Helper function to extract a numeric value for sorting. 
+  // It takes the first number it finds in the area string.
+  const extractAreaNumber = (areaStr: string) => {
+    if (!areaStr) return 0;
+    const match = areaStr.match(/\d+/);
+    return match ? parseInt(match[0], 10) : 0;
+  };
+
+  // Sort plans by area (ascending)
+  const sortedPlans = [...plans].sort((a, b) => extractAreaNumber(a.area) - extractAreaNumber(b.area));
 
   return (
     <section className="mx-auto grid max-w-7xl gap-10 px-6 py-20 md:grid-cols-2">
       {/* Left: Typologies */}
-      <div className="flex flex-col rounded-3xl bg-[#052620] p-8 shadow-2xl">
-        <h2 className="mb-2 text-2xl font-bold uppercase tracking-wide">Typologies</h2>
-        <p className="mb-8 text-[#F7C66A] font-bold">
-          <span className="font-extrabold">{activeTab}</span> {currentPlan.area && !currentPlan.area.toLowerCase().includes("consultable") && currentPlan.area}
-        </p>
+      <div className="flex flex-col rounded-3xl bg-[#052620] p-8 shadow-2xl border border-white/5">
+        <h2 className="mb-8 text-2xl font-bold uppercase tracking-wide text-center">TYPOLOGIES</h2>
         
-        <div className="mb-8 flex-1 flex items-center justify-center">
-           {/* Plan Image */}
-           <img src={currentPlan.image} alt={activeTab} className="max-h-[500px] w-full object-contain opacity-90" />
-        </div>
-
-        <div className="flex flex-wrap gap-4">
-          {plans.map((p) => (
-            <button
-              key={p.type}
-              onClick={() => setActiveTab(p.type)}
-              className={`rounded-full border px-8 py-3 text-sm font-bold uppercase transition-all
-                ${activeTab === p.type 
-                  ? "border-[#F7C66A] bg-[#F7C66A] text-[#031B17]" 
-                  : "border-white/30 text-white hover:border-white"
-                }
-              `}
+        <div className="flex flex-col gap-4 justify-center flex-1">
+          {sortedPlans.map((p, idx) => (
+            <div
+              key={idx}
+              className="rounded-xl border border-[#F7C66A]/50 px-6 py-4 text-center transition-all hover:border-[#F7C66A] hover:bg-[#F7C66A]/5 flex items-center justify-center min-h-[60px]"
             >
-              {p.type}
-            </button>
+              <span className="text-lg md:text-xl font-medium text-white">
+                <span className="font-bold text-[#F7C66A] mr-2">{p.type}</span> 
+                {p.area && !String(p.area).toLowerCase().includes("consultable") ? p.area : ""}
+              </span>
+            </div>
           ))}
         </div>
       </div>
 
       {/* Right: Localisation */}
-      <div className="flex flex-col rounded-3xl bg-[#052620] p-8 shadow-2xl">
-        <h2 className="mb-8 text-2xl font-bold uppercase tracking-wide">Localisation</h2>
+      <div className="flex flex-col rounded-3xl bg-[#052620] p-8 shadow-2xl border border-[#0A84FF]">
+        <h2 className="mb-8 text-2xl font-bold uppercase tracking-wide text-center">LOCALISATION</h2>
         
-        <a 
-          href={location.mapUrl} 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="group relative mb-6 aspect-square w-full overflow-hidden rounded-2xl bg-gray-800"
-        >
-           {/* Map Image Placeholder - using a dark map style image or generic placeholder */}
-           <img 
-             src="/sections/map-placeholder.png" 
-             onError={(e) => {
-               e.currentTarget.src = "https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1000"; // Fallback generic map image
-             }}
-             alt="Localisation" 
-             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-40" 
-           />
-           
-           {/* Overlay Button */}
-           <div className="absolute inset-0 flex items-center justify-center">
-             <div className="flex items-center gap-3 rounded-full bg-[#F7C66A] px-6 py-3 text-[#031B17] shadow-lg transition-transform duration-300 group-hover:scale-105">
-               <i className="fa-solid fa-location-dot text-lg"></i>
-               <span className="font-bold uppercase tracking-wide text-sm">Voir sur la carte</span>
-             </div>
-           </div>
-        </a>
-
-        <p className="text-white/70 text-sm leading-relaxed text-center">
-          {location.description}
-        </p>
+        <div className="group relative flex-1 aspect-square w-full overflow-hidden rounded-2xl bg-[#031B17]">
+          {location.mapEmbedUrl ? (
+            <div className="relative h-full w-full group/map">
+              <iframe
+                src={location.mapEmbedUrl}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title={`Carte de ${location.description}`}
+                className="h-full w-full object-cover"
+              ></iframe>
+              <a 
+                href={location.mapUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover/map:opacity-100 transition-opacity duration-300"
+              >
+                <div className="flex items-center gap-3 rounded-full bg-[#F7C66A] px-6 py-3 text-[#031B17] shadow-lg transition-transform duration-300 hover:scale-105">
+                  <i className="fa-solid fa-location-dot text-lg"></i>
+                  <span className="font-bold uppercase tracking-wide text-sm">Voir sur la carte</span>
+                </div>
+              </a>
+            </div>
+          ) : (
+            <a 
+              href={location.mapUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="block h-full w-full"
+            >
+               {/* Map Image Placeholder */}
+               <img 
+                 src="/sections/map-placeholder.png" 
+                 onError={(e) => {
+                   e.currentTarget.src = "https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1000"; 
+                 }}
+                 alt="Localisation" 
+                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-40" 
+               />
+               
+               {/* Overlay Button */}
+               <div className="absolute inset-0 flex items-center justify-center">
+                 <div className="flex items-center gap-3 rounded-full bg-[#F7C66A] px-6 py-3 text-[#031B17] shadow-lg transition-transform duration-300 group-hover:scale-105">
+                   <i className="fa-solid fa-location-dot text-lg"></i>
+                   <span className="font-bold uppercase tracking-wide text-sm">Voir sur la carte</span>
+                 </div>
+               </div>
+            </a>
+          )}
+        </div>
+        
+        {location.description && (
+          <p className="text-white/70 text-sm leading-relaxed text-center mt-6">
+            {location.description}
+          </p>
+        )}
       </div>
     </section>
   );
