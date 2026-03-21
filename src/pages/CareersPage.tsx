@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { API_BASE_URL } from "../config";
 
 // --- Data ---
 
@@ -69,7 +70,6 @@ const DEPARTMENTS = [
 
 export default function CareersPage() {
   const [activeDept, setActiveDept] = useState(DEPARTMENTS[2]); // Marketing default
-  const [formDept, setFormDept] = useState(DEPARTMENTS[2].id);
   const [fileName, setFileName] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
@@ -115,7 +115,7 @@ export default function CareersPage() {
 
   // Update form select when active department changes in the carousel
   useEffect(() => {
-    setFormDept(activeDept.id);
+    // nothing to do for now, but kept if needed
   }, [activeDept]);
 
   const scrollToForm = () => {
@@ -124,8 +124,20 @@ export default function CareersPage() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setFileName(e.target.files[0].name);
-      setFile(e.target.files[0]);
+      const selectedFile = e.target.files[0];
+      
+      // Limite de taille à 5Mo
+      if (selectedFile.size > 5 * 1024 * 1024) {
+        setStatus({ type: 'error', message: "Le fichier est trop volumineux. La taille maximum est de 5 Mo." });
+        e.target.value = '';
+        setFile(null);
+        setFileName("");
+        return;
+      }
+
+      setStatus({ type: null, message: "" });
+      setFileName(selectedFile.name);
+      setFile(selectedFile);
     }
   };
 
@@ -143,38 +155,6 @@ export default function CareersPage() {
     setLoading(true);
     setStatus({ type: null, message: "" });
 
-    // Simulation d'envoi pour la présentation
-    setTimeout(() => {
-      setStatus({ 
-        type: 'success', 
-        message: "Votre candidature a été envoyée avec succès !" 
-      });
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        city: "",
-        position: "",
-        erp: "",
-        bim: "",
-        software: "",
-        experience: "",
-        diploma: "",
-        startMode: "",
-        noticeWeeks: "",
-        mobility: "",
-        motivation: "",
-        source: "",
-        consent: false
-      });
-      setFileName("");
-      setFile(null);
-      setLoading(false);
-    }, 1500);
-
-    // Code réel pour le backend (commenté pour la présentation)
-    /*
     const data = new FormData();
     Object.keys(formData).forEach(key => {
         if (key === 'startMode' || key === 'noticeWeeks') return;
@@ -189,7 +169,7 @@ export default function CareersPage() {
     data.append('cv', file);
 
     try {
-      const response = await fetch("http://localhost:5000/api/candidates", {
+      const response = await fetch(`${API_BASE_URL}/api/candidates`, {
         method: "POST",
         body: data,
       });
@@ -227,7 +207,6 @@ export default function CareersPage() {
     } finally {
       setLoading(false);
     }
-    */
   };
 
   return (
