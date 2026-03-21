@@ -45,6 +45,16 @@ export default function ContactPage() {
     }
   };
 
+  // Convertir le fichier en Base64
+  const convertToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -53,24 +63,33 @@ export default function ContactPage() {
     try {
       const formattedPhone = `${selectedCountry.code} ${formData.phone}`;
       
-      // Utilisation de FormData pour permettre l'envoi de fichier
-      const submitData = new FormData();
-      submitData.append('fullName', formData.fullName);
-      submitData.append('email', formData.email);
-      submitData.append('phone', formattedPhone);
-      submitData.append('subject', formData.subject);
-      submitData.append('message', formData.message);
-      submitData.append('type', formData.type);
-      submitData.append('consent', consent ? 'true' : 'false');
+      // Préparer le payload en JSON pur
+      let base64File = null;
+      let fileName = null;
       
       if (attachment) {
-        submitData.append('attachment', attachment);
+        base64File = await convertToBase64(attachment);
+        fileName = attachment.name;
       }
+
+      const payload = {
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formattedPhone,
+        subject: formData.subject,
+        message: formData.message,
+        type: formData.type,
+        consent: consent,
+        attachmentData: base64File,
+        attachmentName: fileName
+      };
 
       const response = await fetch(`${API_BASE_URL}/api/contacts`, {
         method: 'POST',
-        // Ne pas mettre de Content-Type avec FormData, le navigateur s'en charge (multipart/form-data)
-        body: submitData
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
       });
 
       const data = await response.json();
