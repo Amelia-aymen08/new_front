@@ -29,6 +29,57 @@ export default function ContactPage() {
   });
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{ type: 'success' | 'error' | null, message: string }>({ type: null, message: "" });
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setStatus({ type: null, message: "" });
+
+    try {
+      const formattedPhone = `${selectedCountry.code} ${formData.phone}`;
+      const payload = {
+        ...formData,
+        phone: formattedPhone
+      };
+
+      const response = await fetch(`${API_BASE_URL}/contacts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setStatus({ type: 'success', message: data.message || "Votre message a été envoyé avec succès !" });
+        setFormData({
+          fullName: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: "",
+          type: "",
+        });
+      } else {
+        setStatus({ type: 'error', message: data.message || "Une erreur est survenue." });
+      }
+    } catch (error) {
+      console.error("Contact submit error:", error);
+      setStatus({ type: 'error', message: "Impossible de se connecter au serveur. Veuillez réessayer plus tard." });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const faqCategories = [
     "Avant l'achat : Informations générales",
     "Paiement & Financement",
@@ -118,55 +169,6 @@ export default function ContactPage() {
     ]
   ];
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setStatus({ type: null, message: "" });
-
-    // Simulation d'envoi pour la présentation
-    setTimeout(() => {
-      setStatus({ 
-        type: 'success', 
-        message: "Votre message a été envoyé avec succès !" 
-      });
-      setFormData({ fullName: "", email: "", phone: "", subject: "", message: "", type: "" });
-      setLoading(false);
-    }, 1500);
-
-    // Code réel pour le backend (commenté pour la présentation)
-    /*
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/contacts`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            ...formData,
-            phone: `${selectedCountry.code} ${formData.phone}`
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setStatus({ type: 'success', message: "Votre message a été envoyé avec succès !" });
-        setFormData({ fullName: "", email: "", phone: "", subject: "", message: "", type: "" });
-      } else {
-        setStatus({ type: 'error', message: data.message || "Une erreur est survenue." });
-      }
-    } catch (error) {
-      setStatus({ type: 'error', message: "Impossible de contacter le serveur." });
-    } finally {
-      setLoading(false);
-    }
-    */
-  };
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -217,23 +219,21 @@ export default function ContactPage() {
             </div>
 
             {status.type === 'success' ? (
-              <div className="bg-green-500/20 border border-green-500 rounded-lg p-12 text-center">
-                <div className="w-24 h-24 mx-auto mb-8 bg-green-500/30 rounded-full flex items-center justify-center">
-                  <i className="fa-solid fa-check text-5xl text-green-300"></i>
+              <div className="bg-green-500/20 border border-green-500 rounded-lg p-8 text-center animate-fadeInUp">
+                <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i className="fa-solid fa-check text-2xl text-green-400"></i>
                 </div>
-                <h3 className="text-3xl font-medium text-green-300 mb-4">Message envoyé !</h3>
-                <p className="text-green-200 mb-8 text-lg">
-                  {status.message || "Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais."}
-                </p>
+                <h3 className="text-xl font-bold text-white mb-2">Message Envoyé !</h3>
+                <p className="text-green-200">{status.message}</p>
                 <button 
                   onClick={() => setStatus({ type: null, message: "" })}
-                  className="bg-green-600 text-white px-10 py-4 rounded-lg hover:bg-green-700 transition-colors font-medium shadow-md text-lg"
+                  className="mt-6 px-6 py-2 border border-green-500 text-green-400 rounded-full hover:bg-green-500 hover:text-white transition-colors"
                 >
                   Envoyer un autre message
                 </button>
               </div>
             ) : (
-              <form className="space-y-6" onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-1">
                     <label className="text-xs uppercase tracking-wider text-gray-300">Nom et Prénom* :</label>

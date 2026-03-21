@@ -30,26 +30,14 @@ export default function ContactSection() {
     setLoading(true);
     setStatus({ type: null, message: "" });
 
-    // Simulation d'envoi pour la présentation
-    setTimeout(() => {
-      setStatus({ 
-        type: 'success', 
-        message: "Message envoyé avec succès !" 
-      });
-      setFormData({ fullName: "", phone: "", email: "", message: "" });
-      setConsent(false);
-      setLoading(false);
-    }, 1500);
-
-    // Code réel pour le backend (commenté pour la présentation)
-    /*
+    // Code réel pour le backend 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/contacts`, {
+      const response = await fetch(`${API_BASE_URL}/contacts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             ...formData,
-            subject: "Contact Rapide (Section Contact)",
+            subject: "Contact Rapide (Section Accueil)",
             type: "Contact Rapide"
         }),
       });
@@ -57,18 +45,18 @@ export default function ContactSection() {
       const data = await response.json();
 
       if (response.ok) {
-        setStatus({ type: 'success', message: "Message envoyé !" });
+        setStatus({ type: 'success', message: "Message envoyé avec succès !" });
         setFormData({ fullName: "", phone: "", email: "", message: "" });
         setConsent(false);
       } else {
-        setStatus({ type: 'error', message: data.message || "Erreur." });
+        setStatus({ type: 'error', message: data.message || "Une erreur est survenue." });
       }
     } catch (error) {
-      setStatus({ type: 'error', message: "Erreur serveur." });
+      console.error("Erreur:", error);
+      setStatus({ type: 'error', message: "Erreur serveur. Veuillez réessayer." });
     } finally {
       setLoading(false);
     }
-    */
   };
 
   useEffect(() => {

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { PROJECTS } from "../data/mockData";
+import { API_BASE_URL } from "../config";
 import { 
   ReceptionIcon, 
   DomotiqueIcon, 
@@ -615,37 +616,9 @@ function DetailsContact({ projectTitle }: { projectTitle?: string }) {
     setLoading(true);
     setStatus({ type: null, message: "" });
 
-    // Simulation d'envoi pour la présentation
-    setTimeout(() => {
-      setStatus({ 
-        type: 'success', 
-        message: "Votre demande de devis a été envoyée avec succès !" 
-      });
-      setFormData({
-        email: "",
-        lastName: "",
-        firstName: "",
-        phone: "",
-        country: "",
-        wilaya: "",
-        budget: "",
-        profession: "",
-        financing: "",
-        interest: "",
-        locations: [],
-        contactDays: [],
-        contactTime: "",
-        projectStatus: "",
-        consent: false,
-        sourceProject: projectTitle || "RÉSIDENCE AZURITE"
-      });
-      setLoading(false);
-    }, 1500);
-
-    // Code réel pour le backend (commenté pour la présentation)
-    /*
+    // Code réel pour le backend
     try {
-      const response = await fetch("http://localhost:5000/api/quotes", {
+      const response = await fetch(`${API_BASE_URL}/quotes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -681,7 +654,6 @@ function DetailsContact({ projectTitle }: { projectTitle?: string }) {
     } finally {
       setLoading(false);
     }
-    */
   };
 
   return (
