@@ -27,6 +27,7 @@ export default function ContactPage() {
     message: "",
     type: "",
   });
+  const [attachment, setAttachment] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{ type: 'success' | 'error' | null, message: string }>({ type: null, message: "" });
   
@@ -37,6 +38,12 @@ export default function ContactPage() {
     });
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setAttachment(e.target.files[0]);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -44,17 +51,24 @@ export default function ContactPage() {
 
     try {
       const formattedPhone = `${selectedCountry.code} ${formData.phone}`;
-      const payload = {
-        ...formData,
-        phone: formattedPhone
-      };
+      
+      // Utilisation de FormData pour permettre l'envoi de fichier
+      const submitData = new FormData();
+      submitData.append('fullName', formData.fullName);
+      submitData.append('email', formData.email);
+      submitData.append('phone', formattedPhone);
+      submitData.append('subject', formData.subject);
+      submitData.append('message', formData.message);
+      submitData.append('type', formData.type);
+      
+      if (attachment) {
+        submitData.append('attachment', attachment);
+      }
 
       const response = await fetch(`${API_BASE_URL}/api/contacts`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload)
+        // Ne pas mettre de Content-Type avec FormData, le navigateur s'en charge (multipart/form-data)
+        body: submitData
       });
 
       const data = await response.json();
@@ -69,6 +83,7 @@ export default function ContactPage() {
           message: "",
           type: "",
         });
+        setAttachment(null);
       } else {
         setStatus({ type: 'error', message: data.message || "Une erreur est survenue." });
       }
@@ -318,10 +333,12 @@ export default function ContactPage() {
                 <div className="space-y-1">
                   <label className="text-xs uppercase tracking-wider text-gray-300">PIÈCE JOINTE</label>
                   <div className="flex items-center justify-between border-b border-white/30 py-2">
-                    <span className="text-sm text-gray-400 italic">Aucun fichier sélectionné</span>
-                    <label className="cursor-pointer bg-[#F7C66A] text-[#031B17] px-4 py-1 rounded-full text-xs font-bold uppercase hover:bg-white transition-colors">
+                    <span className="text-sm text-gray-400 italic truncate max-w-[200px] md:max-w-xs">
+                      {attachment ? attachment.name : "Aucun fichier sélectionné"}
+                    </span>
+                    <label className="cursor-pointer bg-[#F7C66A] text-[#031B17] px-4 py-1 rounded-full text-xs font-bold uppercase hover:bg-white transition-colors whitespace-nowrap">
                       CHOISIR UN FICHIER
-                      <input type="file" className="hidden" />
+                      <input type="file" onChange={handleFileChange} className="hidden" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
                     </label>
                   </div>
                 </div>
