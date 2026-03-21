@@ -41,7 +41,18 @@ export default function ContactPage() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setAttachment(e.target.files[0]);
+      const file = e.target.files[0];
+      
+      // Limite de taille à 5Mo (5 * 1024 * 1024 octets)
+      if (file.size > 5 * 1024 * 1024) {
+        setStatus({ type: 'error', message: "Le fichier est trop volumineux. La taille maximum est de 5 Mo." });
+        e.target.value = ''; // Réinitialiser l'input
+        setAttachment(null);
+        return;
+      }
+      
+      setStatus({ type: null, message: "" }); // Effacer les erreurs précédentes
+      setAttachment(file);
     }
   };
 
