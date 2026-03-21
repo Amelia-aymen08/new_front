@@ -49,7 +49,7 @@ export default function ContactPage() {
         phone: formattedPhone
       };
 
-      const response = await fetch(`${API_BASE_URL}/contacts`, {
+      const response = await fetch(`${API_BASE_URL}/api/contacts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

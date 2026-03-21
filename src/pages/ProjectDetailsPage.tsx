@@ -618,7 +618,7 @@ function DetailsContact({ projectTitle }: { projectTitle?: string }) {
 
     // Code réel pour le backend
     try {
-      const response = await fetch(`${API_BASE_URL}/quotes`, {
+      const response = await fetch(`${API_BASE_URL}/api/quotes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
