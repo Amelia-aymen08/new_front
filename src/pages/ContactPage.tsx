@@ -28,6 +28,7 @@ export default function ContactPage() {
     type: "",
   });
   const [attachment, setAttachment] = useState<File | null>(null);
+  const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{ type: 'success' | 'error' | null, message: string }>({ type: null, message: "" });
   
@@ -60,6 +61,7 @@ export default function ContactPage() {
       submitData.append('subject', formData.subject);
       submitData.append('message', formData.message);
       submitData.append('type', formData.type);
+      submitData.append('consent', consent ? 'true' : 'false');
       
       if (attachment) {
         submitData.append('attachment', attachment);
@@ -84,6 +86,7 @@ export default function ContactPage() {
           type: "",
         });
         setAttachment(null);
+        setConsent(false);
       } else {
         setStatus({ type: 'error', message: data.message || "Une erreur est survenue." });
       }
@@ -344,7 +347,14 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start gap-3 mt-4">
-                  <input required type="checkbox" id="terms" className="mt-1 accent-[#F7C66A]" />
+                  <input 
+                    required 
+                    type="checkbox" 
+                    id="terms" 
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
+                    className="mt-1 accent-[#F7C66A]" 
+                  />
                   <label htmlFor="terms" className="text-xs text-gray-300 leading-relaxed">
                     CONSENTEMENT : J'accepte que mes données soient utilisées pour le traitement de ma demande en conformité avec la loi 18-07 révisée et compléter par la loi 11-25.
                   </label>
