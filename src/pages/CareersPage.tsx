@@ -83,6 +83,7 @@ export default function CareersPage() {
     city: "",
     position: "",
     erp: "",
+    erpDetails: "",
     bim: "",
     software: "",
     experience: "",
@@ -157,14 +158,19 @@ export default function CareersPage() {
 
     const data = new FormData();
     Object.keys(formData).forEach(key => {
-        if (key === 'startMode' || key === 'noticeWeeks') return;
+        if (key === 'startMode' || key === 'noticeWeeks' || key === 'erpDetails') return;
         // @ts-ignore
         data.append(key, formData[key]);
     });
 
-    // Handle start date
+    // Gestion de la date de démarrage
     const startDate = formData.startMode === 'immediate' ? 'Immédiatement' : `Préavis de ${formData.noticeWeeks} semaines`;
     data.append('startDate', startDate);
+    
+    if (formData.erp === 'Oui' && formData.erpDetails) {
+      data.append('erpDetails', formData.erpDetails);
+    }
+
     data.append('department', activeDept.label);
     data.append('cv', file);
 
@@ -186,6 +192,7 @@ export default function CareersPage() {
           city: "",
           position: "",
           erp: "",
+          erpDetails: "",
           bim: "",
           software: "",
           experience: "",
@@ -513,7 +520,7 @@ export default function CareersPage() {
                                 {/* Radio Groups */}
                                 <div className="space-y-2">
                                     <label className="text-xs uppercase tracking-wider text-white/60 block mb-2">Maîtrise d'un ERP (Odoo, Sage...) ?</label>
-                                    <div className="flex gap-6">
+                                    <div className="flex gap-6 mb-3">
                                         <label className="flex items-center gap-2 cursor-pointer group">
                                             <input 
                                               type="radio" 
@@ -537,6 +544,16 @@ export default function CareersPage() {
                                             <span className="text-sm text-white/80 group-hover:text-white">Non</span>
                                         </label>
                                     </div>
+                                    {formData.erp === "Oui" && (
+                                      <input 
+                                        type="text" 
+                                        name="erpDetails"
+                                        value={formData.erpDetails}
+                                        onChange={handleChange}
+                                        placeholder="Précisez lequel..." 
+                                        className="w-full rounded border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 transition focus:border-[#F7C66A] focus:outline-none focus:bg-white/10" 
+                                      />
+                                    )}
                                 </div>
 
                                 <div className="space-y-2">
