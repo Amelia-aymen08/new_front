@@ -1,6 +1,6 @@
 export const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:5000'
-  : 'https://backend.test.aymenpromotion-dz.com';
+  : 'https://backend.aymenpromotion-dz.com';
 
 export const STRAPI_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:1337'
