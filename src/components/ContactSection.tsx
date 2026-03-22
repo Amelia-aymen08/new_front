@@ -32,13 +32,12 @@ export default function ContactSection() {
 
     // Code réel pour le backend 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/contacts`, {
+      const response = await fetch(`${API_BASE_URL}/api/home-contacts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             ...formData,
-            subject: "Contact Rapide (Section Accueil)",
-            type: "Contact Rapide"
+            consent
         }),
       });
 
