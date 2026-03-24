@@ -65,6 +65,16 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    const src = "https://js-na1.hs-scripts.com/39983056.js";
+    if (document.querySelector(`script[src="${src}"]`)) return;
+    const s = document.createElement("script");
+    s.src = src;
+    s.async = true;
+    s.defer = true;
+    document.body.appendChild(s);
+  }, []);
+
   return (
     <BrowserRouter>
       {/* Retrait de min-h-screen qui peut parfois causer des conflits de hauteur */}
