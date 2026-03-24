@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { API_BASE_URL, HUBSPOT_FORM_IDS } from "../config";
-import HubspotForm from "../components/HubspotForm";
+import { API_BASE_URL } from "../config";
 
 export default function ContactPage() {
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
@@ -32,7 +31,6 @@ export default function ContactPage() {
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{ type: 'success' | 'error' | null, message: string }>({ type: null, message: "" });
-  const hubspotFormId = HUBSPOT_FORM_IDS.contact;
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -249,11 +247,7 @@ export default function ContactPage() {
               </h1>
             </div>
 
-            {hubspotFormId ? (
-              <div className="w-full">
-                <HubspotForm formId={hubspotFormId} />
-              </div>
-            ) : status.type === 'success' ? (
+            {status.type === 'success' ? (
               <div className="bg-green-500/20 border border-green-500 rounded-lg p-8 text-center animate-fadeInUp">
                 <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <i className="fa-solid fa-check text-2xl text-green-400"></i>
