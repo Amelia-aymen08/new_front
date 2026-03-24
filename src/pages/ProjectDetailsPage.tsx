@@ -3,7 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { PROJECTS } from "../data/mockData";
-import { API_BASE_URL } from "../config";
+import { API_BASE_URL, HUBSPOT_FORM_IDS } from "../config";
+import HubspotForm from "../components/HubspotForm";
 import { 
   ReceptionIcon, 
   DomotiqueIcon, 
@@ -581,6 +582,7 @@ const COUNTRIES = [
 ];
 
 function DetailsContact({ projectTitle }: { projectTitle?: string }) {
+  const hubspotFormId = HUBSPOT_FORM_IDS.quote;
   const [formData, setFormData] = useState({
     email: "",
     lastName: "",
@@ -684,7 +686,11 @@ function DetailsContact({ projectTitle }: { projectTitle?: string }) {
     <section className="mx-auto max-w-7xl px-6 py-20">
       <h2 className="mb-12 text-3xl font-bold uppercase tracking-wide text-white">Devis</h2>
       
-      {status.type === 'success' ? (
+      {hubspotFormId ? (
+        <div className="max-w-3xl">
+          <HubspotForm formId={hubspotFormId} />
+        </div>
+      ) : status.type === 'success' ? (
         <div className="bg-green-500/20 border border-green-500 rounded-lg p-12 text-center max-w-3xl mx-auto">
           <div className="w-24 h-24 mx-auto mb-8 bg-green-500/30 rounded-full flex items-center justify-center">
             <i className="fa-solid fa-check text-5xl text-green-300"></i>

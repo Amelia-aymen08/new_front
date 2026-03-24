@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { API_BASE_URL } from "../config";
+import { API_BASE_URL, HUBSPOT_FORM_IDS } from "../config";
+import HubspotForm from "./HubspotForm";
 
 export default function ContactSection() {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -15,6 +16,7 @@ export default function ContactSection() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{ type: 'success' | 'error' | null, message: string }>({ type: null, message: "" });
   const [consent, setConsent] = useState(false);
+  const hubspotFormId = HUBSPOT_FORM_IDS.home;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -184,7 +186,11 @@ export default function ContactSection() {
             }`}
             style={{ willChange: "transform, opacity" }}
           >
-            {status.type === 'success' ? (
+            {hubspotFormId ? (
+              <div className="w-full max-w-xl py-4">
+                <HubspotForm formId={hubspotFormId} />
+              </div>
+            ) : status.type === 'success' ? (
               <div className="w-full max-w-xl py-10">
                 <div className="bg-green-500/20 border border-green-500 rounded-lg p-8 text-center">
                   <div className="w-20 h-20 mx-auto mb-6 bg-green-500/30 rounded-full flex items-center justify-center">

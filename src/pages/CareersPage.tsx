@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { API_BASE_URL } from "../config";
+import { API_BASE_URL, HUBSPOT_FORM_IDS } from "../config";
+import HubspotForm from "../components/HubspotForm";
 
 // --- Data ---
 
@@ -74,6 +75,7 @@ export default function CareersPage() {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{ type: 'success' | 'error' | null, message: string }>({ type: null, message: "" });
+  const hubspotFormId = HUBSPOT_FORM_IDS.careers;
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -405,7 +407,11 @@ export default function CareersPage() {
             transition={{ duration: 0.8 }}
             className="rounded-3xl bg-[#052620]/80 p-8 shadow-2xl backdrop-blur-md md:p-12 border border-white/5"
           >
-            {status.type === 'success' ? (
+            {hubspotFormId ? (
+              <div className="mx-auto max-w-3xl">
+                <HubspotForm formId={hubspotFormId} />
+              </div>
+            ) : status.type === 'success' ? (
               <div className="bg-green-500/20 border border-green-500 rounded-lg p-10 text-center">
                 <div className="w-24 h-24 mx-auto mb-8 bg-green-500/30 rounded-full flex items-center justify-center">
                   <i className="fa-solid fa-check text-5xl text-green-300"></i>
