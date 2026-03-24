@@ -85,16 +85,16 @@ function WipeImageSection({
       </div>
 
       {/* Scroll Down Arrow (Mouse + Double Arrow) */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center z-20 pointer-events-none opacity-90">
+      <div className="absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center z-20 pointer-events-none opacity-85">
         {/* Mouse Icon */}
-        <div className="w-[30px] h-[50px] border-[3px] border-white/80 rounded-[20px] flex justify-center pt-[8px] mb-2 bg-black/10 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-          <div className="w-[4px] h-[12px] bg-[#F7C66A] rounded-full animate-scroll-wheel"></div>
+        <div className="w-[16px] h-[26px] md:w-[26px] md:h-[44px] border-[2px] md:border-[3px] border-white/80 rounded-[12px] md:rounded-[18px] flex justify-center pt-[5px] md:pt-[7px] mb-1 md:mb-2 bg-black/10 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+          <div className="w-[2px] h-[7px] md:w-[3px] md:h-[10px] bg-[#F7C66A] rounded-full animate-scroll-wheel"></div>
         </div>
         {/* Double Arrows */}
         <div className="flex flex-col items-center animate-bounce">
-          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white drop-shadow-lg -mt-3">
-            <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M6 14L12 20L18 14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70"/>
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white drop-shadow-lg -mt-1 md:-mt-2 md:w-[50px] md:h-[50px]">
+            <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="md:[stroke-width:2.2]"/>
+            <path d="M6 14L12 20L18 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 md:[stroke-width:2.2]"/>
           </svg>
         </div>
       </div>

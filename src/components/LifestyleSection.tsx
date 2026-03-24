@@ -51,6 +51,12 @@ export default function LifestyleSection() {
   // REMOVED DUPLICATE index state here
   const trackRef = useRef<HTMLDivElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const swipeRef = useRef<{
+    pointerId: number | null;
+    startX: number;
+    startY: number;
+    active: boolean;
+  }>({ pointerId: null, startX: 0, startY: 0, active: false });
   const [layout, setLayout] = useState({
     slideWidth: 0,
     containerWidth: 0,
@@ -69,16 +75,17 @@ export default function LifestyleSection() {
   const [index, setIndex] = useState(originalSlides.length);
   const [isTransitioning, setIsTransitioning] = useState(true);
 
+  const setIndexWithoutTransition = (nextIndex: number) => {
+    setIsTransitioning(false);
+    setIndex(nextIndex);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setIsTransitioning(true));
+    });
+  };
+
   // Reset index when category changes
   useEffect(() => {
-    setIsTransitioning(false);
-    setIndex(originalSlides.length);
-    // Re-enable transition in next frame
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setIsTransitioning(true);
-      });
-    });
+    setIndexWithoutTransition(originalSlides.length);
   }, [activeCat, originalSlides.length]);
 
   useEffect(() => {
@@ -96,51 +103,62 @@ export default function LifestyleSection() {
         }
       }
 
-      setLayout({
-        slideWidth,
-        containerWidth: containerRef.current?.clientWidth ?? 0,
-        gap: computedGap,
+      const containerWidth = containerRef.current
+        ? containerRef.current.getBoundingClientRect().width
+        : 0;
+
+      setLayout((prev) => {
+        if (
+          prev.slideWidth === slideWidth &&
+          prev.containerWidth === containerWidth &&
+          prev.gap === computedGap
+        ) {
+          return prev;
+        }
+        return { slideWidth, containerWidth, gap: computedGap };
       });
     };
 
     measure();
     // Re-measure after a short delay to ensure DOM is ready
     const timer = setTimeout(measure, 100);
+    const timer2 = setTimeout(measure, 400);
+
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(() => measure());
+      if (containerRef.current) ro.observe(containerRef.current);
+      if (trackRef.current) ro.observe(trackRef.current);
+      const firstSlide = trackRef.current?.querySelector("[data-slide]") as HTMLElement | null;
+      if (firstSlide) ro.observe(firstSlide);
+    }
 
     window.addEventListener("resize", measure);
     return () => {
       window.removeEventListener("resize", measure);
       clearTimeout(timer);
+      clearTimeout(timer2);
+      if (ro) ro.disconnect();
     };
   }, [activeCat]);
 
   const handleTransitionEnd = () => {
     const len = originalSlides.length;
     if (index < len) {
-      setIsTransitioning(false);
-      setIndex(index + len);
+      setIndexWithoutTransition(index + len);
     } else if (index >= 2 * len) {
-      setIsTransitioning(false);
-      setIndex(index - len);
+      setIndexWithoutTransition(index - len);
     }
   };
 
   const handlePrev = () => {
-    if (!isTransitioning) {
-      setIsTransitioning(true);
-      requestAnimationFrame(() => setIndex((prev) => prev - 1));
-    } else {
-      setIndex((prev) => prev - 1);
-    }
+    if (!isTransitioning) setIsTransitioning(true);
+    setIndex((prev) => prev - 1);
   };
 
   const handleNext = () => {
-    if (!isTransitioning) {
-      setIsTransitioning(true);
-      requestAnimationFrame(() => setIndex((prev) => prev + 1));
-    } else {
-      setIndex((prev) => prev + 1);
-    }
+    if (!isTransitioning) setIsTransitioning(true);
+    setIndex((prev) => prev + 1);
   };
 
   const slideSpan = layout.slideWidth + layout.gap;
@@ -150,7 +168,7 @@ export default function LifestyleSection() {
   // TranslateX = -(Position - Offset)
   const translateX =
     layout.slideWidth && layout.containerWidth
-      ? -(index * slideSpan - (layout.containerWidth - layout.slideWidth) / 2)
+      ? Math.round(-(index * slideSpan - (layout.containerWidth - layout.slideWidth) / 2))
       : 0;
 
   return (
@@ -190,6 +208,43 @@ export default function LifestyleSection() {
                 isTransitioning ? "transition-transform duration-700" : "duration-0"
               }`}
               style={{ transform: `translateX(${translateX}px)` }}
+              onPointerDown={(e) => {
+                if (e.pointerType === "mouse" && e.button !== 0) return;
+                swipeRef.current = {
+                  pointerId: e.pointerId,
+                  startX: e.clientX,
+                  startY: e.clientY,
+                  active: true,
+                };
+                try {
+                  (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
+                } catch {}
+              }}
+              onPointerMove={(e) => {
+                if (!swipeRef.current.active) return;
+                if (swipeRef.current.pointerId !== e.pointerId) return;
+                const dx = e.clientX - swipeRef.current.startX;
+                const dy = e.clientY - swipeRef.current.startY;
+                if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 6) {
+                  e.preventDefault();
+                }
+              }}
+              onPointerUp={(e) => {
+                if (!swipeRef.current.active) return;
+                if (swipeRef.current.pointerId !== e.pointerId) return;
+                const dx = e.clientX - swipeRef.current.startX;
+                const dy = e.clientY - swipeRef.current.startY;
+                swipeRef.current.active = false;
+                swipeRef.current.pointerId = null;
+                if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+                  if (dx > 0) handlePrev();
+                  else handleNext();
+                }
+              }}
+              onPointerCancel={() => {
+                swipeRef.current.active = false;
+                swipeRef.current.pointerId = null;
+              }}
             >
               {slides.map((slide, i) => {
                 const isActive = i === index;

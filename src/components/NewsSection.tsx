@@ -7,9 +7,16 @@ const STRAPI_URL = config.STRAPI_URL;
 
 export default function NewsSection() {
   const { blogs, loading, error } = useBlogs();
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
-  const carouselRef = useRef(null);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+  const swipeRef = useRef<{
+    pointerId: number | null;
+    startX: number;
+    startY: number;
+    active: boolean;
+  }>({ pointerId: null, startX: 0, startY: 0, active: false });
 
   // Récupérer les 6 derniers articles (triés par date)
   const latestBlogs = React.useMemo(() => {
@@ -24,23 +31,74 @@ export default function NewsSection() {
       .slice(0, 6);
   }, [blogs]);
 
-  const totalSlides = Math.ceil(latestBlogs.length / visibleCount);
+  const slidesData = React.useMemo(() => {
+    const total = Math.ceil(latestBlogs.length / visibleCount);
+    return Array.from({ length: total }).map((_, slideIndex) =>
+      latestBlogs.slice(slideIndex * visibleCount, (slideIndex + 1) * visibleCount)
+    );
+  }, [latestBlogs, visibleCount]);
+
+  const totalSlides = slidesData.length;
+  const isLoopEnabled = totalSlides > 1;
+
+  const loopSlidesData = React.useMemo(() => {
+    if (!isLoopEnabled) return slidesData;
+    return [slidesData[totalSlides - 1], ...slidesData, slidesData[0]];
+  }, [isLoopEnabled, slidesData, totalSlides]);
+
+  useEffect(() => {
+    if (!isLoopEnabled) {
+      setCarouselIndex(0);
+      setIsTransitioning(true);
+      return;
+    }
+    setIsTransitioning(false);
+    setCarouselIndex(1);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setIsTransitioning(true));
+    });
+  }, [isLoopEnabled, visibleCount, latestBlogs.length]);
+
+  const goToSlide = (slide: number) => {
+    if (!isLoopEnabled) {
+      setCarouselIndex(slide);
+      return;
+    }
+    setIsTransitioning(true);
+    setCarouselIndex(slide + 1);
+  };
 
   const nextSlide = () => {
-    if (currentIndex < totalSlides - 1) {
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      setCurrentIndex(0);
-    }
+    if (!isLoopEnabled) return;
+    setIsTransitioning(true);
+    setCarouselIndex((prev) => prev + 1);
   };
 
   const prevSlide = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    } else {
-      setCurrentIndex(totalSlides - 1);
+    if (!isLoopEnabled) return;
+    setIsTransitioning(true);
+    setCarouselIndex((prev) => prev - 1);
+  };
+
+  const handleTransitionEnd = () => {
+    if (!isLoopEnabled) return;
+    if (carouselIndex === 0) {
+      setIsTransitioning(false);
+      setCarouselIndex(totalSlides);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => setIsTransitioning(true));
+      });
+    }
+    if (carouselIndex === totalSlides + 1) {
+      setIsTransitioning(false);
+      setCarouselIndex(1);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => setIsTransitioning(true));
+      });
     }
   };
+
+  const activeDotIndex = isLoopEnabled ? (carouselIndex - 1 + totalSlides) % totalSlides : carouselIndex;
 
   // Ajuster le nombre d'articles visibles selon la taille d'écran
   useEffect(() => {
@@ -111,18 +169,52 @@ export default function NewsSection() {
           <div className="overflow-hidden">
             <div 
               ref={carouselRef}
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+              onTransitionEnd={handleTransitionEnd}
+              className={`flex ${isTransitioning ? "transition-transform duration-500 ease-in-out" : ""}`}
+              style={{ transform: `translateX(-${carouselIndex * 100}%)` }}
+              onPointerDown={(e) => {
+                if (!isLoopEnabled) return;
+                if (e.pointerType === "mouse" && e.button !== 0) return;
+                swipeRef.current = { pointerId: e.pointerId, startX: e.clientX, startY: e.clientY, active: true };
+                try {
+                  (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
+                } catch {}
+              }}
+              onPointerMove={(e) => {
+                if (!isLoopEnabled) return;
+                if (!swipeRef.current.active) return;
+                if (swipeRef.current.pointerId !== e.pointerId) return;
+                const dx = e.clientX - swipeRef.current.startX;
+                const dy = e.clientY - swipeRef.current.startY;
+                if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 6) {
+                  e.preventDefault();
+                }
+              }}
+              onPointerUp={(e) => {
+                if (!isLoopEnabled) return;
+                if (!swipeRef.current.active) return;
+                if (swipeRef.current.pointerId !== e.pointerId) return;
+                const dx = e.clientX - swipeRef.current.startX;
+                const dy = e.clientY - swipeRef.current.startY;
+                swipeRef.current.active = false;
+                swipeRef.current.pointerId = null;
+                if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+                  if (dx > 0) prevSlide();
+                  else nextSlide();
+                }
+              }}
+              onPointerCancel={() => {
+                swipeRef.current.active = false;
+                swipeRef.current.pointerId = null;
+              }}
             >
               {/* Grouper les articles par slide */}
-              {Array.from({ length: totalSlides }).map((_, slideIndex) => (
+              {loopSlidesData.map((slideBlogs, slideIndex) => (
                 <div 
                   key={slideIndex} 
                   className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full flex-shrink-0"
                 >
-                  {latestBlogs
-                    .slice(slideIndex * visibleCount, (slideIndex + 1) * visibleCount)
-                    .map((item) => {
+                  {slideBlogs.map((item) => {
                       const imageUrl =
                         item.attributes.mignature_image?.data?.attributes?.formats?.medium?.url ||
                         item.attributes.mignature_image?.data?.attributes?.url ||
@@ -182,9 +274,9 @@ export default function NewsSection() {
               {Array.from({ length: totalSlides }).map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => setCurrentIndex(i)}
+                  onClick={() => goToSlide(i)}
                   className={`h-2 rounded-full transition-all ${
-                    i === currentIndex 
+                    i === activeDotIndex 
                       ? "w-8 bg-[#F7C66A]" 
                       : "w-2 bg-white/30 hover:bg-white/50"
                   }`}

@@ -28,17 +28,13 @@ const AMENITIES_ICONS: Record<string, string> = {
   "Isolation Phonique": "/assets/comodites/isolation phonique.png",
   "Isolation phonique": "/assets/comodites/isolation phonique.png",
   "Fenetre": "/assets/comodites/fenetre.png",
-  "gestion copropriété": "/assets/comodites/gestion_copro.png", // Fallback if missing
-  "Gestion copropriété": "/assets/comodites/gestion_copro.png", // Fallback if missing
   "Salle d'eau": "/assets/comodites/salle d'eau.png",
   "Piscine Privative": "/assets/comodites/piscine privative.png",
   "Piscine privative": "/assets/comodites/piscine privative.png",
   "Aire de jeux": "/assets/comodites/aire de jeux.png",
-  "Piscine Commune": "/assets/comodites/piscine_commune.png", // Fallback if missing
   "Salle de sport": "/assets/comodites/salle de sport.png",
   "Spa Hammam Sauna": "/assets/comodites/spa.png",
   "Spa": "/assets/comodites/spa.png",
-  "Creche garderie": "/assets/comodites/creche_garderie.png", // Fallback if missing
 };
 
 type ProjectData = {

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function StickyContactBar() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [pinnedIndex, setPinnedIndex] = useState(null);
 
   const items = [
     {
@@ -31,16 +32,40 @@ export default function StickyContactBar() {
   return (
     <div className="fixed right-0 top-1/2 -translate-y-1/2 z-[100] flex flex-col gap-3 font-['Montserrat']">
       {items.map((item, index) => (
+        (() => {
+          const isOpen = pinnedIndex === index || hoveredIndex === index;
+
+          const close = () => {
+            setPinnedIndex(null);
+            setHoveredIndex(null);
+          };
+
+          const toggle = () => {
+            if (pinnedIndex === index) {
+              close();
+              return;
+            }
+            setPinnedIndex(index);
+            setHoveredIndex(index);
+          };
+
+          return (
         <div
           key={item.id}
           className="relative flex items-center justify-end"
-          onMouseEnter={() => setHoveredIndex(index)}
-          onMouseLeave={() => setHoveredIndex(null)}
+          onMouseEnter={() => {
+            if (pinnedIndex !== null) return;
+            setHoveredIndex(index);
+          }}
+          onMouseLeave={() => {
+            if (pinnedIndex !== null) return;
+            setHoveredIndex(null);
+          }}
         >
           {/* Expanded Content */}
           <div
             className={`absolute right-[85%] mr-0 flex items-center overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)] h-full ${
-              hoveredIndex === index
+              isOpen
                 ? "w-auto opacity-100 translate-x-0"
                 : "w-0 opacity-0 translate-x-4"
             }`}
@@ -49,7 +74,11 @@ export default function StickyContactBar() {
               
               {/* PHONE CONTENT */}
               {item.id === "phone" && (
-                <a href={item.href} className="text-white hover:text-[#F7C66A] font-medium tracking-wide flex items-center gap-2">
+                <a
+                  href={item.href}
+                  onClick={close}
+                  className="text-white hover:text-[#F7C66A] font-medium tracking-wide flex items-center gap-2"
+                >
                   <span className="text-[#F7C66A]"><i className="fa-solid fa-phone"></i></span>
                   {item.label}
                 </a>
@@ -58,12 +87,22 @@ export default function StickyContactBar() {
               {/* WRITE CONTENT (Email + WhatsApp) */}
               {item.id === "write" && (
                 <div className="flex items-center gap-6">
-                  <a href="mailto:contact@aymenpromotion.com" className="flex items-center gap-2 text-white hover:text-[#F7C66A] transition-colors">
+                  <a
+                    href="mailto:contact@aymenpromotion.com"
+                    onClick={close}
+                    className="flex items-center gap-2 text-white hover:text-[#F7C66A] transition-colors"
+                  >
                     <i className="fa-solid fa-envelope text-[#F7C66A]"></i>
                     <span className="text-sm font-medium">Email</span>
                   </a>
                   <div className="w-px h-4 bg-white/20"></div>
-                  <a href="https://wa.me/213560582959" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white hover:text-[#25D366] transition-colors">
+                  <a
+                    href="https://wa.me/213560582959"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={close}
+                    className="flex items-center gap-2 text-white hover:text-[#25D366] transition-colors"
+                  >
                     <i className="fa-brands fa-whatsapp text-[#25D366] text-lg"></i>
                     <span className="text-sm font-medium">WhatsApp</span>
                   </a>
@@ -72,7 +111,11 @@ export default function StickyContactBar() {
 
               {/* CONTACT CONTENT */}
               {item.id === "contact" && (
-                <Link to={item.href} className="text-white hover:text-[#F7C66A] font-medium tracking-wide uppercase text-sm flex items-center gap-2">
+                <Link
+                  to={item.href}
+                  onClick={close}
+                  className="text-white hover:text-[#F7C66A] font-medium tracking-wide uppercase text-sm flex items-center gap-2"
+                >
                   <span className="text-[#F7C66A]"><i className="fa-solid fa-calendar-check"></i></span>
                   {item.label}
                 </Link>
@@ -83,14 +126,17 @@ export default function StickyContactBar() {
 
           {/* Icon Button */}
           <div 
+            onClick={toggle}
             className={`group relative flex h-10 w-10 md:h-14 md:w-14 items-center justify-center rounded-l-xl border-y border-l border-white/20 bg-[#0C2A24]/40 backdrop-blur-md shadow-lg transition-all duration-300 cursor-pointer
-              ${hoveredIndex === index ? "bg-[#F7C66A] border-[#F7C66A] text-[#031B17]" : "text-white hover:bg-white/10"}
+              ${isOpen ? "bg-[#F7C66A] border-[#F7C66A] text-[#031B17]" : "text-white hover:bg-white/10"}
             `}
           >
-            <div className={`absolute inset-0 rounded-l-xl bg-[#F7C66A]/20 opacity-0 transition-opacity duration-500 ${hoveredIndex === index ? "animate-pulse opacity-100" : ""}`} />
-            <i className={`fa-solid ${item.icon} text-base md:text-xl relative z-10 transition-transform duration-300 ${hoveredIndex === index ? "scale-110" : ""}`} />
+            <div className={`absolute inset-0 rounded-l-xl bg-[#F7C66A]/20 opacity-0 transition-opacity duration-500 ${isOpen ? "animate-pulse opacity-100" : ""}`} />
+            <i className={`fa-solid ${item.icon} text-base md:text-xl relative z-10 transition-transform duration-300 ${isOpen ? "scale-110" : ""}`} />
           </div>
         </div>
+          );
+        })()
       ))}
     </div>
   );

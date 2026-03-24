@@ -34,16 +34,31 @@ export default function IntroHero({ onDone }: IntroHeroProps) {
   };
 
   useEffect(() => {
-    // Si la vidéo refuse de jouer (autoplay bloqué), on termine l'intro
     const vid = videoRef.current;
-    if (vid) {
-      // Recharger la vidéo si la source change
-      vid.load();
-      vid.play().catch((err) => {
-        console.warn("Autoplay blocked or error:", err);
-        // onDone(); // Ne pas terminer immédiatement si l'autoplay échoue, laisser l'utilisateur interagir ou attendre le timeout
-      });
-    }
+    if (!vid) return;
+
+    vid.muted = true;
+    (vid as any).defaultMuted = true;
+    vid.autoplay = true;
+    vid.playsInline = true;
+    vid.setAttribute("muted", "");
+    vid.setAttribute("playsinline", "");
+    vid.setAttribute("webkit-playsinline", "");
+
+    const tryPlay = () => {
+      vid.play().catch(() => {});
+    };
+
+    const onCanPlay = () => {
+      tryPlay();
+    };
+
+    vid.addEventListener("canplay", onCanPlay);
+    window.addEventListener("touchstart", tryPlay, { once: true, passive: true });
+    window.addEventListener("click", tryPlay, { once: true, passive: true } as any);
+
+    vid.load();
+    tryPlay();
 
     // Fallback de sécurité : 8s max
     const timer = setTimeout(() => {
@@ -53,7 +68,10 @@ export default function IntroHero({ onDone }: IntroHeroProps) {
       }
     }, 8000);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      vid.removeEventListener("canplay", onCanPlay);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [videoSrc]); // Ajouter videoSrc comme dépendance pour rejouer si la source change
 

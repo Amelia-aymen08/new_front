@@ -21,16 +21,16 @@ export default function Hero() {
         draggable={false}
       />
       {/* Scroll Down Arrow (Mouse + Double Arrow) */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center z-20 pointer-events-none opacity-90">
+      <div className={`absolute ${isMobile ? "bottom-4" : "bottom-8"} left-1/2 -translate-x-1/2 flex flex-col items-center z-20 pointer-events-none opacity-85`}>
         {/* Mouse Icon */}
-        <div className="w-[30px] h-[50px] border-[3px] border-white/80 rounded-[20px] flex justify-center pt-[8px] mb-2 bg-black/10 backdrop-blur-sm">
-          <div className="w-[4px] h-[12px] bg-[#F7C66A] rounded-full animate-scroll-wheel"></div>
+        <div className={`${isMobile ? "w-[16px] h-[26px] border-[2px] rounded-[12px] pt-[5px] mb-1" : "w-[26px] h-[44px] border-[3px] rounded-[18px] pt-[7px] mb-2"} border-white/80 flex justify-center bg-black/10 backdrop-blur-sm`}>
+          <div className={`${isMobile ? "w-[2px] h-[7px]" : "w-[3px] h-[10px]"} bg-[#F7C66A] rounded-full animate-scroll-wheel`}></div>
         </div>
         {/* Double Arrows */}
         <div className="flex flex-col items-center animate-bounce">
-          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white drop-shadow-lg -mt-3">
-            <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M6 14L12 20L18 14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70"/>
+          <svg width={isMobile ? 30 : 50} height={isMobile ? 30 : 50} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={`text-white drop-shadow-lg ${isMobile ? "-mt-1" : "-mt-2"}`}>
+            <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth={isMobile ? 1.8 : 2.2} strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M6 14L12 20L18 14" stroke="currentColor" strokeWidth={isMobile ? 1.8 : 2.2} strokeLinecap="round" strokeLinejoin="round" className="opacity-70"/>
           </svg>
         </div>
       </div>
