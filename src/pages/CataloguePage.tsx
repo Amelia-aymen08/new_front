@@ -59,25 +59,24 @@ const CatalogueCard = ({ cat, onClick }: { cat: Catalogue; onClick: () => void }
       className="group cursor-pointer flex flex-col gap-4 items-center w-full"
       onClick={onClick}
     >
-      <div className="relative aspect-[1.414/1] w-full max-w-[1000px] perspective-1000 mx-auto">
+      <div className="relative aspect-[1.414/1] w-full max-w-[800px] perspective-1000 mx-auto px-4">
         <div
           className={`
-            absolute inset-0 rounded-sm shadow-2xl transition-transform duration-500 ease-out 
+            absolute inset-4 md:inset-0 rounded-sm shadow-2xl transition-transform duration-500 ease-out 
             group-hover:-translate-y-2 group-hover:shadow-[20px_20px_40px_rgba(0,0,0,0.4)]
             bg-gradient-to-br from-[#031B17] to-[#0A2E25] overflow-hidden border border-white/10
-            flex flex-col items-center justify-center p-8
+            flex flex-col items-center justify-center p-4 md:p-8
           `}
         >
           {/* Design de couverture statique (toujours visible) */}
-          <div className="relative z-10 text-center border-[3px] border-[#F7C66A]/30 p-12 w-full h-full flex flex-col items-center justify-center">
-             <div className="absolute top-4 left-4 w-16 h-16 border-t-2 border-l-2 border-[#F7C66A]/50" />
-             <div className="absolute bottom-4 right-4 w-16 h-16 border-b-2 border-r-2 border-[#F7C66A]/50" />
+          <div className="relative z-10 text-center border-[2px] md:border-[3px] border-[#F7C66A]/30 p-6 md:p-12 w-full h-full flex flex-col items-center justify-center">
+             <div className="absolute top-2 left-2 md:top-4 md:left-4 w-8 h-8 md:w-16 md:h-16 border-t-2 border-l-2 border-[#F7C66A]/50" />
+             <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 w-8 h-8 md:w-16 md:h-16 border-b-2 border-r-2 border-[#F7C66A]/50" />
              
-             <h3 className="font-['PhotographSignature'] text-6xl md:text-8xl text-[#F7C66A] mb-4">Aymen Promotion</h3>
-             <h2 className="text-white text-3xl md:text-5xl font-bold uppercase tracking-[0.2em] mb-2">{cat.title}</h2>
-             <p className="text-white/60 text-xl tracking-widest uppercase">{cat.date}</p>
+             <h3 className="font-['PhotographSignature'] text-4xl md:text-7xl text-[#F7C66A] mb-2 md:mb-4">Aymen Promotion</h3>
+             <h2 className="text-white text-xl md:text-4xl font-bold uppercase tracking-[0.2em] mb-2 leading-tight">{cat.title}</h2>
              
-             <div className="mt-12 px-8 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white text-sm uppercase tracking-widest group-hover:bg-[#F7C66A] group-hover:text-[#031B17] transition-all">
+             <div className="mt-4 md:mt-8 px-4 md:px-6 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white text-[10px] md:text-xs uppercase tracking-widest group-hover:bg-[#F7C66A] group-hover:text-[#031B17] transition-all">
                 Cliquer pour lire
              </div>
           </div>
@@ -91,40 +90,18 @@ const CatalogueCard = ({ cat, onClick }: { cat: Catalogue; onClick: () => void }
 };
 
 const ReaderModal = ({ cat, onClose }: { cat: Catalogue; onClose: () => void }) => {
-  const bookRef = useRef<any>(null);
   const [numPages, setNumPages] = useState<number>(cat.pages);
   const [isPdfLoaded, setIsPdfLoaded] = useState(false);
 
-  const [pageSize, setPageSize] = useState<{ w: number; h: number }>({
-    w: 800,
-    h: Math.round(800 / LANDSCAPE_RATIO),
-  });
-
+  // Empêcher le clic droit (context menu) pour limiter le téléchargement
   useEffect(() => {
-    const compute = () => {
-      const paddingW = 40;
-      const paddingH = 100;
-
-      const maxBookW = window.innerWidth - paddingW;
-      const maxBookH = window.innerHeight - paddingH;
-
-      let w = maxBookW;
-      let h = w / LANDSCAPE_RATIO;
-
-      if (h > maxBookH) {
-         h = maxBookH;
-         w = h * LANDSCAPE_RATIO;
-      }
-      
-      w = clamp(w, 300, 1600);
-      h = Math.round(w / LANDSCAPE_RATIO);
-
-      setPageSize({ w, h });
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
     };
-
-    compute();
-    window.addEventListener("resize", compute);
-    return () => window.removeEventListener("resize", compute);
+    document.addEventListener("contextmenu", handleContextMenu);
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+    };
   }, []);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
@@ -134,113 +111,56 @@ const ReaderModal = ({ cat, onClose }: { cat: Catalogue; onClose: () => void }) 
 
   const pagesArray = Array.from({ length: numPages }, (_, i) => i + 1);
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (!bookRef.current) return;
-      if (e.key === "ArrowRight") bookRef.current.pageFlip().flipNext();
-      if (e.key === "ArrowLeft") bookRef.current.pageFlip().flipPrev();
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onClose]);
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[6000] flex items-center justify-center bg-black/95 backdrop-blur-md p-4"
+      className="fixed inset-0 z-[6000] flex flex-col items-center justify-start bg-black/95 backdrop-blur-md overflow-y-auto"
     >
-      <button onClick={onClose} className="absolute top-6 right-6 z-50 p-2 text-white/70 hover:text-white transition bg-black/50 rounded-full">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M18 6L6 18M6 6l12 12" />
-        </svg>
-      </button>
+      <div className="sticky top-0 w-full flex justify-between items-center p-4 bg-black/80 backdrop-blur-md z-50">
+        <h3 className="text-white font-bold">{cat.title}</h3>
+        <button onClick={onClose} className="p-2 text-white/70 hover:text-white transition bg-white/10 rounded-full">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
 
-      <div className="relative w-full h-full flex flex-col items-center justify-center">
+      <div className="w-full max-w-4xl py-8 px-4 flex flex-col items-center gap-4 select-none pointer-events-none" style={{ WebkitUserSelect: 'none', userSelect: 'none' }}>
+        {/* Couche de protection transparente par dessus le PDF pour empêcher les interactions */}
+        <div className="fixed inset-0 z-40 pointer-events-auto" onContextMenu={(e) => e.preventDefault()} />
         
-        {/* Flèche Gauche */}
-        <button 
-          onClick={() => bookRef.current?.pageFlip().flipPrev()}
-          className="hidden md:flex absolute left-10 top-1/2 -translate-y-1/2 z-50 w-14 h-14 bg-white/10 hover:bg-[#F7C66A] text-white hover:text-black rounded-full items-center justify-center transition-all backdrop-blur-md shadow-xl border border-white/20"
-        >
-          <i className="fa-solid fa-chevron-left text-2xl"></i>
-        </button>
-
-        {/* Flèche Droite */}
-        <button 
-          onClick={() => bookRef.current?.pageFlip().flipNext()}
-          className="hidden md:flex absolute right-10 top-1/2 -translate-y-1/2 z-50 w-14 h-14 bg-white/10 hover:bg-[#F7C66A] text-white hover:text-black rounded-full items-center justify-center transition-all backdrop-blur-md shadow-xl border border-white/20"
-        >
-          <i className="fa-solid fa-chevron-right text-2xl"></i>
-        </button>
-
         {cat.pdfUrl ? (
           <Document
             file={cat.pdfUrl}
             onLoadSuccess={onDocumentLoadSuccess}
             loading={
-              <div className="text-white flex flex-col items-center">
+              <div className="text-white flex flex-col items-center mt-20">
                 <div className="w-12 h-12 border-4 border-[#F7C66A] border-t-transparent rounded-full animate-spin mb-4" />
                 Chargement du Catalogue...
               </div>
             }
             error={
-              <div className="text-white text-center p-8 bg-red-900/20 rounded-lg border border-red-500/30">
+              <div className="text-white text-center p-8 bg-red-900/20 rounded-lg border border-red-500/30 mt-20">
                 <p className="text-xl font-bold mb-2">Impossible de charger le PDF.</p>
-                <p className="text-sm opacity-70 mb-4">Vérifiez que le fichier existe bien à l'adresse : {cat.pdfUrl}</p>
-                <button onClick={onClose} className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded text-sm transition">Fermer</button>
               </div>
             }
-            className="flex justify-center items-center"
+            className="flex flex-col items-center gap-8 relative z-10"
           >
-            {isPdfLoaded && (
-              // @ts-ignore
-              <HTMLFlipBook
-                width={pageSize.w}
-                height={pageSize.h}
-                size="fixed"
-                minWidth={300}
-                maxWidth={1600}
-                minHeight={200}
-                maxHeight={1200}
-                maxShadowOpacity={0.8} 
-                showCover={true}
-                mobileScrollSupport={true}
-                className="shadow-2xl bg-transparent" 
-                ref={bookRef}
-                flippingTime={600} // Accéléré de 1000ms à 600ms pour plus de fluidité
-                usePortrait={false} // Désactivé pour afficher deux pages (meilleur rendu catalogue)
-                startPage={0}
-                drawShadow={true}
-                autoSize={true}
-                clickEventForward={true}
-                useMouseEvents={true}
-                swipeDistance={30}
-                showPageCorners={true}
-                disableFlipByClick={false}
-              >
-                {pagesArray.map((pageNum) => (
-                  <Page key={pageNum} number={pageNum} noPadding>
-                    <div className="absolute inset-0 overflow-hidden bg-white flex items-center justify-center">
-                      <PdfPage
-                        pageNumber={pageNum}
-                        width={pageSize.w}
-                        renderTextLayer={false}
-                        renderAnnotationLayer={false}
-                      />
-                    </div>
-                  </Page>
-                ))}
-              </HTMLFlipBook>
-            )}
+            {isPdfLoaded && pagesArray.map((pageNum) => (
+              <div key={pageNum} className="relative shadow-2xl bg-white w-full max-w-[800px]">
+                <PdfPage
+                  pageNumber={pageNum}
+                  width={window.innerWidth < 800 ? window.innerWidth - 32 : 800}
+                  renderTextLayer={false}
+                  renderAnnotationLayer={false}
+                  className="!flex !justify-center"
+                />
+              </div>
+            ))}
           </Document>
         ) : null}
-
-        <p className="mt-6 text-white/50 text-sm hidden md:block">
-          Utilisez les flèches du clavier ou cliquez sur les coins pour tourner les pages
-        </p>
       </div>
     </motion.div>
   );

@@ -149,24 +149,29 @@ const ReaderModal = ({ mag, onClose }: { mag: Magazine; onClose: () => void }) =
     w: 420,
     h: Math.round(420 * A4_RATIO),
   });
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const compute = () => {
-      const paddingW = 100;
-      const paddingH = 170;
+      const isMob = window.innerWidth < 768;
+      setIsMobile(isMob);
+
+      const paddingW = isMob ? 20 : 100;
+      const paddingH = isMob ? 80 : 170;
 
       const maxBookW = window.innerWidth - paddingW;
       const maxBookH = window.innerHeight - paddingH;
 
-      // On veut que chaque page du flipbook soit un A4 (ratio ~1.414)
-      // La largeur d'une page A4 doit être la moitié de la largeur max disponible
-      const maxPageWFromWidth = Math.floor(maxBookW / 2);
+      // Sur desktop, on affiche 2 pages (A4) côte à côte, donc la largeur du livre est divisée par 2
+      // Sur mobile, on affiche 1 seule page (A4) à la fois (mode portrait forcé par usePortrait=true)
+      const divisor = isMob ? 1 : 2;
+      const maxPageWFromWidth = Math.floor(maxBookW / divisor);
 
       // La hauteur de la page A4 dicte sa largeur (w = h / ratio)
       const maxPageWFromHeight = Math.floor(maxBookH / A4_RATIO);
 
       // On choisit la largeur la plus restrictive pour que ça rentre
-      const w = clamp(Math.min(maxPageWFromWidth, maxPageWFromHeight), 320, 700);
+      const w = clamp(Math.min(maxPageWFromWidth, maxPageWFromHeight), 250, 700);
       
       // On recalcule la hauteur exacte basée sur cette largeur et le ratio A4 pour éviter tout étirement
       const h = Math.round(w * A4_RATIO);
@@ -257,7 +262,7 @@ const ReaderModal = ({ mag, onClose }: { mag: Magazine; onClose: () => void }) =
                 mobileScrollSupport={true}
                 className="shadow-2xl"
                 ref={bookRef}
-                usePortrait={false} // Mode double page normal
+                usePortrait={isMobile} // Mode simple page sur mobile, double page sur desktop
               >
                 {/* 
                   IMPORTANT: Logique de rendu des pages

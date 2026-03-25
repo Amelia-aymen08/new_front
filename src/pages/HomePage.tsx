@@ -85,9 +85,9 @@ function WipeImageSection({
       </div>
 
       {/* Scroll Down Arrow (Mouse + Double Arrow) */}
-      <div className="absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center z-20 pointer-events-none opacity-85">
+      <div className="absolute bottom-[8%] md:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center z-30 pointer-events-none opacity-85">
         {/* Mouse Icon */}
-        <div className="w-[16px] h-[26px] md:w-[26px] md:h-[44px] border-[2px] md:border-[3px] border-white/80 rounded-[12px] md:rounded-[18px] flex justify-center pt-[5px] md:pt-[7px] mb-1 md:mb-2 bg-black/10 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+        <div className="w-[20px] h-[32px] md:w-[26px] md:h-[44px] border-[2px] md:border-[3px] border-white/80 rounded-[12px] md:rounded-[18px] flex justify-center pt-[5px] md:pt-[7px] mb-1 md:mb-2 bg-black/10 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.5)]">
           <div className="w-[2px] h-[7px] md:w-[3px] md:h-[10px] bg-[#F7C66A] rounded-full animate-scroll-wheel"></div>
         </div>
         {/* Double Arrows */}

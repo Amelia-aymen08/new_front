@@ -204,7 +204,7 @@ export default function LifestyleSection() {
             <div
               ref={trackRef}
               onTransitionEnd={handleTransitionEnd}
-              className={`flex items-center gap-4 md:gap-6 ease-[cubic-bezier(0.22,0.61,0.36,1)] ${
+              className={`flex items-center gap-4 md:gap-6 ease-[cubic-bezier(0.22,0.61,0.36,1)] touch-pan-y ${
                 isTransitioning ? "transition-transform duration-700" : "duration-0"
               }`}
               style={{ transform: `translateX(${translateX}px)` }}
@@ -223,11 +223,8 @@ export default function LifestyleSection() {
               onPointerMove={(e) => {
                 if (!swipeRef.current.active) return;
                 if (swipeRef.current.pointerId !== e.pointerId) return;
-                const dx = e.clientX - swipeRef.current.startX;
-                const dy = e.clientY - swipeRef.current.startY;
-                if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 6) {
-                  e.preventDefault();
-                }
+                // Sur mobile, eviter de bloquer le scroll natif si l'utilisateur scroll verticalement
+                // Mais s'il swipe horizontalement on empêche le scroll natif (touch-action: pan-y est recommandé en CSS)
               }}
               onPointerUp={(e) => {
                 if (!swipeRef.current.active) return;
@@ -236,6 +233,7 @@ export default function LifestyleSection() {
                 const dy = e.clientY - swipeRef.current.startY;
                 swipeRef.current.active = false;
                 swipeRef.current.pointerId = null;
+                // Si swipe horizontal significatif
                 if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
                   if (dx > 0) handlePrev();
                   else handleNext();

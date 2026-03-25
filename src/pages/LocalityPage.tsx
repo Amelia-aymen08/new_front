@@ -248,7 +248,7 @@ export default function LocalityPage() {
              title: p.title,
              location: p.address || "", // API has 'address'
              description: p.description,
-             image: p.coverImage ? `http://localhost:5000/${p.coverImage}` : "/assets/projets/cyanite.png", // Handle image path
+             image: p.coverImage ? `http://localhost:5000/${p.coverImage}` : "/assets/projets/cyanite.webp", // Handle image path
              lat: p.latitude,
              lng: p.longitude,
              mapLinkUrl: p.mapLinkUrl || undefined, // Map this from API if available
@@ -306,7 +306,7 @@ export default function LocalityPage() {
   const displayTitle = isMobile ? `Découvrez la commune de ${cityOnly}` : `LA COMMUNE DE ${cityOnly}`;
 
   // Get mobile hero image path
-  const mobileHeroImage = `/assets/locality-mobile/${cityOnly.toLowerCase().replace(/ /g, '-')}-mobile.png`;
+  const mobileHeroImage = `/assets/locality-mobile/${cityOnly.toLowerCase().replace(/ /g, '-')}-mobile.webp`;
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-x-hidden">

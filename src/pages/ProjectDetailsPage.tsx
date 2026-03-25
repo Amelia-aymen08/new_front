@@ -476,14 +476,14 @@ function PlansAndLocationWrapper({ plans, location }: { plans: Plan[]; location:
       <div className="flex flex-col rounded-3xl bg-[#052620] p-8 shadow-2xl border border-white/5">
         <h2 className="mb-8 text-2xl font-bold uppercase tracking-wide text-center">TYPOLOGIES</h2>
         
-        <div className="flex flex-col gap-4 justify-center flex-1">
+        <div className="flex flex-col gap-6 justify-center items-center flex-1">
           {sortedPlans.map((p, idx) => (
             <div
               key={idx}
-              className="rounded-xl border border-[#F7C66A]/50 px-6 py-4 text-center transition-all hover:border-[#F7C66A] hover:bg-[#F7C66A]/5 flex items-center justify-center min-h-[60px]"
+              className="w-full max-w-sm rounded-xl border border-[#F7C66A]/50 px-8 py-5 text-center transition-all hover:border-[#F7C66A] hover:bg-[#F7C66A]/5 flex items-center justify-center min-h-[70px]"
             >
-              <span className="text-lg md:text-xl font-medium text-white">
-                <span className="font-bold text-[#F7C66A] mr-2">{p.type}</span> 
+              <span className="text-xl md:text-2xl font-medium text-white">
+                <span className="font-bold text-[#F7C66A] mr-3">{p.type}</span> 
                 {p.area && !String(p.area).toLowerCase().includes("consultable") ? p.area : ""}
               </span>
             </div>

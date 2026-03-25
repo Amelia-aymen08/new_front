@@ -21,9 +21,9 @@ export default function Hero() {
         draggable={false}
       />
       {/* Scroll Down Arrow (Mouse + Double Arrow) */}
-      <div className={`absolute ${isMobile ? "bottom-4" : "bottom-8"} left-1/2 -translate-x-1/2 flex flex-col items-center z-20 pointer-events-none opacity-85`}>
+      <div className={`absolute ${isMobile ? "bottom-[8%]" : "bottom-8"} left-1/2 -translate-x-1/2 flex flex-col items-center z-30 pointer-events-none opacity-85`}>
         {/* Mouse Icon */}
-        <div className={`${isMobile ? "w-[16px] h-[26px] border-[2px] rounded-[12px] pt-[5px] mb-1" : "w-[26px] h-[44px] border-[3px] rounded-[18px] pt-[7px] mb-2"} border-white/80 flex justify-center bg-black/10 backdrop-blur-sm`}>
+        <div className={`${isMobile ? "w-[20px] h-[32px] border-[2px] rounded-[12px] pt-[5px] mb-1" : "w-[26px] h-[44px] border-[3px] rounded-[18px] pt-[7px] mb-2"} border-white/80 flex justify-center bg-black/10 backdrop-blur-sm`}>
           <div className={`${isMobile ? "w-[2px] h-[7px]" : "w-[3px] h-[10px]"} bg-[#F7C66A] rounded-full animate-scroll-wheel`}></div>
         </div>
         {/* Double Arrows */}

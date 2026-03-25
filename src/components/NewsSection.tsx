@@ -166,7 +166,7 @@ export default function NewsSection() {
           </button>
 
           {/* Carousel container */}
-          <div className="overflow-hidden">
+          <div className="overflow-hidden touch-pan-y">
             <div 
               ref={carouselRef}
               onTransitionEnd={handleTransitionEnd}
@@ -184,11 +184,7 @@ export default function NewsSection() {
                 if (!isLoopEnabled) return;
                 if (!swipeRef.current.active) return;
                 if (swipeRef.current.pointerId !== e.pointerId) return;
-                const dx = e.clientX - swipeRef.current.startX;
-                const dy = e.clientY - swipeRef.current.startY;
-                if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 6) {
-                  e.preventDefault();
-                }
+                // Ne pas bloquer le scroll natif
               }}
               onPointerUp={(e) => {
                 if (!isLoopEnabled) return;
@@ -198,6 +194,7 @@ export default function NewsSection() {
                 const dy = e.clientY - swipeRef.current.startY;
                 swipeRef.current.active = false;
                 swipeRef.current.pointerId = null;
+                // Détection d'un swipe horizontal
                 if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
                   if (dx > 0) prevSlide();
                   else nextSlide();

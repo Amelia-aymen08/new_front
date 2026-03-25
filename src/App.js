@@ -75,6 +75,13 @@ function App() {
     document.body.appendChild(s);
   }, []);
 
+  // Script global pour désactiver spécifiquement le widget de chat HubSpot
+  useEffect(() => {
+    window.hsConversationsSettings = {
+      loadImmediately: false
+    };
+  }, []);
+
   return (
     <BrowserRouter>
       {/* Retrait de min-h-screen qui peut parfois causer des conflits de hauteur */}
