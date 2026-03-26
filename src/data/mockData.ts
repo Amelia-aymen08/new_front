@@ -362,7 +362,7 @@ Aymen Promotion Immobilière s'engage à offrir à ses clients un cadre de vie d
     status: "EN COURS",
     isNightMode: false,
 
-    coverImage: "/assets/projets/couvertures/larimar.web",
+    coverImage: "/assets/projets/couvertures/larimar.webp",
     fullDescription: `Idéalement située à Tixeraïne, Birkhadem, la résidence Larimar est une perle rare qui émerge en réponse au succès retentissant de la résidence Aymen, également située à Tixeraïne. Forts de l'engouement rencontré par la résidence Aymen, nous avons pris l'initiative de créer Larimar, une résidence d'exception qui promet un cadre de vie unique.
 
 Dotée de deux parkings souterrains, Larimar assure une expérience résidentielle sans stress. Une vingtaine d’appartements, allant du F3 au F4, sont disponibles et offrent des espaces de vie spacieux, variant de 80 m² à 141 m². Les pièces raffinées allient astucieusement fonctionnalité et bien-être, grâce à un agencement pensé par des experts et à une finition apportée avec minutie. La résidence abrite également en son sein un bloc administratif.
