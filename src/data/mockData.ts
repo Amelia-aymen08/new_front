@@ -324,7 +324,7 @@ Optez pour le confort luxueux de la résidence Séraphinite à Ruisseau et de se
     status: "EN COURS",
     isNightMode: false,
 
-    coverImage: "/assets/projets/couvertures/celestine.webp",
+    coverImage: "/assets/projets/couvertures/celestine.jpg",
     fullDescription: `Aymen Promotion Immobilière lance son premier projet dans la commune dynamique de Bab Ezzouar !
 
 Ce complexe résidentiel arbore un design extérieur résolument contemporain et dynamique, apportant une touche d'élégance à son environnement urbain immédiat, qui lui-même regorge de nombreux attraits. Bab Ezzouar, en tant que pôle d'affaires et de commerce de premier plan, offre une gamme variée de commodités, notamment des centres commerciaux, des restaurants renommés, une multitude d'entreprises, ainsi que plusieurs installations de divertissement et de bien-être.
@@ -369,7 +369,7 @@ Dotée de deux parkings souterrains, Larimar assure une expérience résidentiel
 
 Plongez dans un cadre urbain moderne et élégant, où le confort se marie harmonieusement avec des résidences conçues avec goût, alliant fonctionnalité et esthétique. Larimar incarne l'évolution naturelle de notre engagement envers l'excellence résidentielle, tout en tirant profit des commodités exceptionnelles proposées par la commune de Birkhadem.`,
     gallery: [
-      "/assets/projets/galeries/larimar/01.webp",
+      "/assets/projets/galeries/larimar/1.webp",
       "/assets/projets/galeries/larimar/2.webp",
       "/assets/projets/galeries/larimar/3.webp", 
       "/assets/projets/galeries/larimar/4.webp",
@@ -408,7 +408,7 @@ En plus d’une sécurité optimale assurée 24h/24, deux niveaux souterrains d�
 
 Vivez une expérience résidentielle paisible dans ce projet intimiste, où le calme règne en maître.`,
     gallery: [
-      "/assets/projets/galeries/selenite/01.webp",
+      "/assets/projets/galeries/selenite/1.webp",
       "/assets/projets/galeries/selenite/2.webp",
       "/assets/projets/galeries/selenite/3.webp",
       "/assets/projets/galeries/selenite/4.webp",
@@ -808,7 +808,7 @@ Même si les typologies de ces logements divergent, ils ont en commun une finiti
     image: "/assets/projets/angelite.webp", 
     status: "FINIS",
     isNightMode: true,
-    coverImage: "/assets/projets/couvertures/angelite.webp",   
+    coverImage: "/assets/projets/couvertures/angelite.jpg",   
     fullDescription: `Découvrez la splendeur de la Résidence Angélite, un bijou de l'immobilier signé Aymen Promotion, situé dans la charmante commune de Dar El Beïda.
 
 Des appartements F3 de 70 m² aux somptueux F5 en attique de 207 m², chacun des logements a été pensé pour vous offrir un confort exceptionnel.
@@ -844,7 +844,7 @@ Ce projet immobilier bénéficie d'un emplacement privilégié à proximité de 
     image: "/assets/projets/rubis.webp", 
     status: "FINIS",
     isNightMode: true,
-    coverImage: "/assets/projets/couvertures/rubis.webp",
+    coverImage: "/assets/projets/couvertures/rubis.jpg",
     fullDescription: `Véritable bijou de la promotion immobilière Aymen, la résidence Rubis se situe au niveau de la commune de Oued Romane, dans un quartier à caractère résidentiel, calme et sécurisé.
 
 Cette résidence haut standing, au design épuré, embellit subtilement le tissu urbain environnant et propose des prestations de qualité pour ses habitants. Au sein de la résidence, vous bénéficiez d’une sécurité garantie 24h/24, d’accès par ascenseur à tous les paliers à partir du parking, ainsi que de l’entretien et de la maintenance des équipements et espaces communs au quotidien.
@@ -914,7 +914,7 @@ Chaque détail a été soigneusement pensé pour offrir un confort optimal. Les 
     image: "/assets/projets/el-mordjane.webp", 
     status: "FINIS",
     isNightMode: true,
-    coverImage: "/assets/projets/couvertures/mordjan.webp",
+    coverImage: "/assets/projets/couvertures/mordjan.jpg",
     fullDescription: `Au cœur d'Alger, dans le quartier de Saïd Hamdine, à quelques pas de la prestigieuse rue Sidi Yahia, se dresse fièrement la résidence El Mordjane d’Aymen Promotion Immobilière. Cette résidence propose une sélection variée de logements, allant du F3 de 88 m² au spacieux F5 de 162 m², répondant parfaitement aux besoins divers de sa clientèle exigeante.
 
 Autour de la résidence, on retrouve des lieux de vie élégants tels que des restaurants chics, des cafés branchés et des boutiques haut de gamme, offrant ainsi une expérience urbaine vibrante. L'intérieur de la résidence est conçu avec une finesse et une attention aux détails qui crée un cadre de vie véritablement unique.`,
@@ -998,7 +998,7 @@ Aussi, vous pouvez vivre en toute sérénité en sachant que votre foyer est pro
       "/assets/projets/galeries/coquelicot/4.JPG",
       "/assets/projets/galeries/coquelicot/5.webp",
     ],
-    features: STANDARD_FEATURES,
+    features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique",  ],
     details: [
       { label: "Adresse", value: "Hydra" },
       { label: "Blocs", value: "04" },
