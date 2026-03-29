@@ -37,6 +37,9 @@ export default function Header({ logoSrc = "/logo_original.svg", className = "" 
               alt="Aymen Promotion"
               className={`w-auto transition-all duration-300 ${isScrolled ? "h-10 md:h-12" : "h-12 md:h-14"}`}
               draggable={false}
+              fetchPriority="high"
+              width="200"
+              height="56"
             />
           </Link>
 

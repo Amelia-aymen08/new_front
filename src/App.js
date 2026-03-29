@@ -66,13 +66,18 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const src = "https://js-na1.hs-scripts.com/39983056.js";
-    if (document.querySelector(`script[src="${src}"]`)) return;
-    const s = document.createElement("script");
-    s.src = src;
-    s.async = true;
-    s.defer = true;
-    document.body.appendChild(s);
+    // Retarder le chargement du script HubSpot
+    const timer = setTimeout(() => {
+      const src = "https://js-na1.hs-scripts.com/39983056.js";
+      if (document.querySelector(`script[src="${src}"]`)) return;
+      const s = document.createElement("script");
+      s.src = src;
+      s.async = true;
+      s.defer = true;
+      document.body.appendChild(s);
+    }, 5000); // Retard de 5 secondes
+
+    return () => clearTimeout(timer);
   }, []);
 
   // Script global pour désactiver spécifiquement le widget de chat HubSpot
