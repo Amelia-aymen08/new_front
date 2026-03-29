@@ -74,7 +74,7 @@ export const PROJECTS: Project[] = [
     details: [
       { label: "Adresse", value: "Alger" },
       { label: "Blocs", value: "02" },
-      { label: "État d'avancement", value: "0 %" },
+      { label: "État d'avancement", value: "1 %" },
     ],
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3195.8987225432584!2d3.0117632999999997!3d36.772997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb1001d3fccbd%3A0x7b39d683a56f93b5!2sR%C3%A9sidence%20Alth%C3%A9a%2C%20Aymen%20Promotion!5e0!3m2!1sfr!2sdz!4v1774041984311!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/jpB7DcvNSNMBdS4j6",
@@ -111,7 +111,7 @@ export const PROJECTS: Project[] = [
     details: [
       { label: "Adresse", value: "Chéraga" },
       { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "10 %" },
+      { label: "État d'avancement", value: "30 %" },
     ],
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3196.23760280708!2d2.974886876268521!3d36.76486706968977!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb10040bbf7a5%3A0xce81910a714b5a2!2sR%C3%A9sidence%20cyanite%20Aymen%20promotion%20immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774041626213!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/Uq6w6fmFtPx9jqVh8",
@@ -149,7 +149,7 @@ export const PROJECTS: Project[] = [
     details: [
       { label: "Adresse", value: "Kouba" },
       { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "10 %" },
+      { label: "État d'avancement", value: "30 %" },
     ],
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.7363195114867!2d3.078613776267278!3d36.728893471715274!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad7bb83c8ea5%3A0x50a7ffdd575e55c4!2sR%C3%A9sidence%20Azurite%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774042127769!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/yRphs45tYaWyNTye8",
@@ -183,7 +183,7 @@ export const PROJECTS: Project[] = [
     details: [
       { label: "Adresse", value: "El Achour" },
       { label: "Blocs", value: "02" },
-      { label: "État d'avancement", value: "76 %" },
+      { label: "État d'avancement", value: "86 %" },
     ],
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.4521053162093!2d3.0047102762675215!3d36.735717771331124!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf6f323ad649%3A0x486fb2be25922103!2sR%C3%A9sidence%20Agate%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774042714270!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/XMJv7AKvSifAYDCLA",
@@ -222,7 +222,7 @@ La Résidence Amétrine se distingue également par sa situation géographique s
     details: [
       { label: "Adresse", value: "Said Hamdine" },
       { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "79 %" },
+      { label: "État d'avancement", value: "85 %" },
     ],
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.464692113453!2d3.030681076267498!3d36.73541557134814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad14f143aacd%3A0x8cdae64c5b935328!2sR%C3%A9sidence%20Am%C3%A9trine%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774042805526!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/hbDKZQBrtYuqscnQA",
@@ -302,7 +302,7 @@ Optez pour le confort luxueux de la résidence Séraphinite à Ruisseau et de se
     details: [
       { label: "Adresse", value: "Ruisseau" },
       { label: "Blocs", value: "03" },
-      { label: "État d'avancement", value: "63 %" },
+      { label: "État d'avancement", value: "73 %" },
     ],
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.045189812168!2d3.0798578762678632!3d36.7454863707811!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb3aa2c424905%3A0xec2b8f2e7c25b4c2!2sR%C3%A9sidence%20S%C3%A9raphinite%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774042946095!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/ZJcFqx35UEMvZxix7",
@@ -380,7 +380,7 @@ Plongez dans un cadre urbain moderne et élégant, où le confort se marie harmo
     details: [
       { label: "Adresse", value: "Tixeraïne" },
       { label: "Blocs", value: "02" },
-      { label: "État d'avancement", value: "71 %" },
+      { label: "État d'avancement", value: "84 %" },
     ],
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.1853190337097!2d3.031054276266902!3d36.718110272322065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad0b0eb287fb%3A0xe8b6e1c1a9628bb3!2sR%C3%A9sidence%20Larimar%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774043074220!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/boZbn72ew8LqyJv88",
@@ -458,7 +458,7 @@ En définitive, la résidence Diar El Amane est une allégorie de l’art de viv
     details: [
       { label: "Adresse", value: "Birkhadem" },
       { label: "Blocs", value: "04" },
-      { label: "État d'avancement", value: "94 %" },
+      { label: "État d'avancement", value: "96 %" },
     ],
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.8717491506304!2d3.049064176267157!3d36.72564127189821!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fadb0f0a065d5%3A0xd3f3d2aa088a3be5!2sR%C3%A9sidence%20Diar%20El%20Amane%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774043858867!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/PWdWuSaFd3phn6c37",
