@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import HTMLFlipBook from "react-pageflip";
 import { motion, AnimatePresence } from "framer-motion";
 import { Document, Page as PdfPage, pdfjs } from "react-pdf";
 import Header from "../components/Header";

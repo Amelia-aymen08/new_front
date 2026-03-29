@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
-import HTMLFlipBook from "react-pageflip";
 import { motion, AnimatePresence } from "framer-motion";
 import { Document, Page as PdfPage, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { PDF_WORKER_URL } from "../config";
 
-pdfjs.GlobalWorkerOptions.workerSrc = PDF_WORKER_URL;
+// Pour éviter l'erreur "Cannot access uninitialized variable" ou des soucis de lazy loading avec react-pageflip
+import HTMLFlipBook from "react-pageflip";
+
+// Utilisation d'un CDN fiable pour le worker PDF pour éviter l'erreur MIME type local
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
 
 interface Magazine {
   id: string;
@@ -143,13 +145,13 @@ const ReaderModal = ({ mag, onClose }: { mag: Magazine; onClose: () => void }) =
   const bookRef = useRef<any>(null);
   const [numPages, setNumPages] = useState<number>(mag.pages);
   const [isPdfLoaded, setIsPdfLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Taille pour le format A3 coupé en deux (A4)
   const [pageSize, setPageSize] = useState<{ w: number; h: number }>({
     w: 420,
     h: Math.round(420 * A4_RATIO),
   });
-  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const compute = () => {
@@ -162,8 +164,8 @@ const ReaderModal = ({ mag, onClose }: { mag: Magazine; onClose: () => void }) =
       const maxBookW = window.innerWidth - paddingW;
       const maxBookH = window.innerHeight - paddingH;
 
-      // Sur desktop, on affiche 2 pages (A4) côte à côte, donc la largeur du livre est divisée par 2
-      // Sur mobile, on affiche 1 seule page (A4) à la fois (mode portrait forcé par usePortrait=true)
+      // On veut que chaque page du flipbook soit un A4 (ratio ~1.414)
+      // La largeur d'une page A4 doit être la moitié de la largeur max disponible sur desktop, et la largeur entière sur mobile
       const divisor = isMob ? 1 : 2;
       const maxPageWFromWidth = Math.floor(maxBookW / divisor);
 
@@ -331,7 +333,7 @@ const ReaderModal = ({ mag, onClose }: { mag: Magazine; onClose: () => void }) =
                   );
                 })}
               </HTMLFlipBook>
-            )}
+            )} 
           </Document>
         ) : null}
 

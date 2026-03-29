@@ -1,21 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 import HomePage from "./pages/HomePage";
-import ProjectsPage from "./pages/ProjectsPage";
-import ProjectDetailsPage from "./pages/ProjectDetailsPage";
-import LocalityPage from "./pages/LocalityPage";
-import AboutPage from "./pages/AboutPage";
-import BlogPage from "./pages/BlogPage";
-import BlogPostPage from "./pages/BlogPostPage";
 import IntroHero from "./components/IntroHero";
-import CareersPage from "./pages/CareersPage";
-import AymagPage from "./pages/AymagPage";
-import CataloguePage from "./pages/CataloguePage";
-import ContactPage from "./pages/ContactPage";
 import StickyContactBar from "./components/StickyContactBar";
-import TermsPage from "./pages/TermsPage";
-import PrivacyPage from "./pages/PrivacyPage";
+
+// Lazy loading the other routes to reduce initial bundle size
+const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
+const ProjectDetailsPage = lazy(() => import("./pages/ProjectDetailsPage"));
+const LocalityPage = lazy(() => import("./pages/LocalityPage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const BlogPage = lazy(() => import("./pages/BlogPage"));
+const BlogPostPage = lazy(() => import("./pages/BlogPostPage"));
+const CareersPage = lazy(() => import("./pages/CareersPage"));
+const AymagPage = lazy(() => import("./pages/AymagPage"));
+const CataloguePage = lazy(() => import("./pages/CataloguePage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const TermsPage = lazy(() => import("./pages/TermsPage"));
+const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
+
+// Loading component for lazy routes
+const LoadingFallback = () => (
+  <div className="flex h-screen items-center justify-center bg-[#031B17]">
+    <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+  </div>
+);
+
 function HomeRoute() {
   // On verifie si l'intro a deja ete vue dans la session
   const [introDone, setIntroDone] = useState(() => {
@@ -92,21 +102,23 @@ function App() {
       {/* Retrait de min-h-screen qui peut parfois causer des conflits de hauteur */}
       <div className="relative text-white">
         <StickyContactBar />
-        <Routes>
-          <Route path="/" element={<HomeRoute />} />
-          <Route path="/projets" element={<ProjectsPage />} />
-          <Route path="/projet/:slug" element={<ProjectDetailsPage />} />
-          <Route path="/localite/:slug" element={<LocalityPage />} />
-          <Route path="/a-propos" element={<AboutPage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/:id" element={<BlogPostPage />} />
-          <Route path="/carriere" element={<CareersPage />} />
-          <Route path="/aymag" element={<AymagPage />} />
-          <Route path="/catalogue" element={<CataloguePage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/cgu" element={<TermsPage />} />
-          <Route path="/confidentialite" element={<PrivacyPage />} />
-        </Routes>
+        <Suspense fallback={<LoadingFallback />}>
+          <Routes>
+            <Route path="/" element={<HomeRoute />} />
+            <Route path="/projets" element={<ProjectsPage />} />
+            <Route path="/projet/:slug" element={<ProjectDetailsPage />} />
+            <Route path="/localite/:slug" element={<LocalityPage />} />
+            <Route path="/a-propos" element={<AboutPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:id" element={<BlogPostPage />} />
+            <Route path="/carriere" element={<CareersPage />} />
+            <Route path="/aymag" element={<AymagPage />} />
+            <Route path="/catalogue" element={<CataloguePage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/cgu" element={<TermsPage />} />
+            <Route path="/confidentialite" element={<PrivacyPage />} />
+          </Routes>
+        </Suspense>
       </div>
     </BrowserRouter>
   );

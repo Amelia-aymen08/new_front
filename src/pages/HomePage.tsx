@@ -1,15 +1,23 @@
 // @ts-nocheck
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState, Suspense, lazy } from "react";
+import { Link } from "react-router-dom";
 import Hero from "../components/Hero";
 import WipeStack, { Slide } from "../components/WipeStack";
 import Header from "../components/Header";
-import LifestyleSection from "../components/LifestyleSection";
-import WhyChooseUsSection from "../components/WhyChooseUsSection";
-import NewsSection from "../components/NewsSection";
-import ContactSection from "../components/ContactSection";
-import Footer from "../components/Footer";
 
-import { Link } from "react-router-dom";
+// Lazy load heavy sections of the home page
+const LifestyleSection = lazy(() => import("../components/LifestyleSection"));
+const WhyChooseUsSection = lazy(() => import("../components/WhyChooseUsSection"));
+const NewsSection = lazy(() => import("../components/NewsSection"));
+const ContactSection = lazy(() => import("../components/ContactSection"));
+const Footer = lazy(() => import("../components/Footer"));
+
+// Loading component for home page sections
+const SectionLoader = () => (
+  <div className="flex h-[200px] w-full items-center justify-center">
+    <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
+  </div>
+);
 
 // Exemple de sections wipe (tes images sont dans /sections/1.png, 2.png, 3.png)
 function WipeImageSection({
@@ -270,21 +278,23 @@ export default function HomePage() {
       
       {/* Nouvelles sections apres le scroll wipe */}
       <div className="relative z-10 bg-[#031B17] w-full overflow-x-hidden">
-        <FadeOnScroll delay={120}>
-          <LifestyleSection />
-        </FadeOnScroll>
-        <FadeOnScroll delay={220}>
-          <WhyChooseUsSection />
-        </FadeOnScroll>
-        <FadeOnScroll delay={320}>
-          <NewsSection />
-        </FadeOnScroll>
-        <FadeOnScroll delay={420}>
-          <ContactSection />
-        </FadeOnScroll>
-        <FadeOnScroll delay={520}>
-          <Footer />
-        </FadeOnScroll>
+        <Suspense fallback={<SectionLoader />}>
+          <FadeOnScroll delay={120}>
+            <LifestyleSection />
+          </FadeOnScroll>
+          <FadeOnScroll delay={220}>
+            <WhyChooseUsSection />
+          </FadeOnScroll>
+          <FadeOnScroll delay={320}>
+            <NewsSection />
+          </FadeOnScroll>
+          <FadeOnScroll delay={420}>
+            <ContactSection />
+          </FadeOnScroll>
+          <FadeOnScroll delay={520}>
+            <Footer />
+          </FadeOnScroll>
+        </Suspense>
       </div>
     </main>
   );
