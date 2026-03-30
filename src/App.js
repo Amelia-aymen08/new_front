@@ -76,6 +76,11 @@ function App() {
   }, []);
 
   useEffect(() => {
+    // Ne pas charger HubSpot en local pour éviter de polluer les analytics et les erreurs
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      return;
+    }
+    
     // Retarder le chargement du script HubSpot
     const timer = setTimeout(() => {
       const src = "https://js-na1.hs-scripts.com/39983056.js";
@@ -84,6 +89,7 @@ function App() {
       s.src = src;
       s.async = true;
       s.defer = true;
+      s.crossOrigin = "anonymous";
       document.body.appendChild(s);
     }, 5000); // Retard de 5 secondes
 

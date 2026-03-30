@@ -20,10 +20,12 @@ L.Icon.Default.mergeOptions({
 const createCustomIcon = (isSelected: boolean) => {
     return L.divIcon({
         html: `
-         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.5)); transform: translate(-50%, -100%); transition: transform 0.2s;">
-           <path d="M12 0C7.58 0 4 3.58 4 8C4 13.54 12 24 12 24C12 24 20 13.54 20 8C20 3.58 16.42 0 12 0Z" fill="${isSelected ? '#EA4335' : '#F7C66A'}"/>
-           <circle cx="12" cy="8" r="3.5" fill="white"/>
-         </svg>
+         <div style="position: relative; width: 40px; height: 40px;">
+           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.5)); transform: translate(-50%, -100%); transition: transform 0.2s;">
+             <path d="M12 0C7.58 0 4 3.58 4 8C4 13.54 12 24 12 24C12 24 20 13.54 20 8C20 3.58 16.42 0 12 0Z" fill="${isSelected ? '#EA4335' : '#EA4335'}"/>
+             <circle cx="12" cy="8" r="3.5" fill="white"/>
+           </svg>
+         </div>
         `,
         className: "", // Remove default class to avoid square box
         iconSize: [40, 40],
@@ -254,7 +256,7 @@ export default function LocalityPage() {
              mapLinkUrl: p.mapLinkUrl || undefined, // Map this from API if available
              typology: p.type,
              isNightMode: false,
-             status: "EN COURS" 
+             status: p.status === "FINI" || p.status === "LIVRÉ" ? "FINIS" : "EN COURS" 
            }));
            setDbProjects(mappedProjects);
         } else {

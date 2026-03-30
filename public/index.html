@@ -44,23 +44,62 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link rel="preload" as="image" href="%PUBLIC_URL%/logo_original.svg" fetchpriority="high" />
     
+    <!-- Initialisation immédiate de dataLayer et gtag pour éviter les erreurs "gtag is not defined" -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    </script>
+
     <!-- Meta Pixel Code (Deferred) -->
     <script>
-      setTimeout(function() {
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', 'YOUR_PIXEL_ID'); // Replace with your actual Pixel ID if needed, or if it's injected by a plugin, remove this block
-        fbq('track', 'PageView');
-      }, 4000); // Retard de 4 secondes pour ne pas bloquer le chargement initial
+      if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        setTimeout(function() {
+          !function(f,b,e,v,n,t,s)
+          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', '1774790018113474'); // Pixel ID from previous screenshot
+          fbq('track', 'PageView');
+        }, 4000); // Retard de 4 secondes pour ne pas bloquer le chargement initial
+      }
     </script>
-    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" /></noscript>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1774790018113474&ev=PageView&noscript=1" /></noscript>
     <!-- End Meta Pixel Code -->
+    
+    <!-- Google Tag Manager (Deferred to improve performance) -->
+    <script>
+      if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        setTimeout(function() {
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.crossOrigin="anonymous";j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-N8WKJXBX');
+        }, 3500); // Retard de 3.5 secondes
+      }
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Google Analytics (Deferred) -->
+    <script>
+      if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        setTimeout(function() {
+          var s = document.createElement('script');
+          s.src = "https://www.googletagmanager.com/gtag/js?id=G-6EG5WBEP1J";
+          s.async = true;
+          s.crossOrigin = "anonymous";
+          document.head.appendChild(s);
+          
+          gtag('config', 'G-6EG5WBEP1J'); 
+        }, 3500); // Retard de 3.5 secondes
+      }
+    </script>
+    <!-- End Google Analytics -->
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.

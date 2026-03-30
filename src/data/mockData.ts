@@ -76,6 +76,8 @@ export const PROJECTS: Project[] = [
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "1 %" },
     ],
+    lat: 36.772,
+    lng: 3.011,
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3195.8987225432584!2d3.0117632999999997!3d36.772997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb1001d3fccbd%3A0x7b39d683a56f93b5!2sR%C3%A9sidence%20Alth%C3%A9a%2C%20Aymen%20Promotion!5e0!3m2!1sfr!2sdz!4v1774041984311!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/jpB7DcvNSNMBdS4j6",
     plans: [
@@ -91,8 +93,8 @@ export const PROJECTS: Project[] = [
     location: "Chéraga, Alger",
     description: "Fort du succès de notre première résidence Pyrite, nous repoussons encore les limites du raffinement...",
     image: "/assets/projets/cyanite.webp", 
-    lat: 36.765, 
-    lng: 2.977,
+    lat: 36.7648, 
+    lng: 2.9748,
     status: "EN COURS",
     isNightMode: false,
     
@@ -185,6 +187,8 @@ export const PROJECTS: Project[] = [
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "86 %" },
     ],
+    lat: 36.735,
+    lng: 3.004,
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.4521053162093!2d3.0047102762675215!3d36.735717771331124!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf6f323ad649%3A0x486fb2be25922103!2sR%C3%A9sidence%20Agate%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774042714270!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/XMJv7AKvSifAYDCLA",
     plans: [
@@ -224,6 +228,8 @@ La Résidence Amétrine se distingue également par sa situation géographique s
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "85 %" },
     ],
+    lat: 36.7354,
+    lng: 3.0306,
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.464692113453!2d3.030681076267498!3d36.73541557134814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad14f143aacd%3A0x8cdae64c5b935328!2sR%C3%A9sidence%20Am%C3%A9trine%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774042805526!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/hbDKZQBrtYuqscnQA",
     plans: [
@@ -238,6 +244,8 @@ La Résidence Amétrine se distingue également par sa situation géographique s
     id: 5,
     title: "CORNALINE",
     location: "Hydra, Alger",
+    lat: 36.743,
+    lng: 3.036,
     description: "Érigée au cœur de la commune de Hydra, la résidence Cornaline dévoile ses atouts...",
     image: "/assets/projets/cornaline.webp",
     status: "EN COURS",
@@ -304,6 +312,8 @@ Optez pour le confort luxueux de la résidence Séraphinite à Ruisseau et de se
       { label: "Blocs", value: "03" },
       { label: "État d'avancement", value: "73 %" },
     ],
+    lat: 36.7454,
+    lng: 3.0798,
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.045189812168!2d3.0798578762678632!3d36.7454863707811!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb3aa2c424905%3A0xec2b8f2e7c25b4c2!2sR%C3%A9sidence%20S%C3%A9raphinite%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774042946095!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/ZJcFqx35UEMvZxix7",
     plans: [
@@ -343,6 +353,8 @@ Aymen Promotion Immobilière s'engage à offrir à ses clients un cadre de vie d
       { label: "Blocs", value: "07" },
       { label: "État d'avancement", value: "71 %" },
     ],
+    lat: 36.7350,
+    lng: 3.1908,
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.479402976189!2d3.1908907762674947!3d36.73506237136796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e51de8836bb85%3A0xa2c5507a03025529!2sR%C3%A9sidence%20C%C3%A9lestine%20-%20aymen%20promotion%20immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774043007067!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/cZBVhmJPB7GyRP5n9",
     plans: [
@@ -382,6 +394,8 @@ Plongez dans un cadre urbain moderne et élégant, où le confort se marie harmo
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "84 %" },
     ],
+    lat: 36.7181,
+    lng: 3.0310,
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.1853190337097!2d3.031054276266902!3d36.718110272322065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad0b0eb287fb%3A0xe8b6e1c1a9628bb3!2sR%C3%A9sidence%20Larimar%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774043074220!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/boZbn72ew8LqyJv88",
     plans: [
@@ -422,6 +436,8 @@ Vivez une expérience résidentielle paisible dans ce projet intimiste, où le c
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
+    lat: 36.7206,
+    lng: 3.0474,
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.0780094888632!2d3.047403876267012!3d36.72068767217687!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad91dcbed98d%3A0xf66b2423dbe2ae65!2sR%C3%A9sidence%20S%C3%A9l%C3%A9nite%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774043128432!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/8TaPdKNP2uKAY4n86",
     plans: [
@@ -460,6 +476,8 @@ En définitive, la résidence Diar El Amane est une allégorie de l’art de viv
       { label: "Blocs", value: "04" },
       { label: "État d'avancement", value: "96 %" },
     ],
+    lat: 36.72564127189821,
+    lng: 3.049064176267157,
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.8717491506304!2d3.049064176267157!3d36.72564127189821!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fadb0f0a065d5%3A0xd3f3d2aa088a3be5!2sR%C3%A9sidence%20Diar%20El%20Amane%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774043858867!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/PWdWuSaFd3phn6c37",
     plans: [
@@ -500,7 +518,9 @@ En plus de profiter d’une mobilité aisée et rapide au quotidien, les habitan
       { label: "État d'avancement", value: "100 %" },
       
     ],
-     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d51139.59996388404!2d2.900291548632811!3d36.7651695!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb1a012718dbf%3A0x6b5b59f84fd539d8!2sR%C3%A9sidence%20Pyrite%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774043957032!5m2!1sfr!2sdz",
+     lat: 36.7651695,
+    lng: 2.900291548632811,
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d51139.59996388404!2d2.900291548632811!3d36.7651695!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb1a012718dbf%3A0x6b5b59f84fd539d8!2sR%C3%A9sidence%20Pyrite%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774043957032!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/mLXTZtLCnc811PKA9",
     plans: [
         { type: "F2", area: "de 41 m² à 68 m²" },
@@ -539,7 +559,9 @@ Que vous recherchiez de vastes espaces intérieurs ou un appartement de taille m
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
-     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.018090026358!2d3.0124101762670312!3d36.722126772095976!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf4dd21a4553%3A0x4831d5f8c5a69072!2sR%C3%A9sidence%20Jais%20-%20Aymen%20promotion%20immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044178547!5m2!1sfr!2sdz",
+     lat: 36.722126772095976,
+    lng: 3.0124101762670312,
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.018090026358!2d3.0124101762670312!3d36.722126772095976!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf4dd21a4553%3A0x4831d5f8c5a69072!2sR%C3%A9sidence%20Jais%20-%20Aymen%20promotion%20immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044178547!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/rk9PbuRArnoxquB1A",
     plans: [
         { type: "Duplex", area: "de 133 m² à 226 m²" },
@@ -575,7 +597,9 @@ Cette résidence offre également toutes les commodités essentielles pour une v
       { label: "Blocs", value: "04" },
       { label: "État d'avancement", value: "100 %" },
     ],
-     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.745460188751!2d2.989030776266416!3d36.70465407307895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf2c739b35a5%3A0x3192e8819a499890!2sR%C3%A9sidence%20Les%20Cr%C3%AAtes%20-%20aymen%20promotion!5e0!3m2!1sfr!2sdz!4v1774044224869!5m2!1sfr!2sdz",
+     lat: 36.70465407307895,
+    lng: 2.989030776266416,
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.745460188751!2d2.989030776266416!3d36.70465407307895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf2c739b35a5%3A0x3192e8819a499890!2sR%C3%A9sidence%20Les%20Cr%C3%AAtes%20-%20aymen%20promotion!5e0!3m2!1sfr!2sdz!4v1774044224869!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/t7mirZ4wCvr8FDPd6",
     plans: [
         { type: "F2", area: "de 41 m² à 70 m²" },
@@ -607,7 +631,9 @@ Cette résidence d'exception se compose de 14 appartements, allant du F2 au F7 e
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
-     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.4997655752104!2d3.054970976267499!3d36.734573471395414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad271494c921%3A0x7bcfde55e4d25c10!2sR%C3%A9sidence%20Turquoise%20-%20Aymen%20Promotion!5e0!3m2!1sfr!2sdz!4v1774044268787!5m2!1sfr!2sdz",
+     lat: 36.734573471395414,
+    lng: 3.054970976267499,
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.4997655752104!2d3.054970976267499!3d36.734573471395414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad271494c921%3A0x7bcfde55e4d25c10!2sR%C3%A9sidence%20Turquoise%20-%20Aymen%20Promotion!5e0!3m2!1sfr!2sdz!4v1774044268787!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/H8M8mpQJkkHg8oV48",
     plans: [
         { type: "F2", area: "de 58 m² et 61 m²" },
@@ -639,7 +665,9 @@ Cette résidence d'exception se compose de 14 appartements, allant du F2 au F7 e
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
-     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3196.2855997976017!2d2.9844818762684575!3d36.763715469754665!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb1ec974211b9%3A0xbf573ff6bb5925e4!2sR%C3%A9sidence%20Bois%20des%20Cars%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044506155!5m2!1sfr!2sdz",
+     lat: 36.763715469754665,
+    lng: 2.9844818762684575,
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3196.2855997976017!2d2.9844818762684575!3d36.763715469754665!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb1ec974211b9%3A0xbf573ff6bb5925e4!2sR%C3%A9sidence%20Bois%20des%20Cars%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044506155!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/atAuFgCQisBMTf4A8",
     plans: [
         { type: "F3", area: "de 105 m² à 112 m²" },
@@ -669,7 +697,9 @@ Idéalement situé à seulement 3 minutes des principaux axes autoroutiers, ce p
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
-     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.1543154030037!2d3.0368419762677465!3d36.74286687092868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad97f3d3ae1b%3A0xf6da9dbeff7dc837!2sR%C3%A9sidence%20P%C3%A9ridot%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044646152!5m2!1sfr!2sdz",
+     lat: 36.74286687092868,
+    lng: 3.0368419762677465,
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.1543154030037!2d3.0368419762677465!3d36.74286687092868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad97f3d3ae1b%3A0xf6da9dbeff7dc837!2sR%C3%A9sidence%20P%C3%A9ridot%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044646152!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/CZTbcy4RMZGhu8YQ9",
     plans: [
         { type: "Duplex", area: "de 147 m² à 188 m²" },
@@ -707,7 +737,9 @@ Chaque résident pourra personnaliser son expérience selon ses préférences. A
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
-     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.1543154030037!2d3.0368419762677465!3d36.74286687092868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb3baed307d15%3A0x4d892b04ec34cd23!2sR%C3%A9sidence%20CORAIL%20-%20Aymen%20promotion%20immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044732026!5m2!1sfr!2sdz",
+     lat: 36.74286687092868,
+    lng: 3.0368419762677465,
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.1543154030037!2d3.0368419762677465!3d36.74286687092868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb3baed307d15%3A0x4d892b04ec34cd23!2sR%C3%A9sidence%20CORAIL%20-%20Aymen%20promotion%20immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044732026!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/VWWCFePkhZv3UUU87",
     plans: [
         { type: "F2", area: "45 m²" },
@@ -747,7 +779,9 @@ Même si les typologies de ces logements divergent, ils ont en commun une finiti
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
-     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.493468146657!2d3.0053718762674935!3d36.73472467138717!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf6906783591%3A0x5031396afe05cbcc!2sR%C3%A9sidence%20Opale%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044834111!5m2!1sfr!2sdz",
+     lat: 36.73472467138717,
+    lng: 3.0053718762674935,
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.493468146657!2d3.0053718762674935!3d36.73472467138717!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf6906783591%3A0x5031396afe05cbcc!2sR%C3%A9sidence%20Opale%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044834111!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/i4qB6Wn2JAF6gUrp8",
     plans: [
         { type: "Duplex", area: "247 m²" },
@@ -789,7 +823,9 @@ Même si les typologies de ces logements divergent, ils ont en commun une finiti
       { label: "Blocs", value: "03" },
       { label: "État d'avancement", value: "100 %" },
     ],
-     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.059926856193!2d3.0473577762669963!3d36.72112197215251!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad0efaaa02b9%3A0xd4de34abc3e7343f!2sR%C3%A9sidence%20Citrine%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044889941!5m2!1sfr!2sdz",
+     lat: 36.72112197215251,
+    lng: 3.0473577762669963,
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.059926856193!2d3.0473577762669963!3d36.72112197215251!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad0efaaa02b9%3A0xd4de34abc3e7343f!2sR%C3%A9sidence%20Citrine%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044889941!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/xPpAs44H9ZmUtsJj6",
     plans: [
         { type: "F2", area: "de 65 m² à 66 m²" },
@@ -827,7 +863,9 @@ Ce projet immobilier bénéficie d'un emplacement privilégié à proximité de 
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
-     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.1499301651847!2d3.2033662762669284!3d36.718960272274174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e519deea7f9c9%3A0x5d53691e933a4ea1!2sR%C3%A9sidence%20Ang%C3%A9lite%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044942560!5m2!1sfr!2sdz",
+     lat: 36.718960272274174,
+    lng: 3.2033662762669284,
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.1499301651847!2d3.2033662762669284!3d36.718960272274174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e519deea7f9c9%3A0x5d53691e933a4ea1!2sR%C3%A9sidence%20Ang%C3%A9lite%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044942560!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/uj2rzGjkhPGNQC2u5",
     plans: [
         { type: "F3", area: "de 70 m² à 114 m²" },
@@ -865,7 +903,9 @@ Que vous recherchiez un espace confortable pour votre vie quotidienne ou un inve
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
-     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.570451849796!2d3.0036080762674042!3d36.7328762714911!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf273876846f%3A0xceb1dfe124bcce47!2sR%C3%A9sidence%20Rubis!5e0!3m2!1sfr!2sdz!4v1774045054805!5m2!1sfr!2sdz",
+     lat: 36.7328762714911,
+    lng: 3.0036080762674042,
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.570451849796!2d3.0036080762674042!3d36.7328762714911!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf273876846f%3A0xceb1dfe124bcce47!2sR%C3%A9sidence%20Rubis!5e0!3m2!1sfr!2sdz!4v1774045054805!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/cyTPJ4zsQdvUo2hi7",
     plans: [
         { type: "F2", area: "de 60 m² à 84 m²" },
@@ -896,7 +936,9 @@ Chaque détail a été soigneusement pensé pour offrir un confort optimal. Les 
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
-     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.4101792275524!2d3.0055608762675385!3d36.73672437127432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fafe307eabde9%3A0x566f03c019a0740c!2sR%C3%A9sidence%20Onyx%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774045117534!5m2!1sfr!2sdz",
+     lat: 36.73672437127432,
+    lng: 3.0055608762675385,
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.4101792275524!2d3.0055608762675385!3d36.73672437127432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fafe307eabde9%3A0x566f03c019a0740c!2sR%C3%A9sidence%20Onyx%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774045117534!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/Pn4oFqrSAeJNovYu5",
     plans: [
         { type: "F2", area: "de 52 m² à 94 m²" },
@@ -927,7 +969,9 @@ Autour de la résidence, on retrouve des lieux de vie élégants tels que des re
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
     ],
-     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.4149566689553!2d3.0287269762675857!3d36.73660967128083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad0060742b89%3A0x24a961e90cc4aa09!2sR%C3%A9sidence%20El%20Mordjane!5e0!3m2!1sfr!2sdz!4v1774045178393!5m2!1sfr!2sdz",
+     lat: 36.73660967128083,
+    lng: 3.0287269762675857,
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.4149566689553!2d3.0287269762675857!3d36.73660967128083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad0060742b89%3A0x24a961e90cc4aa09!2sR%C3%A9sidence%20El%20Mordjane!5e0!3m2!1sfr!2sdz!4v1774045178393!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/1D2GTMH4HNhLXmAk7",
     plans: [
         { type: "F2", area: "71 m²" },
@@ -952,13 +996,13 @@ Cette résidence exceptionnelle s'ouvre sur une vaste réception aux allures hô
 
 Offrant une variété d'options, les appartements de la résidence Aymen s'étendent du F3 de 59 m² à des unités spacieuses de 198 m². En outre, le projet s'engage à assurer confort et praticité en intégrant une crèche et une salle de sport au sein de la résidence, contribuant ainsi à une vie active et épanouissante pour ses résidents.`,
     gallery: [
-      "/assets/projets/galeries/Aymen/1.webp",
-      "/assets/projets/galeries/Aymen/2.webp",
-      "/assets/projets/galeries/Aymen/3.JPG",
-      "/assets/projets/galeries/Aymen/4.JPG",
-      "/assets/projets/galeries/Aymen/5.JPG",
-      "/assets/projets/galeries/Aymen/6.JPG",
-      "/assets/projets/galeries/Aymen/7.JPG",
+      "/assets/projets/galeries/aymen/1.webp",
+      "/assets/projets/galeries/aymen/2.webp",
+      "/assets/projets/galeries/aymen/3.JPG",
+      "/assets/projets/galeries/aymen/4.JPG",
+      "/assets/projets/galeries/aymen/5.JPG",
+      "/assets/projets/galeries/aymen/6.JPG",
+      "/assets/projets/galeries/aymen/7.JPG",
     ],
     features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Creche garderie", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
@@ -966,7 +1010,9 @@ Offrant une variété d'options, les appartements de la résidence Aymen s'éten
       { label: "Blocs", value: "05" },
       { label: "État d'avancement", value: "100 %" },
     ],
-     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.878540766086!2d3.0261116762671247!3d36.72547817190747!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad007a5bd173%3A0x1778cd0831322818!2sResidence%20Aymen%20136%20tixeraine!5e0!3m2!1sfr!2sdz!4v1774045267369!5m2!1sfr!2sdz",
+     lat: 36.72547817190747,
+    lng: 3.0261116762671247,
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.878540766086!2d3.0261116762671247!3d36.72547817190747!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad007a5bd173%3A0x1778cd0831322818!2sResidence%20Aymen%20136%20tixeraine!5e0!3m2!1sfr!2sdz!4v1774045267369!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/mJnV3a9iXrzuVFDE9",
     plans: [
         { type: "Duplex", area: "de 171 m² à 281 m²" },
@@ -1004,7 +1050,9 @@ Aussi, vous pouvez vivre en toute sérénité en sachant que votre foyer est pro
       { label: "Blocs", value: "04" },
       { label: "État d'avancement", value: "100 %" },
     ],
-     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3196.9742118911804!2d3.0176324762678886!3d36.747190070685306!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb3f252322f81%3A0xe6f0a1bfdcd638c5!2sR%C3%A9sidence%20Le%20Coquelicot%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774045320709!5m2!1sfr!2sdz",
+     lat: 36.747190070685306,
+    lng: 3.0176324762678886,
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3196.9742118911804!2d3.0176324762678886!3d36.747190070685306!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb3f252322f81%3A0xe6f0a1bfdcd638c5!2sR%C3%A9sidence%20Le%20Coquelicot%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774045320709!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/ZQJGZtbhoKQMf6Y9A",
     plans: [
         { type: "F3", area: "de 63 m² à 115 m²" },
@@ -1016,7 +1064,7 @@ Aussi, vous pouvez vivre en toute sérénité en sachant que votre foyer est pro
   {
     id: 28,
     title: "PERLA",
-    location: "Dar El Beïda, Alger",
+    location: "Dar El Beida, Alger",
     description: "Aymen Promotion Immobilière, reconnue pour ses résidences...",
     image: "/assets/projets/perla.webp", 
     status: "FINIS",
@@ -1045,7 +1093,9 @@ La résidence offre également une aire de jeu sécurisée pour le divertissemen
       { label: "État d'avancement", value: "100 %" },
      
     ],
-     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.0463866204304!2d3.2043432762670236!3d36.72144717213418!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e5156309178f7%3A0x81ac68e98d3b97c!2sR%C3%A9sidence%20Perla%20Aymen%20Promotion!5e0!3m2!1sfr!2sdz!4v1774045372160!5m2!1sfr!2sdz",
+     lat: 36.72144717213418,
+    lng: 3.2043432762670236,
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.0463866204304!2d3.2043432762670236!3d36.72144717213418!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e5156309178f7%3A0x81ac68e98d3b97c!2sR%C3%A9sidence%20Perla%20Aymen%20Promotion!5e0!3m2!1sfr!2sdz!4v1774045372160!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/ySCxerVwdxEJcFnn9",
     plans: [
         { type: "Duplex", area: "de 222 m² à 310 m²" },
