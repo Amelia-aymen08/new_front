@@ -4,6 +4,7 @@ import "./index.css";
 import HomePage from "./pages/HomePage";
 import IntroHero from "./components/IntroHero";
 import StickyContactBar from "./components/StickyContactBar";
+import CookieBanner from "./components/CookieBanner";
 
 // Lazy loading the other routes to reduce initial bundle size
 const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
@@ -108,6 +109,7 @@ function App() {
       {/* Retrait de min-h-screen qui peut parfois causer des conflits de hauteur */}
       <div className="relative text-white">
         <StickyContactBar />
+        <CookieBanner />
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route path="/" element={<HomeRoute />} />

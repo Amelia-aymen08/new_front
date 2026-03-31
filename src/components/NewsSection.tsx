@@ -16,7 +16,8 @@ export default function NewsSection() {
     startX: number;
     startY: number;
     active: boolean;
-  }>({ pointerId: null, startX: 0, startY: 0, active: false });
+    isDragging: boolean;
+  }>({ pointerId: null, startX: 0, startY: 0, active: false, isDragging: false });
 
   // Récupérer les 6 derniers articles (triés par date)
   const latestBlogs = React.useMemo(() => {
@@ -166,16 +167,23 @@ export default function NewsSection() {
           </button>
 
           {/* Carousel container */}
-          <div className="overflow-hidden touch-pan-y">
+          <div className="overflow-hidden">
             <div 
               ref={carouselRef}
               onTransitionEnd={handleTransitionEnd}
               className={`flex ${isTransitioning ? "transition-transform duration-500 ease-in-out" : ""}`}
-              style={{ transform: `translateX(-${carouselIndex * 100}%)` }}
               onPointerDown={(e) => {
                 if (!isLoopEnabled) return;
-                if (e.pointerType === "mouse" && e.button !== 0) return;
-                swipeRef.current = { pointerId: e.pointerId, startX: e.clientX, startY: e.clientY, active: true };
+                // Désactiver le drag sur desktop (souris) pour éviter les conflits de clic
+                if (e.pointerType === "mouse") return;
+                
+                swipeRef.current = { 
+                  pointerId: e.pointerId, 
+                  startX: e.clientX, 
+                  startY: e.clientY, 
+                  active: true,
+                  isDragging: false
+                };
                 try {
                   (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
                 } catch {}
@@ -184,26 +192,51 @@ export default function NewsSection() {
                 if (!isLoopEnabled) return;
                 if (!swipeRef.current.active) return;
                 if (swipeRef.current.pointerId !== e.pointerId) return;
-                // Ne pas bloquer le scroll natif
+                
+                // Si la souris bouge de plus de 5px, on considère que c'est un "drag" (swipe) et non un clic
+                const dx = Math.abs(e.clientX - swipeRef.current.startX);
+                const dy = Math.abs(e.clientY - swipeRef.current.startY);
+                if (dx > 5 || dy > 5) {
+                  swipeRef.current.isDragging = true;
+                }
               }}
               onPointerUp={(e) => {
                 if (!isLoopEnabled) return;
                 if (!swipeRef.current.active) return;
                 if (swipeRef.current.pointerId !== e.pointerId) return;
+                
                 const dx = e.clientX - swipeRef.current.startX;
                 const dy = e.clientY - swipeRef.current.startY;
+                
+                // Si on a vraiment glissé (drag), on calcule le swipe
+                if (swipeRef.current.isDragging) {
+                  if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+                    if (dx > 0) prevSlide();
+                    else nextSlide();
+                  }
+                }
+                
                 swipeRef.current.active = false;
                 swipeRef.current.pointerId = null;
-                // Détection d'un swipe horizontal
-                if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
-                  if (dx > 0) prevSlide();
-                  else nextSlide();
-                }
+                // On garde isDragging vrai pendant un court instant pour onClickCapture
+                setTimeout(() => {
+                  swipeRef.current.isDragging = false;
+                }, 50);
               }}
               onPointerCancel={() => {
                 swipeRef.current.active = false;
                 swipeRef.current.pointerId = null;
+                swipeRef.current.isDragging = false;
               }}
+              onClickCapture={(e) => {
+                // On empêche le clic UNIQUEMENT si l'utilisateur a fait un "drag" (swipe).
+                // S'il a juste cliqué (isDragging === false), on laisse le clic passer !
+                if (swipeRef.current.isDragging) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }
+              }}
+              style={{ transform: `translateX(-${carouselIndex * 100}%)`, touchAction: 'pan-y' }}
             >
               {/* Grouper les articles par slide */}
               {loopSlidesData.map((slideBlogs, slideIndex) => (
