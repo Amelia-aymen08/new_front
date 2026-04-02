@@ -17,6 +17,7 @@ const CareersPage = lazy(() => import("./pages/CareersPage"));
 const AymagPage = lazy(() => import("./pages/AymagPage"));
 const CataloguePage = lazy(() => import("./pages/CataloguePage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
+const TerrainPage = lazy(() => import("./pages/TerrainPage"));
 const TermsPage = lazy(() => import("./pages/TermsPage"));
 const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
 
@@ -123,6 +124,7 @@ function App() {
             <Route path="/aymag" element={<AymagPage />} />
             <Route path="/catalogue" element={<CataloguePage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/terrain" element={<TerrainPage />} />
             <Route path="/cgu" element={<TermsPage />} />
             <Route path="/confidentialite" element={<PrivacyPage />} />
           </Routes>

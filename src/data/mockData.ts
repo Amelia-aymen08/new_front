@@ -351,7 +351,7 @@ Aymen Promotion Immobilière s'engage à offrir à ses clients un cadre de vie d
     details: [
       { label: "Adresse", value: "Bab Ezzouar" },
       { label: "Blocs", value: "07" },
-      { label: "État d'avancement", value: "71 %" },
+      { label: "État d'avancement", value: "80 %" },
     ],
     lat: 36.7350,
     lng: 3.1908,

@@ -26,6 +26,7 @@ export default function MenuOverlay({ open, onClose }) {
     () => [
       { label: "PROJETS", href: "/projets" },
       { label: "LOCALITÉS", href: "/projets", state: { tab: "LOCALITÉS" } },
+      { label: "TERRAIN", href: "/terrain" },
       { label: "À PROPOS", href: "/a-propos" },
 
       { label: "AYMAG", href: "/aymag" },
