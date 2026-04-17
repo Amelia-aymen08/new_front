@@ -44,6 +44,8 @@ export default function BatimatechPortalPage() {
   const [token, setToken] = useState("");
   const [salesAgent, setSalesAgent] = useState<SalesAgent | null>(null);
   const [projects, setProjects] = useState<ProjectOption[]>([]);
+  const [bookedSlots, setBookedSlots] = useState<string[]>([]);
+  const [slotsLoading, setSlotsLoading] = useState(false);
   const [login, setLogin] = useState<LoginState>({ email: "" });
   const [prospect, setProspect] = useState<ProspectState>({
     prospectLastName: "",
@@ -108,6 +110,29 @@ export default function BatimatechPortalPage() {
     }
   };
 
+  const loadBookedSlots = async (sessionToken: string, date: string) => {
+    if (!date) {
+      setBookedSlots([]);
+      return;
+    }
+    setSlotsLoading(true);
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/batimatech/slots?date=${encodeURIComponent(date)}`, {
+        headers: { Authorization: `Bearer ${sessionToken}` },
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && Array.isArray(data?.bookedSlots)) {
+        setBookedSlots(data.bookedSlots);
+      } else {
+        setBookedSlots([]);
+      }
+    } catch {
+      setBookedSlots([]);
+    } finally {
+      setSlotsLoading(false);
+    }
+  };
+
   const onLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLogin((prev) => ({ ...prev, [name]: value }));
@@ -121,6 +146,15 @@ export default function BatimatechPortalPage() {
       ...(name === "appointmentDate" ? { appointmentSlot: "" } : {}),
     }));
   };
+
+  useEffect(() => {
+    if (!token || !salesAgent) return;
+    if (!prospect.appointmentDate) {
+      setBookedSlots([]);
+      return;
+    }
+    loadBookedSlots(token, prospect.appointmentDate);
+  }, [token, salesAgent, prospect.appointmentDate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -359,9 +393,9 @@ export default function BatimatechPortalPage() {
                     disabled={!prospect.appointmentDate}
                     className="w-full bg-[#0A241F] border border-white/10 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-[#F7C66A] disabled:opacity-50"
                   >
-                    <option value="">Créneau horaire</option>
+                    <option value="">{slotsLoading ? "Chargement..." : "Créneau horaire"}</option>
                     {timeSlots.map((slot) => (
-                      <option key={slot} value={slot}>
+                      <option key={slot} value={slot} disabled={bookedSlots.includes(slot)}>
                         {slot}
                       </option>
                     ))}
