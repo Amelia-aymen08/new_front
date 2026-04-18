@@ -9,11 +9,6 @@ type SalesAgent = {
   email: string;
 };
 
-type ProjectOption = {
-  id: number;
-  title: string;
-};
-
 type LoginState = {
   email: string;
 };
@@ -29,6 +24,25 @@ type ProspectState = {
 };
 
 const STORAGE_KEY = "batimatech_portal_session";
+const PROJECT_TITLES = [
+  "CÉLESTINE",
+  "RUBIS",
+  "CORNALINE",
+  "CITRINE",
+  "SELENITE",
+  "SERAPHINITE",
+  "DIAR EL AMANE",
+  "LES CRÊTES",
+  "JAIS",
+  "OPALE",
+  "LARIMAR",
+  "PYRITE",
+  "AMETRINE",
+  "AGATE",
+  "AZURITE",
+  "CYANITE",
+  "ALTHEA",
+];
 
 function buildTimeSlots() {
   const slots: string[] = [];
@@ -43,7 +57,6 @@ export default function BatimatechPortalPage() {
   const [submitting, setSubmitting] = useState(false);
   const [token, setToken] = useState("");
   const [salesAgent, setSalesAgent] = useState<SalesAgent | null>(null);
-  const [projects, setProjects] = useState<ProjectOption[]>([]);
   const [bookedSlots, setBookedSlots] = useState<string[]>([]);
   const [slotsLoading, setSlotsLoading] = useState(false);
   const [login, setLogin] = useState<LoginState>({ email: "" });
@@ -73,7 +86,6 @@ export default function BatimatechPortalPage() {
       if (result) {
         setToken(savedToken);
         setSalesAgent(result);
-        await loadProjects(savedToken);
       } else {
         localStorage.removeItem(STORAGE_KEY);
       }
@@ -93,20 +105,6 @@ export default function BatimatechPortalPage() {
       return data.salesAgent as SalesAgent;
     } catch {
       return null;
-    }
-  };
-
-  const loadProjects = async (sessionToken: string) => {
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/batimatech/projects`, {
-        headers: { Authorization: `Bearer ${sessionToken}` },
-      });
-      const data = await res.json();
-      if (res.ok && Array.isArray(data?.projects)) {
-        setProjects(data.projects);
-      }
-    } catch (error) {
-      // Keep page usable even if project list fails temporarily.
     }
   };
 
@@ -177,7 +175,6 @@ export default function BatimatechPortalPage() {
       setToken(data.token);
       setSalesAgent(data.salesAgent);
       localStorage.setItem(STORAGE_KEY, data.token);
-      await loadProjects(data.token);
       setStatus({ type: null, message: "" });
     } catch {
       setStatus({ type: "error", message: "Erreur réseau lors de la connexion." });
@@ -190,7 +187,6 @@ export default function BatimatechPortalPage() {
     localStorage.removeItem(STORAGE_KEY);
     setToken("");
     setSalesAgent(null);
-    setProjects([]);
     setStatus({ type: null, message: "" });
   };
 
@@ -371,9 +367,9 @@ export default function BatimatechPortalPage() {
                     className="w-full bg-[#0A241F] border border-white/10 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-[#F7C66A]"
                   >
                     <option value="">Projet Aymen Promotion</option>
-                    {projects.map((project) => (
-                      <option key={project.id} value={project.title}>
-                        {project.title}
+                    {PROJECT_TITLES.map((title) => (
+                      <option key={title} value={title}>
+                        {title}
                       </option>
                     ))}
                   </select>
