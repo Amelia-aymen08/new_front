@@ -366,9 +366,15 @@ export default function BatimatechPortalPage() {
                     onChange={onProspectChange}
                     className="w-full bg-[#0A241F] border border-white/10 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-[#F7C66A]"
                   >
-                    <option value="">Projet Aymen Promotion</option>
+                    <option value="" disabled hidden>
+                      Projet Aymen Promotion
+                    </option>
                     {PROJECT_TITLES.map((title) => (
-                      <option key={title} value={title}>
+                      <option
+                        key={title}
+                        value={title}
+                        style={{ backgroundColor: "#FFFFFF", color: "#031B17" }}
+                      >
                         {title}
                       </option>
                     ))}
