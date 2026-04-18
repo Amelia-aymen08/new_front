@@ -44,6 +44,288 @@ const PROJECT_TITLES = [
   "ALTHEA",
 ];
 
+type DropdownOption = {
+  value: string;
+  label: string;
+  disabled?: boolean;
+};
+
+function ChevronDownIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function formatDisplayDate(iso: string) {
+  if (!iso) return "";
+  const [y, m, d] = iso.split("-").map((v) => Number(v));
+  if (!y || !m || !d) return "";
+  return `${String(d).padStart(2, "0")}/${String(m).padStart(2, "0")}/${String(y)}`;
+}
+
+function toISODate(date: Date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+function getMonthStart(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+}
+
+function addMonths(date: Date, delta: number) {
+  return new Date(date.getFullYear(), date.getMonth() + delta, 1);
+}
+
+function getMondayFirstIndex(jsDay: number) {
+  return (jsDay + 6) % 7;
+}
+
+function Dropdown({
+  value,
+  placeholder,
+  options,
+  onChange,
+  disabled,
+}: {
+  value: string;
+  placeholder: string;
+  options: DropdownOption[];
+  onChange: (value: string) => void;
+  disabled?: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function onDocDown(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", onDocDown);
+    return () => document.removeEventListener("mousedown", onDocDown);
+  }, []);
+
+  const selectedLabel = options.find((o) => o.value === value)?.label || "";
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => !disabled && setOpen((v) => !v)}
+        disabled={disabled}
+        className={[
+          "w-full flex items-center justify-between gap-4 rounded-xl px-4 py-3 text-sm outline-none transition-colors",
+          "bg-[#0A241F] border border-white/10 text-white",
+          "focus-visible:border-[#F7C66A]",
+          disabled ? "opacity-50 cursor-not-allowed" : "hover:border-[#F7C66A]/60",
+        ].join(" ")}
+      >
+        <span className={value ? "text-white" : "text-white/50"}>{value ? selectedLabel : placeholder}</span>
+        <span className={open ? "text-[#F7C66A]" : "text-white/60"}>
+          <ChevronDownIcon />
+        </span>
+      </button>
+
+      {open && (
+        <div className="absolute left-0 top-full z-50 mt-2 w-full overflow-hidden rounded-2xl border border-[#F7C66A]/25 bg-[#031B17] shadow-2xl">
+          <div className="max-h-72 overflow-y-auto py-2">
+            {options.map((opt) => (
+              <button
+                key={opt.value}
+                type="button"
+                disabled={Boolean(opt.disabled)}
+                onClick={() => {
+                  if (opt.disabled) return;
+                  onChange(opt.value);
+                  setOpen(false);
+                }}
+                className={[
+                  "w-full px-4 py-2.5 text-left text-sm transition-colors",
+                  opt.disabled ? "text-white/30 cursor-not-allowed" : "text-white hover:bg-[#F7C66A] hover:text-[#031B17]",
+                  opt.value === value && !opt.disabled ? "bg-[#F7C66A]/10 text-[#F7C66A]" : "",
+                ].join(" ")}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function DatePicker({
+  value,
+  onChange,
+  placeholder,
+}: {
+  value: string;
+  onChange: (iso: string) => void;
+  placeholder: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const [month, setMonth] = useState<Date>(() => (value ? getMonthStart(new Date(value)) : getMonthStart(new Date())));
+
+  useEffect(() => {
+    if (value) setMonth(getMonthStart(new Date(value)));
+  }, [value]);
+
+  useEffect(() => {
+    function onDocDown(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", onDocDown);
+    return () => document.removeEventListener("mousedown", onDocDown);
+  }, []);
+
+  const monthNames = useMemo(
+    () => [
+      "janvier",
+      "février",
+      "mars",
+      "avril",
+      "mai",
+      "juin",
+      "juillet",
+      "août",
+      "septembre",
+      "octobre",
+      "novembre",
+      "décembre",
+    ],
+    []
+  );
+
+  const start = getMonthStart(month);
+  const startOffset = getMondayFirstIndex(start.getDay());
+  const cells: Array<{ date: Date; inMonth: boolean }> = [];
+
+  const firstCellDate = new Date(start);
+  firstCellDate.setDate(firstCellDate.getDate() - startOffset);
+
+  for (let i = 0; i < 42; i += 1) {
+    const d = new Date(firstCellDate);
+    d.setDate(firstCellDate.getDate() + i);
+    cells.push({ date: d, inMonth: d.getMonth() === start.getMonth() });
+  }
+
+  const selectedIso = value;
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className={[
+          "w-full flex items-center justify-between gap-4 rounded-xl px-4 py-3 text-sm outline-none transition-colors",
+          "bg-[#0A241F] border border-white/10 text-white hover:border-[#F7C66A]/60 focus-visible:border-[#F7C66A]",
+        ].join(" ")}
+      >
+        <span className={value ? "text-white" : "text-white/50"}>{value ? formatDisplayDate(value) : placeholder}</span>
+        <span className={open ? "text-[#F7C66A]" : "text-white/60"}>
+          <i className="fa-regular fa-calendar" />
+        </span>
+      </button>
+
+      {open && (
+        <div className="absolute left-0 top-full z-50 mt-2 w-full min-w-[280px] overflow-hidden rounded-2xl border border-[#F7C66A]/25 bg-[#031B17] shadow-2xl">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+            <div className="text-sm font-bold uppercase tracking-widest text-[#F7C66A]">
+              {monthNames[start.getMonth()]} {start.getFullYear()}
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setMonth((m) => addMonths(m, -1))}
+                className="h-9 w-9 rounded-full border border-white/10 text-white/80 hover:border-[#F7C66A]/60 hover:text-[#F7C66A] transition-colors"
+              >
+                <i className="fa-solid fa-chevron-left" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setMonth((m) => addMonths(m, 1))}
+                className="h-9 w-9 rounded-full border border-white/10 text-white/80 hover:border-[#F7C66A]/60 hover:text-[#F7C66A] transition-colors"
+              >
+                <i className="fa-solid fa-chevron-right" />
+              </button>
+            </div>
+          </div>
+
+          <div className="p-4">
+            <div className="grid grid-cols-7 gap-1 text-[11px] uppercase tracking-widest text-white/50 mb-2">
+              {["lu", "ma", "me", "je", "ve", "sa", "di"].map((d) => (
+                <div key={d} className="text-center">
+                  {d}
+                </div>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-7 gap-1">
+              {cells.map(({ date, inMonth }) => {
+                const iso = toISODate(date);
+                const isSelected = selectedIso === iso;
+                return (
+                  <button
+                    key={iso}
+                    type="button"
+                    onClick={() => {
+                      onChange(iso);
+                      setOpen(false);
+                    }}
+                    className={[
+                      "h-9 rounded-lg text-sm transition-colors",
+                      inMonth ? "text-white" : "text-white/30",
+                      isSelected ? "bg-[#F7C66A] text-[#031B17] font-bold" : "hover:bg-white/10",
+                    ].join(" ")}
+                  >
+                    {date.getDate()}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="mt-3 flex items-center justify-between">
+              <button
+                type="button"
+                onClick={() => {
+                  onChange("");
+                  setOpen(false);
+                }}
+                className="text-xs uppercase tracking-widest text-white/60 hover:text-white transition-colors"
+              >
+                Effacer
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const todayIso = toISODate(new Date());
+                  onChange(todayIso);
+                  setOpen(false);
+                }}
+                className="text-xs uppercase tracking-widest text-[#F7C66A] hover:text-white transition-colors"
+              >
+                Aujourd’hui
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function buildTimeSlots() {
   const slots: string[] = [];
   for (let hour = 9; hour <= 18; hour += 1) {
@@ -141,7 +423,14 @@ export default function BatimatechPortalPage() {
     setProspect((prev) => ({
       ...prev,
       [name]: value,
-      ...(name === "appointmentDate" ? { appointmentSlot: "" } : {}),
+    }));
+  };
+
+  const setAppointmentDate = (iso: string) => {
+    setProspect((prev) => ({
+      ...prev,
+      appointmentDate: iso,
+      appointmentSlot: "",
     }));
   };
 
@@ -360,48 +649,26 @@ export default function BatimatechPortalPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                  <select
-                    name="projectName"
+                  <Dropdown
                     value={prospect.projectName}
-                    onChange={onProspectChange}
-                    className="w-full bg-[#0A241F] border border-white/10 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-[#F7C66A]"
-                  >
-                    <option value="" disabled hidden>
-                      Projet Aymen Promotion
-                    </option>
-                    {PROJECT_TITLES.map((title) => (
-                      <option
-                        key={title}
-                        value={title}
-                        style={{ backgroundColor: "#FFFFFF", color: "#031B17" }}
-                      >
-                        {title}
-                      </option>
-                    ))}
-                  </select>
-
-                  <input
-                    name="appointmentDate"
-                    type="date"
-                    value={prospect.appointmentDate}
-                    onChange={onProspectChange}
-                    className="w-full bg-[#0A241F] border border-white/10 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-[#F7C66A]"
+                    placeholder="Projet Aymen Promotion"
+                    options={PROJECT_TITLES.map((t) => ({ value: t, label: t }))}
+                    onChange={(v) => setProspect((prev) => ({ ...prev, projectName: v }))}
                   />
 
-                  <select
-                    name="appointmentSlot"
+                  <DatePicker value={prospect.appointmentDate} onChange={setAppointmentDate} placeholder="Date du rendez-vous" />
+
+                  <Dropdown
                     value={prospect.appointmentSlot}
-                    onChange={onProspectChange}
+                    placeholder={slotsLoading ? "Chargement..." : "Créneau horaire"}
                     disabled={!prospect.appointmentDate}
-                    className="w-full bg-[#0A241F] border border-white/10 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-[#F7C66A] disabled:opacity-50"
-                  >
-                    <option value="">{slotsLoading ? "Chargement..." : "Créneau horaire"}</option>
-                    {timeSlots.map((slot) => (
-                      <option key={slot} value={slot} disabled={bookedSlots.includes(slot)}>
-                        {slot}
-                      </option>
-                    ))}
-                  </select>
+                    options={timeSlots.map((slot) => ({
+                      value: slot,
+                      label: bookedSlots.includes(slot) ? `${slot} — Réservé` : slot,
+                      disabled: bookedSlots.includes(slot),
+                    }))}
+                    onChange={(v) => setProspect((prev) => ({ ...prev, appointmentSlot: v }))}
+                  />
                 </div>
 
                 <button
