@@ -83,9 +83,6 @@ export default function ConcoursBatitecEnoncePage() {
                   Télécharger l'énoncé du concours
                   <i className="fa-solid fa-download" />
                 </a>
-                <div className="mt-4 text-xs text-white/55 leading-relaxed">
-                  Si vous ne voyez pas le fichier, remplacez les fichiers PDF dans <span className="text-white/80">public/assets/concours-batitec</span>.
-                </div>
               </div>
             </div>
 
