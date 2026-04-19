@@ -9,10 +9,17 @@ function getCategoryLabel(category: Category) {
   return category === "hotel" ? "Hôtel" : "Villa";
 }
 
-function getDownloadUrl(category: Category) {
-  return category === "hotel"
-    ? "/assets/concours-batitec/enonce-hotel.pdf"
-    : "/assets/concours-batitec/enonce-villa.pdf";
+function getDownloads(category: Category) {
+  if (category === "hotel") {
+    return {
+      pdf: "/assets/concours-batitec/enonce-hotel.pdf",
+      autocad: "/assets/concours-batitec/enonce-hotel.dwg",
+    };
+  }
+  return {
+    pdf: "/assets/concours-batitec/enonce-villa.pdf",
+    autocad: "/assets/concours-batitec/enonce-villa.dwg",
+  };
 }
 
 export default function ConcoursBatitecEnoncePage() {
@@ -30,6 +37,7 @@ export default function ConcoursBatitecEnoncePage() {
   }, [isValidCategory, navigate]);
 
   if (!isValidCategory) return null;
+  const downloads = getDownloads(category);
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-x-hidden">
@@ -75,14 +83,24 @@ export default function ConcoursBatitecEnoncePage() {
               </div>
               <div className="p-6">
                 <div className="text-xs uppercase tracking-[0.22em] text-white/55 mb-2">Téléchargement</div>
-                <a
-                  href={getDownloadUrl(category)}
-                  download
-                  className="inline-flex items-center justify-center gap-3 w-full rounded-full bg-[#F7C66A] px-8 py-3 text-xs font-bold uppercase tracking-widest text-[#031B17] hover:bg-white transition-colors"
-                >
-                  Télécharger l'énoncé du concours
-                  <i className="fa-solid fa-download" />
-                </a>
+                <div className="space-y-3">
+                  <a
+                    href={downloads.pdf}
+                    download
+                    className="inline-flex items-center justify-center gap-3 w-full rounded-full bg-[#F7C66A] px-8 py-3 text-xs font-bold uppercase tracking-widest text-[#031B17] hover:bg-white transition-colors"
+                  >
+                    Télécharger l'énoncé (PDF)
+                    <i className="fa-solid fa-download" />
+                  </a>
+                  <a
+                    href={downloads.autocad}
+                    download
+                    className="inline-flex items-center justify-center gap-3 w-full rounded-full border border-[#F7C66A]/60 bg-transparent px-8 py-3 text-xs font-bold uppercase tracking-widest text-white hover:bg-[#F7C66A] hover:text-[#031B17] transition-colors"
+                  >
+                    Télécharger le fichier AutoCAD
+                    <i className="fa-solid fa-download" />
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -139,4 +157,3 @@ export default function ConcoursBatitecEnoncePage() {
     </div>
   );
 }
-
