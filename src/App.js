@@ -17,6 +17,9 @@ const CareersPage = lazy(() => import("./pages/CareersPage"));
 const AymagPage = lazy(() => import("./pages/AymagPage"));
 const CataloguePage = lazy(() => import("./pages/CataloguePage"));
 const BatimatechPortalPage = lazy(() => import("./pages/BatimatechPortalPage"));
+const ConcoursBatitecPage = lazy(() => import("./pages/ConcoursBatitecPage"));
+const ConcoursBatitecApplyPage = lazy(() => import("./pages/ConcoursBatitecApplyPage"));
+const ConcoursBatitecEnoncePage = lazy(() => import("./pages/ConcoursBatitecEnoncePage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
 const TerrainPage = lazy(() => import("./pages/TerrainPage"));
 const TermsPage = lazy(() => import("./pages/TermsPage"));
@@ -125,6 +128,9 @@ function App() {
             <Route path="/aymag" element={<AymagPage />} />
             <Route path="/catalogue" element={<CataloguePage />} />
             <Route path="/portail-batimatech" element={<BatimatechPortalPage />} />
+            <Route path="/concours-batitec" element={<ConcoursBatitecPage />} />
+            <Route path="/concours-batitec/:category" element={<ConcoursBatitecApplyPage />} />
+            <Route path="/concours-batitec/:category/enonce" element={<ConcoursBatitecEnoncePage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/terrain" element={<TerrainPage />} />
             <Route path="/cgu" element={<TermsPage />} />

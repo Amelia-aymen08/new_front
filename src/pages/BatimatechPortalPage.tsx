@@ -79,6 +79,12 @@ function toISODate(date: Date) {
   return `${y}-${m}-${d}`;
 }
 
+function parseISODate(iso: string) {
+  const [y, m, d] = iso.split("-").map((v) => Number(v));
+  if (!y || !m || !d) return null;
+  return new Date(y, m - 1, d);
+}
+
 function getMonthStart(date: Date) {
   return new Date(date.getFullYear(), date.getMonth(), 1);
 }
@@ -176,10 +182,15 @@ function DatePicker({
 }) {
   const [open, setOpen] = useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
-  const [month, setMonth] = useState<Date>(() => (value ? getMonthStart(new Date(value)) : getMonthStart(new Date())));
+  const [month, setMonth] = useState<Date>(() => {
+    const parsed = value ? parseISODate(value) : null;
+    return parsed ? getMonthStart(parsed) : getMonthStart(new Date());
+  });
 
   useEffect(() => {
-    if (value) setMonth(getMonthStart(new Date(value)));
+    if (!value) return;
+    const parsed = parseISODate(value);
+    if (parsed) setMonth(getMonthStart(parsed));
   }, [value]);
 
   useEffect(() => {
