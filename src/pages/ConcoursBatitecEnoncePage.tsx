@@ -12,13 +12,13 @@ function getCategoryLabel(category: Category) {
 function getDownloads(category: Category) {
   if (category === "hotel") {
     return {
-      pdf: "/assets/concours-batitec/enonce-hotel.pdf",
-      autocad: "/assets/concours-batitec/enonce-hotel.dwg",
+      pdf: "/assets/concours-batitec/ennonce-hotel.pdf",
+      autocad: "/assets/concours-batitec/ennonce-hotel.dwg",
     };
   }
   return {
-    pdf: "/assets/concours-batitec/enonce-villa.pdf",
-    autocad: "/assets/concours-batitec/enonce-villa.dwg",
+    pdf: "/assets/concours-batitec/ennonce-villa.pdf",
+    autocad: "/assets/concours-batitec/ennonce-villa.dwg",
   };
 }
 
@@ -58,7 +58,7 @@ export default function ConcoursBatitecEnoncePage() {
             <div>
               <div className="text-xs uppercase tracking-[0.22em] text-white/55 mb-2">Concours — {getCategoryLabel(category)}</div>
               <h1 className="text-2xl md:text-4xl font-bold uppercase tracking-wide text-[#F7C66A]">
-                1er Concours d’Architecture
+                 Concours d’Architecture
               </h1>
             </div>
             <Link
@@ -105,6 +105,13 @@ export default function ConcoursBatitecEnoncePage() {
             </div>
 
             <div className="lg:col-span-3 rounded-3xl border border-white/10 bg-[#0C2A24]/75 backdrop-blur-md shadow-2xl p-6 md:p-10">
+              <div className="mb-6 rounded-2xl border border-[#F7C66A]/25 bg-[#031B17]/35 px-5 py-4 text-sm text-white/80">
+                Veuillez envoyer vos participation à l'adresse :{" "}
+                <a href="mailto:concours@aymenpromotion.com" className="text-[#F7C66A] hover:text-white transition-colors">
+                  concours@aymenpromotion.com
+                </a>{" "}
+                avant le dernier délai fixé le : <span className="text-[#F7C66A] font-bold">20-05-2026</span>
+              </div>
               {category === "hotel" ? (
                 <div className="space-y-6">
                   <h2 className="text-xl md:text-2xl font-bold uppercase tracking-wide text-white">
