@@ -28,7 +28,7 @@ export default function ConcoursBatitecPage() {
               Batitec
             </span>
             <h1 className="text-2xl md:text-4xl font-bold uppercase tracking-wide">
-              1er Concours d’Architecture
+                Concours d’Architecture
             </h1>
             <p className="mt-4 text-white/70 max-w-3xl mx-auto leading-relaxed">
               Deux volets sont proposés. Choisissez une catégorie pour déposer votre candidature.
