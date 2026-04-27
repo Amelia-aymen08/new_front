@@ -984,7 +984,7 @@ Autour de la résidence, on retrouve des lieux de vie élégants tels que des re
   {
     id: 26,
     title: "Aymen",
-    location: "El Biar, Alger",
+    location: "Birkhadem, Alger",
     description: "Située à proximité de la petite ville Birkhadem...",
     image: "/assets/projets/136.webp", 
     status: "FINIS",
