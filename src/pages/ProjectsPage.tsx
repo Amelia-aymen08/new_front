@@ -468,14 +468,8 @@ export default function ProjectsPage() {
             )}
           </div>
 
-          {/* Right-aligned Sort By (Absolute on desktop) */}
-          <div className="flex items-center justify-center gap-2 text-xs font-medium uppercase tracking-wide text-white/80 md:absolute md:right-0">
-            <span>SORT BY :</span>
-            <button className="flex items-center gap-1 text-white hover:text-[#F7C66A] transition-colors">
-              TOUS
-              <ChevronDownIcon />
-            </button>
-          </div>
+          
+         
         </div>
 
         {/* Grid */}

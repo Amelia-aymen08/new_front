@@ -493,7 +493,7 @@ En définitive, la résidence Diar El Amane est une allégorie de l’art de viv
   {
     id: 11,
     title: "PYRITE",
-    location: "Cheraga, Alger",
+    location: "Chéraga, Alger",
     description: "Située à Dar Diaf, au cœur de la commune de Chéraga...",
     image: "/assets/projets/pyrite.webp",
     status: "FINIS",
@@ -513,7 +513,7 @@ En plus de profiter d’une mobilité aisée et rapide au quotidien, les habitan
     ],
     features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "gestion copropriété", "Salle d'eau"],
     details: [
-      { label: "Adresse", value: "Chéraga" },
+      { label: "Adresse", value: "Cheraga" },
       { label: "Blocs", value: "03" },
       { label: "État d'avancement", value: "100 %" },
       
@@ -839,7 +839,7 @@ Même si les typologies de ces logements divergent, ils ont en commun une finiti
   {
     id: 22,
     title: "ANGÉLITE",
-    location: "Dar El Beïda, Alger",
+    location: "Dar El Beida, Alger",
     description: "Idéalement nichée au coeur de la charmante commune...",
     image: "/assets/projets/angelite.webp", 
     status: "FINIS",
@@ -859,7 +859,7 @@ Ce projet immobilier bénéficie d'un emplacement privilégié à proximité de 
     ],
     features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],
     details: [
-      { label: "Adresse", value: "Dar El Beïda" },
+      { label: "Adresse", value: "Dar El Beida" },
       { label: "Blocs", value: "01" },
       { label: "État d'avancement", value: "100 %" },
     ],
@@ -951,7 +951,7 @@ Chaque détail a été soigneusement pensé pour offrir un confort optimal. Les 
   {
     id: 25,
     title: "EL MORDJANE",
-    location: "Ain Benian, Alger",
+    location: "Said Hamdine, Alger",
     description: "Au cœur d'Alger, dans le quartier de Said Hamdine...",
     image: "/assets/projets/el-mordjane.webp", 
     status: "FINIS",
@@ -1088,7 +1088,7 @@ La résidence offre également une aire de jeu sécurisée pour le divertissemen
     ],
     features: ["Climatisation centralisée", "Abattoir", "Parking de Stationnement", "Reception", "Domotique", "Dressing", "Isolation Phonique", "Bache a eau", "Ascenseur", "Cuisine", "Fenetre", "Groupe electrogene", "Gestion copropriété", "Salle d'eau"],    
     details: [
-      { label: "Adresse", value: "Dar El Beïda" },  
+      { label: "Adresse", value: "Dar El Beida" },  
       { label: "Blocs", value: "02" },
       { label: "État d'avancement", value: "100 %" },
      
