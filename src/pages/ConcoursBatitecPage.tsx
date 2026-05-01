@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
@@ -30,14 +29,13 @@ export default function ConcoursBatitecPage() {
             <h1 className="text-2xl md:text-4xl font-bold uppercase tracking-wide">
                 Concours d’Architecture
             </h1>
-            <p className="mt-4 text-white/70 max-w-3xl mx-auto leading-relaxed">
-              Deux volets sont proposés. Choisissez une catégorie pour déposer votre candidature.
-            </p>
+            <div className="mt-6 inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm text-white/85">
+              Les candidatures ont été clôturées.
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Link
-              to="/concours-batitec/hotel"
+            <div
               className="group relative overflow-hidden rounded-3xl border border-white/10 bg-[#0C2A24]/75 backdrop-blur-md shadow-2xl"
             >
               <div className="absolute inset-0">
@@ -59,15 +57,13 @@ export default function ConcoursBatitecPage() {
                   Concours de concept architectural – Hôtel.
                 </p>
 
-                <div className="mt-7 inline-flex items-center gap-3 rounded-full border border-[#F7C66A]/60 px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-white group-hover:bg-[#F7C66A] group-hover:text-[#031B17] transition-colors">
-                  Déposer candidature
-                  <i className="fa-solid fa-arrow-right" />
+                <div className="mt-7 inline-flex items-center gap-3 rounded-full border border-white/15 px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-white/70">
+                  Candidatures clôturées
                 </div>
               </div>
-            </Link>
+            </div>
 
-            <Link
-              to="/concours-batitec/villa"
+            <div
               className="group relative overflow-hidden rounded-3xl border border-white/10 bg-[#0C2A24]/75 backdrop-blur-md shadow-2xl"
             >
               <div className="absolute inset-0">
@@ -89,12 +85,11 @@ export default function ConcoursBatitecPage() {
                   Conception d’une villa résidentielle (villa collective).
                 </p>
 
-                <div className="mt-7 inline-flex items-center gap-3 rounded-full border border-[#F7C66A]/60 px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-white group-hover:bg-[#F7C66A] group-hover:text-[#031B17] transition-colors">
-                  Déposer candidature
-                  <i className="fa-solid fa-arrow-right" />
+                <div className="mt-7 inline-flex items-center gap-3 rounded-full border border-white/15 px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-white/70">
+                  Candidatures clôturées
                 </div>
               </div>
-            </Link>
+            </div>
           </div>
         </div>
       </section>

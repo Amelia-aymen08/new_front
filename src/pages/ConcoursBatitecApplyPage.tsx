@@ -22,6 +22,7 @@ export default function ConcoursBatitecApplyPage() {
   const category = (params.category || "").toLowerCase() as Category;
 
   const isValidCategory = useMemo(() => category === "hotel" || category === "villa", [category]);
+  const isClosed = true;
 
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{ type: "success" | "error" | null; message: string }>({ type: null, message: "" });
@@ -138,7 +139,12 @@ export default function ConcoursBatitecApplyPage() {
           )}
 
           <div className="rounded-3xl border border-white/10 bg-[#0C2A24]/75 backdrop-blur-md p-6 md:p-10 shadow-2xl">
-            <form onSubmit={onSubmit} className="space-y-7">
+            {isClosed ? (
+              <div className="rounded-2xl border border-white/15 bg-white/5 px-6 py-6 text-center">
+                <div className="text-sm text-white/85">Les candidatures ont été clôturées.</div>
+              </div>
+            ) : (
+              <form onSubmit={onSubmit} className="space-y-7">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <input
                   name="lastName"
@@ -206,7 +212,8 @@ export default function ConcoursBatitecApplyPage() {
               >
                 {loading ? "Envoi..." : "Valider ma candidature"}
               </button>
-            </form>
+              </form>
+            )}
           </div>
         </div>
       </section>
@@ -215,4 +222,3 @@ export default function ConcoursBatitecApplyPage() {
     </div>
   );
 }
-
