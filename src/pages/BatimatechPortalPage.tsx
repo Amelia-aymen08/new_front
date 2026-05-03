@@ -19,8 +19,7 @@ type ProspectState = {
   phone: string;
   email: string;
   projectName: string;
-  appointmentDate: string;
-  appointmentSlot: string;
+  note: string;
 };
 
 const STORAGE_KEY = "batimatech_portal_session";
@@ -65,36 +64,9 @@ function ChevronDownIcon({ className }: { className?: string }) {
   );
 }
 
-function formatDisplayDate(iso: string) {
-  if (!iso) return "";
-  const [y, m, d] = iso.split("-").map((v) => Number(v));
-  if (!y || !m || !d) return "";
-  return `${String(d).padStart(2, "0")}/${String(m).padStart(2, "0")}/${String(y)}`;
-}
-
-function toISODate(date: Date) {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
-}
-
-function parseISODate(iso: string) {
-  const [y, m, d] = iso.split("-").map((v) => Number(v));
-  if (!y || !m || !d) return null;
-  return new Date(y, m - 1, d);
-}
-
-function getMonthStart(date: Date) {
-  return new Date(date.getFullYear(), date.getMonth(), 1);
-}
-
-function addMonths(date: Date, delta: number) {
-  return new Date(date.getFullYear(), date.getMonth() + delta, 1);
-}
-
-function getMondayFirstIndex(jsDay: number) {
-  return (jsDay + 6) % 7;
+function normalizeNote(value: string) {
+  const trimmed = String(value || "").trim();
+  return trimmed.length > 1200 ? trimmed.slice(0, 1200) : trimmed;
 }
 
 function Dropdown({
@@ -171,187 +143,11 @@ function Dropdown({
   );
 }
 
-function DatePicker({
-  value,
-  onChange,
-  placeholder,
-}: {
-  value: string;
-  onChange: (iso: string) => void;
-  placeholder: string;
-}) {
-  const [open, setOpen] = useState(false);
-  const ref = React.useRef<HTMLDivElement>(null);
-  const [month, setMonth] = useState<Date>(() => {
-    const parsed = value ? parseISODate(value) : null;
-    return parsed ? getMonthStart(parsed) : getMonthStart(new Date());
-  });
-
-  useEffect(() => {
-    if (!value) return;
-    const parsed = parseISODate(value);
-    if (parsed) setMonth(getMonthStart(parsed));
-  }, [value]);
-
-  useEffect(() => {
-    function onDocDown(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    }
-    document.addEventListener("mousedown", onDocDown);
-    return () => document.removeEventListener("mousedown", onDocDown);
-  }, []);
-
-  const monthNames = useMemo(
-    () => [
-      "janvier",
-      "février",
-      "mars",
-      "avril",
-      "mai",
-      "juin",
-      "juillet",
-      "août",
-      "septembre",
-      "octobre",
-      "novembre",
-      "décembre",
-    ],
-    []
-  );
-
-  const start = getMonthStart(month);
-  const startOffset = getMondayFirstIndex(start.getDay());
-  const cells: Array<{ date: Date; inMonth: boolean }> = [];
-
-  const firstCellDate = new Date(start);
-  firstCellDate.setDate(firstCellDate.getDate() - startOffset);
-
-  for (let i = 0; i < 42; i += 1) {
-    const d = new Date(firstCellDate);
-    d.setDate(firstCellDate.getDate() + i);
-    cells.push({ date: d, inMonth: d.getMonth() === start.getMonth() });
-  }
-
-  const selectedIso = value;
-
-  return (
-    <div ref={ref} className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className={[
-          "w-full flex items-center justify-between gap-4 rounded-xl px-4 py-3 text-sm outline-none transition-colors",
-          "bg-[#0A241F] border border-white/10 text-white hover:border-[#F7C66A]/60 focus-visible:border-[#F7C66A]",
-        ].join(" ")}
-      >
-        <span className={value ? "text-white" : "text-white/50"}>{value ? formatDisplayDate(value) : placeholder}</span>
-        <span className={open ? "text-[#F7C66A]" : "text-white/60"}>
-          <i className="fa-regular fa-calendar" />
-        </span>
-      </button>
-
-      {open && (
-        <div className="absolute left-0 top-full z-50 mt-2 w-full min-w-[280px] overflow-hidden rounded-2xl border border-[#F7C66A]/25 bg-[#031B17] shadow-2xl">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
-            <div className="text-sm font-bold uppercase tracking-widest text-[#F7C66A]">
-              {monthNames[start.getMonth()]} {start.getFullYear()}
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setMonth((m) => addMonths(m, -1))}
-                className="h-9 w-9 rounded-full border border-white/10 text-white/80 hover:border-[#F7C66A]/60 hover:text-[#F7C66A] transition-colors"
-              >
-                <i className="fa-solid fa-chevron-left" />
-              </button>
-              <button
-                type="button"
-                onClick={() => setMonth((m) => addMonths(m, 1))}
-                className="h-9 w-9 rounded-full border border-white/10 text-white/80 hover:border-[#F7C66A]/60 hover:text-[#F7C66A] transition-colors"
-              >
-                <i className="fa-solid fa-chevron-right" />
-              </button>
-            </div>
-          </div>
-
-          <div className="p-4">
-            <div className="grid grid-cols-7 gap-1 text-[11px] uppercase tracking-widest text-white/50 mb-2">
-              {["lu", "ma", "me", "je", "ve", "sa", "di"].map((d) => (
-                <div key={d} className="text-center">
-                  {d}
-                </div>
-              ))}
-            </div>
-
-            <div className="grid grid-cols-7 gap-1">
-              {cells.map(({ date, inMonth }) => {
-                const iso = toISODate(date);
-                const isSelected = selectedIso === iso;
-                return (
-                  <button
-                    key={iso}
-                    type="button"
-                    onClick={() => {
-                      onChange(iso);
-                      setOpen(false);
-                    }}
-                    className={[
-                      "h-9 rounded-lg text-sm transition-colors",
-                      inMonth ? "text-white" : "text-white/30",
-                      isSelected ? "bg-[#F7C66A] text-[#031B17] font-bold" : "hover:bg-white/10",
-                    ].join(" ")}
-                  >
-                    {date.getDate()}
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="mt-3 flex items-center justify-between">
-              <button
-                type="button"
-                onClick={() => {
-                  onChange("");
-                  setOpen(false);
-                }}
-                className="text-xs uppercase tracking-widest text-white/60 hover:text-white transition-colors"
-              >
-                Effacer
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  const todayIso = toISODate(new Date());
-                  onChange(todayIso);
-                  setOpen(false);
-                }}
-                className="text-xs uppercase tracking-widest text-[#F7C66A] hover:text-white transition-colors"
-              >
-                Aujourd’hui
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function buildTimeSlots() {
-  const slots: string[] = [];
-  for (let hour = 9; hour <= 18; hour += 1) {
-    slots.push(`${String(hour).padStart(2, "0")}:00`);
-  }
-  return slots;
-}
-
 export default function BatimatechPortalPage() {
   const [authLoading, setAuthLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [token, setToken] = useState("");
   const [salesAgent, setSalesAgent] = useState<SalesAgent | null>(null);
-  const [bookedSlots, setBookedSlots] = useState<string[]>([]);
-  const [slotsLoading, setSlotsLoading] = useState(false);
   const [login, setLogin] = useState<LoginState>({ email: "" });
   const [prospect, setProspect] = useState<ProspectState>({
     prospectLastName: "",
@@ -359,12 +155,9 @@ export default function BatimatechPortalPage() {
     phone: "",
     email: "",
     projectName: "",
-    appointmentDate: "",
-    appointmentSlot: "",
+    note: "",
   });
   const [status, setStatus] = useState<{ type: "success" | "error" | null; message: string }>({ type: null, message: "" });
-
-  const timeSlots = useMemo(() => buildTimeSlots(), []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -401,28 +194,6 @@ export default function BatimatechPortalPage() {
     }
   };
 
-  const loadBookedSlots = async (sessionToken: string, date: string) => {
-    if (!date) {
-      setBookedSlots([]);
-      return;
-    }
-    setSlotsLoading(true);
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/batimatech/slots?date=${encodeURIComponent(date)}`, {
-        headers: { Authorization: `Bearer ${sessionToken}` },
-      });
-      const data = await res.json().catch(() => ({}));
-      if (res.ok && Array.isArray(data?.bookedSlots)) {
-        setBookedSlots(data.bookedSlots);
-      } else {
-        setBookedSlots([]);
-      }
-    } catch {
-      setBookedSlots([]);
-    } finally {
-      setSlotsLoading(false);
-    }
-  };
 
   const onLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -436,23 +207,6 @@ export default function BatimatechPortalPage() {
       [name]: value,
     }));
   };
-
-  const setAppointmentDate = (iso: string) => {
-    setProspect((prev) => ({
-      ...prev,
-      appointmentDate: iso,
-      appointmentSlot: "",
-    }));
-  };
-
-  useEffect(() => {
-    if (!token || !salesAgent) return;
-    if (!prospect.appointmentDate) {
-      setBookedSlots([]);
-      return;
-    }
-    loadBookedSlots(token, prospect.appointmentDate);
-  }, [token, salesAgent, prospect.appointmentDate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -499,11 +253,6 @@ export default function BatimatechPortalPage() {
       return;
     }
 
-    if ((prospect.appointmentDate && !prospect.appointmentSlot) || (!prospect.appointmentDate && prospect.appointmentSlot)) {
-      setStatus({ type: "error", message: "Veuillez renseigner le créneau complet (date + heure) ou laisser le rendez-vous vide." });
-      return;
-    }
-
     setSubmitting(true);
     try {
       const res = await fetch(`${API_BASE_URL}/api/batimatech/leads`, {
@@ -528,8 +277,7 @@ export default function BatimatechPortalPage() {
         phone: "",
         email: "",
         projectName: "",
-        appointmentDate: "",
-        appointmentSlot: "",
+        note: "",
       });
     } catch {
       setStatus({ type: "error", message: "Erreur réseau lors de l'enregistrement du prospect." });
@@ -664,26 +412,20 @@ export default function BatimatechPortalPage() {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <Dropdown
                     value={prospect.projectName}
                     placeholder="Projet Aymen Promotion"
                     options={PROJECT_TITLES.map((t) => ({ value: t, label: t }))}
                     onChange={(v) => setProspect((prev) => ({ ...prev, projectName: v }))}
                   />
-
-                  <DatePicker value={prospect.appointmentDate} onChange={setAppointmentDate} placeholder="Date du rendez-vous" />
-
-                  <Dropdown
-                    value={prospect.appointmentSlot}
-                    placeholder={slotsLoading ? "Chargement..." : "Créneau horaire"}
-                    disabled={!prospect.appointmentDate}
-                    options={timeSlots.map((slot) => ({
-                      value: slot,
-                      label: bookedSlots.includes(slot) ? `${slot} — Réservé` : slot,
-                      disabled: bookedSlots.includes(slot),
-                    }))}
-                    onChange={(v) => setProspect((prev) => ({ ...prev, appointmentSlot: v }))}
+                  <textarea
+                    name="note"
+                    value={prospect.note}
+                    onChange={(e) => setProspect((prev) => ({ ...prev, note: normalizeNote(e.target.value) }))}
+                    placeholder="Note"
+                    rows={3}
+                    className="w-full bg-[#0A241F] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-[#F7C66A] outline-none"
                   />
                 </div>
 
