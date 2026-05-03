@@ -494,8 +494,13 @@ export default function BatimatechPortalPage() {
     e.preventDefault();
     setStatus({ type: null, message: "" });
 
-    if (!prospect.prospectLastName || !prospect.prospectFirstName || !prospect.phone || !prospect.appointmentDate || !prospect.appointmentSlot) {
-      setStatus({ type: "error", message: "Veuillez renseigner les champs obligatoires du prospect et du rendez-vous." });
+    if (!prospect.prospectLastName || !prospect.prospectFirstName || !prospect.phone) {
+      setStatus({ type: "error", message: "Veuillez renseigner les champs obligatoires du prospect." });
+      return;
+    }
+
+    if ((prospect.appointmentDate && !prospect.appointmentSlot) || (!prospect.appointmentDate && prospect.appointmentSlot)) {
+      setStatus({ type: "error", message: "Veuillez renseigner le créneau complet (date + heure) ou laisser le rendez-vous vide." });
       return;
     }
 
