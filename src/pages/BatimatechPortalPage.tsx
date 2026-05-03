@@ -65,8 +65,8 @@ function ChevronDownIcon({ className }: { className?: string }) {
 }
 
 function normalizeNote(value: string) {
-  const trimmed = String(value || "").trim();
-  return trimmed.length > 1200 ? trimmed.slice(0, 1200) : trimmed;
+  const raw = typeof value === "string" ? value : "";
+  return raw.length > 1200 ? raw.slice(0, 1200) : raw;
 }
 
 function Dropdown({
