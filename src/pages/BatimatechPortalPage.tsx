@@ -18,7 +18,7 @@ type ProspectState = {
   prospectFirstName: string;
   phone: string;
   email: string;
-  projectName: string;
+  projectNames: string[];
   note: string;
 };
 
@@ -61,6 +61,95 @@ function ChevronDownIcon({ className }: { className?: string }) {
     >
       <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
+  );
+}
+
+function MultiSelectDropdown({
+  value,
+  placeholder,
+  options,
+  onChange,
+}: {
+  value: string[];
+  placeholder: string;
+  options: DropdownOption[];
+  onChange: (value: string[]) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function onDocDown(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", onDocDown);
+    return () => document.removeEventListener("mousedown", onDocDown);
+  }, []);
+
+  const selectedLabels = useMemo(() => {
+    const set = new Set(value);
+    return options.filter((o) => set.has(o.value)).map((o) => o.label);
+  }, [options, value]);
+
+  const display = selectedLabels.length ? selectedLabels.join(", ") : "";
+
+  const toggle = (v: string) => {
+    onChange(value.includes(v) ? value.filter((x) => x !== v) : [...value, v]);
+  };
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className={[
+          "w-full flex items-center justify-between gap-4 rounded-xl px-4 py-3 text-sm outline-none transition-colors",
+          "bg-[#0A241F] border border-white/10 text-white hover:border-[#F7C66A]/60 focus-visible:border-[#F7C66A]",
+        ].join(" ")}
+      >
+        <span className={display ? "text-white" : "text-white/50"}>{display || placeholder}</span>
+        <span className={open ? "text-[#F7C66A]" : "text-white/60"}>
+          <ChevronDownIcon />
+        </span>
+      </button>
+
+      {open && (
+        <div className="absolute left-0 top-full z-50 mt-2 w-full overflow-hidden rounded-2xl border border-[#F7C66A]/25 bg-[#031B17] shadow-2xl">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+            <div className="text-xs uppercase tracking-widest text-white/60">Sélection</div>
+            <button
+              type="button"
+              onClick={() => onChange([])}
+              className="text-xs uppercase tracking-widest text-[#F7C66A] hover:text-white transition-colors"
+            >
+              Effacer
+            </button>
+          </div>
+          <div className="max-h-72 overflow-y-auto py-2">
+            {options.map((opt) => (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => toggle(opt.value)}
+                className="w-full px-4 py-2.5 text-left text-sm transition-colors text-white hover:bg-white/5"
+              >
+                <span className="inline-flex items-center gap-3">
+                  <span
+                    className={[
+                      "h-4 w-4 rounded border border-white/20 flex items-center justify-center",
+                      value.includes(opt.value) ? "bg-[#F7C66A] border-[#F7C66A] text-[#031B17]" : "bg-transparent text-transparent",
+                    ].join(" ")}
+                  >
+                    <i className="fa-solid fa-check text-[10px]" />
+                  </span>
+                  <span>{opt.label}</span>
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -154,7 +243,7 @@ export default function BatimatechPortalPage() {
     prospectFirstName: "",
     phone: "",
     email: "",
-    projectName: "",
+    projectNames: [],
     note: "",
   });
   const [status, setStatus] = useState<{ type: "success" | "error" | null; message: string }>({ type: null, message: "" });
@@ -276,7 +365,7 @@ export default function BatimatechPortalPage() {
         prospectFirstName: "",
         phone: "",
         email: "",
-        projectName: "",
+        projectNames: [],
         note: "",
       });
     } catch {
@@ -413,11 +502,11 @@ export default function BatimatechPortalPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <Dropdown
-                    value={prospect.projectName}
-                    placeholder="Projet Aymen Promotion"
+                  <MultiSelectDropdown
+                    value={prospect.projectNames}
+                    placeholder="Projets Aymen Promotion"
                     options={PROJECT_TITLES.map((t) => ({ value: t, label: t }))}
-                    onChange={(v) => setProspect((prev) => ({ ...prev, projectName: v }))}
+                    onChange={(v) => setProspect((prev) => ({ ...prev, projectNames: v }))}
                   />
                   <textarea
                     name="note"
