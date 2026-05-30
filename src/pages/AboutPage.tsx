@@ -300,7 +300,7 @@ export default function AboutPage() {
         <div className={`absolute top-0 left-0 w-full z-0 ${isMobile ? 'h-[65vh]' : 'h-full'}`}>
           <img 
             src={isMobile ? "/a-propos-mobile.png" : "/a-propos.png"} 
-            alt="A Propos Hero" 
+            alt="Aymen Promotion, 20 ans d'expertise immobilière dans la wilaya d'Alger"
             className={`w-full h-full object-cover ${isMobile ? 'object-center' : 'object-[50%_center]'}`}
           />
           {/* Dark Overlay for text readability */}
@@ -408,7 +408,7 @@ export default function AboutPage() {
              <div className="aspect-[21/9] w-full relative rounded-3xl overflow-hidden shadow-2xl border border-white/5">
                <img 
                  src="/equipe.jpg" 
-                 alt="Notre Equipe" 
+                 alt="Équipe Aymen Promotion — 20 ans d'expertise immobilière à Alger"
                  className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                />
                {/* Gradient Overlay for text readability at bottom */}

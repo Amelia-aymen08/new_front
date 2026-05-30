@@ -194,7 +194,7 @@ export default function BlogPage() {
           <div className="absolute inset-0">
              <img 
                src="/newsletter.png" 
-               alt="Newsletter" 
+               alt="Inscription newsletter Aymen Promotion — Actualités immobilières Alger"
                className="w-full h-full object-cover"
              />
           </div>
@@ -207,7 +207,7 @@ export default function BlogPage() {
             {/* Right Content Section */}
             <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center text-[#031B17]">
                <div className="mb-6 flex flex-col items-start">
-                 <img src="/logo_black.png" alt="Aymen Promotion" className="h-16 mb-2" />
+                 <img src="/logo_black.png" alt="Logo Aymen Promotion, promoteur immobilier Alger depuis 2006" className="h-16 mb-2" />
                  <p className="font-['PhotographSignature'] text-xl text-gray-800 ml-1">Frappez à la Bonne Porte</p>
                </div>
                

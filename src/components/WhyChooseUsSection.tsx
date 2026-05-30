@@ -16,7 +16,7 @@ const stats = [
     id: 2,
     value: (
       <div className="flex items-center justify-center">
-        <img src="/+30.png" alt="+30" className="w-32 h-auto" />
+        <img src="/+30.png" alt="Plus de 30 résidences haut standing réalisées par Aymen Promotion à Alger" className="w-32 h-auto" />
       </div>
     ),
     label: "RÉSIDENCES HAUT STANDING",
@@ -25,7 +25,7 @@ const stats = [
     id: 3,
     value: (
       <div className="flex items-center justify-center">
-        <img src="/+15.png" alt="+15" className="w-28 h-auto" />
+        <img src="/+15.png" alt="Plus de 15 communes prestigieuses couvertes par Aymen Promotion à Alger" className="w-28 h-auto" />
       </div>
     ),
     label: "COMMUNES PRESTIGIEUSES",
@@ -34,7 +34,7 @@ const stats = [
     id: 4,
     value: (
       <div className="flex items-center justify-center">
-        <img src="/+1500.png" alt="+1500" className="w-40 h-auto" />
+        <img src="/+1500.png" alt="Plus de 1500 appartements livrés par Aymen Promotion à Alger" className="w-40 h-auto" />
       </div>
     ),
     label: "APPARTEMENTS LIVRÉS",

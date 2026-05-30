@@ -34,7 +34,7 @@ export default function Header({ logoSrc = "/logo_original.svg", className = "" 
           <Link to="/">
             <img
               src={logoSrc}
-              alt="Aymen Promotion"
+              alt="Aymen Promotion — promoteur immobilier haut de gamme à Alger"
               className={`w-auto transition-all duration-300 ${isScrolled ? "h-10 md:h-12" : "h-12 md:h-14"}`}
               draggable={false}
               fetchPriority="high"

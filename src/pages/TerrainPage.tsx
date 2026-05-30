@@ -162,7 +162,7 @@ export default function TerrainPage() {
 
       <section className="relative w-full">
         <div className="relative h-[72vh] min-h-[520px]">
-          <img src="/hero_terrain.png" alt="Nous achetons votre terrain" className="h-full w-full object-cover object-center" draggable={false} />
+          <img src="/hero_terrain.png" alt="Nous achetons votre terrain à Alger — Contactez Aymen Promotion" className="h-full w-full object-cover object-center" draggable={false} />
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-transparent" />
 
           <div className="absolute inset-0">

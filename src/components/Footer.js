@@ -33,7 +33,7 @@ export default function Footer() {
       <div className="absolute inset-0" />
       <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-16 px-4 py-20 md:flex-row md:items-start md:gap-32 md:px-10 md:py-24">
         <div className={`flex-1 space-y-8 transition-all duration-700 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-          <img src="/logo_original.svg" alt="Aymen Promotion" className="h-14 w-auto" />
+          <img src="/logo_original.svg" alt="Logo Aymen Promotion, promoteur immobilier Alger depuis 2006" className="h-14 w-auto" />
           <h3 className="text-3xl font-semibold leading-tight md:text-4xl">
             Restez au coeur de l'actualité du haut standing
           </h3>

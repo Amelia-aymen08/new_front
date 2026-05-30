@@ -164,7 +164,7 @@ export default function ProjectDetailsPage() {
         
         {projectData.gallery.length > 0 && (
           <FadeInSection delay={300}>
-            <ProjectGallery images={projectData.gallery} />
+            <ProjectGallery images={projectData.gallery} projectName={projectData.title} />
           </FadeInSection>
         )}
         
@@ -368,7 +368,7 @@ function AmenitiesList({ amenities }: { amenities: Amenity[] }) {
   );
 }
 
-function ProjectGallery({ images }: { images: string[] }) {
+function ProjectGallery({ images, projectName }: { images: string[]; projectName: string }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerView, setItemsPerView] = useState(1);
 
@@ -438,9 +438,9 @@ function ProjectGallery({ images }: { images: string[] }) {
                  style={{ width: `${100 / itemsPerView}%` }}
                >
                  <div className="overflow-hidden rounded-xl border border-white/10 shadow-lg group relative aspect-square">
-                    <img 
-                      src={img} 
-                      alt={`Gallery ${idx}`} 
+                    <img
+                      src={img}
+                      alt={`Photo ${idx + 1} — ${projectName}, Aymen Promotion`}
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                  </div>
@@ -534,7 +534,7 @@ function PlansAndLocationWrapper({ plans, location }: { plans: Plan[]; location:
                  onError={(e) => {
                    e.currentTarget.src = "https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1000"; 
                  }}
-                 alt="Localisation" 
+                 alt="Carte de localisation résidence Aymen Promotion Alger"
                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-40" 
                />
                

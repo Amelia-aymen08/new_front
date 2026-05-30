@@ -14,9 +14,10 @@ export default function Hero() {
 
   return (
     <section className="relative h-screen w-full overflow-hidden">
+      <h1 className="sr-only">Promoteur Immobilier Alger — Appartements Haut Standing | Aymen Promotion</h1>
       <img
         src={isMobile ? "/hero-mobile.png" : "/Hero.png"}
-        alt="Aymen Promotion"
+        alt="Résidences haut standing Aymen Promotion à Alger — Hydra, Chéraga, Birkhadem"
         className="absolute inset-0 h-full w-full object-cover object-[50%_60%] hero-zoom-out"
         draggable={false}
       />
