@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
@@ -29,8 +30,8 @@ export default function ConcoursBatitecPage() {
             <h1 className="text-2xl md:text-4xl font-bold uppercase tracking-wide">
                 Concours d’Architecture
             </h1>
-            <div className="mt-6 inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm text-white/85">
-              Les candidatures ont été clôturées.
+            <div className="mt-6 inline-flex items-center justify-center rounded-full border border-[#F7C66A]/40 bg-[#F7C66A]/10 px-6 py-3 text-sm text-[#F7C66A]">
+              Inscriptions ouvertes
             </div>
           </div>
 
@@ -57,9 +58,12 @@ export default function ConcoursBatitecPage() {
                   Concours de concept architectural – Hôtel.
                 </p>
 
-                <div className="mt-7 inline-flex items-center gap-3 rounded-full border border-white/15 px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-white/70">
-                  Candidatures clôturées
-                </div>
+                <Link
+                  to="/concours-batitec/hotel"
+                  className="mt-7 inline-flex items-center gap-3 rounded-full bg-[#F7C66A] px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-[#031B17] hover:bg-white transition-colors"
+                >
+                  Candidater
+                </Link>
               </div>
             </div>
 
@@ -85,9 +89,12 @@ export default function ConcoursBatitecPage() {
                   Conception d’une villa résidentielle (villa collective).
                 </p>
 
-                <div className="mt-7 inline-flex items-center gap-3 rounded-full border border-white/15 px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-white/70">
-                  Candidatures clôturées
-                </div>
+                <Link
+                  to="/concours-batitec/villa"
+                  className="mt-7 inline-flex items-center gap-3 rounded-full bg-[#F7C66A] px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-[#031B17] hover:bg-white transition-colors"
+                >
+                  Candidater
+                </Link>
               </div>
             </div>
           </div>

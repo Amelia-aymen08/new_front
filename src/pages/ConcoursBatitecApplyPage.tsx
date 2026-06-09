@@ -22,7 +22,7 @@ export default function ConcoursBatitecApplyPage() {
   const category = (params.category || "").toLowerCase() as Category;
 
   const isValidCategory = useMemo(() => category === "hotel" || category === "villa", [category]);
-  const isClosed = true;
+  const isClosed = false;
 
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{ type: "success" | "error" | null; message: string }>({ type: null, message: "" });
