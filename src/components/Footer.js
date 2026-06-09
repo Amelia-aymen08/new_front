@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { LOCALITIES } from "../data/mockData";
+import { API_BASE_URL } from "../config";
 
 // Split localities into two columns
 const midPoint = Math.ceil(LOCALITIES.length / 2);
@@ -11,6 +12,30 @@ export default function Footer() {
   const year = new Date().getFullYear();
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
+  const [newsEmail, setNewsEmail] = useState("");
+  const [newsStatus, setNewsStatus] = useState(null);
+  const [newsLoading, setNewsLoading] = useState(false);
+
+  const handleNewsletter = async (e) => {
+    e.preventDefault();
+    if (!newsEmail) return;
+    setNewsLoading(true);
+    setNewsStatus(null);
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/newsletter`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: newsEmail, source: "footer" }),
+      });
+      const data = await res.json().catch(() => ({}));
+      setNewsStatus({ ok: res.ok, message: data.message || (res.ok ? "Inscription réussie !" : "Erreur.") });
+      if (res.ok) setNewsEmail("");
+    } catch {
+      setNewsStatus({ ok: false, message: "Erreur réseau." });
+    } finally {
+      setNewsLoading(false);
+    }
+  };
 
   useEffect(() => {
     const node = ref.current;
@@ -37,14 +62,22 @@ export default function Footer() {
           <h3 className="text-3xl font-semibold leading-tight md:text-4xl">
             Restez au coeur de l'actualité du haut standing
           </h3>
-          <div className="flex items-center gap-3 rounded-lg border border-white/15 bg-white/[0.04] px-4 py-3 text-sm text-white/70 shadow-[0_10px_40px_rgba(0,0,0,0.35)]">
+          <form onSubmit={handleNewsletter} className="flex items-center gap-3 rounded-lg border border-white/15 bg-white/[0.04] px-4 py-3 text-sm text-white/70 shadow-[0_10px_40px_rgba(0,0,0,0.35)]">
             <input
               type="email"
+              value={newsEmail}
+              onChange={(e) => setNewsEmail(e.target.value)}
               placeholder="E-mail"
+              required
               className="w-full bg-transparent text-white placeholder:text-white/55 outline-none"
             />
-            <span className="text-white/70">→</span>
-          </div>
+            <button type="submit" disabled={newsLoading} className="text-white/70 hover:text-[#F7C66A] transition-colors disabled:opacity-50">→</button>
+          </form>
+          {newsStatus && (
+            <p className={`text-xs mt-2 ${newsStatus.ok ? "text-green-400" : "text-red-400"}`}>
+              {newsStatus.message}
+            </p>
+          )}
           <div className="flex items-center gap-6 text-white">
             <a href="https://www.facebook.com/aymenpromotionimmobiliere" className="transition hover:text-[#F7C66A]" aria-label="Facebook">
               <i className="fa-brands fa-facebook-f text-lg" />

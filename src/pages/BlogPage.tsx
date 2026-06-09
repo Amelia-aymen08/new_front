@@ -12,7 +12,31 @@ const STRAPI_URL = config.STRAPI_URL;
 export default function BlogPage() {
   const { blogs, loading, error } = useBlogs();
   const [activeCategory, setActiveCategory] = useState("Tous");
-  const [visibleCount, setVisibleCount] = useState(6); // Pagination start
+  const [visibleCount, setVisibleCount] = useState(6);
+  const [newsEmail, setNewsEmail] = useState("");
+  const [newsStatus, setNewsStatus] = useState<{ ok: boolean; message: string } | null>(null);
+  const [newsLoading, setNewsLoading] = useState(false);
+
+  const handleNewsletter = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newsEmail) return;
+    setNewsLoading(true);
+    setNewsStatus(null);
+    try {
+      const res = await fetch(`${config.API_BASE_URL}/api/newsletter`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: newsEmail, source: "blog" }),
+      });
+      const data = await res.json().catch(() => ({}));
+      setNewsStatus({ ok: res.ok, message: data.message || (res.ok ? "Inscription réussie !" : "Erreur.") });
+      if (res.ok) setNewsEmail("");
+    } catch {
+      setNewsStatus({ ok: false, message: "Erreur réseau." });
+    } finally {
+      setNewsLoading(false);
+    }
+  }; // Pagination start
   const location = useLocation();
 
   useEffect(() => {
@@ -217,16 +241,24 @@ export default function BlogPage() {
                  <span className="font-normal">standing</span>
                </h2>
 
-               <div className="relative w-full max-w-md border border-gray-400 rounded-full">
-                 <input 
-                   type="email" 
-                   placeholder="E-mail" 
+               <form onSubmit={handleNewsletter} className="relative w-full max-w-md border border-gray-400 rounded-full">
+                 <input
+                   type="email"
+                   value={newsEmail}
+                   onChange={(e) => setNewsEmail(e.target.value)}
+                   placeholder="E-mail"
+                   required
                    className="w-full bg-transparent border-none rounded-full py-4 pl-6 pr-14 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-0"
                  />
-                 <button className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-gray-600 hover:text-[#031B17] transition-colors">
-                   <i className="fa-solid fa-arrow-right-long text-xl"></i>
+                 <button type="submit" disabled={newsLoading} className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-gray-600 hover:text-[#031B17] transition-colors disabled:opacity-50">
+                   <i className={`fa-solid ${newsLoading ? "fa-spinner fa-spin" : "fa-arrow-right-long"} text-xl`}></i>
                  </button>
-               </div>
+               </form>
+               {newsStatus && (
+                 <p className={`mt-3 text-sm font-medium ${newsStatus.ok ? "text-green-700" : "text-red-600"}`}>
+                   {newsStatus.message}
+                 </p>
+               )}
             </div>
           </div>
         </motion.div>
