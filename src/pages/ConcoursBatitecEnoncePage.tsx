@@ -110,7 +110,7 @@ export default function ConcoursBatitecEnoncePage() {
                 <a href="mailto:concours@aymenpromotion.com" className="text-[#F7C66A] hover:text-white transition-colors">
                   concours@aymenpromotion.com
                 </a>{" "}
-                avant le dernier délai fixé le : <span className="text-[#F7C66A] font-bold">20-05-2026</span>
+                avant le dernier délai fixé le : <span className="text-[#F7C66A] font-bold">21-06-2025</span>
               </div>
               {category === "hotel" ? (
                 <div className="space-y-6">
