@@ -21,6 +21,7 @@ export type Project = {
   plans?: { type: string; area: string; image?: string }[]; // Plans avec le nouveau format
   mapEmbedUrl?: string; // Lien d'intégration Google Maps (iframe src)
   mapLinkUrl?: string; // Lien direct Google Maps pour le bouton "Voir sur la carte"
+  virtualTourUrl?: string; // Lien visite virtuelle Matterport
 };
 
 export type Locality = {
@@ -827,6 +828,7 @@ Même si les typologies de ces logements divergent, ils ont en commun une finiti
     lng: 3.0473577762669963,
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.059926856193!2d3.0473577762669963!3d36.72112197215251!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad0efaaa02b9%3A0xd4de34abc3e7343f!2sR%C3%A9sidence%20Citrine%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044889941!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/xPpAs44H9ZmUtsJj6",
+    virtualTourUrl: "https://my.matterport.com/show/?m=jVJ2FBifuLw",
     plans: [
         { type: "F2", area: "de 65 m² à 66 m²" },
         { type: "F3", area: "de 81 m² à 114 m²" },

@@ -53,6 +53,7 @@ type ProjectData = {
   gallery: string[];
   plans: { type: string; area: string; image?: string }[];
   location: { mapUrl: string; description: string; mapEmbedUrl?: string };
+  virtualTourUrl?: string;
 };
 
 type Amenity = {
@@ -126,7 +127,8 @@ export default function ProjectDetailsPage() {
       mapUrl: project.mapLinkUrl || `https://www.google.com/maps/search/?api=1&query=${project.lat || 36.7},${project.lng || 3.0}`,
       description: project.location,
       mapEmbedUrl: project.mapEmbedUrl
-    }
+    },
+    virtualTourUrl: project.virtualTourUrl
   };
 
   // Composant pour les plans et la localisation (Ancienne disposition avec placeholders)
@@ -167,7 +169,31 @@ export default function ProjectDetailsPage() {
             <ProjectGallery images={projectData.gallery} projectName={projectData.title} />
           </FadeInSection>
         )}
-        
+
+        {projectData.virtualTourUrl && (
+          <FadeInSection delay={350}>
+            <section className="py-16 px-4 md:px-8">
+              <div className="mx-auto max-w-7xl">
+                <div className="mb-8 text-center">
+                  <span className="font-['PhotographSignature'] text-4xl text-[#F7C66A] block mb-1">Découvrez</span>
+                  <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wide">Visite Virtuelle 360°</h2>
+                </div>
+                <div className="relative w-full overflow-hidden rounded-3xl border border-white/10 shadow-2xl" style={{ paddingBottom: "56.25%" }}>
+                  <iframe
+                    src={projectData.virtualTourUrl}
+                    className="absolute inset-0 h-full w-full"
+                    frameBorder="0"
+                    allowFullScreen
+                    allow="autoplay; fullscreen; web-share; xr-spatial-tracking"
+                    title={`Visite virtuelle ${projectData.title}`}
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            </section>
+          </FadeInSection>
+        )}
+
         {projectData.plans.length > 0 && (
           <FadeInSection delay={400}>
             {renderPlansAndLocation(projectData.plans, projectData.location)}
