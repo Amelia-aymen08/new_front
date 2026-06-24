@@ -564,6 +564,7 @@ Que vous recherchiez de vastes espaces intérieurs ou un appartement de taille m
     lng: 3.0124101762670312,
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.018090026358!2d3.0124101762670312!3d36.722126772095976!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf4dd21a4553%3A0x4831d5f8c5a69072!2sR%C3%A9sidence%20Jais%20-%20Aymen%20promotion%20immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044178547!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/rk9PbuRArnoxquB1A",
+    virtualTourUrl: "https://my.matterport.com/show/?m=szZpWtzGjfw",
     plans: [
         { type: "Duplex", area: "de 133 m² à 226 m²" },
         { type: "F3", area: "de 79 m² à 105 m²" },
@@ -828,7 +829,7 @@ Même si les typologies de ces logements divergent, ils ont en commun une finiti
     lng: 3.0473577762669963,
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.059926856193!2d3.0473577762669963!3d36.72112197215251!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad0efaaa02b9%3A0xd4de34abc3e7343f!2sR%C3%A9sidence%20Citrine%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044889941!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/xPpAs44H9ZmUtsJj6",
-    virtualTourUrl: "https://my.matterport.com/show/?m=jVJ2FBifuLw",
+    virtualTourUrl: "https://my.matterport.com/show/?m=5pLpokLmiqT",
     plans: [
         { type: "F2", area: "de 65 m² à 66 m²" },
         { type: "F3", area: "de 81 m² à 114 m²" },
@@ -909,6 +910,7 @@ Que vous recherchiez un espace confortable pour votre vie quotidienne ou un inve
     lng: 3.0036080762674042,
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.570451849796!2d3.0036080762674042!3d36.7328762714911!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf273876846f%3A0xceb1dfe124bcce47!2sR%C3%A9sidence%20Rubis!5e0!3m2!1sfr!2sdz!4v1774045054805!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/cyTPJ4zsQdvUo2hi7",
+    virtualTourUrl: "https://my.matterport.com/show/?m=5FFwk7yJmJB",
     plans: [
         { type: "F2", area: "de 60 m² à 84 m²" },
         { type: "F3", area: "de 79 m² à 103 m²" },
