@@ -75,7 +75,7 @@ export const PROJECTS: Project[] = [
     details: [
       { label: "Adresse", value: "Alger" },
       { label: "Blocs", value: "02" },
-      { label: "État d'avancement", value: "1 %" },
+      { label: "État d'avancement", value: "Phase Terrassement" },
     ],
     lat: 36.772,
     lng: 3.011,
@@ -114,7 +114,7 @@ export const PROJECTS: Project[] = [
     details: [
       { label: "Adresse", value: "Chéraga" },
       { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "30 %" },
+      { label: "État d'avancement", value: "45 %" },
     ],
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3196.23760280708!2d2.974886876268521!3d36.76486706968977!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb10040bbf7a5%3A0xce81910a714b5a2!2sR%C3%A9sidence%20cyanite%20Aymen%20promotion%20immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774041626213!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/Uq6w6fmFtPx9jqVh8",
@@ -152,7 +152,7 @@ export const PROJECTS: Project[] = [
     details: [
       { label: "Adresse", value: "Kouba" },
       { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "30 %" },
+      { label: "État d'avancement", value: "45 %" },
     ],
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.7363195114867!2d3.078613776267278!3d36.728893471715274!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad7bb83c8ea5%3A0x50a7ffdd575e55c4!2sR%C3%A9sidence%20Azurite%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774042127769!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/yRphs45tYaWyNTye8",
@@ -186,7 +186,7 @@ export const PROJECTS: Project[] = [
     details: [
       { label: "Adresse", value: "El Achour" },
       { label: "Blocs", value: "02" },
-      { label: "État d'avancement", value: "86 %" },
+      { label: "État d'avancement", value: "88 %" },
     ],
     lat: 36.735,
     lng: 3.004,
@@ -227,7 +227,7 @@ La Résidence Amétrine se distingue également par sa situation géographique s
     details: [
       { label: "Adresse", value: "Said Hamdine" },
       { label: "Blocs", value: "01" },
-      { label: "État d'avancement", value: "85 %" },
+      { label: "État d'avancement", value: "87 %" },
     ],
     lat: 36.7354,
     lng: 3.0306,
@@ -311,7 +311,7 @@ Optez pour le confort luxueux de la résidence Séraphinite à Ruisseau et de se
     details: [
       { label: "Adresse", value: "Ruisseau" },
       { label: "Blocs", value: "03" },
-      { label: "État d'avancement", value: "73 %" },
+      { label: "État d'avancement", value: "76 %" },
     ],
     lat: 36.7454,
     lng: 3.0798,
@@ -352,7 +352,7 @@ Aymen Promotion Immobilière s'engage à offrir à ses clients un cadre de vie d
     details: [
       { label: "Adresse", value: "Bab Ezzouar" },
       { label: "Blocs", value: "07" },
-      { label: "État d'avancement", value: "80 %" },
+      { label: "État d'avancement", value: "83 %" },
     ],
     lat: 36.7350,
     lng: 3.1908,
@@ -393,7 +393,7 @@ Plongez dans un cadre urbain moderne et élégant, où le confort se marie harmo
     details: [
       { label: "Adresse", value: "Tixeraïne" },
       { label: "Blocs", value: "02" },
-      { label: "État d'avancement", value: "84 %" },
+      { label: "État d'avancement", value: "86 %" },
     ],
     lat: 36.7181,
     lng: 3.0310,
@@ -475,7 +475,7 @@ En définitive, la résidence Diar El Amane est une allégorie de l’art de viv
     details: [
       { label: "Adresse", value: "Birkhadem" },
       { label: "Blocs", value: "04" },
-      { label: "État d'avancement", value: "96 %" },
+      { label: "État d'avancement", value: "97 %" },
     ],
     lat: 36.72564127189821,
     lng: 3.049064176267157,
@@ -910,7 +910,7 @@ Que vous recherchiez un espace confortable pour votre vie quotidienne ou un inve
     lng: 3.0036080762674042,
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.570451849796!2d3.0036080762674042!3d36.7328762714911!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf273876846f%3A0xceb1dfe124bcce47!2sR%C3%A9sidence%20Rubis!5e0!3m2!1sfr!2sdz!4v1774045054805!5m2!1sfr!2sdz",
     mapLinkUrl: "https://maps.app.goo.gl/cyTPJ4zsQdvUo2hi7",
-    virtualTourUrl: "https://my.matterport.com/show/?m=5FFwk7yJmJB",
+    virtualTourUrl: "https://my.matterport.com/show/?m=7PQKHRdKkTE",
     plans: [
         { type: "F2", area: "de 60 m² à 84 m²" },
         { type: "F3", area: "de 79 m² à 103 m²" },

@@ -244,7 +244,17 @@ function DetailsHero({ data }: { data: ProjectData }) {
                 {data.stats.typologie && <StatBox label="Typologie" value={data.stats.typologie} />}
                 {data.stats.surface && <StatBox label="Surface" value={data.stats.surface} />}
                 <StatBox label="Blocs" value={data.stats.blocs} />
-                <StatBox label="État d'avancement" value={data.stats.progress} />
+                {data.stats.progress === "Phase Terrassement" ? (
+                  <div className="min-w-[140px] rounded-xl bg-[#1a3a2a] px-6 py-4 border border-[#F7C66A]/40 shadow-lg">
+                    <div className="text-[10px] font-medium text-white/70 uppercase tracking-wide mb-1">État d'avancement</div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[#F7C66A] text-lg">🏗️</span>
+                      <span className="text-sm font-bold text-[#F7C66A] uppercase tracking-wide">Phase Terrassement</span>
+                    </div>
+                  </div>
+                ) : (
+                  <StatBox label="État d'avancement" value={data.stats.progress} />
+                )}
               </div>
             </div>
           </div>

@@ -119,6 +119,10 @@ function getProgress(project: Project) {
   return parseInt(details.value.replace(/\D/g, '')) || 0;
 }
 
+function getAvancementValue(project: Project): string | null {
+  return project.details?.find(d => d.label === "État d'avancement")?.value ?? null;
+}
+
 // "Cube" Card for Projects
 function ProjectCard({ project, style }: { project: Project; style?: React.CSSProperties }) {
   return (
@@ -145,16 +149,25 @@ function ProjectCard({ project, style }: { project: Project; style?: React.CSSPr
           {/* Progress Bar */}
           {project.status !== "FINIS" && (
             <div className="mb-6">
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-[10px] font-medium uppercase tracking-wider text-white/60">Avancement</span>
-                <span className="text-[10px] font-bold text-[#F7C66A]">{getProgress(project)}%</span>
-              </div>
-              <div className="h-1 w-full rounded-full bg-white/10">
-                <div 
-                  className="h-full rounded-full bg-[#F7C66A] transition-all duration-1000 ease-out"
-                  style={{ width: `${getProgress(project)}%` }}
-                />
-              </div>
+              {getAvancementValue(project) === "Phase Terrassement" ? (
+                <div className="flex items-center gap-2">
+                  <span className="text-base">🏗️</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#F7C66A]">Phase Terrassement</span>
+                </div>
+              ) : (
+                <>
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-[10px] font-medium uppercase tracking-wider text-white/60">Avancement</span>
+                    <span className="text-[10px] font-bold text-[#F7C66A]">{getProgress(project)}%</span>
+                  </div>
+                  <div className="h-1 w-full rounded-full bg-white/10">
+                    <div
+                      className="h-full rounded-full bg-[#F7C66A] transition-all duration-1000 ease-out"
+                      style={{ width: `${getProgress(project)}%` }}
+                    />
+                  </div>
+                </>
+              )}
             </div>
           )}
         </div>
