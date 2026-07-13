@@ -199,7 +199,7 @@ export default function ContactPage() {
   ];
 
   useEffect(() => {
-    document.title = "Contactez-Nous | Promoteur Immobilier Alger — Aymen Promotion";
+    document.title = "Contact Showroom Alger | Aymen Promotion";
     window.scrollTo(0, 0);
     return () => { document.title = "Aymen Promotion Immobilière"; };
   }, []);

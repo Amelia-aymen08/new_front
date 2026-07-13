@@ -261,7 +261,7 @@ function ValueIcon6() { // Confiance & transparence
 
 export default function AboutPage() {
   useEffect(() => {
-    document.title = "À Propos — 20 Ans d'Expertise Immobilière à Alger | Aymen Promotion";
+    document.title = "À Propos | Aymen Promotion Immobilière Algérie";
     return () => { document.title = "Aymen Promotion Immobilière"; };
   }, []);
 

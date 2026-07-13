@@ -11,7 +11,7 @@ const STRAPI_URL = config.STRAPI_URL;
 
 export default function BlogPage() {
   useEffect(() => {
-    document.title = "Blog Immobilier Alger — Actualités et Conseils | Aymen Promotion";
+    document.title = "Blog Immobilier Algérie 2026 | Conseils & Guides";
     return () => { document.title = "Aymen Promotion Immobilière"; };
   }, []);
 

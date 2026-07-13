@@ -111,7 +111,7 @@ export default function CareersPage() {
 
   // Scroll to top
   useEffect(() => {
-    document.title = "Carrières — Rejoignez Notre Équipe à Alger | Aymen Promotion";
+    document.title = "Carrières & Recrutement | Aymen Promotion Alger";
     window.scrollTo(0, 0);
     return () => { document.title = "Aymen Promotion Immobilière"; };
   }, []);
