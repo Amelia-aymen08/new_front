@@ -82,6 +82,13 @@ export default function ProjectDetailsPage() {
     }
   }, [project]);
 
+  useEffect(() => {
+    if (!project) return;
+    const loc = project.location.split(',')[0].trim();
+    document.title = `Résidence ${project.title} — ${loc} | Appartement Haut Standing Alger — Aymen Promotion`;
+    return () => { document.title = "Aymen Promotion Immobilière"; };
+  }, [project]);
+
   if (!project) {
     return (
       <div className="flex h-screen items-center justify-center bg-[#031B17] text-white">
@@ -137,14 +144,6 @@ export default function ProjectDetailsPage() {
     // On utilise un état local pour le tab actif
     return <PlansAndLocationWrapper plans={plans} location={location} />;
   };
-
-  const locality = project.location.split(',')[0].trim();
-  const projectPageTitle = `Résidence ${project.title} — ${locality} | Appartement Haut Standing Alger — Aymen Promotion`;
-
-  useEffect(() => {
-    document.title = projectPageTitle;
-    return () => { document.title = "Aymen Promotion Immobilière"; };
-  }, [projectPageTitle]);
 
   return (
     <div className="relative min-h-screen bg-[#031B17] text-white font-['Montserrat']">

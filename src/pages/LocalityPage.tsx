@@ -291,6 +291,13 @@ export default function LocalityPage() {
     window.scrollTo(0, 0);
   }, [slug]);
 
+  useEffect(() => {
+    if (!locality) return;
+    const cityOnly = locality.name.split(',')[0].trim();
+    document.title = `Appartements ${cityOnly} Alger — Résidences Haut Standing | Aymen Promotion`;
+    return () => { document.title = "Aymen Promotion Immobilière"; };
+  }, [locality]);
+
   if (!locality) {
     return (
         <div className="min-h-screen bg-[#031B17] flex items-center justify-center text-white">
@@ -309,13 +316,6 @@ export default function LocalityPage() {
 
   // Get mobile hero image path
   const mobileHeroImage = `/assets/locality-mobile/${cityOnly.toLowerCase().replace(/ /g, '-')}-mobile.webp`;
-
-  const localityPageTitle = `Appartements ${cityOnly} Alger — Résidences Haut Standing | Aymen Promotion Immobilière`;
-
-  useEffect(() => {
-    document.title = localityPageTitle;
-    return () => { document.title = "Aymen Promotion Immobilière"; };
-  }, [localityPageTitle]);
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-x-hidden">
