@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
+import { Helmet } from "react-helmet-async";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link, useLocation } from "react-router-dom";
@@ -185,7 +186,7 @@ function ProjectCard({ project, style }: { project: Project; style?: React.CSSPr
          <div className="absolute inset-0 flex items-center justify-center p-2">
             <img
               src={project.image}
-              alt={project.title}
+              alt={`Résidence ${project.title} — Aymen Promotion Immobilière Alger`}
               className="h-full w-full object-contain object-center transition duration-700 group-hover:scale-105"
               style={{ filter: "drop-shadow(0px 10px 20px rgba(0,0,0,0.5))" }} 
             />
@@ -223,7 +224,7 @@ function NightProjectCard({ project, style }: { project: Project; style?: React.
       {/* Background Image */}
       <img
         src={project.image}
-        alt={project.title}
+        alt={`Résidence ${project.title} — Aymen Promotion Immobilière Alger`}
         className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
       />
       
@@ -417,6 +418,15 @@ export default function ProjectsPage() {
 
   return (
     <div className="min-h-screen bg-[#031B17] font-['Montserrat'] text-white">
+      <Helmet>
+        <title>Nos Projets Immobiliers | Appartements Haut Standing Alger — Aymen Promotion</title>
+        <meta name="description" content="Découvrez tous les projets immobiliers d'Aymen Promotion Immobilière : résidences en cours, livrées et localités. Appartements haut standing dans les meilleures communes d'Alger." />
+        <link rel="canonical" href="https://aymenpromotion-dz.com/projets" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Nos Projets Immobiliers | Appartements Haut Standing Alger — Aymen Promotion" />
+        <meta property="og:description" content="Découvrez tous les projets immobiliers d'Aymen Promotion : résidences en cours, livrées et localités à Alger." />
+        <meta property="og:url" content="https://aymenpromotion-dz.com/projets" />
+      </Helmet>
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />

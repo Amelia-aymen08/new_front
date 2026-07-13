@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -218,6 +219,15 @@ export default function CareersPage() {
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-hidden">
+      <Helmet>
+        <title>Carrières — Rejoignez Notre Équipe à Alger | Aymen Promotion Immobilière</title>
+        <meta name="description" content="Rejoignez l'équipe d'Aymen Promotion Immobilière, promoteur immobilier haut standing à Alger. Découvrez nos offres d'emploi et construisez votre carrière avec nous." />
+        <link rel="canonical" href="https://aymenpromotion-dz.com/carriere" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Carrières — Rejoignez Notre Équipe à Alger | Aymen Promotion Immobilière" />
+        <meta property="og:description" content="Rejoignez l'équipe d'Aymen Promotion Immobilière à Alger. Offres d'emploi dans l'immobilier haut standing." />
+        <meta property="og:url" content="https://aymenpromotion-dz.com/carriere" />
+      </Helmet>
       {/* Global Background Texture */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />
@@ -240,7 +250,7 @@ export default function CareersPage() {
           <source media="(max-width: 768px)" srcSet="/carriere-mobile.png" />
           <img
             src="/careers-hero.jpg"
-            alt="Team Aymen Promotion"
+            alt="Carrières Aymen Promotion — Rejoignez notre équipe à Alger"
             className="absolute inset-0 h-full w-full object-cover"
           />
         </picture>

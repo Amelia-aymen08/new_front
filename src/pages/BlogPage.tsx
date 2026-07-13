@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -69,6 +70,15 @@ export default function BlogPage() {
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-hidden">
+      <Helmet>
+        <title>Blog Immobilier Alger — Actualités et Conseils | Aymen Promotion Immobilière</title>
+        <meta name="description" content="Retrouvez toutes les actualités immobilières, conseils d'experts et événements d'Aymen Promotion Immobilière, promoteur haut standing à Alger." />
+        <link rel="canonical" href="https://aymenpromotion-dz.com/blog" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Blog Immobilier Alger — Actualités et Conseils | Aymen Promotion Immobilière" />
+        <meta property="og:description" content="Retrouvez toutes les actualités immobilières, conseils d'experts et événements d'Aymen Promotion Immobilière à Alger." />
+        <meta property="og:url" content="https://aymenpromotion-dz.com/blog" />
+      </Helmet>
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />

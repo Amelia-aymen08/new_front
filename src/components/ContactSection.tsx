@@ -126,7 +126,7 @@ export default function ContactSection() {
       <div className="absolute inset-0 overflow-hidden">
         <img
           src="/contact.png"
-          alt=""
+          alt="Contact Aymen Promotion — Showroom et conseillers immobiliers à Alger"
           className="h-full w-full origin-center transform object-cover transition-all ease-[cubic-bezier(0.22,0.61,0.36,1)]"
           style={{
             opacity: bgVisible ? 1 : 0,

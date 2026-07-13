@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import "./index.css";
 import HomePage from "./pages/HomePage";
 import IntroHero from "./components/IntroHero";
@@ -110,6 +111,7 @@ function App() {
   }, []);
 
   return (
+    <HelmetProvider>
     <BrowserRouter>
       {/* Retrait de min-h-screen qui peut parfois causer des conflits de hauteur */}
       <div className="relative text-white">
@@ -139,6 +141,7 @@ function App() {
         </Suspense>
       </div>
     </BrowserRouter>
+    </HelmetProvider>
   );
 }
 

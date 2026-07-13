@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -310,8 +311,21 @@ export default function LocalityPage() {
   // Get mobile hero image path
   const mobileHeroImage = `/assets/locality-mobile/${cityOnly.toLowerCase().replace(/ /g, '-')}-mobile.webp`;
 
+  const localitySlug = cityOnly.toLowerCase().replace(/ /g, '-');
+  const localityPageTitle = `Appartements ${cityOnly} Alger — Résidences Haut Standing | Aymen Promotion Immobilière`;
+  const localityPageDescription = `Découvrez les résidences haut standing d'Aymen Promotion Immobilière à ${cityOnly}, Alger. ${localityProjects.length > 0 ? `${localityProjects.length} projet${localityProjects.length > 1 ? 's' : ''} immobilier${localityProjects.length > 1 ? 's' : ''} disponible${localityProjects.length > 1 ? 's' : ''}.` : 'Appartements de luxe dans l\'une des communes les plus prisées d\'Alger.'}`;
+
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-x-hidden">
+      <Helmet>
+        <title>{localityPageTitle}</title>
+        <meta name="description" content={localityPageDescription} />
+        <link rel="canonical" href={`https://aymenpromotion-dz.com/localite/${localitySlug}`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={localityPageTitle} />
+        <meta property="og:description" content={localityPageDescription} />
+        <meta property="og:url" content={`https://aymenpromotion-dz.com/localite/${localitySlug}`} />
+      </Helmet>
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />

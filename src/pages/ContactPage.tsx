@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -204,6 +205,15 @@ export default function ContactPage() {
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-hidden">
+      <Helmet>
+        <title>Contactez-Nous | Promoteur Immobilier Alger — Aymen Promotion Immobilière</title>
+        <meta name="description" content="Contactez Aymen Promotion Immobilière, promoteur immobilier haut standing à Alger. Showroom ouvert, conseillers disponibles. Appelez-nous au +213 770 11 32 32." />
+        <link rel="canonical" href="https://aymenpromotion-dz.com/contact" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Contactez-Nous | Promoteur Immobilier Alger — Aymen Promotion Immobilière" />
+        <meta property="og:description" content="Contactez Aymen Promotion Immobilière, promoteur haut standing à Alger. Showroom ouvert, conseillers disponibles." />
+        <meta property="og:url" content="https://aymenpromotion-dz.com/contact" />
+      </Helmet>
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />
@@ -222,8 +232,8 @@ export default function ContactPage() {
         {/* Background Image - Absolute */}
         <div className="absolute top-0 left-0 w-full h-[60vh] md:h-[70vh] z-0">
           <img 
-            src="/contact_hero.png" 
-            alt="Contact Hero" 
+            src="/contact_hero.png"
+            alt="Contact Aymen Promotion — Showroom et conseillers immobiliers à Alger"
             className="w-full h-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-[#031B17]" />

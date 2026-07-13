@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useBlogData } from "../hooks/useBlogData";
@@ -37,15 +38,57 @@ export default function BlogPostPage() {
   }
 
   const { attributes } = data.data;
-  // const imageUrl =
-  //   attributes.mignature_image?.data?.attributes?.formats?.medium?.url ||
-  //   attributes.mignature_image?.data?.attributes?.url ||
-  //   "";
-  // const fullImageUrl = imageUrl.startsWith("http")
-  //   ? imageUrl
-  //   : `${STRAPI_URL}${imageUrl}`;
+
+  const ogImageRaw =
+    attributes.mignature_image?.data?.attributes?.formats?.medium?.url ||
+    attributes.mignature_image?.data?.attributes?.url ||
+    "";
+  const ogImageUrl = ogImageRaw.startsWith("http")
+    ? ogImageRaw
+    : `${STRAPI_URL}${ogImageRaw}`;
+
+  const pageTitle = `${attributes.titre} — Aymen Promotion Immobilière`;
+  const pageDescription = attributes.description || "Découvrez les actualités et conseils immobiliers d'Aymen Promotion Immobilière, promoteur haut standing à Alger.";
+  const canonicalUrl = `https://aymenpromotion-dz.com/blog/${attributes.slug}`;
 
   return (
+    <>
+    <Helmet>
+      <title>{pageTitle}</title>
+      <meta name="description" content={pageDescription} />
+      <link rel="canonical" href={canonicalUrl} />
+      <meta property="og:type" content="article" />
+      <meta property="og:title" content={pageTitle} />
+      <meta property="og:description" content={pageDescription} />
+      <meta property="og:url" content={canonicalUrl} />
+      {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={pageTitle} />
+      <meta name="twitter:description" content={pageDescription} />
+      {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
+      <script type="application/ld+json">{JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": attributes.titre,
+        "description": pageDescription,
+        "datePublished": attributes.date,
+        "author": {
+          "@type": "Organization",
+          "name": attributes.auteur || "Aymen Promotion Immobilière"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://aymenpromotion-dz.com/#organization",
+          "name": "Aymen Promotion Immobilière",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://aymenpromotion-dz.com/logo_original.svg"
+          }
+        },
+        "url": canonicalUrl,
+        ...(ogImageUrl ? { "image": ogImageUrl } : {})
+      })}</script>
+    </Helmet>
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-hidden">
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">
@@ -149,5 +192,6 @@ export default function BlogPostPage() {
 
       <Footer />
     </div>
+    </>
   );
 }

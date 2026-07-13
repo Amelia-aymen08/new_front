@@ -98,7 +98,7 @@ export default function WhyChooseUsSection() {
               } items-center gap-6 px-8 py-8`}
             >
               <div className="flex h-16 w-16 items-center justify-center shrink-0">
-                <img src={card.icon} alt="" className="h-14 w-14" />
+                <img src={card.icon} alt={card.title} className="h-14 w-14" />
               </div>
 
               {!isMobile && (
