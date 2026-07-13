@@ -1,6 +1,5 @@
 // @ts-nocheck
 import React, { useEffect, useMemo, useRef, useState, Suspense, lazy } from "react";
-import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import Hero from "../components/Hero";
 import WipeStack, { Slide } from "../components/WipeStack";
@@ -254,16 +253,6 @@ export default function HomePage() {
 
   return (
     <main className="relative text-white bg-[#031B17]">
-      <Helmet>
-        <title>Promoteur Immobilier Alger | Résidences Haut Standing — Aymen Promotion Immobilière</title>
-        <meta name="description" content="Aymen Promotion Immobilière, promoteur immobilier haut standing à Alger depuis 20 ans. Découvrez nos résidences de luxe dans les communes les plus prisées : Hydra, El Biar, Ben Aknoun, Ain Benian..." />
-        <link rel="canonical" href="https://aymenpromotion-dz.com/" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Promoteur Immobilier Alger | Résidences Haut Standing — Aymen Promotion Immobilière" />
-        <meta property="og:description" content="Aymen Promotion Immobilière, promoteur immobilier haut standing à Alger depuis 20 ans. Découvrez nos résidences de luxe dans les communes les plus prisées d'Alger." />
-        <meta property="og:url" content="https://aymenpromotion-dz.com/" />
-        <meta property="og:image" content="https://aymenpromotion-dz.com/og-home.jpg" />
-      </Helmet>
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />

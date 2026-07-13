@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useBlogData } from "../hooks/useBlogData";
@@ -10,13 +9,42 @@ import config from "../config";
 
 const STRAPI_URL = config.STRAPI_URL;
 
+const DEFAULT_TITLE = "Aymen Promotion Immobilière";
+const DEFAULT_DESC = "Découvrez les résidences haut standing d'Aymen Promotion Immobilière au sein des communes huppées d'Alger. Promoteur immobilier Algérie.";
+const DEFAULT_OG_TITLE = "Promoteur Immobilier Alger";
+
+function setMeta(selector: string, content: string) {
+  const el = document.querySelector(selector);
+  if (el) el.setAttribute("content", content);
+}
+
 export default function BlogPostPage() {
-  const { id } = useParams<{ id: string }>(); // 'id' here is actually the slug
+  const { id } = useParams<{ id: string }>();
   const { data, loading, error } = useBlogData(id);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
+
+  useEffect(() => {
+    if (!data?.data?.attributes) return;
+
+    const { titre, description, slug } = data.data.attributes;
+    const pageTitle = `${titre} — Aymen Promotion Immobilière`;
+    const pageDesc = description || "Découvrez les actualités et conseils immobiliers d'Aymen Promotion Immobilière, promoteur haut standing à Alger.";
+
+    document.title = pageTitle;
+    setMeta('meta[name="description"]', pageDesc);
+    setMeta('meta[property="og:title"]', pageTitle);
+    setMeta('meta[property="og:description"]', pageDesc);
+
+    return () => {
+      document.title = DEFAULT_TITLE;
+      setMeta('meta[name="description"]', DEFAULT_DESC);
+      setMeta('meta[property="og:title"]', DEFAULT_OG_TITLE);
+      setMeta('meta[property="og:description"]', DEFAULT_DESC);
+    };
+  }, [data]);
 
   if (loading) {
     return (
@@ -39,56 +67,7 @@ export default function BlogPostPage() {
 
   const { attributes } = data.data;
 
-  const ogImageRaw =
-    attributes.mignature_image?.data?.attributes?.formats?.medium?.url ||
-    attributes.mignature_image?.data?.attributes?.url ||
-    "";
-  const ogImageUrl = ogImageRaw.startsWith("http")
-    ? ogImageRaw
-    : `${STRAPI_URL}${ogImageRaw}`;
-
-  const pageTitle = `${attributes.titre} — Aymen Promotion Immobilière`;
-  const pageDescription = attributes.description || "Découvrez les actualités et conseils immobiliers d'Aymen Promotion Immobilière, promoteur haut standing à Alger.";
-  const canonicalUrl = `https://aymenpromotion-dz.com/blog/${attributes.slug}`;
-
   return (
-    <>
-    <Helmet>
-      <title>{pageTitle}</title>
-      <meta name="description" content={pageDescription} />
-      <link rel="canonical" href={canonicalUrl} />
-      <meta property="og:type" content="article" />
-      <meta property="og:title" content={pageTitle} />
-      <meta property="og:description" content={pageDescription} />
-      <meta property="og:url" content={canonicalUrl} />
-      {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={pageTitle} />
-      <meta name="twitter:description" content={pageDescription} />
-      {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
-      <script type="application/ld+json">{JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": attributes.titre,
-        "description": pageDescription,
-        "datePublished": attributes.date,
-        "author": {
-          "@type": "Organization",
-          "name": attributes.auteur || "Aymen Promotion Immobilière"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "@id": "https://aymenpromotion-dz.com/#organization",
-          "name": "Aymen Promotion Immobilière",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://aymenpromotion-dz.com/logo_original.svg"
-          }
-        },
-        "url": canonicalUrl,
-        ...(ogImageUrl ? { "image": ogImageUrl } : {})
-      })}</script>
-    </Helmet>
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-hidden">
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">
@@ -123,57 +102,15 @@ export default function BlogPostPage() {
                    {attributes.auteur}
                 </span>
               </div>
-              
+
               <h1 className="mb-6 text-2xl font-bold uppercase leading-tight tracking-wide text-white md:text-3xl lg:text-4xl">
                 {attributes.titre}
               </h1>
-              
+
               <div className="inline-block px-4 py-1 rounded-full border border-[#F7C66A] text-[#F7C66A] text-xs font-bold uppercase tracking-widest">
                 {attributes.category}
               </div>
             </div>
-
-            {/* Featured Image */}
-            {/* 
-                We only show the featured image here if it's not the very first element of the article content.
-                Some content editors put the same image at the start of the body.
-                However, to be safe and avoid duplication as per user request, we can just hide this top one
-                if the user says it's duplicated. But usually, the "Featured Image" is distinct metadata.
-                If it appears twice, it's because it's in the 'attributes.article' content array too.
-                
-                Strategy: We will keep this Featured Image as the "Main" header image.
-                But we need to make sure the ArticleContentRenderer doesn't render it again if it's the first item.
-                
-                Actually, the user said "l'image de couveetire est affiché deux fois dedans", which implies 
-                the featured image (mignature_image) is likely manually added to the content body in Strapi as well.
-                
-                Since we can't easily peek into `attributes.article` to check if the first image URL matches 
-                the featured image URL without complex logic, and the user request is specific about "duplicate",
-                we will assume the content body HAS the image and we should probably NOT show it here OR 
-                the user wants us to fix the content. 
-                
-                But usually, standard blog design has a Hero Image. 
-                If I remove it here, the title might look floating. 
-                Let's try to remove it here as requested if it's duplicated "inside".
-                
-                WAIT, if I remove it here, and it's NOT in the content, then we have NO image.
-                
-                Let's look at the previous turn. I added it back because it was missing? 
-                No, I am looking at the code.
-                
-                Let's comment it out for now to solve "displayed twice".
-            */}
-            {/* 
-            {imageUrl && (
-              <div className="relative mb-12 overflow-hidden rounded-2xl shadow-2xl border border-white/10">
-                <img
-                  src={fullImageUrl}
-                  alt={attributes.titre}
-                  className="h-auto w-full object-cover"
-                />
-              </div>
-            )} 
-            */}
 
             {/* Content Body */}
             <div className="space-y-6 text-sm leading-relaxed text-white/80 md:text-base font-light">
@@ -192,6 +129,5 @@ export default function BlogPostPage() {
 
       <Footer />
     </div>
-    </>
   );
 }

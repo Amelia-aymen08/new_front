@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -261,6 +260,11 @@ function ValueIcon6() { // Confiance & transparence
 // --- Page Component ---
 
 export default function AboutPage() {
+  useEffect(() => {
+    document.title = "À Propos — 20 Ans d'Expertise Immobilière à Alger | Aymen Promotion";
+    return () => { document.title = "Aymen Promotion Immobilière"; };
+  }, []);
+
   const [activeFaqCategory, setActiveFaqCategory] = useState(0);
   const [activeFaqIndex, setActiveFaqIndex] = useState(0);
   const [activeValueId, setActiveValueId] = useState(3); // Default active value (Excellence Partagée)
@@ -282,15 +286,6 @@ export default function AboutPage() {
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-hidden">
-      <Helmet>
-        <title>À Propos — 20 Ans d'Expertise Immobilière à Alger | Aymen Promotion Immobilière</title>
-        <meta name="description" content="Découvrez l'histoire et les valeurs d'Aymen Promotion Immobilière, promoteur immobilier haut standing à Alger depuis plus de 20 ans. Plus de 30 résidences réalisées dans les communes les plus prisées." />
-        <link rel="canonical" href="https://aymenpromotion-dz.com/a-propos" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="À Propos — 20 Ans d'Expertise Immobilière à Alger | Aymen Promotion Immobilière" />
-        <meta property="og:description" content="Découvrez l'histoire et les valeurs d'Aymen Promotion Immobilière, promoteur immobilier haut standing à Alger depuis plus de 20 ans." />
-        <meta property="og:url" content="https://aymenpromotion-dz.com/a-propos" />
-      </Helmet>
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />

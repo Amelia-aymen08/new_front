@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { PROJECTS } from "../data/mockData";
@@ -141,21 +140,14 @@ export default function ProjectDetailsPage() {
 
   const locality = project.location.split(',')[0].trim();
   const projectPageTitle = `Résidence ${project.title} — ${locality} | Appartement Haut Standing Alger — Aymen Promotion`;
-  const projectPageDescription = (project.fullDescription || project.description || "").slice(0, 160) || `Découvrez la résidence ${project.title} d'Aymen Promotion Immobilière, appartements haut standing à ${locality}, Alger.`;
-  const canonicalSlug = project.title.toLowerCase();
+
+  useEffect(() => {
+    document.title = projectPageTitle;
+    return () => { document.title = "Aymen Promotion Immobilière"; };
+  }, [projectPageTitle]);
 
   return (
     <div className="relative min-h-screen bg-[#031B17] text-white font-['Montserrat']">
-      <Helmet>
-        <title>{projectPageTitle}</title>
-        <meta name="description" content={projectPageDescription} />
-        <link rel="canonical" href={`https://aymenpromotion-dz.com/projet/${canonicalSlug}`} />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={projectPageTitle} />
-        <meta property="og:description" content={projectPageDescription} />
-        <meta property="og:url" content={`https://aymenpromotion-dz.com/projet/${canonicalSlug}`} />
-        {project.coverImage && <meta property="og:image" content={`https://aymenpromotion-dz.com${project.coverImage}`} />}
-      </Helmet>
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />
