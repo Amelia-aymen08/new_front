@@ -29,7 +29,7 @@ export default function BlogPostPage() {
   useEffect(() => {
     if (!data?.data?.attributes) return;
 
-    const { titre, description, slug } = data.data.attributes;
+    const { titre, description } = data.data.attributes;
     const pageTitle = `${titre} — Aymen Promotion Immobilière`;
     const pageDesc = description || "Découvrez les actualités et conseils immobiliers d'Aymen Promotion Immobilière, promoteur haut standing à Alger.";
 
@@ -37,12 +37,16 @@ export default function BlogPostPage() {
     setMeta('meta[name="description"]', pageDesc);
     setMeta('meta[property="og:title"]', pageTitle);
     setMeta('meta[property="og:description"]', pageDesc);
+    setMeta('meta[name="twitter:title"]', pageTitle);
+    setMeta('meta[name="twitter:description"]', pageDesc);
 
     return () => {
       document.title = DEFAULT_TITLE;
       setMeta('meta[name="description"]', DEFAULT_DESC);
       setMeta('meta[property="og:title"]', DEFAULT_OG_TITLE);
       setMeta('meta[property="og:description"]', DEFAULT_DESC);
+      setMeta('meta[name="twitter:title"]', DEFAULT_OG_TITLE);
+      setMeta('meta[name="twitter:description"]', DEFAULT_DESC);
     };
   }, [data]);
 
