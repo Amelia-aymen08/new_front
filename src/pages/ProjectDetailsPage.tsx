@@ -147,8 +147,11 @@ export default function ProjectDetailsPage() {
   return (
     <div className="relative min-h-screen bg-[#031B17] text-white font-['Montserrat']">
       <Seo
-        title={`Résidence ${project.title}`}
-        description={projectData.description}
+        title={`Résidence ${project.title} — Résidence haut standing à ${project.location.split(',')[0].trim()} | Aymen`}
+        description={`Découvrez la résidence ${project.title} à ${project.location.split(',')[0].trim()} : appartements F2 à F5 haut standing, prestations premium, sécurité 24/7 et finitions soignées. Visitez avec Aymen…`}
+        appendTitleSuffix={false}
+        image={`https://aymenpromotion-dz.com/og-projet-${project.title.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '-')}.jpg`}
+        keywords={`résidence ${project.title}, ${project.title} aymen, appartement ${project.location.split(',')[0].trim()}, immobilier ${project.location.split(',')[0].trim()} alger, Résidence haut standing`}
       />
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">

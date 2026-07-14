@@ -419,7 +419,7 @@ export default function ProjectsPage() {
   return (
     <div className="min-h-screen bg-[#031B17] font-['Montserrat'] text-white">
       <Seo
-        title="Projets Immobiliers Neufs à Alger (2026)"
+        title="Projets Immobiliers Neufs à Alger (2026) | Aymen"
         description="Découvrez nos 27 résidences neuves à Alger : F2, F3, F4, F5, duplex et penthouses. Hydra, Kouba, Chéraga, Dely Ibrahim… Visite gratuite sur rendez-vous."
         keywords="promoteur immobilier alger, aymen promotion, immobilier algerie, appartement neuf alger, residence haut standing"
         appendTitleSuffix={false}

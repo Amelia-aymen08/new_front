@@ -752,5 +752,6 @@ export default function AboutPage() {
 
       <Footer />
     </div>
+    </>
   );
 }

@@ -255,7 +255,7 @@ export default function HomePage() {
   return (
     <main className="relative text-white bg-[#031B17]">
       <Seo
-        title="Promoteur Immobilier Alger"
+        title="Promoteur Immobilier Alger | Aymen Promotion 2026"
         description="✓ 27 résidences haut standing à Alger ✓ 30 ans d'expertise ✓ Hydra, Chéraga, Kouba… Achetez votre appartement neuf avec Aymen Promotion."
         keywords="promoteur immobilier alger, aymen promotion, immobilier algerie, appartement neuf alger, residence haut standing"
         appendTitleSuffix={false}

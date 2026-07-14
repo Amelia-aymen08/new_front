@@ -319,8 +319,11 @@ export default function LocalityPage() {
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-x-hidden">
       <Seo
-        title={`Appartements ${cityOnly} Alger — Résidences Haut Standing`}
-        description={`Découvrez les appartements haut standing à ${cityOnly}, Alger, avec Aymen Promotion Immobilière. Explorez nos projets de promotion immobilière haut de gamme et profitez d'un emplacement stratégique.`}
+        title={`Immobilier ${cityOnly} Alger 2026 | Appartements Neufs`}
+        description={`Acheter un appartement neuf à ${cityOnly}, commune résidentielle d'Alger. Découvrez les résidences Aymen Promotion à ${cityOnly} : prestations premium, prix et localisation.`}
+        appendTitleSuffix={false}
+        image={`https://aymenpromotion-dz.com/og-localite-${slug || ''}.jpg`}
+        keywords={`appartement neuf ${cityOnly}, immobilier ${cityOnly}, vente appartement ${cityOnly} alger, ${cityOnly} aymen promotion`}
       />
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">
