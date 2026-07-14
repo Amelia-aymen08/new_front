@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Seo from "../components/Seo";
 
 export default function ConcoursBatitecPage() {
   useEffect(() => {
@@ -10,6 +11,12 @@ export default function ConcoursBatitecPage() {
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-x-hidden">
+      <Seo
+        title="Concours Batitec | Aymen Promotion Algérie"
+        description="Aymen Promotion partenaire du concours Batitec : valorisation des talents algériens du BTP, de l'architecture et de l'innovation immobilière."
+        keywords="promoteur immobilier alger, aymen promotion, immobilier algerie, appartement neuf alger, residence haut standing"
+        appendTitleSuffix={false}
+      />
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />
         <div className="absolute top-[40%] right-[-10%] w-[700px] h-[700px] bg-[radial-gradient(circle,rgba(225,187,127,0.10),transparent_70%)]" />

@@ -5,16 +5,12 @@ import Footer from "../components/Footer";
 import { Link, useLocation } from "react-router-dom";
 import { useBlogs } from "../hooks/useBlogs";
 import Sidebar from "../components/blog/Sidebar";
+import Seo from "../components/Seo";
 import config from "../config";
 
 const STRAPI_URL = config.STRAPI_URL;
 
 export default function BlogPage() {
-  useEffect(() => {
-    document.title = "Blog Immobilier Algérie 2026 | Conseils & Guides";
-    return () => { document.title = "Aymen Promotion Immobilière"; };
-  }, []);
-
   const { blogs, loading, error } = useBlogs();
   const [activeCategory, setActiveCategory] = useState("Tous");
   const [visibleCount, setVisibleCount] = useState(6);
@@ -74,6 +70,12 @@ export default function BlogPage() {
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-hidden">
+      <Seo
+        title="Blog Immobilier Algérie 2026 | Conseils & Guides"
+        description="142 articles experts sur l'immobilier en Algérie : investissement, achat, vente, financement, décoration et style de vie. Mis à jour chaque semaine."
+        keywords="promoteur immobilier alger, aymen promotion, immobilier algerie, appartement neuf alger, residence haut standing"
+        appendTitleSuffix={false}
+      />
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />

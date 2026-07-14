@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Seo from "../components/Seo";
 import { API_BASE_URL } from "../config";
 
 export default function ContactPage() {
@@ -199,13 +200,17 @@ export default function ContactPage() {
   ];
 
   useEffect(() => {
-    document.title = "Contact Showroom Alger | Aymen Promotion";
     window.scrollTo(0, 0);
-    return () => { document.title = "Aymen Promotion Immobilière"; };
   }, []);
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-hidden">
+      <Seo
+        title="Contact Showroom Alger | Aymen Promotion"
+        description="📞 +213 770 11 32 32 — Visitez notre showroom à Alger ou prenez rendez-vous en ligne. Conseillers disponibles 6j/7. Réponse garantie sous 24h."
+        keywords="promoteur immobilier alger, aymen promotion, immobilier algerie, appartement neuf alger, residence haut standing"
+        appendTitleSuffix={false}
+      />
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />

@@ -354,6 +354,12 @@ export default function AymagPage() {
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-x-hidden">
+      <Seo
+        title="AYMAG 2026 | Magazine Immobilier | Aymen Promotion"
+        description="AYMAG : tendances, projets phares, interviews et conseils d'experts. Le magazine de référence d'Aymen Promotion sur l'immobilier en Algérie."
+        keywords="promoteur immobilier alger, aymen promotion, immobilier algerie, appartement neuf alger, residence haut standing"
+        appendTitleSuffix={false}
+      />
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />
         <div className="absolute top-[40%] right-[-10%] w-[700px] h-[700px] bg-[radial-gradient(circle,rgba(225,187,127,0.1),transparent_70%)]" />

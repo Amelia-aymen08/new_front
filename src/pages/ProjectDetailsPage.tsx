@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Seo from "../components/Seo";
 import { PROJECTS } from "../data/mockData";
 import { API_BASE_URL } from "../config";
 import { 
@@ -84,9 +85,7 @@ export default function ProjectDetailsPage() {
 
   useEffect(() => {
     if (!project) return;
-    const loc = project.location.split(',')[0].trim();
-    document.title = `Résidence ${project.title} — ${loc} | Appartement Haut Standing Alger — Aymen Promotion`;
-    return () => { document.title = "Aymen Promotion Immobilière"; };
+    window.scrollTo(0, 0);
   }, [project]);
 
   if (!project) {
@@ -147,6 +146,10 @@ export default function ProjectDetailsPage() {
 
   return (
     <div className="relative min-h-screen bg-[#031B17] text-white font-['Montserrat']">
+      <Seo
+        title={`Résidence ${project.title}`}
+        description={projectData.description}
+      />
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />

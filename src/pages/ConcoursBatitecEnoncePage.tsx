@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Seo from "../components/Seo";
 
 type Category = "hotel" | "villa";
 
@@ -41,6 +42,12 @@ export default function ConcoursBatitecEnoncePage() {
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-x-hidden">
+      <Seo
+        title={`Concours Batitec — Énoncé ${getCategoryLabel(category)}`}
+        description={`Téléchargez l'énoncé du Concours Batitec catégorie ${getCategoryLabel(category)} et participez à l'innovation architecturale en Algérie.`}
+        keywords="concours batitec, aymen promotion, architecte alger, innovation btp"
+        appendTitleSuffix={false}
+      />
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />
         <div className="absolute top-[40%] right-[-10%] w-[700px] h-[700px] bg-[radial-gradient(circle,rgba(225,187,127,0.10),transparent_70%)]" />

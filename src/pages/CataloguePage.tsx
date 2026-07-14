@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Document, Page as PdfPage, pdfjs } from "react-pdf";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Seo from "../components/Seo";
 
 // Utilisation d'un CDN fiable pour le worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
@@ -174,6 +175,12 @@ export default function CataloguePage() {
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-x-hidden">
+      <Seo
+        title="Catalogue PDF 2026 | Résidences Aymen Promotion"
+        description="Téléchargez gratuitement le catalogue Aymen Promotion 2026 : 27 résidences, plans, prix indicatifs, prestations et localisations à Alger."
+        keywords="promoteur immobilier alger, aymen promotion, immobilier algerie, appartement neuf alger, residence haut standing"
+        appendTitleSuffix={false}
+      />
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />
         <div className="absolute top-[40%] right-[-10%] w-[700px] h-[700px] bg-[radial-gradient(circle,rgba(225,187,127,0.1),transparent_70%)]" />

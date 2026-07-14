@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Seo from "../components/Seo";
 
 export default function TermsPage() {
   useEffect(() => {
@@ -9,6 +10,12 @@ export default function TermsPage() {
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white">
+      <Seo
+        title="CGU | Aymen Promotion Immobilière"
+        description="Conditions générales d'utilisation du site aymenpromotion-dz.com : droits, obligations, propriété intellectuelle et règles d'utilisation."
+        keywords="promoteur immobilier alger, aymen promotion, conditions generales, cgu"
+        appendTitleSuffix={false}
+      />
       <Header className="absolute top-0 left-0 z-40 w-full" />
       
       <main className="container mx-auto px-6 py-32 md:py-40 max-w-4xl">

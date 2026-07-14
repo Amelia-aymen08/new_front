@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Seo from "../components/Seo";
 import { LOCALITIES, PROJECTS as MOCK_PROJECTS, Project, Locality } from "../data/mockData";
 import { MapContainer, TileLayer, Marker, useMap, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -293,9 +294,7 @@ export default function LocalityPage() {
 
   useEffect(() => {
     if (!locality) return;
-    const cityOnly = locality.name.split(',')[0].trim();
-    document.title = `Appartements ${cityOnly} Alger — Résidences Haut Standing | Aymen Promotion`;
-    return () => { document.title = "Aymen Promotion Immobilière"; };
+    window.scrollTo(0, 0);
   }, [locality]);
 
   if (!locality) {
@@ -319,6 +318,10 @@ export default function LocalityPage() {
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-x-hidden">
+      <Seo
+        title={`Appartements ${cityOnly} Alger — Résidences Haut Standing`}
+        description={`Découvrez les appartements haut standing à ${cityOnly}, Alger, avec Aymen Promotion Immobilière. Explorez nos projets de promotion immobilière haut de gamme et profitez d'un emplacement stratégique.`}
+      />
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />

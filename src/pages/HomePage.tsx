@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Hero from "../components/Hero";
 import WipeStack, { Slide } from "../components/WipeStack";
 import Header from "../components/Header";
+import Seo from "../components/Seo";
 
 // Lazy load heavy sections of the home page
 const LifestyleSection = lazy(() => import("../components/LifestyleSection"));
@@ -253,6 +254,12 @@ export default function HomePage() {
 
   return (
     <main className="relative text-white bg-[#031B17]">
+      <Seo
+        title="Promoteur Immobilier Alger"
+        description="✓ 27 résidences haut standing à Alger ✓ 30 ans d'expertise ✓ Hydra, Chéraga, Kouba… Achetez votre appartement neuf avec Aymen Promotion."
+        keywords="promoteur immobilier alger, aymen promotion, immobilier algerie, appartement neuf alger, residence haut standing"
+        appendTitleSuffix={false}
+      />
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />

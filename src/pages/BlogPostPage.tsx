@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Seo from "../components/Seo";
 import { useBlogData } from "../hooks/useBlogData";
 import ArticleContentRenderer from "../components/blog/ArticleContentRenderer";
 import Sidebar from "../components/blog/Sidebar";
@@ -13,11 +14,6 @@ const DEFAULT_TITLE = "Aymen Promotion Immobilière";
 const DEFAULT_DESC = "Découvrez les résidences haut standing d'Aymen Promotion Immobilière au sein des communes huppées d'Alger. Promoteur immobilier Algérie.";
 const DEFAULT_OG_TITLE = "Promoteur Immobilier Alger";
 
-function setMeta(selector: string, content: string) {
-  const el = document.querySelector(selector);
-  if (el) el.setAttribute("content", content);
-}
-
 export default function BlogPostPage() {
   const { id } = useParams<{ id: string }>();
   const { data, loading, error } = useBlogData(id);
@@ -26,29 +22,12 @@ export default function BlogPostPage() {
     window.scrollTo(0, 0);
   }, [id]);
 
+  const blogTitle = data?.data?.attributes?.titre ? `${data.data.attributes.titre} — Aymen Promotion Immobilière` : DEFAULT_TITLE;
+  const blogDescription = data?.data?.attributes?.description || "Découvrez les actualités et conseils immobiliers d'Aymen Promotion Immobilière, promoteur haut standing à Alger.";
+
   useEffect(() => {
-    if (!data?.data?.attributes) return;
-
-    const { titre, description } = data.data.attributes;
-    const pageTitle = `${titre} — Aymen Promotion Immobilière`;
-    const pageDesc = description || "Découvrez les actualités et conseils immobiliers d'Aymen Promotion Immobilière, promoteur haut standing à Alger.";
-
-    document.title = pageTitle;
-    setMeta('meta[name="description"]', pageDesc);
-    setMeta('meta[property="og:title"]', pageTitle);
-    setMeta('meta[property="og:description"]', pageDesc);
-    setMeta('meta[name="twitter:title"]', pageTitle);
-    setMeta('meta[name="twitter:description"]', pageDesc);
-
-    return () => {
-      document.title = DEFAULT_TITLE;
-      setMeta('meta[name="description"]', DEFAULT_DESC);
-      setMeta('meta[property="og:title"]', DEFAULT_OG_TITLE);
-      setMeta('meta[property="og:description"]', DEFAULT_DESC);
-      setMeta('meta[name="twitter:title"]', DEFAULT_OG_TITLE);
-      setMeta('meta[name="twitter:description"]', DEFAULT_DESC);
-    };
-  }, [data]);
+    window.scrollTo(0, 0);
+  }, [id]);
 
   if (loading) {
     return (
@@ -73,6 +52,11 @@ export default function BlogPostPage() {
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-hidden">
+      <Seo
+        title={blogTitle}
+        description={blogDescription}
+        type="article"
+      />
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />

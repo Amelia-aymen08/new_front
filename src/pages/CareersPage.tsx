@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Seo from "../components/Seo";
 import { API_BASE_URL } from "../config";
 
 // --- Data ---
@@ -111,9 +112,7 @@ export default function CareersPage() {
 
   // Scroll to top
   useEffect(() => {
-    document.title = "Carrières & Recrutement | Aymen Promotion Alger";
     window.scrollTo(0, 0);
-    return () => { document.title = "Aymen Promotion Immobilière"; };
   }, []);
 
   // Update form select when active department changes in the carousel
@@ -220,6 +219,12 @@ export default function CareersPage() {
 
   return (
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-hidden">
+      <Seo
+        title="Carrières & Recrutement | Aymen Promotion Alger"
+        description="Rejoignez Aymen Promotion : ingénieurs, architectes, commerciaux, chefs de projet. Postes ouverts à Alger. Évolution, formation et avantages."
+        keywords="promoteur immobilier alger, aymen promotion, immobilier algerie, recrutement alger, carrière immobilier"
+        appendTitleSuffix={false}
+      />
       {/* Global Background Texture */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />

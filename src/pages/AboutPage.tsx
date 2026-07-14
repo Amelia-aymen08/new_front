@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Seo from "../components/Seo";
 
 // --- Mock Data ---
 
@@ -260,11 +261,6 @@ function ValueIcon6() { // Confiance & transparence
 // --- Page Component ---
 
 export default function AboutPage() {
-  useEffect(() => {
-    document.title = "À Propos | Aymen Promotion Immobilière Algérie";
-    return () => { document.title = "Aymen Promotion Immobilière"; };
-  }, []);
-
   const [activeFaqCategory, setActiveFaqCategory] = useState(0);
   const [activeFaqIndex, setActiveFaqIndex] = useState(0);
   const [activeValueId, setActiveValueId] = useState(3); // Default active value (Excellence Partagée)
@@ -285,6 +281,13 @@ export default function AboutPage() {
   }, []);
 
   return (
+    <>
+      <Seo
+        title="À Propos | Aymen Promotion Immobilière Algérie"
+        description="Promoteur immobilier algérien fondé en 1995. 30 ans d'expérience, 27 résidences livrées et plus de 5 000 familles satisfaites en Algérie."
+        keywords="promoteur immobilier alger, aymen promotion, immobilier algerie, appartement neuf alger, residence haut standing"
+        appendTitleSuffix={false}
+      />
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-hidden">
       {/* Background Texture & Lights */}
       <div className="fixed inset-0 pointer-events-none z-0">

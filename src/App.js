@@ -1,10 +1,12 @@
 import React, { useState, useEffect, Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import "./index.css";
 import HomePage from "./pages/HomePage";
 import IntroHero from "./components/IntroHero";
 import StickyContactBar from "./components/StickyContactBar";
 import CookieBanner from "./components/CookieBanner";
+import Seo from "./components/Seo";
 
 // Lazy loading the other routes to reduce initial bundle size
 const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
@@ -110,12 +112,14 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      {/* Retrait de min-h-screen qui peut parfois causer des conflits de hauteur */}
-      <div className="relative text-white">
-        <StickyContactBar />
-        <CookieBanner />
-        <Suspense fallback={<LoadingFallback />}>
+    <HelmetProvider>
+      <BrowserRouter>
+        <Seo />
+        {/* Retrait de min-h-screen qui peut parfois causer des conflits de hauteur */}
+        <div className="relative text-white">
+          <StickyContactBar />
+          <CookieBanner />
+          <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route path="/" element={<HomeRoute />} />
             <Route path="/projets" element={<ProjectsPage />} />
@@ -139,6 +143,7 @@ function App() {
         </Suspense>
       </div>
     </BrowserRouter>
+    </HelmetProvider>
   );
 }
 
