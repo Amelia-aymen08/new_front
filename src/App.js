@@ -26,6 +26,7 @@ const ContactPage = lazy(() => import("./pages/ContactPage"));
 const TerrainPage = lazy(() => import("./pages/TerrainPage"));
 const TermsPage = lazy(() => import("./pages/TermsPage"));
 const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
+const OffreEtePage = lazy(() => import("./pages/OffreEtePage"));
 
 // Loading component for lazy routes
 const LoadingFallback = () => (
@@ -139,6 +140,7 @@ function App() {
             <Route path="/terrain" element={<TerrainPage />} />
             <Route path="/cgu" element={<TermsPage />} />
             <Route path="/confidentialite" element={<PrivacyPage />} />
+            <Route path="/offres-ete-2026" element={<OffreEtePage />} />
           </Routes>
         </Suspense>
       </div>
