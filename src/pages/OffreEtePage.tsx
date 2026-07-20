@@ -24,12 +24,15 @@ export default function OffreEtePage() {
       const res = await fetch(`${API_BASE_URL}/api/offres-ete`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, phone: `+213 ${formData.phone}` }),
+        body: JSON.stringify(formData),
       });
+      const data = await res.json().catch(() => null);
       if (res.ok) {
         setStatus({ type: "success", message: "Votre demande a bien été envoyée. Un conseiller vous contactera très bientôt." });
         setFormData({ fullName: "", email: "", phone: "", preference: "email" });
-      } else throw new Error();
+      } else {
+        setStatus({ type: "error", message: data?.message || "Erreur lors de l'envoi." });
+      }
     } catch {
       setStatus({ type: "error", message: "Une erreur est survenue. Veuillez réessayer." });
     } finally {
@@ -211,7 +214,7 @@ export default function OffreEtePage() {
                   +213
                 </span>
                 <input
-                  name="phone" value={formData.phone}
+                  required name="phone" value={formData.phone}
                   onChange={handleChange} type="tel" placeholder="5XX XXX XXX"
                   className="flex-1 bg-transparent text-white outline-none placeholder:text-white/30"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
