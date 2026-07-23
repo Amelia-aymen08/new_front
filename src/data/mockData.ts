@@ -803,15 +803,15 @@ Même si les typologies de ces logements divergent, ils ont en commun une finiti
     status: "FINIS",
     isNightMode: true,
     coverImage: "/assets/projets/couvertures/citrine.webp",
-    fullDescription: `Plongez au cœur de la résidence Opale d’Aymen Promotion Immobilière, là où confort, modernité et sécurité se marient joliment.
+    fullDescription: `Découvrez la résidence Citrine d'Aymen Promotion Immobilière, où l'élégance architecturale rencontre l'art de vivre au quotidien. Implantée à Birkhadem, dans un quartier à la fois vivant et parfaitement desservi, la résidence bénéficie d'un emplacement privilégié : axes routiers structurants, établissements scolaires reconnus, services publics et privés de proximité — tout ce qui fait la commodité d'un quotidien fluide se trouve à quelques pas.
 
-Au-delà de son emplacement stratégique à Oued Romane, El Achour, qui vous offre une connexion aisée avec la ville et les autres localités d’Alger, cette résidence bénéficie de prestations de qualité supérieure. Les appartements sont conçus pour baigner dans une luminosité constante grâce à des ouvertures pensivement positionnées, invitant les rayons du soleil à envahir chaque recoin, tandis qu'une brise rafraîchissante traverse chaque espace grâce à une conception favorisant une ventilation naturelle.
+Son architecture contemporaine affirme une signature nette, où les lignes épurées et les volumes maîtrisés dessinent une présence sereine dans le paysage urbain. Chaque appartement a été pensé pour accueillir la lumière naturelle et offrir des espaces généreux, fonctionnels, conçus pour être vécus pleinement.
 
-L'architecture innovante en forme de H redéfinit l'art de vivre avec des intérieurs traversants et multi-orientés s’étendant vers l'extérieur à travers de spacieux balcons et terrasses.
+Citrine vous propose une gamme de logements de haut standing allant du F3 au F6, permettant à chaque famille de trouver l'espace qui lui correspond — du foyer qui s'installe à celui qui s'agrandit. La résidence intègre également des box de stationnement privatifs répartis sur deux niveaux de parking, pour un confort d'usage sans compromis.
 
-Au sein de ce projet immobilier, vous avez la possibilité de choisir parmi une gamme variée d'appartements, allant du studio douillet de 30 m² aux vastes F5 de 247 m².
+Au-delà de ses prestations, Citrine incarne une certaine idée de l'habitat : celle d'un cadre où modernité et confort ne s'opposent jamais, mais se répondent. Chaque détail d'exécution témoigne d'une exigence de qualité qui accompagne Aymen Promotion Immobilière depuis vingt ans.
 
-Même si les typologies de ces logements divergent, ils ont en commun une finition d'une qualité supérieure qui témoigne d'un souci méticuleux du détail. Chaque espace est judicieusement agencé pour une utilisation optimale, vous permettant de vivre et de travailler au sein d’un cadre serein.`,
+À Birkhadem, Citrine vous ouvre les portes d'un quotidien pensé pour durer.`,
     gallery: [
       "/assets/projets/galeries/citrine/1.JPG",
       "/assets/projets/galeries/citrine/2.JPG",

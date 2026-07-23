@@ -60,15 +60,23 @@ export default function OffreEtePage() {
         ═══════════════════════════════════════════════════════
       */}
       <div
-        className="relative w-full overflow-visible h-[55vh] md:h-[78vh]"
+        className="relative w-full overflow-visible aspect-[2140/2586] md:aspect-auto md:h-[78vh]"
         style={{ minHeight: 340 }}
       >
         {/* ── Image du banner — plein bord, comme les autres pages ── */}
         <div className="absolute inset-0 overflow-hidden">
+          {/* Mobile : banner dédié (déjà cadré en portrait, avec le titre intégré) */}
+          <img
+            src="/assets/campagne_ete/banner_mobile.png"
+            alt="Offres été 2026 — Aymen Promotion"
+            className="absolute inset-0 h-full w-full object-cover object-top md:hidden"
+            draggable={false}
+          />
+          {/* Desktop : banner large */}
           <img
             src="/assets/campagne_ete/banner_ete.png"
             alt="Offres été 2026 — Aymen Promotion"
-            className="absolute inset-0 h-full w-full object-cover object-top"
+            className="absolute inset-0 h-full w-full object-cover object-top hidden md:block"
             draggable={false}
           />
           {/* Fondu vers la section formulaire */}
