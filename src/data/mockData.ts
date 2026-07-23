@@ -100,7 +100,17 @@ export const PROJECTS: Project[] = [
     isNightMode: false,
     
     coverImage: "/assets/projets/couvertures/cyanite.webp",
-    fullDescription: `Fort du succès de notre première résidence Pyrite, nous repoussons encore les limites du raffinement avec la résidence Cyanite, une nouvelle adresse prestigieuse au cœur du mythique quartier de Dar Diaf. Ce projet d’exception propose des appartements de haut standing, sublimés par une architecture contemporaine aux lignes épurées. Ses façades élégantes, rehaussées par un éclairage subtil, confèrent à la résidence une signature lumineuse unique dès la tombée de la nuit. Chaque appartement est conçu pour offrir un confort absolu : de grandes baies vitrées inondent les espaces de lumière naturelle, tandis que de superbes balcons et terrasses prolongent harmonieusement les intérieurs avec élégance. Les finitions haut de gamme et les nombreux services disponibles garantissent un cadre de vie exclusif. Pour un bien-être optimal, la résidence Cyanite met à disposition de ses résidents une salle de sport entièrement équipée, des piscines luxueuses ainsi qu’un espace bien-être comprenant un sauna, parfaits pour des instants de détente et de relaxation absolue.`,
+    fullDescription: `Le luxe s'élève à Dar Diaf : découvrez la résidence Cyanite.
+
+Fort du succès de notre première réalisation, Aymen Promotion Immobilière repousse encore les limites du raffinement avec la résidence Cyanite, une nouvelle adresse prestigieuse au cœur du mythique quartier de Dar Diaf. Un emplacement de caractère, où l'histoire du lieu rencontre l'exigence contemporaine.
+
+Ce projet d'exception propose 165 appartements de haut standing, sublimés par une architecture contemporaine aux lignes épurées. Ses façades élégantes, rehaussées par un éclairage subtil, confèrent à la résidence une signature lumineuse unique dès la tombée de la nuit — une présence que l'on reconnaît avant même de s'en approcher.
+
+Chaque appartement est conçu pour offrir un confort absolu. De grandes baies vitrées inondent les espaces de lumière naturelle, tandis que de superbes balcons et terrasses prolongent harmonieusement les intérieurs vers l'extérieur, avec élégance. Les finitions haut de gamme et les nombreux services disponibles garantissent un cadre de vie exclusif, pensé pour ceux qui ne transigent pas sur les détails.
+
+La résidence déploie une gamme complète de typologies : des F2 de 45,99 à 64 m², des F3 de 80 à 105 m², des F4 de 101 à 161 m², et des duplex en F5 de 153 à 350 m². Des locaux commerciaux complètent l'ensemble, apportant à la résidence une vie de quartier à part entière.
+
+À Dar Diaf, Cyanite ne se contente pas d'élever le standing. Elle élève l'art d'habiter.`,
     gallery: [
       "/assets/projets/galeries/cyanite/1.webp",
       "/assets/projets/galeries/cyanite/2.webp",
