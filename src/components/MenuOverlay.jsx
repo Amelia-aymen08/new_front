@@ -25,6 +25,7 @@ export default function MenuOverlay({ open, onClose }) {
   const links = useMemo(
     () => [
       { label: "PROJETS", href: "/projets" },
+      { label: "VISITE VIRTUELLE", href: "/visite-virtuelle" },
       { label: "LOCALITÉS", href: "/projets", state: { tab: "LOCALITÉS" } },
       { label: "TERRAIN", href: "/terrain" },
       { label: "À PROPOS", href: "/a-propos" },
