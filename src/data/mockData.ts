@@ -583,6 +583,24 @@ Que vous recherchiez de vastes espaces intérieurs ou un appartement de taille m
   },
 
   {
+    id: 30,
+    title: "BÉRYL",
+    location: "Dely Ibrahim, Alger",
+    description: "Idéalement nichée au cœur de la charmante commune de Dely Ibrahim, la résidence Béryl se dresse dans...",
+    image: "/assets/projets/beryl.webp",
+    status: "FINIS",
+    isNightMode: true,
+
+    coverImage: "/assets/projets/couvertures/beryl.webp",
+    gallery: [
+      "/assets/projets/galeries/beryl/1.webp",
+      "/assets/projets/galeries/beryl/2.webp",
+      "/assets/projets/galeries/beryl/3.jpg",
+    ],
+    virtualTourUrl: "https://my.matterport.com/show/?m=U46WNp2h8sw",
+  },
+
+  {
     id: 13,
     title: "LES CRÊTES",
     location: "Draria, Alger",
