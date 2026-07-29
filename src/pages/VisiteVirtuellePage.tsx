@@ -372,12 +372,12 @@ function RdvPopup({ open, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-[110] flex items-center justify-center bg-black/80 p-4"
+      className="fixed inset-0 z-[110] flex items-center justify-center bg-black/60 p-4 backdrop-blur-md"
       role="dialog"
       aria-modal="true"
     >
       <div
-        className="relative w-full max-w-md overflow-y-auto rounded-[8px] p-6 md:p-8"
+        className="relative w-full max-w-md overflow-y-auto rounded-[8px] p-6 md:max-w-2xl md:p-8"
         style={{ background: "linear-gradient(135deg, #0A2E25 0%, #031B17 100%)", maxHeight: "92vh" }}
       >
         <button
