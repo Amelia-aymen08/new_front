@@ -395,7 +395,8 @@ function RdvPopup({ open, onClose }) {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          {/* Mobile : Nom / Prénom séparés */}
+          <div className="grid grid-cols-2 gap-4 md:hidden">
             <div>
               <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-white/60">
                 Nom*
@@ -418,6 +419,20 @@ function RdvPopup({ open, onClose }) {
                 className="w-full border-b border-white/30 bg-transparent py-2 text-sm text-white outline-none focus:border-[#F7C66A]"
               />
             </div>
+          </div>
+
+          {/* Desktop : Nom et Prénom combinés */}
+          <div className="hidden md:block">
+            <label className="mb-1 block text-sm text-white/80">Nom et Prénom* :</label>
+            <input
+              required
+              value={`${form.firstName} ${form.lastName}`.trim()}
+              onChange={(e) => {
+                const [first, ...rest] = e.target.value.split(" ");
+                setForm((f) => ({ ...f, firstName: first || "", lastName: rest.join(" ") }));
+              }}
+              className="w-full border-b border-white/30 bg-transparent py-2 text-sm text-white outline-none focus:border-[#F7C66A]"
+            />
           </div>
 
           <div>
