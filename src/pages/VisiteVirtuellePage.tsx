@@ -561,7 +561,7 @@ export default function VisiteVirtuellePage() {
         description="Visitez nos appartements haut standing à Alger en 360° : Dely Ibrahim, Birkhadem, Oued Romane, Draria. Scans réels de logements livrés, accessibles sans rendez-vous."
         appendTitleSuffix={false}
         keywords="visite virtuelle appartement Alger, visite virtuelle immobilier Algérie, appartement F5 Birkhadem, appartement Draria, appartement haut standing Alger, visiter un appartement en ligne, appartement 360 Alger, acheter un appartement à Alger depuis l'étranger"
-        image="https://aymenpromotion-dz.com/assets/visite_virtuelle/banner_vr.png"
+        image="https://aymenpromotion-dz.com/assets/visite_virtuelle/banner_vr.webp"
       />
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
@@ -577,12 +577,23 @@ export default function VisiteVirtuellePage() {
       */}
       <div className="relative w-full overflow-hidden md:h-[90vh] md:min-h-[560px]" style={{ background: "#031B17" }}>
         <div className="relative h-[52vh] min-h-[340px] w-full md:absolute md:inset-0 md:h-full md:min-h-0">
-          <img
-            src="/assets/visite_virtuelle/banner_vr.png"
-            alt="Visite virtuelle d'appartement 360° — Aymen Promotion"
-            className="absolute inset-0 h-full w-full object-cover object-[70%_center] md:object-right"
-            draggable={false}
-          />
+          {/* WebP compressé (8.8 Mo → 42/244 Kio) — le PNG d'origine reste en
+              secours pour les rares navigateurs sans support WebP. */}
+          <picture>
+            <source
+              media="(max-width: 767px)"
+              srcSet="/assets/visite_virtuelle/banner_vr-mobile.webp"
+              type="image/webp"
+            />
+            <source srcSet="/assets/visite_virtuelle/banner_vr.webp" type="image/webp" />
+            <img
+              src="/assets/visite_virtuelle/banner_vr.png"
+              alt="Visite virtuelle d'appartement 360° — Aymen Promotion"
+              className="absolute inset-0 h-full w-full object-cover object-[70%_center] md:object-right"
+              fetchpriority="high"
+              draggable={false}
+            />
+          </picture>
           <div className="absolute inset-0 hidden bg-gradient-to-r from-[#031B17] via-[#031B17]/75 to-transparent md:block" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#031B17] md:via-transparent" />
         </div>
