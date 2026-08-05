@@ -429,7 +429,7 @@ export default function ProjectsPage() {
         <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(21,105,83,0.3),transparent_70%)]" />
         <div className="absolute top-[40%] right-[-10%] w-[700px] h-[700px] bg-[radial-gradient(circle,rgba(225,187,127,0.1),transparent_70%)]" />
         <div className="absolute inset-0 opacity-[0.05] mix-blend-overlay" style={{ 
-          backgroundImage: 'url("/texture.png")', 
+          backgroundImage: 'url("/texture.webp")', 
           backgroundSize: '1200px', 
           backgroundRepeat: 'repeat' 
         }} />

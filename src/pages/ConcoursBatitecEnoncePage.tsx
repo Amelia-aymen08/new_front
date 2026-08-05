@@ -53,7 +53,7 @@ export default function ConcoursBatitecEnoncePage() {
         <div className="absolute top-[40%] right-[-10%] w-[700px] h-[700px] bg-[radial-gradient(circle,rgba(225,187,127,0.10),transparent_70%)]" />
         <div
           className="absolute inset-0 opacity-[0.05] mix-blend-overlay"
-          style={{ backgroundImage: 'url("/texture.png")', backgroundSize: "1200px", backgroundRepeat: "repeat" }}
+          style={{ backgroundImage: 'url("/texture.webp")', backgroundSize: "1200px", backgroundRepeat: "repeat" }}
         />
       </div>
 

@@ -187,7 +187,7 @@ export default function CataloguePage() {
         <div
           className="absolute inset-0 opacity-[0.05] mix-blend-overlay"
           style={{
-            backgroundImage: 'url("/texture.png")',
+            backgroundImage: 'url("/texture.webp")',
             backgroundSize: "1200px",
             backgroundRepeat: "repeat",
           }}
