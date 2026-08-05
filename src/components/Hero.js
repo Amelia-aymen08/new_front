@@ -15,12 +15,19 @@ export default function Hero() {
   return (
     <section className="relative h-screen w-full overflow-hidden">
       <h1 className="sr-only">Promoteur Immobilier Alger — Appartements Haut Standing | Aymen Promotion</h1>
-      <img
-        src={isMobile ? "/hero-mobile.png" : "/Hero.png"}
-        alt="Résidences haut standing Aymen Promotion à Alger — Hydra, Chéraga, Birkhadem"
-        className="absolute inset-0 h-full w-full object-cover object-[50%_60%] hero-zoom-out"
-        draggable={false}
-      />
+      {/* <picture> évite le double téléchargement (desktop puis mobile) que
+          provoquait le changement de src piloté par isMobile côté JS. */}
+      <picture>
+        <source media="(max-width: 767px)" srcSet="/hero-mobile.webp" type="image/webp" />
+        <source srcSet="/Hero.webp" type="image/webp" />
+        <img
+          src={isMobile ? "/hero-mobile.png" : "/Hero.png"}
+          alt="Résidences haut standing Aymen Promotion à Alger — Hydra, Chéraga, Birkhadem"
+          className="absolute inset-0 h-full w-full object-cover object-[50%_60%] hero-zoom-out"
+          fetchpriority="high"
+          draggable={false}
+        />
+      </picture>
       {/* Scroll Down Arrow (Mouse + Double Arrow) */}
       <div className={`absolute ${isMobile ? "bottom-[8%]" : "bottom-8"} left-1/2 -translate-x-1/2 flex flex-col items-center z-30 pointer-events-none opacity-85`}>
         {/* Mouse Icon */}

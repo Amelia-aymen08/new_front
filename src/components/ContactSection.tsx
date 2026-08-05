@@ -125,7 +125,7 @@ export default function ContactSection() {
     >
       <div className="absolute inset-0 overflow-hidden">
         <img
-          src="/contact.png"
+          src="/contact.webp"
           alt="Contact Aymen Promotion — Showroom et conseillers immobiliers à Alger"
           className="h-full w-full origin-center transform object-cover transition-all ease-[cubic-bezier(0.22,0.61,0.36,1)]"
           style={{
@@ -148,7 +148,7 @@ export default function ContactSection() {
         >
           <div
             className="pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-overlay"
-            style={{ backgroundImage: "url(/texture.png)", backgroundSize: "cover", backgroundPosition: "center" }}
+            style={{ backgroundImage: "url(/texture.webp)", backgroundSize: "cover", backgroundPosition: "center" }}
           />
 
           <div

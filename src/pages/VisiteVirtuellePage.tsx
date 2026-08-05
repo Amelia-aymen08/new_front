@@ -185,7 +185,7 @@ function Badge({ children, tone = "neutral" }) {
 
 function PrimaryButton({ children, to, ...props }) {
   const className =
-    "inline-flex items-center justify-center rounded-full bg-[#F7C66A] px-6 py-3 text-xs font-bold uppercase tracking-wider text-[#031B13] transition-transform hover:scale-[1.03]";
+    "inline-flex items-center justify-center rounded-full border border-[#F7C66A] bg-[#F7C66A] px-6 py-3 text-xs font-bold uppercase tracking-wider text-[#031B13] transition-colors hover:bg-transparent hover:text-[#F7C66A]";
   if (to) {
     return (
       <Link to={to} className={className} {...props}>
@@ -299,7 +299,7 @@ function TourCard({ project, index, onReserve }) {
               </div>
             )}
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap justify-center gap-3 md:justify-start">
               <PrimaryButton onClick={onReserve}>Réservez une visite</PrimaryButton>
               <SecondaryButton to={`/projet/${project.title.toLowerCase()}`}>
                 Voir la résidence
@@ -598,7 +598,7 @@ export default function VisiteVirtuellePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#031B17] md:via-transparent" />
         </div>
 
-        <div className="relative z-10 px-6 py-10 md:flex md:h-full md:max-w-3xl md:flex-col md:justify-center md:px-16 md:py-0">
+        <div className="relative z-10 px-6 py-10 text-center md:flex md:h-full md:max-w-3xl md:flex-col md:justify-center md:px-16 md:py-0 md:text-left">
           <p
             className="mb-4 text-xs font-bold uppercase tracking-[0.3em]"
             style={{ color: GOLD }}
@@ -609,14 +609,14 @@ export default function VisiteVirtuellePage() {
             Visitez nos appartements à Alger.{" "}
             <span style={{ color: GOLD }}>Sans bouger de chez vous.</span>
           </h1>
-          <p className="mb-8 max-w-xl text-[15px] leading-relaxed text-white/80 md:text-base">
+          <p className="mx-auto mb-8 max-w-xl text-[15px] leading-relaxed text-white/80 md:mx-0 md:text-base">
             Une sélection de nos appartements, scannés pièce par pièce. Explorez-les à votre guise,
             quand vous voulez. Accessible jour et nuit, sans rendez-vous, sans engagement.
           </p>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap justify-center gap-4 md:justify-start">
             <button
               onClick={() => scrollTo(toursRef)}
-              className="rounded-full bg-[#F7C66A] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#031B13] transition-transform hover:scale-[1.03]"
+              className="rounded-full border border-[#F7C66A] bg-[#F7C66A] px-7 py-3 text-xs font-bold uppercase tracking-wider text-[#031B13] transition-colors hover:bg-transparent hover:text-[#F7C66A]"
             >
               Commencer la visite
             </button>
@@ -642,15 +642,15 @@ export default function VisiteVirtuellePage() {
         <p className="mb-8 mt-2 text-xs font-bold uppercase tracking-[0.3em] text-white/60">
           D'expérience
         </p>
-        <div className="mx-auto flex max-w-3xl flex-col items-center gap-8 sm:flex-row sm:justify-center sm:gap-16">
+        <div className="mx-auto flex max-w-3xl flex-row items-start justify-center gap-4 sm:gap-16">
           {[
             { src: "/assets/visite_virtuelle/stats/plus30.png", label: "Résidences haut standing" },
             { src: "/assets/visite_virtuelle/stats/plus15.png", label: "Communes prestigieuses" },
             { src: "/assets/visite_virtuelle/stats/plus1500.png", label: "Appartements livrés" },
           ].map((stat) => (
-            <div key={stat.label}>
-              <img src={stat.src} alt={stat.label} className="mx-auto h-9 w-auto" />
-              <p className="mt-2 text-[11px] uppercase tracking-widest text-white/60">{stat.label}</p>
+            <div key={stat.label} className="flex-1 sm:flex-none">
+              <img src={stat.src} alt={stat.label} className="mx-auto h-6 w-auto sm:h-9" />
+              <p className="mt-2 text-[8px] uppercase leading-tight tracking-widest text-white/60 sm:text-[11px]">{stat.label}</p>
             </div>
           ))}
         </div>
@@ -770,9 +770,10 @@ export default function VisiteVirtuellePage() {
         <FadeInSection>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="mb-2 text-2xl font-bold uppercase text-white md:text-3xl">
-              Un écran ne remplace pas{" "}
+              Un écran ne remplace pas
+              <br />
               <span className="font-['PhotographSignature'] normal-case text-4xl md:text-5xl" style={{ color: GOLD }}>
-                une clé
+                Une Clé
               </span>
             </h2>
             <p className="mb-8 mt-4 text-[15px] leading-relaxed text-white/80 md:text-base">
@@ -846,7 +847,7 @@ export default function VisiteVirtuellePage() {
             </p>
 
             <div>
-              <h3 className="mb-3 text-lg font-bold uppercase text-white">
+              <h3 className="mb-3 text-base font-bold uppercase text-white">
                 Visiter un appartement à Alger sans se déplacer
               </h3>
               <p className="text-sm leading-relaxed text-white/70">
@@ -859,7 +860,7 @@ export default function VisiteVirtuellePage() {
             </div>
 
             <div>
-              <h3 className="mb-3 text-lg font-bold uppercase" style={{ color: GOLD }}>
+              <h3 className="mb-3 text-base font-bold uppercase" style={{ color: GOLD }}>
                 Ce qui reste disponible aujourd'hui
               </h3>
               <p className="text-sm leading-relaxed text-white/70">
@@ -882,7 +883,7 @@ export default function VisiteVirtuellePage() {
             </div>
 
             <div>
-              <h3 className="mb-3 text-lg font-bold uppercase text-white">
+              <h3 className="mb-3 text-base font-bold uppercase text-white">
                 Une entreprise de promotion immobilière à Alger depuis 20 ans
               </h3>
               <p className="text-sm leading-relaxed text-white/70">

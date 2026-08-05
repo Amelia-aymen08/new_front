@@ -216,7 +216,7 @@ export default function HomePage() {
         key: "s2",
         element: (
           <WipeImageSection
-            src={isMobile ? "/1-mobile.png" : "/sections/1.png"}
+            src={isMobile ? "/1-mobile.webp" : "/sections/1.webp"}
             title="PROJETS EN COURS"
             description="Découvrez nos résidences de haut standing en cours de réalisation. Entre architecture moderne et matériaux nobles, chaque projet offre des appartements d'exception conçus pour votre confort."
             buttonText="DECOUVRIR"
@@ -228,7 +228,7 @@ export default function HomePage() {
         key: "s1",
         element: (
           <WipeImageSection
-            src={isMobile ? "/2-mobile.png" : "/sections/2.png"}
+            src={isMobile ? "/2-mobile.webp" : "/sections/2.webp"}
             title="PROJETS FINIS"
             description="Parcourez notre galerie de résidences déjà livrées. Ces résidences de luxe allient esthétique intemporelle et fonctionnalité, confirmant notre maîtrise de l'immobilier haut de gamme à travers chaque détail."
             buttonText="DECOUVRIR"
@@ -240,7 +240,7 @@ export default function HomePage() {
         key: "s3",
         element: (
           <WipeImageSection
-            src={isMobile ? "/3-mobile.png" : "/sections/3.png"}
+            src={isMobile ? "/3-mobile.webp" : "/sections/3.webp"}
             title="NOS INTÉRIEURS"
             description="Plongez dans l'élégance de nos intérieurs de luxe. Chaque espace est sublimé par des matériaux nobles et des finitions méticuleuses, créant une atmosphère raffinée."
             buttonText="DECOUVRIR"

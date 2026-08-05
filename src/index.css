@@ -81,7 +81,7 @@ body {
 }
 
 .ambient-bg::after {
-  background-image: url("../public/texture.png");
+  background-image: url("../public/texture.webp");
   background-size: 1200px;
   background-repeat: repeat;
   opacity: 0.14;
