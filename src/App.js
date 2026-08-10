@@ -28,6 +28,7 @@ const TermsPage = lazy(() => import("./pages/TermsPage"));
 const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
 const OffreEtePage = lazy(() => import("./pages/OffreEtePage"));
 const VisiteVirtuellePage = lazy(() => import("./pages/VisiteVirtuellePage"));
+const BatimatPage = lazy(() => import("./pages/BatimatPage"));
 
 // Loading component for lazy routes
 const LoadingFallback = () => (
@@ -143,6 +144,7 @@ function App() {
             <Route path="/confidentialite" element={<PrivacyPage />} />
             <Route path="/offres-ete-2026" element={<OffreEtePage />} />
             <Route path="/visite-virtuelle" element={<VisiteVirtuellePage />} />
+            <Route path="/batimat" element={<BatimatPage />} />
           </Routes>
         </Suspense>
       </div>
