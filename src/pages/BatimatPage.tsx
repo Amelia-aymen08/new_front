@@ -145,8 +145,7 @@ function BatimatForm() {
 
       <h2 className="mb-2 text-2xl font-bold text-[#1a1a1a]">Recevez les prochaines étapes</h2>
       <p className="mb-6 text-sm leading-relaxed text-[#6b6b6b]">
-        Les quatre informations essentielles suffisent pour ouvrir votre demande. Les champs
-        marqués d'un astérisque sont obligatoires.
+        Tous les champs ci-dessous sont obligatoires pour ouvrir votre demande.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -207,15 +206,14 @@ function BatimatForm() {
         </div>
 
         <div>
-          <label className={labelClass}>
-            Votre profil <span className="font-normal normal-case text-[#8a8a8a]">(facultatif)</span>
-          </label>
+          <label className={labelClass}>Votre profil*</label>
           <select
+            required
             value={form.profile}
             onChange={(e) => setForm((f) => ({ ...f, profile: e.target.value }))}
             className="w-full rounded-md border border-[#E2E2E2] bg-white px-3 py-2.5 text-sm text-[#1a1a1a] outline-none focus:border-[#BF0D0D]"
           >
-            <option value="">Sélectionner, si vous le souhaitez</option>
+            <option value="">Sélectionner</option>
             {PROFILE_OPTIONS.map((p) => (
               <option key={p} value={p}>
                 {p}
