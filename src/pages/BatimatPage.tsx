@@ -154,6 +154,8 @@ function BatimatForm() {
             <label className={labelClass}>Prénom*</label>
             <input
               required
+              name="firstname"
+              autoComplete="given-name"
               value={form.firstName}
               onChange={(e) => setForm((f) => ({ ...f, firstName: e.target.value }))}
               className={inputClass}
@@ -163,6 +165,8 @@ function BatimatForm() {
             <label className={labelClass}>Nom*</label>
             <input
               required
+              name="lastname"
+              autoComplete="family-name"
               value={form.lastName}
               onChange={(e) => setForm((f) => ({ ...f, lastName: e.target.value }))}
               className={inputClass}
@@ -174,7 +178,9 @@ function BatimatForm() {
           <label className={labelClass}>Adresse e-mail*</label>
           <input
             required
+            name="email"
             type="email"
+            autoComplete="email"
             value={form.email}
             onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
             className={inputClass}
@@ -197,6 +203,9 @@ function BatimatForm() {
             </select>
             <input
               required
+              name="phone"
+              type="tel"
+              autoComplete="tel-national"
               value={form.phone}
               onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
               placeholder="5 XX XX XX XX"
