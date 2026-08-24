@@ -1,8 +1,9 @@
 // @ts-nocheck
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { API_BASE_URL } from "../config";
 
-const API_URL = "/api/batimat";
+const API_URL = `${API_BASE_URL}/api/batimat`;
 const TOKEN_KEY = "batimat_admin_token";
 const REFRESH_INTERVAL_MS = 20000;
 
