@@ -287,7 +287,11 @@ function Dashboard({ token, onLogout }) {
         }
         if (!res.ok) throw new Error("Erreur serveur");
         const data = await res.json();
-        setLeads(Array.isArray(data) ? data : []);
+        const normalized = (Array.isArray(data) ? data : []).map((l) => ({
+          ...l,
+          createdAt: l.createdAt || l.created_at,
+        }));
+        setLeads(normalized);
         setLastUpdated(new Date());
         setError("");
       } catch {
