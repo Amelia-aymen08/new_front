@@ -1,11 +1,21 @@
 // @ts-nocheck
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { API_BASE_URL } from "../config";
 
 const API_URL = `${API_BASE_URL}/api/batimat`;
 const TOKEN_KEY = "batimat_admin_token";
 const REFRESH_INTERVAL_MS = 20000;
+
+const STATUTS = [
+  { value: "nouveau", label: "Nouveau", bg: "#FEF3C7", color: "#92400E", dot: "#D97706" },
+  { value: "confirmé", label: "Confirmé", bg: "#DCFCE7", color: "#166534", dot: "#16A34A" },
+  { value: "annulé", label: "Annulé", bg: "#FEE2E2", color: "#991B1B", dot: "#DC2626" },
+];
+
+function statutMeta(value) {
+  return STATUTS.find((s) => s.value === value) || STATUTS[0];
+}
 
 function formatDate(value) {
   if (!value) return "—";
@@ -51,24 +61,6 @@ function downloadCsv(leads) {
   URL.revokeObjectURL(url);
 }
 
-const STATUT_STYLES = {
-  nouveau: { bg: "#FEF3C7", color: "#92400E" },
-  traité: { bg: "#DBEAFE", color: "#1E40AF" },
-  badge_envoyé: { bg: "#DCFCE7", color: "#166534" },
-};
-
-function StatutBadge({ statut }) {
-  const style = STATUT_STYLES[statut] || { bg: "#E5E7EB", color: "#374151" };
-  return (
-    <span
-      className="inline-block rounded-full px-2.5 py-1 text-xs font-semibold"
-      style={{ background: style.bg, color: style.color }}
-    >
-      {statut}
-    </span>
-  );
-}
-
 function LoginGate({ onAuthenticated }) {
   const [tokenInput, setTokenInput] = useState("");
   const [checking, setChecking] = useState(false);
@@ -102,26 +94,41 @@ function LoginGate({ onAuthenticated }) {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#F5F5F4] px-4">
+    <div className="flex min-h-screen items-center justify-center bg-[#0B1220] px-4">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm rounded-lg border border-[#E2E2E2] bg-white p-8 shadow-sm"
+        className="w-full max-w-sm rounded-2xl border border-white/10 bg-[#111A2E] p-8 shadow-2xl"
       >
-        <h1 className="mb-1 text-xl font-bold text-[#1a1a1a]">Batimat — Admin</h1>
-        <p className="mb-6 text-sm text-[#6b6b6b]">Accès réservé, entrez le token d'accès.</p>
+        <div className="mb-6 flex items-center gap-3">
+          <div
+            className="flex h-10 w-10 items-center justify-center rounded-xl text-base font-bold text-[#0B1220]"
+            style={{ background: "#F7C66A" }}
+          >
+            B
+          </div>
+          <div>
+            <h1 className="text-lg font-bold text-white">Batimat — Admin</h1>
+            <p className="text-xs text-white/40">Accès réservé</p>
+          </div>
+        </div>
+        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/50">
+          Token d'accès
+        </label>
         <input
           type="password"
           autoFocus
+          autoComplete="off"
           value={tokenInput}
           onChange={(e) => setTokenInput(e.target.value)}
-          placeholder="Token d'accès"
-          className="mb-3 w-full rounded-md border border-[#E2E2E2] px-3 py-2.5 text-sm text-[#1a1a1a] outline-none focus:border-[#BF0D0D]"
+          placeholder="••••••••••••••••"
+          className="mb-3 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none transition-colors focus:border-[#F7C66A]"
         />
-        {error && <p className="mb-3 text-sm text-red-600">{error}</p>}
+        {error && <p className="mb-3 text-sm text-red-400">{error}</p>}
         <button
           type="submit"
           disabled={checking}
-          className="w-full rounded-md bg-[#BF0D0D] py-2.5 text-sm font-bold uppercase tracking-wider text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="w-full rounded-lg py-2.5 text-sm font-bold uppercase tracking-wider text-[#0B1220] transition-opacity hover:opacity-90 disabled:opacity-50"
+          style={{ background: "#F7C66A" }}
         >
           {checking ? "Vérification…" : "Se connecter"}
         </button>
@@ -130,11 +137,56 @@ function LoginGate({ onAuthenticated }) {
   );
 }
 
+function StatCard({ label, value, accent, active, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`flex-1 rounded-xl border bg-white px-5 py-4 text-left shadow-sm transition-all hover:shadow-md ${
+        active ? "border-[#0B1220] ring-1 ring-[#0B1220]" : "border-[#E5E7EB]"
+      }`}
+    >
+      <div className="mb-2 flex items-center gap-2">
+        <span className="h-2 w-2 rounded-full" style={{ background: accent }} />
+        <span className="text-xs font-semibold uppercase tracking-wide text-[#8A8F98]">{label}</span>
+      </div>
+      <span className="text-2xl font-bold text-[#0B1220]">{value}</span>
+    </button>
+  );
+}
+
+function StatutSelect({ statut, onChange, disabled }) {
+  const meta = statutMeta(statut);
+  return (
+    <select
+      value={statut}
+      disabled={disabled}
+      onChange={(e) => onChange(e.target.value)}
+      className="cursor-pointer appearance-none rounded-full border-0 px-3 py-1.5 pr-7 text-xs font-semibold outline-none disabled:cursor-wait disabled:opacity-60"
+      style={{
+        background: meta.bg,
+        color: meta.color,
+        backgroundImage:
+          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23000' stroke-opacity='0.4' stroke-width='1.5' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E\")",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "right 8px center",
+      }}
+    >
+      {STATUTS.map((s) => (
+        <option key={s.value} value={s.value}>
+          {s.label}
+        </option>
+      ))}
+    </select>
+  );
+}
+
 function Dashboard({ token, onLogout }) {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [lastUpdated, setLastUpdated] = useState(null);
+  const [statutFilter, setStatutFilter] = useState("all");
+  const [updatingId, setUpdatingId] = useState(null);
   const intervalRef = useRef(null);
 
   const fetchLeads = useCallback(
@@ -169,32 +221,73 @@ function Dashboard({ token, onLogout }) {
     return () => clearInterval(intervalRef.current);
   }, [fetchLeads]);
 
+  const handleStatutChange = async (id, statut) => {
+    const previous = leads;
+    setUpdatingId(id);
+    setLeads((prev) => prev.map((l) => (l.id === id ? { ...l, statut } : l)));
+    try {
+      const res = await fetch(`${API_URL}/${id}/statut`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ statut }),
+      });
+      if (!res.ok) throw new Error("failed");
+    } catch {
+      setLeads(previous);
+      setError("Échec de la mise à jour du statut, réessayez.");
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
+  const counts = useMemo(() => {
+    const c = { all: leads.length, nouveau: 0, confirmé: 0, annulé: 0 };
+    leads.forEach((l) => {
+      if (c[l.statut] !== undefined) c[l.statut] += 1;
+    });
+    return c;
+  }, [leads]);
+
+  const filteredLeads = useMemo(
+    () => (statutFilter === "all" ? leads : leads.filter((l) => l.statut === statutFilter)),
+    [leads, statutFilter]
+  );
+
   return (
-    <div className="min-h-screen bg-[#F5F5F4] px-4 py-8 md:px-10">
-      <div className="mx-auto max-w-6xl">
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-[#1a1a1a]">Préinscriptions BATIMAT 2026</h1>
-            <p className="text-sm text-[#6b6b6b]">
-              {leads.length} inscription{leads.length !== 1 ? "s" : ""}
-              {lastUpdated && (
-                <span className="ml-2 text-[#9a9a9a]">
-                  · Actualisé à {lastUpdated.toLocaleTimeString("fr-FR")}
-                </span>
-              )}
-            </p>
+    <div className="min-h-screen bg-[#F5F6F8]">
+      <div className="border-b border-[#E5E7EB] bg-[#0B1220]">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-5">
+          <div className="flex items-center gap-3">
+            <div
+              className="flex h-9 w-9 items-center justify-center rounded-lg text-sm font-bold text-[#0B1220]"
+              style={{ background: "#F7C66A" }}
+            >
+              B
+            </div>
+            <div>
+              <h1 className="text-base font-bold text-white">Préinscriptions BATIMAT 2026</h1>
+              <p className="flex items-center gap-1.5 text-xs text-white/40">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+                En direct
+                {lastUpdated && <span>· actualisé à {lastUpdated.toLocaleTimeString("fr-FR")}</span>}
+              </p>
+            </div>
           </div>
           <div className="flex gap-2">
             <button
               onClick={() => fetchLeads()}
-              className="rounded-md border border-[#E2E2E2] bg-white px-4 py-2 text-sm font-semibold text-[#1a1a1a] hover:bg-[#F5F5F4]"
+              className="rounded-lg border border-white/15 px-4 py-2 text-sm font-medium text-white/80 transition-colors hover:bg-white/5"
             >
               Actualiser
             </button>
             <button
               onClick={() => downloadCsv(leads)}
               disabled={!leads.length}
-              className="rounded-md bg-[#1a1a1a] px-4 py-2 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-40"
+              className="rounded-lg px-4 py-2 text-sm font-semibold text-[#0B1220] transition-opacity hover:opacity-90 disabled:opacity-40"
+              style={{ background: "#F7C66A" }}
             >
               Exporter CSV
             </button>
@@ -203,64 +296,86 @@ function Dashboard({ token, onLogout }) {
                 sessionStorage.removeItem(TOKEN_KEY);
                 onLogout();
               }}
-              className="rounded-md border border-[#E2E2E2] bg-white px-4 py-2 text-sm font-semibold text-[#6b6b6b] hover:bg-[#F5F5F4]"
+              className="rounded-lg border border-white/15 px-4 py-2 text-sm font-medium text-white/60 transition-colors hover:bg-white/5"
             >
               Déconnexion
             </button>
           </div>
         </div>
+      </div>
+
+      <div className="mx-auto max-w-7xl px-6 py-8">
+        <div className="mb-6 flex flex-wrap gap-3">
+          <StatCard label="Toutes" value={counts.all} accent="#0B1220" active={statutFilter === "all"} onClick={() => setStatutFilter("all")} />
+          {STATUTS.map((s) => (
+            <StatCard
+              key={s.value}
+              label={s.label}
+              value={counts[s.value] || 0}
+              accent={s.dot}
+              active={statutFilter === s.value}
+              onClick={() => setStatutFilter(s.value)}
+            />
+          ))}
+        </div>
 
         {error && (
-          <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
             {error}
           </div>
         )}
 
-        <div className="overflow-x-auto rounded-lg border border-[#E2E2E2] bg-white">
-          <table className="w-full min-w-[820px] text-left text-sm">
-            <thead>
-              <tr className="border-b border-[#E2E2E2] bg-[#FAFAFA] text-xs uppercase tracking-wider text-[#8a8a8a]">
-                <th className="px-4 py-3">Prénom</th>
-                <th className="px-4 py-3">Nom</th>
-                <th className="px-4 py-3">Email</th>
-                <th className="px-4 py-3">Téléphone</th>
-                <th className="px-4 py-3">Profil</th>
-                <th className="px-4 py-3">Newsletter</th>
-                <th className="px-4 py-3">Statut</th>
-                <th className="px-4 py-3">Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading && !leads.length ? (
-                <tr>
-                  <td colSpan={8} className="px-4 py-8 text-center text-[#8a8a8a]">
-                    Chargement…
-                  </td>
+        <div className="overflow-hidden rounded-xl border border-[#E5E7EB] bg-white shadow-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[860px] text-left text-sm">
+              <thead>
+                <tr className="border-b border-[#E5E7EB] bg-[#FAFAFB] text-xs uppercase tracking-wide text-[#8A8F98]">
+                  <th className="px-5 py-3 font-semibold">Prénom</th>
+                  <th className="px-5 py-3 font-semibold">Nom</th>
+                  <th className="px-5 py-3 font-semibold">Email</th>
+                  <th className="px-5 py-3 font-semibold">Téléphone</th>
+                  <th className="px-5 py-3 font-semibold">Profil</th>
+                  <th className="px-5 py-3 font-semibold">Newsletter</th>
+                  <th className="px-5 py-3 font-semibold">Statut</th>
+                  <th className="px-5 py-3 font-semibold">Date</th>
                 </tr>
-              ) : !leads.length ? (
-                <tr>
-                  <td colSpan={8} className="px-4 py-8 text-center text-[#8a8a8a]">
-                    Aucune inscription pour le moment.
-                  </td>
-                </tr>
-              ) : (
-                leads.map((lead) => (
-                  <tr key={lead.id} className="border-b border-[#F0F0F0] last:border-0 hover:bg-[#FAFAFA]">
-                    <td className="px-4 py-3 font-medium text-[#1a1a1a]">{lead.firstName}</td>
-                    <td className="px-4 py-3 text-[#1a1a1a]">{lead.lastName}</td>
-                    <td className="px-4 py-3 text-[#4b4b4b]">{lead.email}</td>
-                    <td className="px-4 py-3 text-[#4b4b4b]">{lead.phone}</td>
-                    <td className="px-4 py-3 text-[#4b4b4b]">{lead.profile || "—"}</td>
-                    <td className="px-4 py-3 text-[#4b4b4b]">{lead.newsletterOptIn ? "Oui" : "Non"}</td>
-                    <td className="px-4 py-3">
-                      <StatutBadge statut={lead.statut} />
+              </thead>
+              <tbody>
+                {loading && !leads.length ? (
+                  <tr>
+                    <td colSpan={8} className="px-5 py-10 text-center text-[#8A8F98]">
+                      Chargement…
                     </td>
-                    <td className="px-4 py-3 text-[#8a8a8a]">{formatDate(lead.createdAt)}</td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : !filteredLeads.length ? (
+                  <tr>
+                    <td colSpan={8} className="px-5 py-10 text-center text-[#8A8F98]">
+                      Aucune inscription {statutFilter !== "all" ? `avec le statut "${statutMeta(statutFilter).label}"` : "pour le moment"}.
+                    </td>
+                  </tr>
+                ) : (
+                  filteredLeads.map((lead) => (
+                    <tr key={lead.id} className="border-b border-[#F0F1F3] last:border-0 hover:bg-[#FAFAFB]">
+                      <td className="px-5 py-3.5 font-medium text-[#0B1220]">{lead.firstName}</td>
+                      <td className="px-5 py-3.5 text-[#0B1220]">{lead.lastName}</td>
+                      <td className="px-5 py-3.5 text-[#4B5563]">{lead.email}</td>
+                      <td className="px-5 py-3.5 text-[#4B5563]">{lead.phone}</td>
+                      <td className="px-5 py-3.5 text-[#4B5563]">{lead.profile || "—"}</td>
+                      <td className="px-5 py-3.5 text-[#4B5563]">{lead.newsletterOptIn ? "Oui" : "Non"}</td>
+                      <td className="px-5 py-3.5">
+                        <StatutSelect
+                          statut={lead.statut}
+                          disabled={updatingId === lead.id}
+                          onChange={(v) => handleStatutChange(lead.id, v)}
+                        />
+                      </td>
+                      <td className="px-5 py-3.5 text-[#8A8F98]">{formatDate(lead.createdAt)}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
