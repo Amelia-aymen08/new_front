@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Seo from "../components/Seo";
 import { API_BASE_URL } from "../config";
+import { getHubspotContext } from "../utils/hubspotContext";
 
 
 export default function OffreEtePage() {
@@ -24,7 +25,7 @@ export default function OffreEtePage() {
       const res = await fetch(`${API_BASE_URL}/api/offres-ete`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, ...getHubspotContext() }),
       });
       const data = await res.json().catch(() => null);
       if (res.ok) {

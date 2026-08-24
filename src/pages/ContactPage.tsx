@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Seo from "../components/Seo";
 import { API_BASE_URL } from "../config";
+import { getHubspotContext } from "../utils/hubspotContext";
 
 export default function ContactPage() {
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
@@ -74,7 +75,11 @@ export default function ContactPage() {
       submitData.append('message', formData.message);
       submitData.append('type', formData.type);
       submitData.append('consent', consent ? 'true' : 'false');
-      
+      const hsContext = getHubspotContext();
+      submitData.append('hutk', hsContext.hutk);
+      submitData.append('pageUri', hsContext.pageUri);
+      submitData.append('pageName', hsContext.pageName);
+
       if (attachment) {
         submitData.append('attachment', attachment);
       }

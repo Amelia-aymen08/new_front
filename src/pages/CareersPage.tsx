@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Seo from "../components/Seo";
 import { API_BASE_URL } from "../config";
+import { getHubspotContext } from "../utils/hubspotContext";
 
 // --- Data ---
 
@@ -174,6 +175,11 @@ export default function CareersPage() {
 
     data.append('department', activeDept.label);
     data.append('cv', file);
+
+    const hsContext = getHubspotContext();
+    data.append('hutk', hsContext.hutk);
+    data.append('pageUri', hsContext.pageUri);
+    data.append('pageName', hsContext.pageName);
 
     try {
       const response = await fetch(`${API_BASE_URL}/api/candidates`, {

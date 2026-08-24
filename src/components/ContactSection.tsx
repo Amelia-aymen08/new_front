@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { API_BASE_URL } from "../config";
+import { getHubspotContext } from "../utils/hubspotContext";
 
 export default function ContactSection() {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -37,7 +38,8 @@ export default function ContactSection() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             ...formData,
-            consent
+            consent,
+            ...getHubspotContext()
         }),
       });
 

@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import Seo from "../components/Seo";
 import { PROJECTS, LOCALITIES } from "../data/mockData";
 import { API_BASE_URL } from "../config";
+import { getHubspotContext } from "../utils/hubspotContext";
 
 const GOLD = "#F7C66A";
 
@@ -353,6 +354,7 @@ function RdvPopup({ open, onClose }) {
           phone: form.phone ? `+213 ${form.phone}` : "",
           localisations: form.localisations,
           consent: form.consent,
+          ...getHubspotContext(),
         }),
       });
       const data = await res.json().catch(() => ({}));

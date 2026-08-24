@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Seo from "../components/Seo";
 import { API_BASE_URL } from "../config";
+import { getHubspotContext } from "../utils/hubspotContext";
 
 type TerrainPaperKey =
   | "PERMIS_DE_CONSTRUIRE"
@@ -115,6 +116,7 @@ export default function TerrainPage() {
           area: form.area,
           papers: form.papers,
           consent: true,
+          ...getHubspotContext(),
         }),
       });
 

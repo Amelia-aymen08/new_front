@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { LOCALITIES } from "../data/mockData";
 import { API_BASE_URL } from "../config";
+import { getHubspotContext } from "../utils/hubspotContext";
 
 const GOLD = "#F7C66A";
 const LABEL_GOLD = "#F4CE86";
@@ -50,7 +51,7 @@ export default function Footer() {
       const res = await fetch(`${API_BASE_URL}/api/newsletter`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: newsEmail, source: "footer" }),
+        body: JSON.stringify({ email: newsEmail, source: "footer", ...getHubspotContext() }),
       });
       const data = await res.json().catch(() => ({}));
       setNewsStatus({ ok: res.ok, message: data.message || (res.ok ? "Inscription réussie !" : "Erreur.") });

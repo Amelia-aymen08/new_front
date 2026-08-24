@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Seo from "../components/Seo";
 import { API_BASE_URL } from "../config";
+import { getHubspotContext } from "../utils/hubspotContext";
 
 const GOLD = "#F7C66A";
 const RED = "#BF0D0D";
@@ -63,11 +64,6 @@ function useCountdownDays(target) {
   return days;
 }
 
-function getHubspotUtk() {
-  const match = document.cookie.match(/(?:^|;\s*)hubspotutk=([^;]+)/);
-  return match ? decodeURIComponent(match[1]) : "";
-}
-
 function BatimatForm() {
   const [form, setForm] = useState({
     firstName: "",
@@ -103,8 +99,7 @@ function BatimatForm() {
           profile: form.profile,
           newsletterOptIn: form.newsletterOptIn,
           consent: form.consent,
-          hutk: getHubspotUtk(),
-          pageUri: window.location.href,
+          ...getHubspotContext(),
         }),
       });
       const data = await res.json().catch(() => ({}));

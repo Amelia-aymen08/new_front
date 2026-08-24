@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import Seo from "../components/Seo";
 import { PROJECTS } from "../data/mockData";
 import { API_BASE_URL } from "../config";
+import { getHubspotContext } from "../utils/hubspotContext";
 import { 
   ReceptionIcon, 
   DomotiqueIcon, 
@@ -694,7 +695,7 @@ function DetailsContact({ projectTitle }: { projectTitle?: string }) {
       const response = await fetch(`${API_BASE_URL}/api/quotes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, ...getHubspotContext() }),
       });
 
       const data = await response.json();

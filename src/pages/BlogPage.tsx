@@ -7,6 +7,7 @@ import { useBlogs } from "../hooks/useBlogs";
 import Sidebar from "../components/blog/Sidebar";
 import Seo from "../components/Seo";
 import config from "../config";
+import { getHubspotContext } from "../utils/hubspotContext";
 
 const STRAPI_URL = config.STRAPI_URL;
 
@@ -27,7 +28,7 @@ export default function BlogPage() {
       const res = await fetch(`${config.API_BASE_URL}/api/newsletter`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: newsEmail, source: "blog" }),
+        body: JSON.stringify({ email: newsEmail, source: "blog", ...getHubspotContext() }),
       });
       const data = await res.json().catch(() => ({}));
       setNewsStatus({ ok: res.ok, message: data.message || (res.ok ? "Inscription réussie !" : "Erreur.") });
