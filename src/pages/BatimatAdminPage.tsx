@@ -154,6 +154,86 @@ function StatCard({ label, value, accent, active, onClick }) {
   );
 }
 
+const AVATAR_PALETTE = ["#0B1220", "#92400E", "#166534", "#1E3A8A", "#7C2D12", "#5B21B6", "#9D174D"];
+
+function avatarColor(seed) {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+  return AVATAR_PALETTE[Math.abs(hash) % AVATAR_PALETTE.length];
+}
+
+function Avatar({ firstName, lastName }) {
+  const initials = `${(firstName || "?")[0] || ""}${(lastName || "")[0] || ""}`.toUpperCase();
+  return (
+    <span
+      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
+      style={{ background: avatarColor(`${firstName}${lastName}`) }}
+    >
+      {initials || "?"}
+    </span>
+  );
+}
+
+function SearchIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-[#8A8F98]">
+      <circle cx="7" cy="7" r="5.25" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M11 11L14.5 14.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function Pagination({ page, totalPages, total, pageSize, onChange }) {
+  if (totalPages <= 1) return null;
+  const start = (page - 1) * pageSize + 1;
+  const end = Math.min(page * pageSize, total);
+
+  const pages = [];
+  const add = (p) => pages.push(p);
+  add(1);
+  for (let p = page - 1; p <= page + 1; p++) if (p > 1 && p < totalPages) add(p);
+  if (totalPages > 1) add(totalPages);
+  const uniquePages = [...new Set(pages)].sort((a, b) => a - b);
+
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#EDEEF1] px-5 py-3.5">
+      <p className="text-xs text-[#8A8F98]">
+        Affichage <span className="font-semibold text-[#0B1220]">{start}–{end}</span> sur{" "}
+        <span className="font-semibold text-[#0B1220]">{total}</span>
+      </p>
+      <div className="flex items-center gap-1">
+        <button
+          onClick={() => onChange(page - 1)}
+          disabled={page === 1}
+          className="rounded-md border border-[#E5E7EB] px-2.5 py-1.5 text-xs font-medium text-[#4B5563] transition-colors hover:bg-[#F5F6F8] disabled:opacity-40"
+        >
+          Précédent
+        </button>
+        {uniquePages.map((p, i) => (
+          <React.Fragment key={p}>
+            {i > 0 && p - uniquePages[i - 1] > 1 && <span className="px-1 text-xs text-[#C1C4CB]">…</span>}
+            <button
+              onClick={() => onChange(p)}
+              className={`h-7 min-w-[28px] rounded-md px-2 text-xs font-semibold transition-colors ${
+                p === page ? "bg-[#0B1220] text-white" : "text-[#4B5563] hover:bg-[#F5F6F8]"
+              }`}
+            >
+              {p}
+            </button>
+          </React.Fragment>
+        ))}
+        <button
+          onClick={() => onChange(page + 1)}
+          disabled={page === totalPages}
+          className="rounded-md border border-[#E5E7EB] px-2.5 py-1.5 text-xs font-medium text-[#4B5563] transition-colors hover:bg-[#F5F6F8] disabled:opacity-40"
+        >
+          Suivant
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function StatutSelect({ statut, onChange, disabled }) {
   const meta = statutMeta(statut);
   return (
@@ -180,12 +260,16 @@ function StatutSelect({ statut, onChange, disabled }) {
   );
 }
 
+const PAGE_SIZE = 50;
+
 function Dashboard({ token, onLogout }) {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [lastUpdated, setLastUpdated] = useState(null);
   const [statutFilter, setStatutFilter] = useState("all");
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
   const [updatingId, setUpdatingId] = useState(null);
   const intervalRef = useRef(null);
 
@@ -251,9 +335,29 @@ function Dashboard({ token, onLogout }) {
     return c;
   }, [leads]);
 
-  const filteredLeads = useMemo(
-    () => (statutFilter === "all" ? leads : leads.filter((l) => l.statut === statutFilter)),
-    [leads, statutFilter]
+  const filteredLeads = useMemo(() => {
+    let result = statutFilter === "all" ? leads : leads.filter((l) => l.statut === statutFilter);
+    const q = search.trim().toLowerCase();
+    if (q) {
+      const qDigits = q.replace(/[^\d]/g, "");
+      result = result.filter((l) => {
+        const emailMatch = l.email?.toLowerCase().includes(q);
+        const phoneMatch = qDigits && l.phone?.replace(/[^\d]/g, "").includes(qDigits);
+        return emailMatch || phoneMatch;
+      });
+    }
+    return result;
+  }, [leads, statutFilter, search]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [statutFilter, search]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredLeads.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const pagedLeads = useMemo(
+    () => filteredLeads.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE),
+    [filteredLeads, currentPage]
   );
 
   return (
@@ -325,57 +429,110 @@ function Dashboard({ token, onLogout }) {
           </div>
         )}
 
+        <div className="mb-4 flex items-center gap-2 rounded-lg border border-[#E5E7EB] bg-white px-3.5 py-2.5 shadow-sm focus-within:border-[#0B1220]">
+          <SearchIcon />
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Rechercher par email ou numéro de téléphone…"
+            className="w-full border-0 bg-transparent text-sm text-[#0B1220] outline-none placeholder:text-[#A7ABB4]"
+          />
+          {search && (
+            <button
+              onClick={() => setSearch("")}
+              className="shrink-0 text-xs font-medium text-[#8A8F98] hover:text-[#0B1220]"
+            >
+              Effacer
+            </button>
+          )}
+        </div>
+
         <div className="overflow-hidden rounded-xl border border-[#E5E7EB] bg-white shadow-sm">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[860px] text-left text-sm">
+            <table className="w-full min-w-[900px] text-left text-sm">
               <thead>
-                <tr className="border-b border-[#E5E7EB] bg-[#FAFAFB] text-xs uppercase tracking-wide text-[#8A8F98]">
-                  <th className="px-5 py-3 font-semibold">Prénom</th>
-                  <th className="px-5 py-3 font-semibold">Nom</th>
-                  <th className="px-5 py-3 font-semibold">Email</th>
-                  <th className="px-5 py-3 font-semibold">Téléphone</th>
+                <tr className="border-b border-[#E5E7EB] bg-[#FAFAFB] text-[11px] uppercase tracking-wide text-[#8A8F98]">
+                  <th className="px-5 py-3 font-semibold">Contact</th>
+                  <th className="px-5 py-3 font-semibold">Coordonnées</th>
                   <th className="px-5 py-3 font-semibold">Profil</th>
-                  <th className="px-5 py-3 font-semibold">Newsletter</th>
+                  <th className="px-5 py-3 text-center font-semibold">Newsletter</th>
                   <th className="px-5 py-3 font-semibold">Statut</th>
-                  <th className="px-5 py-3 font-semibold">Date</th>
+                  <th className="px-5 py-3 font-semibold">Inscrit le</th>
                 </tr>
               </thead>
               <tbody>
                 {loading && !leads.length ? (
                   <tr>
-                    <td colSpan={8} className="px-5 py-10 text-center text-[#8A8F98]">
+                    <td colSpan={6} className="px-5 py-14 text-center text-sm text-[#8A8F98]">
                       Chargement…
                     </td>
                   </tr>
-                ) : !filteredLeads.length ? (
+                ) : !pagedLeads.length ? (
                   <tr>
-                    <td colSpan={8} className="px-5 py-10 text-center text-[#8A8F98]">
-                      Aucune inscription {statutFilter !== "all" ? `avec le statut "${statutMeta(statutFilter).label}"` : "pour le moment"}.
+                    <td colSpan={6} className="px-5 py-14 text-center text-sm text-[#8A8F98]">
+                      {search
+                        ? "Aucun résultat pour cette recherche."
+                        : `Aucune inscription ${statutFilter !== "all" ? `avec le statut "${statutMeta(statutFilter).label}"` : "pour le moment"}.`}
                     </td>
                   </tr>
                 ) : (
-                  filteredLeads.map((lead) => (
+                  pagedLeads.map((lead) => (
                     <tr key={lead.id} className="border-b border-[#F0F1F3] last:border-0 hover:bg-[#FAFAFB]">
-                      <td className="px-5 py-3.5 font-medium text-[#0B1220]">{lead.firstName}</td>
-                      <td className="px-5 py-3.5 text-[#0B1220]">{lead.lastName}</td>
-                      <td className="px-5 py-3.5 text-[#4B5563]">{lead.email}</td>
-                      <td className="px-5 py-3.5 text-[#4B5563]">{lead.phone}</td>
-                      <td className="px-5 py-3.5 text-[#4B5563]">{lead.profile || "—"}</td>
-                      <td className="px-5 py-3.5 text-[#4B5563]">{lead.newsletterOptIn ? "Oui" : "Non"}</td>
-                      <td className="px-5 py-3.5">
+                      <td className="px-5 py-3">
+                        <div className="flex items-center gap-3">
+                          <Avatar firstName={lead.firstName} lastName={lead.lastName} />
+                          <span className="font-semibold text-[#0B1220]">
+                            {lead.firstName} {lead.lastName}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-5 py-3">
+                        <div className="flex flex-col">
+                          <span className="text-[#0B1220]">{lead.email}</span>
+                          <span className="font-mono text-xs text-[#8A8F98]">{lead.phone}</span>
+                        </div>
+                      </td>
+                      <td className="px-5 py-3">
+                        {lead.profile ? (
+                          <span className="inline-block rounded-md border border-[#E5E7EB] bg-[#FAFAFB] px-2 py-1 text-xs font-medium text-[#4B5563]">
+                            {lead.profile}
+                          </span>
+                        ) : (
+                          <span className="text-[#C1C4CB]">—</span>
+                        )}
+                      </td>
+                      <td className="px-5 py-3 text-center">
+                        {lead.newsletterOptIn ? (
+                          <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-50 text-emerald-600" title="Inscrit à la newsletter">
+                            ✓
+                          </span>
+                        ) : (
+                          <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#F5F6F8] text-[#C1C4CB]" title="Non inscrit">
+                            —
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-5 py-3">
                         <StatutSelect
                           statut={lead.statut}
                           disabled={updatingId === lead.id}
                           onChange={(v) => handleStatutChange(lead.id, v)}
                         />
                       </td>
-                      <td className="px-5 py-3.5 text-[#8A8F98]">{formatDate(lead.createdAt)}</td>
+                      <td className="px-5 py-3 text-xs text-[#8A8F98]">{formatDate(lead.createdAt)}</td>
                     </tr>
                   ))
                 )}
               </tbody>
             </table>
           </div>
+          <Pagination
+            page={currentPage}
+            totalPages={totalPages}
+            total={filteredLeads.length}
+            pageSize={PAGE_SIZE}
+            onChange={setPage}
+          />
         </div>
       </div>
     </div>
