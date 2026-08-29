@@ -9,6 +9,8 @@ Disallow: /api/
 Disallow: /admin/
 Disallow: /batimat-admin
 Disallow: /tracking-admin
+Disallow: /tracking-flyer
+Disallow: /tracking-batimat
 Disallow: /_next/static/chunks/
 Disallow: /*?*utm_
 Disallow: /*?*fbclid

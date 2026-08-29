@@ -155,6 +155,26 @@ function App() {
             <Route path="/batimat" element={<BatimatPage />} />
             <Route path="/batimat-admin" element={<BatimatAdminPage />} />
             <Route path="/tracking-admin" element={<TrackingAdminPage />} />
+            <Route
+              path="/tracking-flyer"
+              element={
+                <TrackingAdminPage
+                  campaign="flyer"
+                  pageTitle="Suivi — Flyers"
+                  tokenKey="tracking_flyer_token"
+                />
+              }
+            />
+            <Route
+              path="/tracking-batimat"
+              element={
+                <TrackingAdminPage
+                  campaign="batimat-bache"
+                  pageTitle="Suivi — Bâches BATIMAT"
+                  tokenKey="tracking_batimat_token"
+                />
+              }
+            />
           </Routes>
         </Suspense>
       </div>
