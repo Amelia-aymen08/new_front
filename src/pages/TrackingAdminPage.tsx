@@ -237,6 +237,13 @@ function Dashboard({ token, onLogout }) {
           </div>
         )}
 
+        {stats?.needsMigration && (
+          <div className="mb-4 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            Base de données non initialisée : exécutez <code>backend/sql/qr_tracking.sql</code>{" "}
+            dans phpMyAdmin (ou redémarrez le backend), puis actualisez.
+          </div>
+        )}
+
         <div className="mb-6 flex flex-wrap gap-3">
           <StatCard label="Scans (total)" value={loading ? "…" : totals.scans} hint="arrivées via un QR / lien tracé" />
           <StatCard label="Visiteurs uniques" value={loading ? "…" : totals.uniques} hint="appareils distincts" />
