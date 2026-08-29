@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import Seo from "../components/Seo";
 import { API_BASE_URL } from "../config";
 import { getHubspotContext } from "../utils/hubspotContext";
+import { getAttribution } from "../utils/attribution";
 
 const GOLD = "#F7C66A";
 const RED = "#BF0D0D";
@@ -100,6 +101,7 @@ function BatimatForm() {
           newsletterOptIn: form.newsletterOptIn,
           consent: form.consent,
           ...getHubspotContext(),
+          ...getAttribution(),
         }),
       });
       const data = await res.json().catch(() => ({}));

@@ -272,9 +272,13 @@ function Dashboard({ token, onLogout }) {
   const [page, setPage] = useState(1);
   const [updatingId, setUpdatingId] = useState(null);
   const intervalRef = useRef(null);
+  const updatingRef = useRef(false);
 
   const fetchLeads = useCallback(
     async (silent = false) => {
+      // Ne pas écraser l'affichage pendant qu'une mise à jour de statut est en vol :
+      // le rafraîchissement auto pourrait réafficher l'ancienne valeur.
+      if (silent && updatingRef.current) return;
       if (!silent) setLoading(true);
       try {
         const res = await fetch(API_URL, {
@@ -310,8 +314,10 @@ function Dashboard({ token, onLogout }) {
   }, [fetchLeads]);
 
   const handleStatutChange = async (id, statut) => {
-    const previous = leads;
+    const previousStatut = leads.find((l) => l.id === id)?.statut;
     setUpdatingId(id);
+    updatingRef.current = true;
+    setError("");
     setLeads((prev) => prev.map((l) => (l.id === id ? { ...l, statut } : l)));
     try {
       const res = await fetch(`${API_URL}/${id}/statut`, {
@@ -322,12 +328,20 @@ function Dashboard({ token, onLogout }) {
         },
         body: JSON.stringify({ statut }),
       });
-      if (!res.ok) throw new Error("failed");
-    } catch {
-      setLeads(previous);
-      setError("Échec de la mise à jour du statut, réessayez.");
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.message || "failed");
+      // On aligne la ligne sur ce que la base a réellement enregistré.
+      setLeads((prev) => prev.map((l) => (l.id === id ? { ...l, ...data } : l)));
+    } catch (e) {
+      setLeads((prev) => prev.map((l) => (l.id === id ? { ...l, statut: previousStatut } : l)));
+      setError(
+        e?.message && e.message !== "failed"
+          ? e.message
+          : "Échec de la mise à jour du statut, réessayez."
+      );
     } finally {
       setUpdatingId(null);
+      updatingRef.current = false;
     }
   };
 

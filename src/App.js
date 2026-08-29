@@ -7,6 +7,7 @@ import IntroHero from "./components/IntroHero";
 import StickyContactBar from "./components/StickyContactBar";
 import CookieBanner from "./components/CookieBanner";
 import Seo from "./components/Seo";
+import { captureAttribution } from "./utils/attribution";
 
 // Lazy loading the other routes to reduce initial bundle size
 const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
@@ -30,6 +31,7 @@ const OffreEtePage = lazy(() => import("./pages/OffreEtePage"));
 const VisiteVirtuellePage = lazy(() => import("./pages/VisiteVirtuellePage"));
 const BatimatPage = lazy(() => import("./pages/BatimatPage"));
 const BatimatAdminPage = lazy(() => import("./pages/BatimatAdminPage"));
+const TrackingAdminPage = lazy(() => import("./pages/TrackingAdminPage"));
 
 // Loading component for lazy routes
 const LoadingFallback = () => (
@@ -72,6 +74,11 @@ function HomeRoute() {
 }
 
 function App() {
+  // Suivi des arrivées via QR code / liens tracés (flyers, bâches BATIMAT).
+  useEffect(() => {
+    captureAttribution();
+  }, []);
+
   // Ajuste la variable --vh pour les vues mobiles
   useEffect(() => {
     const set = () => {
@@ -147,6 +154,7 @@ function App() {
             <Route path="/visite-virtuelle" element={<VisiteVirtuellePage />} />
             <Route path="/batimat" element={<BatimatPage />} />
             <Route path="/batimat-admin" element={<BatimatAdminPage />} />
+            <Route path="/tracking-admin" element={<TrackingAdminPage />} />
           </Routes>
         </Suspense>
       </div>
