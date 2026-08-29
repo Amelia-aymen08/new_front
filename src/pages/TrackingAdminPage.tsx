@@ -235,7 +235,10 @@ function Dashboard({ token, tokenKey, statsUrl, pageTitle, single, onLogout }) {
 
         {stats?.needsMigration && (
           <div className="mb-4 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-            Base non initialisée : exécutez <code>backend/sql/qr_tracking.sql</code>.
+            <p>Base non initialisée : exécutez <code>backend/sql/qr_tracking.sql</code>.</p>
+            {stats.detail && (
+              <p className="mt-1 font-mono text-xs text-amber-700">{stats.detail}</p>
+            )}
           </div>
         )}
 
