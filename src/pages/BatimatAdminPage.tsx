@@ -94,15 +94,15 @@ function LoginGate({ onAuthenticated }) {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#0B1220] px-4">
+    <div className="flex min-h-screen items-center justify-center bg-[#031B17] px-4">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm rounded-2xl border border-white/10 bg-[#111A2E] p-8 shadow-2xl"
+        className="w-full max-w-sm rounded-2xl border border-white/10 bg-[#05241F] p-8 shadow-2xl"
       >
         <div className="mb-6 flex items-center gap-3">
           <div
-            className="flex h-10 w-10 items-center justify-center rounded-xl text-base font-bold text-[#0B1220]"
-            style={{ background: "#F7C66A" }}
+            className="flex h-10 w-10 items-center justify-center rounded-xl text-base font-bold text-[#031B17]"
+            style={{ background: "#E1BB7F" }}
           >
             B
           </div>
@@ -121,14 +121,14 @@ function LoginGate({ onAuthenticated }) {
           value={tokenInput}
           onChange={(e) => setTokenInput(e.target.value)}
           placeholder="••••••••••••••••"
-          className="mb-3 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none transition-colors focus:border-[#F7C66A]"
+          className="mb-3 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none transition-colors focus:border-[#E1BB7F]"
         />
         {error && <p className="mb-3 text-sm text-red-400">{error}</p>}
         <button
           type="submit"
           disabled={checking}
-          className="w-full rounded-lg py-2.5 text-sm font-bold uppercase tracking-wider text-[#0B1220] transition-opacity hover:opacity-90 disabled:opacity-50"
-          style={{ background: "#F7C66A" }}
+          className="w-full rounded-lg py-2.5 text-sm font-bold uppercase tracking-wider text-[#031B17] transition-opacity hover:opacity-90 disabled:opacity-50"
+          style={{ background: "#E1BB7F" }}
         >
           {checking ? "Vérification…" : "Se connecter"}
         </button>
@@ -142,19 +142,19 @@ function StatCard({ label, value, accent, active, onClick }) {
     <button
       onClick={onClick}
       className={`flex-1 rounded-xl border bg-white px-5 py-4 text-left shadow-sm transition-all hover:shadow-md ${
-        active ? "border-[#0B1220] ring-1 ring-[#0B1220]" : "border-[#E5E7EB]"
+        active ? "border-[#031B17] ring-1 ring-[#031B17]" : "border-[#E5E7EB]"
       }`}
     >
       <div className="mb-2 flex items-center gap-2">
         <span className="h-2 w-2 rounded-full" style={{ background: accent }} />
         <span className="text-xs font-semibold uppercase tracking-wide text-[#8A8F98]">{label}</span>
       </div>
-      <span className="text-2xl font-bold text-[#0B1220]">{value}</span>
+      <span className="text-2xl font-bold text-[#031B17]">{value}</span>
     </button>
   );
 }
 
-const AVATAR_PALETTE = ["#0B1220", "#92400E", "#166534", "#1E3A8A", "#7C2D12", "#5B21B6", "#9D174D"];
+const AVATAR_PALETTE = ["#031B17", "#92400E", "#166534", "#1E3A8A", "#7C2D12", "#5B21B6", "#9D174D"];
 
 function avatarColor(seed) {
   let hash = 0;
@@ -198,8 +198,8 @@ function Pagination({ page, totalPages, total, pageSize, onChange }) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#EDEEF1] px-5 py-3.5">
       <p className="text-xs text-[#8A8F98]">
-        Affichage <span className="font-semibold text-[#0B1220]">{start}–{end}</span> sur{" "}
-        <span className="font-semibold text-[#0B1220]">{total}</span>
+        Affichage <span className="font-semibold text-[#031B17]">{start}–{end}</span> sur{" "}
+        <span className="font-semibold text-[#031B17]">{total}</span>
       </p>
       <div className="flex items-center gap-1">
         <button
@@ -215,7 +215,7 @@ function Pagination({ page, totalPages, total, pageSize, onChange }) {
             <button
               onClick={() => onChange(p)}
               className={`h-7 min-w-[28px] rounded-md px-2 text-xs font-semibold transition-colors ${
-                p === page ? "bg-[#0B1220] text-white" : "text-[#4B5563] hover:bg-[#F5F6F8]"
+                p === page ? "bg-[#031B17] text-white" : "text-[#4B5563] hover:bg-[#F5F6F8]"
               }`}
             >
               {p}
@@ -380,12 +380,12 @@ function Dashboard({ token, onLogout }) {
 
   return (
     <div className="min-h-screen bg-[#F5F6F8]">
-      <div className="border-b border-[#E5E7EB] bg-[#0B1220]">
+      <div className="border-b border-[#E5E7EB] bg-[#031B17]">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-5">
           <div className="flex items-center gap-3">
             <div
-              className="flex h-9 w-9 items-center justify-center rounded-lg text-sm font-bold text-[#0B1220]"
-              style={{ background: "#F7C66A" }}
+              className="flex h-9 w-9 items-center justify-center rounded-lg text-sm font-bold text-[#031B17]"
+              style={{ background: "#E1BB7F" }}
             >
               B
             </div>
@@ -408,8 +408,8 @@ function Dashboard({ token, onLogout }) {
             <button
               onClick={() => downloadCsv(leads)}
               disabled={!leads.length}
-              className="rounded-lg px-4 py-2 text-sm font-semibold text-[#0B1220] transition-opacity hover:opacity-90 disabled:opacity-40"
-              style={{ background: "#F7C66A" }}
+              className="rounded-lg px-4 py-2 text-sm font-semibold text-[#031B17] transition-opacity hover:opacity-90 disabled:opacity-40"
+              style={{ background: "#E1BB7F" }}
             >
               Exporter CSV
             </button>
@@ -428,7 +428,7 @@ function Dashboard({ token, onLogout }) {
 
       <div className="mx-auto max-w-7xl px-6 py-8">
         <div className="mb-6 flex flex-wrap gap-3">
-          <StatCard label="Toutes" value={counts.all} accent="#0B1220" active={statutFilter === "all"} onClick={() => setStatutFilter("all")} />
+          <StatCard label="Toutes" value={counts.all} accent="#031B17" active={statutFilter === "all"} onClick={() => setStatutFilter("all")} />
           {STATUTS.map((s) => (
             <StatCard
               key={s.value}
@@ -447,18 +447,18 @@ function Dashboard({ token, onLogout }) {
           </div>
         )}
 
-        <div className="mb-4 flex items-center gap-2 rounded-lg border border-[#E5E7EB] bg-white px-3.5 py-2.5 shadow-sm focus-within:border-[#0B1220]">
+        <div className="mb-4 flex items-center gap-2 rounded-lg border border-[#E5E7EB] bg-white px-3.5 py-2.5 shadow-sm focus-within:border-[#031B17]">
           <SearchIcon />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher par email ou numéro de téléphone…"
-            className="w-full border-0 bg-transparent text-sm text-[#0B1220] outline-none placeholder:text-[#A7ABB4]"
+            className="w-full border-0 bg-transparent text-sm text-[#031B17] outline-none placeholder:text-[#A7ABB4]"
           />
           {search && (
             <button
               onClick={() => setSearch("")}
-              className="shrink-0 text-xs font-medium text-[#8A8F98] hover:text-[#0B1220]"
+              className="shrink-0 text-xs font-medium text-[#8A8F98] hover:text-[#031B17]"
             >
               Effacer
             </button>
@@ -499,14 +499,14 @@ function Dashboard({ token, onLogout }) {
                       <td className="px-5 py-3">
                         <div className="flex items-center gap-3">
                           <Avatar firstName={lead.firstName} lastName={lead.lastName} />
-                          <span className="font-semibold text-[#0B1220]">
+                          <span className="font-semibold text-[#031B17]">
                             {lead.firstName} {lead.lastName}
                           </span>
                         </div>
                       </td>
                       <td className="px-5 py-3">
                         <div className="flex flex-col">
-                          <span className="text-[#0B1220]">{lead.email}</span>
+                          <span className="text-[#031B17]">{lead.email}</span>
                           <span className="font-mono text-xs text-[#8A8F98]">{lead.phone}</span>
                         </div>
                       </td>

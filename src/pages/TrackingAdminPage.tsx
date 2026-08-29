@@ -6,6 +6,12 @@ import { API_BASE_URL } from "../config";
 const API_URL = `${API_BASE_URL}/api/track/stats`;
 const REFRESH_INTERVAL_MS = 60000;
 
+// Charte Aymen Promotion
+const INK = "#031B17"; // vert très foncé (brand.950)
+const INK_2 = "#05241F"; // brand.900
+const GOLD = "#E1BB7F"; // gold.500
+const DARK_TEXT = "#08342D"; // brand.800 — texte foncé sur fond clair
+
 function formatDate(value) {
   if (!value) return "—";
   try {
@@ -21,7 +27,11 @@ function formatDate(value) {
   }
 }
 
-function LoginGate({ statsUrl, tokenKey, onAuthenticated }) {
+function withDays(url, days) {
+  return `${url}${url.includes("?") ? "&" : "?"}days=${days}`;
+}
+
+function LoginGate({ statsUrl, tokenKey, pageTitle, onAuthenticated }) {
   const [tokenInput, setTokenInput] = useState("");
   const [checking, setChecking] = useState(false);
   const [error, setError] = useState("");
@@ -32,7 +42,7 @@ function LoginGate({ statsUrl, tokenKey, onAuthenticated }) {
     setChecking(true);
     setError("");
     try {
-      const res = await fetch(`${statsUrl}${statsUrl.includes("?") ? "&" : "?"}days=1`, {
+      const res = await fetch(withDays(statsUrl, 1), {
         headers: { Authorization: `Bearer ${tokenInput.trim()}` },
       });
       if (res.status === 401 || res.status === 403) {
@@ -54,13 +64,14 @@ function LoginGate({ statsUrl, tokenKey, onAuthenticated }) {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#0B1220] px-4">
+    <div className="flex min-h-screen items-center justify-center px-4" style={{ background: INK }}>
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm rounded-2xl border border-white/10 bg-[#111A2E] p-8 shadow-2xl"
+        className="w-full max-w-sm rounded-2xl border border-white/10 p-8 shadow-2xl"
+        style={{ background: INK_2 }}
       >
         <div className="mb-6">
-          <h1 className="text-lg font-bold text-white">Suivi — Admin</h1>
+          <h1 className="text-lg font-bold text-white">{pageTitle}</h1>
           <p className="text-xs text-white/40">Accès réservé</p>
         </div>
         <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/50">
@@ -73,14 +84,14 @@ function LoginGate({ statsUrl, tokenKey, onAuthenticated }) {
           value={tokenInput}
           onChange={(e) => setTokenInput(e.target.value)}
           placeholder="••••••••••••••••"
-          className="mb-3 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none transition-colors focus:border-[#F7C66A]"
+          className="mb-3 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none transition-colors focus:border-[#E1BB7F]"
         />
         {error && <p className="mb-3 text-sm text-red-400">{error}</p>}
         <button
           type="submit"
           disabled={checking}
-          className="w-full rounded-lg py-2.5 text-sm font-bold uppercase tracking-wider text-[#0B1220] transition-opacity hover:opacity-90 disabled:opacity-50"
-          style={{ background: "#F7C66A" }}
+          className="w-full rounded-lg py-2.5 text-sm font-bold uppercase tracking-wider transition-opacity hover:opacity-90 disabled:opacity-50"
+          style={{ background: GOLD, color: INK }}
         >
           {checking ? "Vérification…" : "Se connecter"}
         </button>
@@ -93,7 +104,9 @@ function StatCard({ label, value }) {
   return (
     <div className="flex-1 rounded-xl border border-[#E5E7EB] bg-white px-5 py-4 shadow-sm">
       <span className="text-xs font-semibold uppercase tracking-wide text-[#8A8F98]">{label}</span>
-      <div className="mt-1.5 text-2xl font-bold text-[#0B1220]">{value}</div>
+      <div className="mt-1.5 text-2xl font-bold" style={{ color: DARK_TEXT }}>
+        {value}
+      </div>
     </div>
   );
 }
@@ -121,7 +134,9 @@ function DailyChart({ daily, rangeDays }) {
 
   return (
     <div className="rounded-xl border border-[#E5E7EB] bg-white p-5 shadow-sm">
-      <h2 className="mb-4 text-sm font-bold text-[#0B1220]">Scans par jour</h2>
+      <h2 className="mb-4 text-sm font-bold" style={{ color: DARK_TEXT }}>
+        Scans par jour
+      </h2>
       <div className="flex h-40 items-end gap-1 overflow-x-auto">
         {perDay.map((d) => (
           <div
@@ -131,8 +146,8 @@ function DailyChart({ daily, rangeDays }) {
           >
             <div className="text-[9px] font-semibold text-[#8A8F98]">{d.scans || ""}</div>
             <div
-              className="w-full rounded-t bg-[#F7C66A]"
-              style={{ height: `${Math.max(2, (d.scans / max) * 120)}px` }}
+              className="w-full rounded-t"
+              style={{ height: `${Math.max(2, (d.scans / max) * 120)}px`, background: GOLD }}
             />
             <div className="text-[8px] text-[#B0B4BC]">{d.label}</div>
           </div>
@@ -142,7 +157,7 @@ function DailyChart({ daily, rangeDays }) {
   );
 }
 
-function Dashboard({ token, tokenKey, statsUrl, pageTitle, single, onLogout }) {
+function Dashboard({ token, tokenKey, statsUrl, pageTitle, single, showConversions, onLogout }) {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -153,7 +168,7 @@ function Dashboard({ token, tokenKey, statsUrl, pageTitle, single, onLogout }) {
     async (silent = false) => {
       if (!silent) setLoading(true);
       try {
-        const res = await fetch(`${statsUrl}${statsUrl.includes("?") ? "&" : "?"}days=${days}`, {
+        const res = await fetch(withDays(statsUrl, days), {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.status === 401 || res.status === 403) {
@@ -184,15 +199,16 @@ function Dashboard({ token, tokenKey, statsUrl, pageTitle, single, onLogout }) {
   const totals = stats?.totals || { scans: 0, uniques: 0, conversions: 0, campaigns: 0 };
   const byCampaign = stats?.byCampaign || [];
   const v = (n) => (loading ? "…" : n);
+  const cols = showConversions ? 6 : 4;
 
   return (
     <div className="min-h-screen bg-[#F5F6F8]">
-      <div className="border-b border-[#E5E7EB] bg-[#0B1220]">
+      <div className="border-b border-black/10" style={{ background: INK }}>
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-5">
           <div>
             <h1 className="text-base font-bold text-white">{pageTitle}</h1>
             <p className="flex items-center gap-1.5 text-xs text-white/40">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full" style={{ background: GOLD }} />
               {lastUpdated ? `Actualisé à ${lastUpdated.toLocaleTimeString("fr-FR")}` : "Chargement…"}
             </p>
           </div>
@@ -235,7 +251,9 @@ function Dashboard({ token, tokenKey, statsUrl, pageTitle, single, onLogout }) {
 
         {stats?.needsMigration && (
           <div className="mb-4 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-            <p>Base non initialisée : exécutez <code>backend/sql/qr_tracking.sql</code>.</p>
+            <p>
+              Base non initialisée : exécutez <code>backend/sql/qr_tracking.sql</code>.
+            </p>
             {stats.detail && (
               <p className="mt-1 font-mono text-xs text-amber-700">{stats.detail}</p>
             )}
@@ -245,7 +263,9 @@ function Dashboard({ token, tokenKey, statsUrl, pageTitle, single, onLogout }) {
         <div className="mb-6 flex flex-wrap gap-3">
           <StatCard label="Scans" value={v(totals.scans)} />
           <StatCard label="Visiteurs uniques" value={v(totals.uniques)} />
-          <StatCard label="Préinscriptions BATIMAT" value={v(totals.conversions)} />
+          {showConversions && (
+            <StatCard label="Préinscriptions BATIMAT" value={v(totals.conversions)} />
+          )}
           {!single && <StatCard label="Campagnes" value={v(totals.campaigns)} />}
         </div>
 
@@ -257,15 +277,19 @@ function Dashboard({ token, tokenKey, statsUrl, pageTitle, single, onLogout }) {
                   <th className="px-5 py-3 font-semibold">Campagne</th>
                   <th className="px-5 py-3 text-right font-semibold">Scans</th>
                   <th className="px-5 py-3 text-right font-semibold">Uniques</th>
-                  <th className="px-5 py-3 text-right font-semibold">Préinscriptions</th>
-                  <th className="px-5 py-3 text-right font-semibold">Taux</th>
+                  {showConversions && (
+                    <>
+                      <th className="px-5 py-3 text-right font-semibold">Préinscriptions</th>
+                      <th className="px-5 py-3 text-right font-semibold">Taux</th>
+                    </>
+                  )}
                   <th className="px-5 py-3 font-semibold">Dernier scan</th>
                 </tr>
               </thead>
               <tbody>
                 {!byCampaign.length ? (
                   <tr>
-                    <td colSpan={6} className="px-5 py-12 text-center text-sm text-[#8A8F98]">
+                    <td colSpan={cols} className="px-5 py-12 text-center text-sm text-[#8A8F98]">
                       {loading ? "Chargement…" : "Aucun scan sur la période."}
                     </td>
                   </tr>
@@ -275,18 +299,27 @@ function Dashboard({ token, tokenKey, statsUrl, pageTitle, single, onLogout }) {
                       key={c.campaign}
                       className="border-b border-[#F0F1F3] last:border-0 hover:bg-[#FAFAFB]"
                     >
-                      <td className="px-5 py-3 font-semibold text-[#0B1220]">{c.campaign}</td>
-                      <td className="px-5 py-3 text-right tabular-nums text-[#0B1220]">
+                      <td className="px-5 py-3 font-semibold" style={{ color: DARK_TEXT }}>
+                        {c.campaign}
+                      </td>
+                      <td
+                        className="px-5 py-3 text-right tabular-nums"
+                        style={{ color: DARK_TEXT }}
+                      >
                         {c.estimated ? "~" : ""}
                         {c.scans}
                       </td>
                       <td className="px-5 py-3 text-right tabular-nums text-[#4B5563]">{c.uniques}</td>
-                      <td className="px-5 py-3 text-right tabular-nums text-[#4B5563]">
-                        {c.conversions}
-                      </td>
-                      <td className="px-5 py-3 text-right tabular-nums text-[#4B5563]">
-                        {c.conversionRate}%
-                      </td>
+                      {showConversions && (
+                        <>
+                          <td className="px-5 py-3 text-right tabular-nums text-[#4B5563]">
+                            {c.conversions}
+                          </td>
+                          <td className="px-5 py-3 text-right tabular-nums text-[#4B5563]">
+                            {c.conversionRate}%
+                          </td>
+                        </>
+                      )}
                       <td className="px-5 py-3 text-xs text-[#8A8F98]">{formatDate(c.lastScanAt)}</td>
                     </tr>
                   ))
@@ -312,6 +345,7 @@ export default function TrackingAdminPage({
   campaign = null,
   pageTitle = "Suivi des QR codes",
   tokenKey = "batimat_admin_token",
+  showConversions = true,
 }) {
   const statsUrl = campaign ? `${API_URL}?campaign=${encodeURIComponent(campaign)}` : API_URL;
   const [token, setToken] = useState(() => sessionStorage.getItem(tokenKey));
@@ -329,10 +363,16 @@ export default function TrackingAdminPage({
           statsUrl={statsUrl}
           pageTitle={pageTitle}
           single={Boolean(campaign)}
+          showConversions={showConversions}
           onLogout={() => setToken(null)}
         />
       ) : (
-        <LoginGate statsUrl={statsUrl} tokenKey={tokenKey} onAuthenticated={(t) => setToken(t)} />
+        <LoginGate
+          statsUrl={statsUrl}
+          tokenKey={tokenKey}
+          pageTitle={pageTitle}
+          onAuthenticated={(t) => setToken(t)}
+        />
       )}
     </>
   );

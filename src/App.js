@@ -162,6 +162,7 @@ function App() {
                   campaign="flyer"
                   pageTitle="Suivi — Flyers"
                   tokenKey="tracking_flyer_token"
+                  showConversions={false}
                 />
               }
             />
