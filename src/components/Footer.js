@@ -234,9 +234,6 @@ export default function Footer() {
                   <i className="fa-solid fa-phone mt-1 shrink-0 text-white/70" />
                   <div>
                     <p className="font-bold text-white">Téléphone</p>
-                    <a href="tel:+21323318648" className="block text-white/80 hover:underline">
-                      +213 23 31 86 48
-                    </a>
                     <a href="https://wa.me/213560582959" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-white/80 hover:underline">
                       +213 560 58 29 59 <i className="fa-brands fa-whatsapp text-[#25D366]" />
                     </a>
@@ -246,7 +243,7 @@ export default function Footer() {
                   <i className="fa-regular fa-clock mt-1 shrink-0 text-white/70" />
                   <div>
                     <p className="font-bold text-white">Horaires</p>
-                    <p className="text-white/80">Samedi – Jeudi : 9h00 – 17h00</p>
+                    <p className="text-white/80">Samedi – Jeudi : 9h00 – 17h00 - (19h00)</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2">

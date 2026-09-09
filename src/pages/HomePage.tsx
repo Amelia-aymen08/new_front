@@ -2,6 +2,7 @@
 import React, { useEffect, useMemo, useRef, useState, Suspense, lazy } from "react";
 import { Link } from "react-router-dom";
 import Hero from "../components/Hero";
+import BatimatHomeHero from "../components/BatimatHomeHero";
 import WipeStack, { Slide } from "../components/WipeStack";
 import Header from "../components/Header";
 import Seo from "../components/Seo";
@@ -211,6 +212,7 @@ export default function HomePage() {
 
   const slides = useMemo<Slide[]>(
     () => [
+      { key: "batimat", element: <BatimatHomeHero /> },
       { key: "hero", element: <Hero /> },
       {
         key: "s2",
