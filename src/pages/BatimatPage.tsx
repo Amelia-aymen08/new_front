@@ -6,18 +6,12 @@ import Seo from "../components/Seo";
 import { API_BASE_URL } from "../config";
 import { getHubspotContext } from "../utils/hubspotContext";
 import { getAttribution } from "../utils/attribution";
+import { COUNTRIES } from "../data/countries";
 
 const GOLD = "#F7C66A";
 const RED = "#BF0D0D";
 
 const EVENT_DATE = new Date("2026-09-28T00:00:00+02:00");
-
-const COUNTRIES = [
-  { code: "DZ", dial: "+213", label: "DZ" },
-  { code: "FR", dial: "+33", label: "FR" },
-  { code: "TN", dial: "+216", label: "TN" },
-  { code: "MA", dial: "+212", label: "MA" },
-];
 
 // À ajuster librement — non spécifié par la maquette.
 const PROFILE_OPTIONS = [
@@ -197,19 +191,19 @@ function BatimatForm() {
 
         <div>
           <label className={labelClass}>Téléphone / WhatsApp *</label>
-          <div className="flex gap-2">
+          <div className="flex flex-col gap-2 sm:flex-row">
             <select
               required
               value={form.countryCode}
               onChange={(e) => setForm((f) => ({ ...f, countryCode: e.target.value }))}
-              className="w-28 rounded-md border border-[#E2E2E2] bg-white px-2 py-2.5 text-sm text-[#1a1a1a] outline-none focus:border-[#BF0D0D]"
+              className="rounded-md border border-[#E2E2E2] bg-white px-2 py-2.5 text-sm text-[#1a1a1a] outline-none focus:border-[#BF0D0D] sm:w-44"
             >
               <option value="" disabled>
-                Indicatif
+                Indicatif *
               </option>
               {COUNTRIES.map((c) => (
                 <option key={c.code} value={c.code}>
-                  {c.code} {c.dial}
+                  {c.name} ({c.dial})
                 </option>
               ))}
             </select>
