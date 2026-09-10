@@ -70,7 +70,7 @@ function BatimatForm() {
     firstName: "",
     lastName: "",
     email: "",
-    countryCode: "DZ",
+    countryCode: "",
     phone: "",
     profile: "",
     newsletterOptIn: false,
@@ -81,6 +81,10 @@ function BatimatForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!form.countryCode) {
+      setStatus({ type: "error", message: "Merci de sélectionner l'indicatif téléphonique." });
+      return;
+    }
     if (!form.consent) {
       setStatus({ type: "error", message: "Merci d'accepter les conditions pour continuer." });
       return;
@@ -111,7 +115,7 @@ function BatimatForm() {
           firstName: "",
           lastName: "",
           email: "",
-          countryCode: "DZ",
+          countryCode: "",
           phone: "",
           profile: "",
           newsletterOptIn: false,
@@ -195,10 +199,14 @@ function BatimatForm() {
           <label className={labelClass}>Téléphone / WhatsApp *</label>
           <div className="flex gap-2">
             <select
+              required
               value={form.countryCode}
               onChange={(e) => setForm((f) => ({ ...f, countryCode: e.target.value }))}
-              className="w-24 rounded-md border border-[#E2E2E2] bg-white px-2 py-2.5 text-sm text-[#1a1a1a] outline-none focus:border-[#BF0D0D]"
+              className="w-28 rounded-md border border-[#E2E2E2] bg-white px-2 py-2.5 text-sm text-[#1a1a1a] outline-none focus:border-[#BF0D0D]"
             >
+              <option value="" disabled>
+                Indicatif
+              </option>
               {COUNTRIES.map((c) => (
                 <option key={c.code} value={c.code}>
                   {c.code} {c.dial}
