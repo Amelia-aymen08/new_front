@@ -329,6 +329,59 @@ function Dashboard({ token, tokenKey, statsUrl, pageTitle, single, showConversio
           </div>
         )}
 
+        {(stats?.bySource || []).length > 0 && (
+          <div className="mb-6 overflow-hidden rounded-xl border border-[#E5E7EB] bg-white shadow-sm">
+            <div className="border-b border-[#E5E7EB] bg-[#FAFAFB] px-5 py-3 text-[11px] font-semibold uppercase tracking-wide text-[#8A8F98]">
+              Sources (utm_source / slug du lien)
+            </div>
+            <table className="w-full min-w-[640px] text-left text-sm">
+              <thead>
+                <tr className="border-b border-[#E5E7EB] text-[11px] uppercase tracking-wide text-[#8A8F98]">
+                  <th className="px-5 py-3 font-semibold">Source</th>
+                  <th className="px-5 py-3 font-semibold">Campagne</th>
+                  <th className="px-5 py-3 text-right font-semibold">Scans</th>
+                  <th className="px-5 py-3 text-right font-semibold">Uniques</th>
+                  {showConversions && (
+                    <>
+                      <th className="px-5 py-3 text-right font-semibold">Préinscriptions</th>
+                      <th className="px-5 py-3 text-right font-semibold">Taux</th>
+                    </>
+                  )}
+                  <th className="px-5 py-3 font-semibold">Dernier scan</th>
+                </tr>
+              </thead>
+              <tbody>
+                {stats.bySource.map((s) => (
+                  <tr
+                    key={`${s.campaign}|${s.source}`}
+                    className="border-b border-[#F0F1F3] last:border-0 hover:bg-[#FAFAFB]"
+                  >
+                    <td className="px-5 py-3 font-semibold" style={{ color: DARK_TEXT }}>
+                      {s.source}
+                    </td>
+                    <td className="px-5 py-3 text-[#4B5563]">{s.campaign}</td>
+                    <td className="px-5 py-3 text-right tabular-nums" style={{ color: DARK_TEXT }}>
+                      {s.scans}
+                    </td>
+                    <td className="px-5 py-3 text-right tabular-nums text-[#4B5563]">{s.uniques}</td>
+                    {showConversions && (
+                      <>
+                        <td className="px-5 py-3 text-right tabular-nums text-[#4B5563]">
+                          {s.conversions}
+                        </td>
+                        <td className="px-5 py-3 text-right tabular-nums text-[#4B5563]">
+                          {s.conversionRate}%
+                        </td>
+                      </>
+                    )}
+                    <td className="px-5 py-3 text-xs text-[#8A8F98]">{formatDate(s.lastScanAt)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
         {single && byCampaign[0] && (
           <p className="mb-6 text-sm text-[#8A8F98]">
             Dernier scan : {formatDate(byCampaign[0].lastScanAt)}

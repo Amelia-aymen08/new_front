@@ -119,6 +119,34 @@ function parseExplicitCampaign(search) {
   };
 }
 
+// Mode 1bis : slug libre dans le chemin  /batimat/<slug>  (ex. /batimat/stand-a,
+// /batimat/instagram, /batimat/commercial-karim). Le slug devient l'utm_source :
+// aucune table à modifier, il suffit de "nommer" le lien. Il est enregistré dans
+// qr_scans.source et repris dans batimat_preinscriptions.qr_source à la
+// préinscription (via getAttribution). Un ?utm_campaign= / ?qr= explicite reste
+// prioritaire pour la campagne ; sinon la campagne est "batimat".
+const SLUG_PATH_RE = /^\/batimat\/([a-z0-9][a-z0-9_-]{0,58})$/;
+
+function parseSlugSource(pathname, search) {
+  const match = normalizePath(pathname).match(SLUG_PATH_RE);
+  if (!match) return null;
+
+  const params = new URLSearchParams(search || "");
+  const explicitCampaign = (
+    params.get("qr") || params.get("qr_campaign") || params.get("utm_campaign") || ""
+  )
+    .trim()
+    .toLowerCase();
+  const explicitMedium = (params.get("utm_medium") || "").trim().toLowerCase();
+
+  return {
+    campaign: (explicitCampaign || "batimat").slice(0, 60),
+    source: match[1].slice(0, 60),
+    medium: (explicitMedium || "link").slice(0, 60),
+    heuristic: false,
+  };
+}
+
 // Mode 2 : déduction pour les QR imprimés figés (aucun paramètre possible).
 function detectPrintedQrCampaign(isSessionEntry) {
   if (!isSessionEntry) return null; // navigation interne -> pas un scan
@@ -145,7 +173,10 @@ export function captureAttribution() {
 
   let info = null;
   try {
-    info = parseExplicitCampaign(window.location.search) || detectPrintedQrCampaign(isSessionEntry);
+    info =
+      parseSlugSource(window.location.pathname, window.location.search) ||
+      parseExplicitCampaign(window.location.search) ||
+      detectPrintedQrCampaign(isSessionEntry);
   } catch {
     info = null;
   }

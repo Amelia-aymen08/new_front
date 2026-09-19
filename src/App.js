@@ -153,6 +153,7 @@ function App() {
             <Route path="/offres-ete-2026" element={<OffreEtePage />} />
             <Route path="/visite-virtuelle" element={<VisiteVirtuellePage />} />
             <Route path="/batimat" element={<BatimatPage />} />
+            <Route path="/batimat/:slug" element={<BatimatPage />} />
             <Route path="/batimat-admin" element={<BatimatAdminPage />} />
             <Route path="/tracking-admin" element={<TrackingAdminPage />} />
             <Route
@@ -170,8 +171,7 @@ function App() {
               path="/tracking-batimat"
               element={
                 <TrackingAdminPage
-                  campaign="batimat-bache"
-                  pageTitle="Suivi — Bâches BATIMAT"
+                  pageTitle="Suivi — BATIMAT (bâche + liens nommés)"
                   tokenKey="tracking_batimat_token"
                 />
               }
