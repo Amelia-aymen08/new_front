@@ -212,7 +212,7 @@ export default function ContactPage() {
     <div className="relative min-h-screen bg-[#031B17] font-['Montserrat'] text-white overflow-hidden">
       <Seo
         title="Contact Showroom Alger | Aymen Promotion"
-        description="📞 +213 770 11 32 32 — Visitez notre showroom à Alger ou prenez rendez-vous en ligne. Conseillers disponibles 6j/7. Réponse garantie sous 24h."
+        description="📞 +213 560 58 29 59 — Visitez notre showroom à Alger ou prenez rendez-vous en ligne. Conseillers disponibles 6j/7. Réponse garantie sous 24h."
         keywords="promoteur immobilier alger, aymen promotion, immobilier algerie, appartement neuf alger, residence haut standing"
         appendTitleSuffix={false}
       />
