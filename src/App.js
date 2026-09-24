@@ -153,6 +153,8 @@ function App() {
             <Route path="/offres-ete-2026" element={<OffreEtePage />} />
             <Route path="/visite-virtuelle" element={<VisiteVirtuellePage />} />
             <Route path="/batimat" element={<BatimatPage />} />
+            {/* "admin" est réservé : /batimat/admin ouvre le dashboard, pas un slug de suivi. */}
+            <Route path="/batimat/admin" element={<BatimatAdminPage />} />
             <Route path="/batimat/:slug" element={<BatimatPage />} />
             <Route path="/batimat-admin" element={<BatimatAdminPage />} />
             <Route path="/tracking-admin" element={<TrackingAdminPage />} />

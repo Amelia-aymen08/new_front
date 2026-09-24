@@ -126,10 +126,12 @@ function parseExplicitCampaign(search) {
 // préinscription (via getAttribution). Un ?utm_campaign= / ?qr= explicite reste
 // prioritaire pour la campagne ; sinon la campagne est "batimat".
 const SLUG_PATH_RE = /^\/batimat\/([a-z0-9][a-z0-9_-]{0,58})$/;
+// Mots réservés : pages du site, jamais des sources de suivi.
+const RESERVED_SLUGS = new Set(["admin"]);
 
 function parseSlugSource(pathname, search) {
   const match = normalizePath(pathname).match(SLUG_PATH_RE);
-  if (!match) return null;
+  if (!match || RESERVED_SLUGS.has(match[1])) return null;
 
   const params = new URLSearchParams(search || "");
   const explicitCampaign = (
