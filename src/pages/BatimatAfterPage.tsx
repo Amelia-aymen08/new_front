@@ -484,15 +484,10 @@ export default function BatimatAfterPage() {
               </div>
 
               <div>
-                <div
-                  ref={formRef}
-                  className={`grid overflow-hidden transition-[grid-template-rows] duration-500 ease-in-out md:!grid-rows-[1fr] ${
-                    formOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-                  }`}
-                >
-                  <div className="min-h-0">
-                    <BatimatAfterForm />
-                  </div>
+                {/* Mobile : formulaire masqué tant qu'on n'a pas cliqué sur « Réserver ».
+                    Desktop (md+) : toujours visible. */}
+                <div ref={formRef} className={`${formOpen ? "block" : "hidden"} md:block`}>
+                  <BatimatAfterForm />
                 </div>
               </div>
             </div>
