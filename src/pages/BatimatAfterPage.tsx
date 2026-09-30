@@ -480,6 +480,14 @@ export default function BatimatAfterPage() {
                   <i className="fa-solid fa-shield-halved" style={{ color: GOLD }} />
                   Données utilisées uniquement selon votre consentement
                 </p>
+
+                <img
+                  src={`${IMG}/hero-flyer.webp`}
+                  alt="Vous n'avez pas pu venir au salon Batimat ? Nous venons à votre rencontre, du samedi 3 au dimanche 4 octobre, à l'hôtel Paris 17 Batignolles"
+                  width={835}
+                  height={469}
+                  className="mt-8 hidden w-full max-w-md rounded-[10px] shadow-xl md:block"
+                />
               </div>
 
               <div>
