@@ -346,12 +346,11 @@ const glass = {
 };
 
 export default function BatimatAfterPage() {
-  const [formOpen, setFormOpen] = useState(false);
   const formRef = useRef(null);
 
+  // Le formulaire est toujours affiché ; les boutons « Réserver » y font défiler la page.
   const openForm = () => {
-    setFormOpen(true);
-    setTimeout(() => formRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
   const faqSchema = {
@@ -484,9 +483,7 @@ export default function BatimatAfterPage() {
               </div>
 
               <div>
-                {/* Mobile : formulaire masqué tant qu'on n'a pas cliqué sur « Réserver ».
-                    Desktop (md+) : toujours visible. */}
-                <div ref={formRef} className={`${formOpen ? "block" : "hidden"} md:block`}>
+                <div ref={formRef}>
                   <BatimatAfterForm />
                 </div>
               </div>
