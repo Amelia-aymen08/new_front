@@ -53,7 +53,7 @@ type ProjectData = {
   heroImage: string;
   amenities: { label: string; iconSrc?: string; fallbackIcon?: string }[];
   gallery: string[];
-  plans: { type: string; area: string; image?: string }[];
+  plans: { type: string; area: string; image?: string; rooms?: { name: string; area: string }[] }[];
   location: { mapUrl: string; description: string; mapEmbedUrl?: string };
   virtualTourUrl?: string;
 };
@@ -131,7 +131,8 @@ export default function ProjectDetailsPage() {
     plans: (project.plans || []).map(p => ({
         type: p.type, // Maintenant on utilise p.type car c'est la structure dans mockData
         area: p.area,
-        image: p.image
+        image: p.image,
+        rooms: p.rooms
     })),
     location: {
       mapUrl: project.mapLinkUrl || `https://www.google.com/maps/search/?api=1&query=${project.lat || 36.7},${project.lng || 3.0}`,
@@ -510,9 +511,10 @@ function ProjectGallery({ images, projectName }: { images: string[]; projectName
 // and we already put the map directly in the main component.
 
 function PlansAndLocationWrapper({ plans, location }: { plans: Plan[]; location: LocationData }) {
+  const [openPlan, setOpenPlan] = useState<number | null>(null);
   if (!plans || plans.length === 0) return null;
 
-  // Helper function to extract a numeric value for sorting. 
+  // Helper function to extract a numeric value for sorting.
   // It takes the first number it finds in the area string.
   const extractAreaNumber = (areaStr: string) => {
     if (!areaStr) return 0;
@@ -520,8 +522,12 @@ function PlansAndLocationWrapper({ plans, location }: { plans: Plan[]; location:
     return match ? parseInt(match[0], 10) : 0;
   };
 
-  // Sort plans by area (ascending)
-  const sortedPlans = [...plans].sort((a, b) => extractAreaNumber(a.area) - extractAreaNumber(b.area));
+  // Sort plans by area (ascending). Si une typologie n'a pas de surface chiffrée
+  // (« Consultable »), on garde l'ordre fourni plutôt que de la remonter en tête.
+  const allHaveArea = plans.every((p) => extractAreaNumber(p.area) > 0);
+  const sortedPlans = allHaveArea
+    ? [...plans].sort((a, b) => extractAreaNumber(a.area) - extractAreaNumber(b.area))
+    : plans;
 
   return (
     <section className="mx-auto grid max-w-7xl gap-10 px-6 py-20 md:grid-cols-2">
@@ -530,17 +536,59 @@ function PlansAndLocationWrapper({ plans, location }: { plans: Plan[]; location:
         <h2 className="mb-8 text-2xl font-bold uppercase tracking-wide text-center">TYPOLOGIES</h2>
         
         <div className="flex flex-col gap-6 justify-center items-center flex-1">
-          {sortedPlans.map((p, idx) => (
-            <div
-              key={idx}
-              className="w-full max-w-sm rounded-xl border border-[#F7C66A]/50 px-8 py-5 text-center transition-all hover:border-[#F7C66A] hover:bg-[#F7C66A]/5 flex items-center justify-center min-h-[70px]"
-            >
+          {sortedPlans.map((p, idx) => {
+            const label = (
               <span className="text-xl md:text-2xl font-medium text-white">
-                <span className="font-bold text-[#F7C66A] mr-3">{p.type}</span> 
+                <span className="font-bold text-[#F7C66A] mr-3">{p.type}</span>
                 {p.area && !String(p.area).toLowerCase().includes("consultable") ? p.area : ""}
               </span>
-            </div>
-          ))}
+            );
+            const boxClass =
+              "w-full max-w-sm rounded-xl border border-[#F7C66A]/50 px-8 py-5 text-center transition-all hover:border-[#F7C66A] hover:bg-[#F7C66A]/5 flex items-center justify-center min-h-[70px]";
+
+            // Typologie avec détail des pièces : carte dépliable.
+            if (p.rooms && p.rooms.length > 0) {
+              const isOpen = openPlan === idx;
+              return (
+                <div key={idx} className="w-full max-w-sm">
+                  <button
+                    type="button"
+                    aria-expanded={isOpen}
+                    onClick={() => setOpenPlan(isOpen ? null : idx)}
+                    className={`${boxClass} gap-3 ${isOpen ? "border-[#F7C66A] bg-[#F7C66A]/5" : ""}`}
+                  >
+                    {label}
+                    <i className={`fa-solid fa-chevron-down text-xs text-[#F7C66A] transition-transform ${isOpen ? "rotate-180" : ""}`} aria-hidden />
+                  </button>
+                  {isOpen && (
+                    <table className="mt-2 w-full overflow-hidden rounded-xl text-sm">
+                      <caption className="sr-only">Détail des surfaces du {p.type} type</caption>
+                      <thead>
+                        <tr className="bg-[#F7C66A]/15 text-left text-[11px] uppercase tracking-wider text-[#F7C66A]">
+                          <th scope="col" className="px-4 py-2 font-bold">Espace</th>
+                          <th scope="col" className="px-4 py-2 text-right font-bold">Surface</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {p.rooms.map((r) => (
+                          <tr key={r.name} className="border-b border-white/10 last:border-0">
+                            <td className="px-4 py-2 text-white/80">{r.name}</td>
+                            <td className="whitespace-nowrap px-4 py-2 text-right text-white">{r.area}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+              );
+            }
+
+            return (
+              <div key={idx} className={boxClass}>
+                {label}
+              </div>
+            );
+          })}
         </div>
       </div>
 

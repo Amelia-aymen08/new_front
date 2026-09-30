@@ -18,7 +18,12 @@ export type Project = {
   gallery?: string[]; // Pour la compatibilité avec le format existant
   features?: string[]; // Points forts (ex: ["RECEPTION", "DOMOTIQUE"])
   details?: { label: string; value: string }[]; // Infos techniques (ex: Surface, Date)
-  plans?: { type: string; area: string; image?: string }[]; // Plans avec le nouveau format
+  plans?: {
+    type: string;
+    area: string; // "Consultable" : le libellé de la typologie est affiché sans surface
+    image?: string;
+    rooms?: { name: string; area: string }[]; // Détail des surfaces par pièce (optionnel)
+  }[]; // Plans avec le nouveau format
   mapEmbedUrl?: string; // Lien d'intégration Google Maps (iframe src)
   mapLinkUrl?: string; // Lien direct Google Maps pour le bouton "Voir sur la carte"
   virtualTourUrl?: string; // Lien visite virtuelle Matterport
@@ -93,10 +98,44 @@ Aymen Promotion assure la gestion complète de la copropriété : entretien des 
       { label: "Typologie", value: "F2 au F5, Duplex, Piscines privatives" },
       { label: "État d'avancement", value: "0 %" },
     ],
+    mapEmbedUrl: "https://www.google.com/maps?q=Ain+Allah,+Dely+Ibrahim,+Alger&output=embed",
     mapLinkUrl: "https://www.google.com/maps/search/?api=1&query=Ain+Allah+Dely+Ibrahim+Alger",
     plans: [
-        { type: "F3", area: "107 m²" },
-        { type: "F4", area: "124 m²" }
+        { type: "F2", area: "Consultable" },
+        {
+          type: "F3",
+          area: "107,11 m²",
+          rooms: [
+            { name: "Séjour", area: "24,15 m²" },
+            { name: "Cuisine", area: "14,70 m²" },
+            { name: "Chambre 01", area: "14,36 m²" },
+            { name: "Chambre 02", area: "14,05 m²" },
+            { name: "Balcon 01", area: "12,81 m²" },
+            { name: "Balcon 02", area: "3,58 m²" },
+            { name: "SDB + WC", area: "5,46 m²" },
+            { name: "Circulation", area: "11,75 m²" },
+          ],
+        },
+        {
+          type: "F4",
+          area: "124 m²",
+          rooms: [
+            { name: "Séjour + Cuisine", area: "36,79 m²" },
+            { name: "Chambre Master", area: "17,81 m²" },
+            { name: "Dressing", area: "4,15 m²" },
+            { name: "SDB (chambre master)", area: "4,50 m²" },
+            { name: "Chambre 02", area: "14,75 m²" },
+            { name: "Chambre 03", area: "17,28 m²" },
+            { name: "SDB", area: "5,32 m²" },
+            { name: "WC", area: "2,26 m²" },
+            { name: "Circulation", area: "10,20 m²" },
+            { name: "Terrasse", area: "19,16 m²" },
+          ],
+        },
+        { type: "F5", area: "Consultable" },
+        { type: "Duplex", area: "Consultable" },
+        { type: "Piscines privatives", area: "Consultable" },
+        { type: "Locaux", area: "Consultable" },
     ]
   },
 
