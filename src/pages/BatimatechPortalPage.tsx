@@ -42,6 +42,7 @@ const PROJECT_TITLES = [
   "AZURITE",
   "CYANITE",
   "ALTHEA",
+  "HELENITE",
 ];
 
 type DropdownOption = {

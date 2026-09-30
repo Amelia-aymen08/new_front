@@ -71,8 +71,11 @@ export default function ProjectDetailsPage() {
   
   // Utilise le slug (en minuscule) pour trouver le projet, 
   // sinon retombe sur l'id pour garder la compatibilité avec les anciens liens
-  const project = PROJECTS.find(p => 
-    p.title.toLowerCase() === slug?.toLowerCase() || 
+  // La comparaison ignore les accents : /projet/helenite ouvre aussi « HÉLÉNITE ».
+  const stripAccents = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  const project = PROJECTS.find(p =>
+    p.title.toLowerCase() === slug?.toLowerCase() ||
+    (slug !== undefined && stripAccents(p.title) === stripAccents(slug)) ||
     p.id === Number(slug)
   );
 

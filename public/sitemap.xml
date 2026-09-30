@@ -101,7 +101,14 @@
     <priority>0.9</priority>
   </url>
 
-  <!-- ===== PAGES PROJETS (27) ===== -->
+  <!-- ===== PAGES PROJETS (28) ===== -->
+
+  <url>
+    <loc>https://aymenpromotion-dz.com/projet/h%C3%A9l%C3%A9nite</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
 
   <url>
     <loc>https://aymenpromotion-dz.com/projet/althea</loc>
