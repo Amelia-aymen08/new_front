@@ -32,6 +32,7 @@ const VisiteVirtuellePage = lazy(() => import("./pages/VisiteVirtuellePage"));
 const BatimatPage = lazy(() => import("./pages/BatimatPage"));
 const BatimatAdminPage = lazy(() => import("./pages/BatimatAdminPage"));
 const BatimatAfterPage = lazy(() => import("./pages/BatimatAfterPage"));
+const BatimatAfterAdminPage = lazy(() => import("./pages/BatimatAfterAdminPage"));
 const TrackingAdminPage = lazy(() => import("./pages/TrackingAdminPage"));
 
 // Loading component for lazy routes
@@ -159,6 +160,7 @@ function App() {
             <Route path="/batimat/:slug" element={<BatimatPage />} />
             <Route path="/batimat-admin" element={<BatimatAdminPage />} />
             <Route path="/batimat-after" element={<BatimatAfterPage />} />
+            <Route path="/batimat-after-admin" element={<BatimatAfterAdminPage />} />
             <Route path="/tracking-admin" element={<TrackingAdminPage />} />
             <Route
               path="/tracking-flyer"

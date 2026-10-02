@@ -61,7 +61,7 @@ export const PROJECTS: Project[] = [
   {
     id: 31,
     title: "HÉLÉNITE",
-    location: "Ain Allah, Dely Ibrahim, Alger",
+    location: "Ain Allah, Alger",
     description: "Après le succès de ses résidences signatures, Aymen Promotion Immobilière présente la Résidence Hélénite, une nouvelle adresse d'exception à Ain Allah...",
     image: "/assets/projets/helenite.webp",
     status: "EN COURS",
@@ -94,7 +94,7 @@ Aymen Promotion assure la gestion complète de la copropriété : entretien des 
       "Groupe electrogene",
     ],
     details: [
-      { label: "Adresse", value: "Ain Allah, Dely Ibrahim" },
+      { label: "Adresse", value: "Ain Allah" },
       { label: "Typologie", value: "F2 au F5, Duplex, Piscines privatives" },
       { label: "État d'avancement", value: "0 %" },
     ],
