@@ -10,7 +10,7 @@ import { COUNTRIES } from "../data/countries";
 
 const GOLD = "#F7C66A";
 const RED = "#BF0D0D";
-const IMG = "/jpo_helenite";
+const IMG = "/assets/jpo_helenite";
 
 // Début des journées portes ouvertes (vendredi 23 octobre 2026, 15h, heure d'Alger).
 const EVENT_START = new Date("2026-10-23T15:00:00+01:00").getTime();
@@ -496,7 +496,7 @@ export default function JpoHelenitePage() {
     endDate: "2026-10-29T18:00:00+01:00",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     eventStatus: "https://schema.org/EventScheduled",
-    image: ["https://aymenpromotion-dz.com/jpo_helenite/flyer.webp"],
+    image: ["https://aymenpromotion-dz.com/assets/jpo_helenite/flyer.webp"],
     isAccessibleForFree: true,
     location: {
       "@type": "Place",
