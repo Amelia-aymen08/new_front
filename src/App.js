@@ -33,6 +33,7 @@ const BatimatPage = lazy(() => import("./pages/BatimatPage"));
 const BatimatAdminPage = lazy(() => import("./pages/BatimatAdminPage"));
 const BatimatAfterPage = lazy(() => import("./pages/BatimatAfterPage"));
 const BatimatAfterAdminPage = lazy(() => import("./pages/BatimatAfterAdminPage"));
+const JpoHelenitePage = lazy(() => import("./pages/JpoHelenitePage"));
 const TrackingAdminPage = lazy(() => import("./pages/TrackingAdminPage"));
 
 // Loading component for lazy routes
@@ -161,6 +162,7 @@ function App() {
             <Route path="/batimat-admin" element={<BatimatAdminPage />} />
             <Route path="/batimat-after" element={<BatimatAfterPage />} />
             <Route path="/batimat-after-admin" element={<BatimatAfterAdminPage />} />
+            <Route path="/jpo_helenite" element={<JpoHelenitePage />} />
             <Route path="/tracking-admin" element={<TrackingAdminPage />} />
             <Route
               path="/tracking-flyer"
