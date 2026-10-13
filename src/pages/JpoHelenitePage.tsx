@@ -36,7 +36,7 @@ const HORIZONS = ["Immédiat / moins de 3 mois", "3 à 6 mois", "6 à 12 mois", 
 
 const KEY_POINTS = [
   { icon: "fa-star", title: "Avant-première exclusive", text: "Découvrez Hélénite parmi les premiers" },
-  { icon: "fa-tag", title: "Prix de lancement", text: "Conditions spéciales présentées pendant la JPO" },
+  { icon: "fa-tag", title: "Prix de lancement", text: "Conditions spéciales présentées pendant les journées portes ouvertes" },
   { icon: "fa-ruler-combined", title: "Achat sur plan", text: "Plans, typologies et accompagnement personnalisé" },
   { icon: "fa-comments", title: "Échange avec nos experts", text: "Une équipe disponible pour étudier votre projet" },
 ];

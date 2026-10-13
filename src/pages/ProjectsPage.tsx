@@ -150,10 +150,10 @@ function ProjectCard({ project, style }: { project: Project; style?: React.CSSPr
           {/* Progress Bar */}
           {project.status !== "FINIS" && (
             <div className="mb-6">
-              {getAvancementValue(project) === "Phase Terrassement" ? (
+              {getAvancementValue(project) === "Phase Terrassement" || getAvancementValue(project) === "Avant-première" ? (
                 <div className="flex items-center gap-2">
-                  <span className="text-base">🏗️</span>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#F7C66A]">Phase Terrassement</span>
+                  <span className="text-base">{getAvancementValue(project) === "Avant-première" ? "✨" : "🏗️"}</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#F7C66A]">{getAvancementValue(project)}</span>
                 </div>
               ) : (
                 <>

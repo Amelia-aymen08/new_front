@@ -127,7 +127,7 @@ function MapCard({ projects, locality }: { projects: Project[], locality: Locali
          >
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+                url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             {selectedProject?.lat && selectedProject?.lng && (
                 <MapRecenter lat={selectedProject.lat} lng={selectedProject.lng} />
