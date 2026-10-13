@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Seo from "../components/Seo";
@@ -154,7 +155,7 @@ function Select({ label, children, className = "", ...props }) {
   );
 }
 
-function JpoForm() {
+function JpoForm({ source }) {
   const [form, setForm] = useState(EMPTY_FORM);
   const [projectOpen, setProjectOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -179,7 +180,13 @@ function JpoForm() {
       const res = await fetch(`${API_BASE_URL}/api/jpo-helenite`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, ...getHubspotContext(), ...getAttribution() }),
+        // Sur /jpo_helenite/<source>, la source du lien prime sur une attribution mémorisée.
+        body: JSON.stringify({
+          ...form,
+          ...getHubspotContext(),
+          ...getAttribution(),
+          ...(source ? { qrCampaign: "jpo-helenite", qrSource: source } : {}),
+        }),
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok) {
@@ -471,6 +478,7 @@ function SectionTitle({ eyebrow, children, gold = false, center = false, classNa
 
 export default function JpoHelenitePage() {
   const formRef = useRef(null);
+  const { source } = useParams();
   const countdown = useCountdown(EVENT_START);
 
   // Le formulaire est toujours affiché ; les boutons « Réserver » y font défiler la page.
@@ -606,7 +614,7 @@ export default function JpoHelenitePage() {
               </div>
 
               <div ref={formRef}>
-                <JpoForm />
+                <JpoForm source={source} />
               </div>
             </div>
 

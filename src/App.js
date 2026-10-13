@@ -163,6 +163,8 @@ function App() {
             <Route path="/batimat-after" element={<BatimatAfterPage />} />
             <Route path="/batimat-after-admin" element={<BatimatAfterAdminPage />} />
             <Route path="/jpo_helenite" element={<JpoHelenitePage />} />
+            {/* Même page, avec une source de suivi : /jpo_helenite/commerciaux */}
+            <Route path="/jpo_helenite/:source" element={<JpoHelenitePage />} />
             <Route path="/tracking-admin" element={<TrackingAdminPage />} />
             <Route
               path="/tracking-flyer"
