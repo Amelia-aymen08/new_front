@@ -1,12 +1,11 @@
 // @ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Seo from "../components/Seo";
 import { API_BASE_URL } from "../config";
 import { getHubspotContext } from "../utils/hubspotContext";
-import { getAttribution } from "../utils/attribution";
+import { getAttribution, getCurrentLinkAttribution } from "../utils/attribution";
 import { COUNTRIES } from "../data/countries";
 
 const GOLD = "#F7C66A";
@@ -155,7 +154,7 @@ function Select({ label, children, className = "", ...props }) {
   );
 }
 
-function JpoForm({ source }) {
+function JpoForm() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [projectOpen, setProjectOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -180,12 +179,12 @@ function JpoForm({ source }) {
       const res = await fetch(`${API_BASE_URL}/api/jpo-helenite`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // Sur /jpo_helenite/<source>, la source du lien prime sur une attribution mémorisée.
+        // Le lien utilisé pour arriver sur la page (utm_* ou /jpo_helenite/<source>) prime sur une attribution mémorisée.
         body: JSON.stringify({
           ...form,
           ...getHubspotContext(),
           ...getAttribution(),
-          ...(source ? { qrCampaign: "jpo-helenite", qrSource: source } : {}),
+          ...getCurrentLinkAttribution(),
         }),
       });
       const data = await res.json().catch(() => ({}));
@@ -478,7 +477,6 @@ function SectionTitle({ eyebrow, children, gold = false, center = false, classNa
 
 export default function JpoHelenitePage() {
   const formRef = useRef(null);
-  const { source } = useParams();
   const countdown = useCountdown(EVENT_START);
 
   // Le formulaire est toujours affiché ; les boutons « Réserver » y font défiler la page.
@@ -614,7 +612,7 @@ export default function JpoHelenitePage() {
               </div>
 
               <div ref={formRef}>
-                <JpoForm source={source} />
+                <JpoForm />
               </div>
             </div>
 

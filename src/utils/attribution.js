@@ -86,7 +86,7 @@ export function getVisitorId() {
   }, null);
 }
 
-// Retourne { qrCampaign, qrSource } si une attribution valide existe, sinon {}.
+// Retourne { qrCampaign, qrSource, qrMedium } si une attribution valide existe, sinon {}.
 export function getAttribution() {
   const raw = safeLocal(() => localStorage.getItem(ATTRIBUTION_KEY), null);
   if (!raw) return {};
@@ -94,7 +94,7 @@ export function getAttribution() {
     const data = JSON.parse(raw);
     if (!data?.campaign) return {};
     if (data.landedAt && Date.now() - data.landedAt > ATTRIBUTION_TTL_MS) return {};
-    return { qrCampaign: data.campaign, qrSource: data.source || null };
+    return { qrCampaign: data.campaign, qrSource: data.source || null, qrMedium: data.medium || null };
   } catch {
     return {};
   }
@@ -154,10 +154,37 @@ function parseSlugSource(pathname, search) {
 // La page /jpo_helenite sans slug n'est pas une source de suivi.
 const JPO_SLUG_PATH_RE = /^\/jpo_helenite\/([a-z0-9][a-z0-9_-]{0,58})$/;
 
-function parseJpoSlugSource(pathname) {
+function parseJpoSlugSource(pathname, search) {
   const match = normalizePath(pathname).match(JPO_SLUG_PATH_RE);
   if (!match) return null;
-  return { campaign: "jpo-helenite", source: match[1], medium: "link", heuristic: false };
+  const params = new URLSearchParams(search || "");
+  const explicitCampaign = (
+    params.get("qr") || params.get("qr_campaign") || params.get("utm_campaign") || ""
+  )
+    .trim()
+    .toLowerCase();
+  const explicitMedium = (params.get("utm_medium") || "").trim().toLowerCase();
+  return {
+    campaign: (explicitCampaign || "jpo-helenite").slice(0, 60),
+    source: match[1].slice(0, 60),
+    medium: (explicitMedium || "link").slice(0, 60),
+    heuristic: false,
+  };
+}
+
+// Le lien sur lequel le visiteur se trouve MAINTENANT (path /jpo_helenite/<source> ou utm_* / ?qr=),
+// au format { qrCampaign, qrSource, qrMedium }. Sert à rattacher une inscription au lien réellement
+// utilisé, même si une attribution plus ancienne (first touch) est mémorisée. {} si aucun lien tracé.
+export function getCurrentLinkAttribution() {
+  try {
+    const info =
+      parseJpoSlugSource(window.location.pathname, window.location.search) ||
+      parseExplicitCampaign(window.location.search);
+    if (!info) return {};
+    return { qrCampaign: info.campaign, qrSource: info.source || null, qrMedium: info.medium || null };
+  } catch {
+    return {};
+  }
 }
 
 // Mode 2 : déduction pour les QR imprimés figés (aucun paramètre possible).
@@ -188,7 +215,7 @@ export function captureAttribution() {
   try {
     info =
       parseSlugSource(window.location.pathname, window.location.search) ||
-      parseJpoSlugSource(window.location.pathname) ||
+      parseJpoSlugSource(window.location.pathname, window.location.search) ||
       parseExplicitCampaign(window.location.search) ||
       detectPrintedQrCampaign(isSessionEntry);
   } catch {
@@ -208,6 +235,7 @@ export function captureAttribution() {
         JSON.stringify({
           campaign: info.campaign,
           source: info.source,
+          medium: info.medium || null,
           path: landingPath,
           landedAt: Date.now(),
         })
