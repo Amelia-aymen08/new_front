@@ -92,10 +92,12 @@ Aymen Promotion assure la gestion complète de la copropriété : entretien des 
       "Cuisine",
       "Bache a eau",
       "Groupe electrogene",
+      "Salle de sport",
     ],
     details: [
       { label: "Adresse", value: "Ain Allah" },
       { label: "Typologie", value: "F2 au F5, Duplex, Piscines privatives" },
+      { label: "Blocs", value: "03" },
       { label: "État d'avancement", value: "Avant-première" },
     ],
     mapEmbedUrl: "https://www.google.com/maps?q=Ain+Allah,+Dely+Ibrahim,+Alger&output=embed",

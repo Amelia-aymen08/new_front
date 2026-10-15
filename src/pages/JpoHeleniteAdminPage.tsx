@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { API_BASE_URL } from "../config";
+import { buildBrandedQrSvg, downloadQrPng, downloadQrSvg } from "../utils/brandedQr";
 
 const API_URL = `${API_BASE_URL}/api/jpo-helenite`;
 // Même jeton que les dashboards Batimat (clé de session partagée) : une seule connexion.
@@ -268,12 +269,60 @@ const countBy = (rows, pick) => {
   return [...m.entries()].sort((a, b) => b[1] - a[1]);
 };
 
+// Fenêtre d'aperçu du QR code d'un lien, avec téléchargement PNG / SVG.
+function QrModal({ qr, onClose }) {
+  const [busy, setBusy] = useState(false);
+  const svg = useMemo(() => buildBrandedQrSvg(qr.url, 360).replace('width="360" height="360"', 'width="100%" height="100%"'), [qr.url]);
+  const fileBase = `qr-jpo-helenite-${slug(qr.name) || "lien"}`;
+
+  useEffect(() => {
+    const onKey = (e) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  const png = async () => {
+    setBusy(true);
+    try {
+      await downloadQrPng(qr.url, `${fileBase}.png`);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={onClose} role="dialog" aria-modal="true">
+      <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div className="mb-3 flex items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-[#8A8F98]">QR code</p>
+            <h3 className="text-base font-bold text-[#031B17]">{qr.name}</h3>
+          </div>
+          <button onClick={onClose} aria-label="Fermer" className="rounded-md px-2 py-1 text-[#8A8F98] hover:bg-[#F5F6F8]">✕</button>
+        </div>
+        <div className="mb-3 aspect-square overflow-hidden rounded-xl border border-[#EDEEF1]" dangerouslySetInnerHTML={{ __html: svg }} />
+        <p className="mb-4 break-all text-[11px] text-[#8A8F98]">{qr.url}</p>
+        <div className="grid grid-cols-2 gap-2">
+          <button onClick={png} disabled={busy} className="rounded-lg bg-[#031B17] py-2.5 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-50">
+            {busy ? "Génération…" : "Télécharger PNG"}
+          </button>
+          <button onClick={() => downloadQrSvg(qr.url, `${fileBase}.svg`)} className="rounded-lg border border-[#031B17] py-2.5 text-sm font-semibold text-[#031B17] hover:bg-[#F5F6F8]">
+            Télécharger SVG
+          </button>
+        </div>
+        <p className="mt-3 text-[11px] text-[#8A8F98]">PNG 1600 × 1600 px pour l'impression · SVG vectoriel pour les agrandissements (affiche, bâche).</p>
+      </div>
+    </div>
+  );
+}
+
 function LinkGenerator() {
   const [source, setSource] = useState("");
   const [medium, setMedium] = useState("link");
   const [campaign, setCampaign] = useState(DEFAULT_CAMPAIGN);
   const [name, setName] = useState("");
   const [copied, setCopied] = useState("");
+  const [qr, setQr] = useState(null);
 
   const finalSource = slug(name ? `${source || "commerciaux"}-${name}` : source);
   const customLink = finalSource ? buildLink({ source: finalSource, medium: slug(medium), campaign: slug(campaign) || DEFAULT_CAMPAIGN }) : "";
@@ -306,6 +355,7 @@ function LinkGenerator() {
               </div>
               <div className="flex shrink-0 gap-1.5">
                 <button onClick={() => setSource(q.source) || setMedium(q.medium)} className="rounded-md border border-[#E5E7EB] px-2 py-1 text-xs text-[#4B5563] hover:bg-[#F5F6F8]">Éditer</button>
+                <button onClick={() => setQr({ name: q.label, url })} className="rounded-md border border-[#E5E7EB] px-2 py-1 text-xs font-semibold text-[#031B17] hover:bg-[#F5F6F8]">QR</button>
                 <button onClick={() => copy(url)} className="rounded-md bg-[#031B17] px-2.5 py-1 text-xs font-semibold text-white hover:opacity-90">
                   {copied === url ? "Copié ✓" : "Copier"}
                 </button>
@@ -337,12 +387,16 @@ function LinkGenerator() {
         </div>
         <div className="mt-3 flex flex-wrap items-center gap-2">
           <input readOnly value={customLink || "Renseignez au moins une source"} onFocus={(e) => e.target.select()} className={`${inputClass} flex-1 font-mono text-xs`} />
+          <button disabled={!customLink} onClick={() => setQr({ name: finalSource, url: customLink })} className="rounded-lg border border-[#031B17] px-4 py-2 text-sm font-semibold text-[#031B17] hover:bg-white disabled:opacity-40">
+            Générer le QR code
+          </button>
           <button disabled={!customLink} onClick={() => copy(customLink)} className="rounded-lg bg-[#031B17] px-4 py-2 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-40">
             {copied === customLink ? "Copié ✓" : "Copier"}
           </button>
         </div>
         <p className="mt-2 text-[11px] text-[#8A8F98]">Le nom est ajouté à la source : « commerciaux » + « Karim » → source « commerciaux-karim ».</p>
       </div>
+      {qr && <QrModal qr={qr} onClose={() => setQr(null)} />}
     </Card>
   );
 }
