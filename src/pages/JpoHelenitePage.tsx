@@ -1,11 +1,11 @@
 // @ts-nocheck
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Seo from "../components/Seo";
 import { API_BASE_URL } from "../config";
 import { getHubspotContext } from "../utils/hubspotContext";
-import { getAttribution, getCurrentLinkAttribution } from "../utils/attribution";
+import { getAttribution, getCurrentLinkAttribution, getVisitorId } from "../utils/attribution";
 import { COUNTRIES } from "../data/countries";
 
 const GOLD = "#F7C66A";
@@ -154,12 +154,84 @@ function Select({ label, children, className = "", ...props }) {
   );
 }
 
+const DRAFT_URL = `${API_BASE_URL}/api/jpo-helenite/draft`;
+const VISIT_SENT_KEY = "jpo_helenite_visit_sent";
+
+// Envoi « best effort » de l'état du formulaire (keepalive : part même si l'onglet se ferme).
+function sendDraft(payload) {
+  try {
+    fetch(DRAFT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      keepalive: true,
+    }).catch(() => {});
+  } catch {
+    /* noop */
+  }
+}
+
 function JpoForm() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [projectOpen, setProjectOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState({ type: null, message: "" });
-  const set = (patch) => setForm((f) => ({ ...f, ...patch }));
+  const visitorId = useMemo(() => getVisitorId(), []);
+  const latestForm = useRef(form);
+  latestForm.current = form;
+  const lastSent = useRef("");
+  const lastField = useRef(null);
+  const submitted = useRef(false);
+  const set = (patch) => {
+    lastField.current = Object.keys(patch)[0];
+    setForm((f) => ({ ...f, ...patch }));
+  };
+
+  // Suivi du visiteur : une « visite » à l'arrivée, puis l'état du formulaire au fil de la saisie
+  // (même s'il n'est jamais validé). Les champs ne partent qu'une fois qu'il a commencé à écrire.
+  const context = () => ({ ...getAttribution(), ...getCurrentLinkAttribution(), referrer: document.referrer || null });
+
+  useEffect(() => {
+    if (!visitorId) return;
+    try {
+      if (sessionStorage.getItem(VISIT_SENT_KEY)) return;
+      sessionStorage.setItem(VISIT_SENT_KEY, "1");
+    } catch {
+      /* noop */
+    }
+    sendDraft({ visitorId, event: "visit", fields: {}, ...context() });
+  }, [visitorId]);
+
+  const flushDraft = useCallback(() => {
+    if (submitted.current || !visitorId) return;
+    const f = latestForm.current;
+    const fields = {
+      firstName: f.firstName, lastName: f.lastName, email: f.email, countryCode: f.countryCode, phone: f.phone,
+      visitDate: f.visitDate, timeSlot: f.timeSlot, profile: f.profile, typology: f.typology, horizon: f.horizon,
+      message: f.message, newsletterOptIn: f.newsletterOptIn, consent: f.consent,
+    };
+    const started = Object.entries(fields).some(([k, v]) => k !== "countryCode" && v !== "" && v !== false);
+    if (!started) return;
+    const snapshot = JSON.stringify(fields);
+    if (snapshot === lastSent.current) return;
+    lastSent.current = snapshot;
+    sendDraft({ visitorId, fields, lastField: lastField.current, ...context() });
+  }, [visitorId]);
+
+  useEffect(() => {
+    const timer = setTimeout(flushDraft, 1500);
+    return () => clearTimeout(timer);
+  }, [form, flushDraft]);
+
+  useEffect(() => {
+    const onHide = () => document.visibilityState === "hidden" && flushDraft();
+    document.addEventListener("visibilitychange", onHide);
+    window.addEventListener("pagehide", flushDraft);
+    return () => {
+      document.removeEventListener("visibilitychange", onHide);
+      window.removeEventListener("pagehide", flushDraft);
+    };
+  }, [flushDraft]);
 
   const slots = DATE_OPTIONS.find((d) => d.value === form.visitDate)?.slots || [];
 
@@ -185,10 +257,12 @@ function JpoForm() {
           ...getHubspotContext(),
           ...getAttribution(),
           ...getCurrentLinkAttribution(),
+          visitorId,
         }),
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok) {
+        submitted.current = true;
         setStatus({ type: "success", message: data.message || "Votre demande a bien été enregistrée." });
         setForm(EMPTY_FORM);
         setProjectOpen(false);
@@ -427,7 +501,7 @@ function JpoForm() {
 
           <p className="flex items-start gap-1.5 text-[11px] leading-relaxed text-[#8a8a8a]">
             <i className="fa-solid fa-lock mt-0.5" />
-            Votre créneau sera confirmé par notre équipe selon les disponibilités
+            Votre créneau sera confirmé par notre équipe selon les disponibilités. Les informations saisies peuvent être conservées, même si vous ne validez pas le formulaire, afin de pouvoir vous recontacter.
           </p>
         </form>
       </div>
@@ -611,7 +685,8 @@ export default function JpoHelenitePage() {
                 </p>
               </div>
 
-              <div ref={formRef}>
+              {/* Sur mobile, le formulaire passe avant les titres et les textes. */}
+              <div ref={formRef} className="order-first md:order-none">
                 <JpoForm />
               </div>
             </div>

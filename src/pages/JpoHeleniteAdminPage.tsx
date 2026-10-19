@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { API_BASE_URL } from "../config";
+import { COUNTRIES } from "../data/countries";
 import { buildBrandedQrSvg, downloadQrPng, downloadQrSvg } from "../utils/brandedQr";
 
 const API_URL = `${API_BASE_URL}/api/jpo-helenite`;
@@ -126,6 +127,46 @@ async function copyText(text) {
     ta.remove();
     return ok;
   }
+}
+
+const FIELD_LABELS = {
+  firstName: "Prénom", lastName: "Nom", email: "E-mail", countryCode: "Téléphone", phone: "Téléphone",
+  visitDate: "Jour", timeSlot: "Créneau", profile: "Profil", typology: "Typologie", horizon: "Horizon",
+  message: "Précision", consent: "Consentement", newsletterOptIn: "Newsletter",
+};
+
+const phoneDigits = (v) => String(v || "").replace(/\D/g, "");
+const dialOf = (code) => COUNTRIES.find((c) => c.code === code)?.dial || "";
+const draftPhone = (d) => (d.phone ? `${dialOf(d.countryCode)} ${d.phone}`.trim() : "");
+const draftWhatsapp = (d) => {
+  const local = phoneDigits(d.phone).replace(/^0+/, "");
+  return local ? `https://wa.me/${phoneDigits(dialOf(d.countryCode))}${local}` : null;
+};
+const draftStarted = (d) =>
+  [d.firstName, d.lastName, d.email, d.phone, d.visitDate, d.timeSlot, d.profile, d.typology, d.horizon, d.message].some(Boolean);
+const draftReachable = (d) => Boolean(d.email) || phoneDigits(d.phone).replace(/^0+/, "").length >= 6;
+
+function draftsToCsv(list) {
+  const headers = ["Dernière activité", "Prénom", "Nom", "E-mail", "Téléphone", "Jour", "Créneau", "Profil", "Typologie", "Horizon", "Précision", "Dernier champ", "Campagne", "Source", "Medium", "Appareil"];
+  const lines = list.map((d) => [
+    formatDateTime(d.updatedAt || d.updated_at), d.firstName, d.lastName, d.email, draftPhone(d), dateLabel(d.visitDate), d.timeSlot,
+    d.profile, d.typology, d.horizon, d.message, FIELD_LABELS[d.lastField] || d.lastField, d.qrCampaign, d.qrSource, d.qrMedium,
+    d.isMobile ? "Mobile" : "Ordinateur",
+  ]);
+  const esc = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  return [headers, ...lines].map((r) => r.map(esc).join(";")).join("\n");
+}
+
+function downloadDraftsCsv(list) {
+  const blob = new Blob(["\uFEFF" + draftsToCsv(list)], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `jpo-helenite-formulaires-non-valides-${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
 }
 
 function LoginGate({ onAuthenticated }) {
@@ -404,6 +445,8 @@ function LinkGenerator() {
 function Dashboard({ token, onLogout }) {
   const [rows, setRows] = useState([]);
   const [linkStats, setLinkStats] = useState({ links: [], daily: [], unavailable: false });
+  const [drafts, setDrafts] = useState([]);
+  const [onlyReachable, setOnlyReachable] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
@@ -421,9 +464,10 @@ function Dashboard({ token, onLogout }) {
     async (silent = false) => {
       if (!silent) setLoading(true);
       try {
-        const [res, resLinks] = await Promise.all([
+        const [res, resLinks, resDrafts] = await Promise.all([
           fetch(API_URL, { headers }),
           fetch(`${API_URL}/link-stats`, { headers }),
+          fetch(`${API_URL}/drafts`, { headers }),
         ]);
         if (res.status === 401) {
           sessionStorage.removeItem(TOKEN_KEY);
@@ -434,6 +478,10 @@ function Dashboard({ token, onLogout }) {
         const data = await res.json();
         setRows((Array.isArray(data) ? data : []).map((r) => ({ ...r, createdAt: r.createdAt || r.created_at })));
         if (resLinks.ok) setLinkStats(await resLinks.json());
+        if (resDrafts.ok) {
+          const dd = await resDrafts.json();
+          setDrafts(Array.isArray(dd) ? dd.map((d) => ({ ...d, updatedAt: d.updatedAt || d.updated_at })) : []);
+        }
         setLastUpdated(new Date());
         setError("");
       } catch {
@@ -492,6 +540,31 @@ function Dashboard({ token, onLogout }) {
     });
     return s;
   }, [rows]);
+
+  // Parcours des visiteurs : un visiteur « validé » = inscription faite depuis son navigateur, ou avec le même
+  // e-mail / téléphone qu'une inscription existante (autre appareil).
+  const journey = useMemo(() => {
+    const regEmails = new Set(rows.map((r) => String(r.email || "").toLowerCase()));
+    const regPhones = rows.map((r) => phoneDigits(r.phone));
+    const validated = (d) =>
+      Boolean(d.submittedAt) ||
+      (d.email && regEmails.has(String(d.email).toLowerCase())) ||
+      (phoneDigits(d.phone).replace(/^0+/, "").length >= 6 && regPhones.some((p) => p.endsWith(phoneDigits(d.phone).replace(/^0+/, ""))));
+    const started = drafts.filter(draftStarted);
+    const abandoned = started.filter((d) => !validated(d));
+    return {
+      visitors: drafts.length,
+      started: started.length,
+      validated: started.filter(validated).length,
+      abandoned,
+      reachable: abandoned.filter(draftReachable),
+    };
+  }, [drafts, rows]);
+
+  const abandonedList = useMemo(
+    () => (onlyReachable ? journey.reachable : journey.abandoned),
+    [journey, onlyReachable]
+  );
 
   const regBars = useMemo(() => {
     const counts = {};
@@ -614,6 +687,82 @@ function Dashboard({ token, onLogout }) {
           <Kpi label="Badges envoyés" value={stats.badgeSent} hint={stats.total - stats.badgeSent ? `${stats.total - stats.badgeSent} à renvoyer` : "Tous envoyés"} accent="#16A34A" />
           <Kpi label="Newsletter" value={stats.newsletter} hint={pct(stats.newsletter)} accent="#64748B" />
         </div>
+
+        {/* Parcours des visiteurs */}
+        <Card title="Parcours des visiteurs de la page" className="mb-6">
+          <div className="mb-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+            <Kpi label="Visiteurs suivis" value={journey.visitors} hint="Ont ouvert la page (hors robots)" accent="#0EA5E9" />
+            <Kpi label="Ont commencé à remplir" value={journey.started} hint={journey.visitors ? `${Math.round((journey.started / journey.visitors) * 100)} % des visiteurs` : "—"} accent="#7C3AED" />
+            <Kpi label="Ont validé" value={journey.validated} hint={journey.started ? `${Math.round((journey.validated / journey.started) * 100)} % de ceux qui ont commencé` : "—"} accent="#16A34A" />
+            <Kpi label="Formulaires non validés" value={journey.abandoned.length} hint={`${journey.reachable.length} joignable${journey.reachable.length > 1 ? "s" : ""} (e-mail ou téléphone)`} accent="#D97706" />
+          </div>
+          <p className="text-[11px] text-[#8A8F98]">
+            Le suivi démarre à la mise en ligne de cette fonctionnalité : les visiteurs et inscriptions antérieurs ne sont pas comptés dans ce parcours.
+          </p>
+        </Card>
+
+        <Card
+          title="Formulaires non validés — à relancer"
+          className="mb-6"
+          right={
+            <div className="flex items-center gap-3">
+              <label className="flex cursor-pointer items-center gap-1.5 text-xs text-[#4B5563]">
+                <input type="checkbox" checked={onlyReachable} onChange={(e) => setOnlyReachable(e.target.checked)} className="accent-[#031B17]" />
+                Seulement les joignables
+              </label>
+              <button onClick={() => downloadDraftsCsv(abandonedList)} disabled={!abandonedList.length} className="rounded-lg border border-[#031B17] px-3 py-1.5 text-xs font-semibold text-[#031B17] hover:bg-[#F5F6F8] disabled:opacity-40">
+                Exporter CSV
+              </button>
+            </div>
+          }
+        >
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[860px] text-left text-sm">
+              <thead>
+                <tr className="border-b border-[#EDEEF1] text-[11px] uppercase tracking-wide text-[#8A8F98]">
+                  <th className="py-2 pr-4 font-semibold">Dernière activité</th>
+                  <th className="py-2 pr-4 font-semibold">Nom</th>
+                  <th className="py-2 pr-4 font-semibold">Contact</th>
+                  <th className="py-2 pr-4 font-semibold">Visite souhaitée</th>
+                  <th className="py-2 pr-4 font-semibold">Projet</th>
+                  <th className="py-2 pr-4 font-semibold">Arrêté à</th>
+                  <th className="py-2 font-semibold">Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                {!abandonedList.length && (
+                  <tr><td colSpan={7} className="py-8 text-center text-[#8A8F98]">Aucun formulaire abandonné pour le moment.</td></tr>
+                )}
+                {abandonedList.slice(0, 100).map((d) => {
+                  const wa = draftWhatsapp(d);
+                  return (
+                    <tr key={d.id} className="border-b border-[#F3F4F6] align-top">
+                      <td className="whitespace-nowrap py-2.5 pr-4 text-xs text-[#4B5563]">
+                        {formatDateTime(d.updatedAt)}
+                        <div className="text-[#8A8F98]">{d.isMobile ? "Mobile" : "Ordinateur"}</div>
+                      </td>
+                      <td className="py-2.5 pr-4 font-semibold text-[#031B17]">{[d.firstName, d.lastName].filter(Boolean).join(" ") || "—"}</td>
+                      <td className="py-2.5 pr-4 text-xs text-[#4B5563]">
+                        <div>{d.email || "—"}</div>
+                        {draftPhone(d) && (wa ? <a href={wa} target="_blank" rel="noopener noreferrer" className="text-[#166534] hover:underline">{draftPhone(d)}</a> : <span>{draftPhone(d)}</span>)}
+                      </td>
+                      <td className="whitespace-nowrap py-2.5 pr-4 text-xs text-[#4B5563]">
+                        {d.visitDate ? `${dateLabel(d.visitDate)}${d.timeSlot ? ` · ${d.timeSlot}` : ""}` : "—"}
+                      </td>
+                      <td className="max-w-[220px] py-2.5 pr-4 text-xs text-[#4B5563]">
+                        {[d.profile, d.typology, d.horizon].filter(Boolean).join(" · ") || "—"}
+                        {d.message && <div className="mt-1 truncate italic text-[#8A8F98]" title={d.message}>« {d.message} »</div>}
+                      </td>
+                      <td className="py-2.5 pr-4 text-xs text-[#4B5563]">{FIELD_LABELS[d.lastField] || "—"}</td>
+                      <td className="py-2.5 text-xs text-[#4B5563]">{d.qrSource || d.qrCampaign || "Direct"}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          {abandonedList.length > 100 && <p className="mt-3 text-[11px] text-[#8A8F98]">100 plus récents affichés sur {abandonedList.length} — l'export CSV contient tout.</p>}
+        </Card>
 
         {/* Courbes */}
         <div className="mb-6 grid gap-3 lg:grid-cols-2">
