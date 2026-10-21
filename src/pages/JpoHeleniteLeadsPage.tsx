@@ -48,6 +48,8 @@ const endOfTodayAlgiers = () => {
   shifted.setUTCHours(23, 59, 59, 999);
   return new Date(shifted.getTime() - 3600000);
 };
+// Relance échue ou prévue aujourd'hui, prospect non clos.
+const isDueAt = (l, endTime) => Boolean(l.followUpAt) && new Date(l.followUpAt).getTime() <= endTime && !CLOSED.includes(l.status);
 const digits = (v) => String(v || "").replace(/\D/g, "");
 
 const csvEsc = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
@@ -122,7 +124,7 @@ function Dashboard({ token, onLogout }) {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [passwordInfo, setPasswordInfo] = useState(null);
-  const [newAgent, setNewAgent] = useState({ name: "", email: "", role: "commercial" });
+  const [newAgent, setNewAgent] = useState({ name: "", email: "", role: "commercial", password: "" });
   const [teamOpen, setTeamOpen] = useState(false);
   const intervalRef = useRef(null);
   const headers = useMemo(() => ({ Authorization: `Bearer ${token}`, "Content-Type": "application/json" }), [token]);
@@ -192,18 +194,22 @@ function Dashboard({ token, onLogout }) {
   const addAgent = async (e) => {
     e.preventDefault();
     try {
-      const res = await call("/admin/agents", "POST", newAgent);
+      const res = await call("/admin/agents", "POST", { ...newAgent, password: newAgent.password || undefined });
       setPasswordInfo({ title: "Compte créé", agent: res.agent, password: res.password });
-      setNewAgent({ name: "", email: "", role: "commercial" });
+      setNewAgent({ name: "", email: "", role: "commercial", password: "" });
       await fetchAll(true);
     } catch (err) {
       setError(err.message);
     }
   };
 
-  const { agents, leads, scans } = data;
-  const dueEnd = useMemo(() => endOfTodayAlgiers(), [data]);
-  const isDue = (l) => l.followUpAt && new Date(l.followUpAt) <= dueEnd && !CLOSED.includes(l.status);
+  const { agents: allAgents, leads, scans } = data;
+  const checkins = data.checkins || [];
+  // Les comptes « accueil » n'ont pas de prospects : ils n'apparaissent ni dans les résultats ni dans les listes d'affectation.
+  const agents = useMemo(() => allAgents.filter((a) => a.role !== "accueil"), [allAgents]);
+  // Fin de journée d'Alger (nombre stable pendant la journée) : sert à repérer les relances échues.
+  const dueEnd = endOfTodayAlgiers().getTime();
+  const isDue = (l) => isDueAt(l, dueEnd);
   const isAppointment = (l) => l.status === "rdv_a_confirmer" || l.status === "rdv_confirme";
 
   const stats = useMemo(() => {
@@ -213,7 +219,7 @@ function Dashboard({ token, onLogout }) {
       else s.none += 1;
       if (!l.treatedAt) s.untreated += 1;
       if (isAppointment(l)) s.appointments += 1;
-      if (isDue(l)) s.due += 1;
+      if (isDueAt(l, dueEnd)) s.due += 1;
       if (l.status === "qualifie") s.qualified += 1;
     });
     s.duplicateScans = scans.filter((x) => x.isDuplicate).length;
@@ -231,7 +237,7 @@ function Dashboard({ token, onLogout }) {
       if (TEMP[l.temperature]) r[l.temperature] += 1;
       if (!l.treatedAt) r.untreated += 1;
       if (isAppointment(l)) r.appointments += 1;
-      if (isDue(l)) r.due += 1;
+      if (isDueAt(l, dueEnd)) r.due += 1;
       if (l.status === "qualifie") r.qualified += 1;
     });
     scans.forEach((s) => {
@@ -272,7 +278,7 @@ function Dashboard({ token, onLogout }) {
     () => leads
       .filter((l) => (isAppointment(l) || l.status === "a_relancer" || l.followUpAt) && !CLOSED.includes(l.status))
       .sort((a, b) => (a.followUpAt || "9").localeCompare(b.followUpAt || "9")),
-    [leads, dueEnd]
+    [leads]
   );
 
   const multiScanned = useMemo(() => {
@@ -360,7 +366,8 @@ function Dashboard({ token, onLogout }) {
         {error && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>}
 
         {/* Indicateurs */}
-        <div className="mb-3 grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div className="mb-3 grid grid-cols-2 gap-3 lg:grid-cols-5">
+          <Kpi label="Visiteurs arrivés" value={checkins.length} accent="#0EA5E9" hint={`${pct(checkins.length, registrations.length)} des ${registrations.length} inscrits`} />
           <Kpi big label="Prospects scannés" value={stats.leads} accent="#031B17" hint={`${pct(stats.leads, registrations.length)} des ${registrations.length} inscrits`} />
           <Kpi label="Non traités" value={stats.untreated} accent="#D97706" hint={pct(stats.untreated, stats.leads)} active={onlyUntreated} onClick={() => setOnlyUntreated((v) => !v)} />
           <Kpi label="Rendez-vous" value={stats.appointments} accent="#7C3AED" hint="à confirmer + confirmés" onClick={() => { setStatusFilter("all"); setSearch(""); document.getElementById("a-faire")?.scrollIntoView({ behavior: "smooth" }); }} />
@@ -573,7 +580,7 @@ function Dashboard({ token, onLogout }) {
 
         {/* Équipe */}
         <Card
-          title={`Équipe commerciale (${agents.length} comptes)`}
+          title={`Équipe — comptes de l'application (${allAgents.length})`}
           right={<button onClick={() => setTeamOpen((v) => !v)} className="rounded-lg border border-[#E5E7EB] px-3 py-1.5 text-xs font-semibold text-[#031B17] hover:bg-[#F5F6F8]">{teamOpen ? "Masquer" : "Gérer les comptes"}</button>}
         >
           {teamOpen ? (
@@ -586,11 +593,11 @@ function Dashboard({ token, onLogout }) {
                     </tr>
                   </thead>
                   <tbody>
-                    {agents.map((a) => (
+                    {allAgents.map((a) => (
                       <tr key={a.id} className="border-b border-[#F3F4F6]">
                         <td className="py-2.5 pr-3 font-semibold text-[#031B17]">{a.name}</td>
                         <td className="py-2.5 pr-3 text-xs text-[#4B5563]">{a.email}</td>
-                        <td className="py-2.5 pr-3 text-xs">{a.role === "manager" ? "Manager" : "Commercial"}</td>
+                        <td className="py-2.5 pr-3 text-xs">{a.role === "manager" ? "Manager" : a.role === "accueil" ? "Accueil" : "Commercial"}</td>
                         <td className="py-2.5 pr-3 text-xs text-[#8A8F98]">{fmt(a.lastLoginAt)}</td>
                         <td className="py-2.5 pr-3"><span className={`rounded-md px-2 py-0.5 text-xs font-semibold ${a.active ? "bg-[#DCFCE7] text-[#166534]" : "bg-[#FEE2E2] text-[#991B1B]"}`}>{a.active ? "Actif" : "Désactivé"}</span></td>
                         <td className="whitespace-nowrap py-2.5 text-right">
@@ -602,10 +609,11 @@ function Dashboard({ token, onLogout }) {
                   </tbody>
                 </table>
               </div>
-              <form onSubmit={addAgent} className="mt-5 grid gap-3 rounded-lg bg-[#F5F6F8] p-4 md:grid-cols-[1fr_1fr_160px_auto]">
+              <form onSubmit={addAgent} className="mt-5 grid gap-3 rounded-lg bg-[#F5F6F8] p-4 md:grid-cols-[1fr_1fr_170px_1fr_auto]">
                 <input required value={newAgent.name} onChange={(e) => setNewAgent({ ...newAgent, name: e.target.value })} placeholder="Nom complet" className={selectClass} />
                 <input required type="email" value={newAgent.email} onChange={(e) => setNewAgent({ ...newAgent, email: e.target.value })} placeholder="E-mail professionnel" className={selectClass} />
-                <select value={newAgent.role} onChange={(e) => setNewAgent({ ...newAgent, role: e.target.value })} className={selectClass}><option value="commercial">Commercial</option><option value="manager">Manager</option></select>
+                <select value={newAgent.role} onChange={(e) => setNewAgent({ ...newAgent, role: e.target.value })} className={selectClass}><option value="commercial">Commercial</option><option value="manager">Manager</option><option value="accueil">Accueil (arrivées)</option></select>
+                <input type="text" minLength={8} value={newAgent.password} onChange={(e) => setNewAgent({ ...newAgent, password: e.target.value })} placeholder="Mot de passe (facultatif, 8 car. min.)" className={selectClass} />
                 <button type="submit" className="rounded-lg bg-[#031B17] px-4 py-2 text-sm font-semibold text-white hover:opacity-90">Ajouter</button>
               </form>
             </>
