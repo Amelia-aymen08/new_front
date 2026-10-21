@@ -35,6 +35,7 @@ const BatimatAfterPage = lazy(() => import("./pages/BatimatAfterPage"));
 const BatimatAfterAdminPage = lazy(() => import("./pages/BatimatAfterAdminPage"));
 const JpoHelenitePage = lazy(() => import("./pages/JpoHelenitePage"));
 const JpoHeleniteAdminPage = lazy(() => import("./pages/JpoHeleniteAdminPage"));
+const JpoHeleniteLeadsPage = lazy(() => import("./pages/JpoHeleniteLeadsPage"));
 const TrackingAdminPage = lazy(() => import("./pages/TrackingAdminPage"));
 
 // Loading component for lazy routes
@@ -164,9 +165,13 @@ function App() {
             <Route path="/batimat-after" element={<BatimatAfterPage />} />
             <Route path="/batimat-after-admin" element={<BatimatAfterAdminPage />} />
             <Route path="/jpo-helenite-admin" element={<JpoHeleniteAdminPage />} />
+            <Route path="/jpo-helenite-leads" element={<JpoHeleniteLeadsPage />} />
             <Route path="/jpo_helenite" element={<JpoHelenitePage />} />
             {/* Même page, avec une source de suivi : /jpo_helenite/commerciaux */}
             <Route path="/jpo_helenite/:source" element={<JpoHelenitePage />} />
+            {/* Variante avec tiret (souvent tapée par erreur) : même page, mêmes sources de suivi. */}
+            <Route path="/jpo-helenite" element={<JpoHelenitePage />} />
+            <Route path="/jpo-helenite/:source" element={<JpoHelenitePage />} />
             <Route path="/tracking-admin" element={<TrackingAdminPage />} />
             <Route
               path="/tracking-flyer"

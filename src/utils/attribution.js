@@ -152,7 +152,7 @@ function parseSlugSource(pathname, search) {
 // Mode 1ter : même principe pour la JPO Hélénite  /jpo_helenite/<source>
 // (ex. /jpo_helenite/commerciaux). Campagne "jpo-helenite", source = le slug.
 // La page /jpo_helenite sans slug n'est pas une source de suivi.
-const JPO_SLUG_PATH_RE = /^\/jpo_helenite\/([a-z0-9][a-z0-9_-]{0,58})$/;
+const JPO_SLUG_PATH_RE = /^\/jpo[_-]helenite\/([a-z0-9][a-z0-9_-]{0,58})$/;
 
 function parseJpoSlugSource(pathname, search) {
   const match = normalizePath(pathname).match(JPO_SLUG_PATH_RE);

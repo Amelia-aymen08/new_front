@@ -169,7 +169,7 @@ function downloadDraftsCsv(list) {
   URL.revokeObjectURL(url);
 }
 
-function LoginGate({ onAuthenticated }) {
+export function LoginGate({ onAuthenticated }) {
   const [tokenInput, setTokenInput] = useState("");
   const [checking, setChecking] = useState(false);
   const [error, setError] = useState("");
@@ -225,7 +225,7 @@ function LoginGate({ onAuthenticated }) {
   );
 }
 
-function Kpi({ label, value, hint, accent, active, onClick, big }) {
+export function Kpi({ label, value, hint, accent, active, onClick, big }) {
   const Tag = onClick ? "button" : "div";
   return (
     <Tag onClick={onClick} className={`rounded-xl border bg-white px-5 py-4 text-left shadow-sm transition-all ${onClick ? "hover:shadow-md" : ""} ${active ? "border-[#031B17] ring-1 ring-[#031B17]" : "border-[#E5E7EB]"}`}>
@@ -239,7 +239,7 @@ function Kpi({ label, value, hint, accent, active, onClick, big }) {
   );
 }
 
-function Card({ title, right, children, className = "" }) {
+export function Card({ title, right, children, className = "" }) {
   return (
     <div className={`rounded-xl border border-[#E5E7EB] bg-white p-5 shadow-sm ${className}`}>
       <div className="mb-4 flex items-center justify-between gap-3">
@@ -251,7 +251,7 @@ function Card({ title, right, children, className = "" }) {
   );
 }
 
-function BarChart({ bars, color = "#031B17", empty }) {
+export function BarChart({ bars, color = "#031B17", empty }) {
   const max = Math.max(1, ...bars.map((b) => b.count));
   if (!bars.length) return <p className="py-8 text-center text-sm text-[#8A8F98]">{empty}</p>;
   return (
@@ -660,7 +660,8 @@ function Dashboard({ token, onLogout }) {
               </p>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
+            <a href="/jpo-helenite-leads" className="rounded-lg border border-[#E1BB7F]/60 px-4 py-2 text-sm font-semibold text-[#E1BB7F] hover:bg-white/5">Prospects commerciaux</a>
             <button onClick={() => fetchAll()} className="rounded-lg border border-white/15 px-4 py-2 text-sm font-medium text-white/80 hover:bg-white/5">Actualiser</button>
             <button onClick={() => downloadCsv(filtered)} disabled={!filtered.length} className="rounded-lg px-4 py-2 text-sm font-semibold text-[#031B17] hover:opacity-90 disabled:opacity-40" style={{ background: GOLD }}>Exporter CSV</button>
             <button onClick={() => { sessionStorage.removeItem(TOKEN_KEY); onLogout(); }} className="rounded-lg border border-white/15 px-4 py-2 text-sm font-medium text-white/60 hover:bg-white/5">Déconnexion</button>
