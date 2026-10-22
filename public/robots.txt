@@ -6,6 +6,7 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /jpo-scan/
 Disallow: /admin/
 Disallow: /batimat-admin
 Disallow: /batimat/admin
