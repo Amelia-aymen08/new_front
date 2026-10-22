@@ -204,7 +204,14 @@ function Dashboard({ token, onLogout }) {
   };
 
   const { agents: allAgents, leads, scans } = data;
-  const checkins = data.checkins || [];
+  // Présents = arrivés (accueil ou scan d'un commercial) dont le dernier passage n'est pas une sortie.
+  const presence = useMemo(() => {
+    const checkins = data.checkins || [];
+    const lastOut = new Map();
+    (data.passages || []).forEach((p) => lastOut.set(p.registrationId, p.direction === "out")); // triés du plus ancien au plus récent
+    const departed = checkins.filter((c) => lastOut.get(c.registrationId)).length;
+    return { arrived: checkins.length, departed, inside: checkins.length - departed };
+  }, [data]);
   // Les comptes « accueil » n'ont pas de prospects : ils n'apparaissent ni dans les résultats ni dans les listes d'affectation.
   const agents = useMemo(() => allAgents.filter((a) => a.role !== "accueil"), [allAgents]);
   // Fin de journée d'Alger (nombre stable pendant la journée) : sert à repérer les relances échues.
@@ -366,8 +373,13 @@ function Dashboard({ token, onLogout }) {
         {error && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>}
 
         {/* Indicateurs */}
-        <div className="mb-3 grid grid-cols-2 gap-3 lg:grid-cols-5">
-          <Kpi label="Visiteurs arrivés" value={checkins.length} accent="#0EA5E9" hint={`${pct(checkins.length, registrations.length)} des ${registrations.length} inscrits`} />
+        <div className="mb-3 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <Kpi label="Inscrits" value={registrations.length} accent="#64748B" hint="inscriptions validées" />
+          <Kpi label="Arrivés" value={presence.arrived} accent="#0EA5E9" hint={`${pct(presence.arrived, registrations.length)} des inscrits`} />
+          <Kpi label="Présents sur place" value={presence.inside} accent="#16A34A" hint="arrivés, pas encore sortis" />
+          <Kpi label="Sortis" value={presence.departed} accent="#7C3AED" hint="sortie enregistrée à l'accueil" />
+        </div>
+        <div className="mb-3 grid grid-cols-2 gap-3 lg:grid-cols-4">
           <Kpi big label="Prospects scannés" value={stats.leads} accent="#031B17" hint={`${pct(stats.leads, registrations.length)} des ${registrations.length} inscrits`} />
           <Kpi label="Non traités" value={stats.untreated} accent="#D97706" hint={pct(stats.untreated, stats.leads)} active={onlyUntreated} onClick={() => setOnlyUntreated((v) => !v)} />
           <Kpi label="Rendez-vous" value={stats.appointments} accent="#7C3AED" hint="à confirmer + confirmés" onClick={() => { setStatusFilter("all"); setSearch(""); document.getElementById("a-faire")?.scrollIntoView({ behavior: "smooth" }); }} />
