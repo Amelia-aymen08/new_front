@@ -536,7 +536,7 @@ export default function JpoNiceAdminPage() {
         <title>JPO Nice — Dashboard</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
-      {token ? <Dashboard token={token} onLogout={() => setToken(null)} /> : <LoginGate onAuthenticated={(t) => setToken(t)} />}
+      {token ? <Dashboard token={token} onLogout={() => setToken(null)} /> : <LoginGate onAuthenticated={(t) => setToken(t)} title="JPO Nice — Dashboard" letter="N" checkUrl={API_URL} />}
     </>
   );
 }

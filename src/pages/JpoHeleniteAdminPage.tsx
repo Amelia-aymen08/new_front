@@ -169,7 +169,7 @@ function downloadDraftsCsv(list) {
   URL.revokeObjectURL(url);
 }
 
-export function LoginGate({ onAuthenticated }) {
+export function LoginGate({ onAuthenticated, title = "JPO Hélénite — Dashboard", letter = "H", checkUrl = API_URL }) {
   const [tokenInput, setTokenInput] = useState("");
   const [checking, setChecking] = useState(false);
   const [error, setError] = useState("");
@@ -180,7 +180,7 @@ export function LoginGate({ onAuthenticated }) {
     setChecking(true);
     setError("");
     try {
-      const res = await fetch(API_URL, { headers: { Authorization: `Bearer ${tokenInput.trim()}` } });
+      const res = await fetch(checkUrl, { headers: { Authorization: `Bearer ${tokenInput.trim()}` } });
       if (res.status === 401) {
         setError("Token incorrect.");
       } else if (!res.ok) {
@@ -200,9 +200,9 @@ export function LoginGate({ onAuthenticated }) {
     <div className="flex min-h-screen items-center justify-center bg-[#031B17] px-4">
       <form onSubmit={handleSubmit} className="w-full max-w-sm rounded-2xl border border-white/10 bg-[#05241F] p-8 shadow-2xl">
         <div className="mb-6 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl text-base font-bold text-[#031B17]" style={{ background: GOLD }}>H</div>
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl text-base font-bold text-[#031B17]" style={{ background: GOLD }}>{letter}</div>
           <div>
-            <h1 className="text-lg font-bold text-white">JPO Hélénite — Dashboard</h1>
+            <h1 className="text-lg font-bold text-white">{title}</h1>
             <p className="text-xs text-white/40">Accès réservé</p>
           </div>
         </div>
