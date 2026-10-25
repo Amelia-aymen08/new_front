@@ -646,7 +646,7 @@ function Dashboard({ token, onLogout }) {
   const selectClass = "rounded-lg border border-[#E5E7EB] bg-white px-3 py-2 text-sm text-[#031B17] outline-none focus:border-[#031B17]";
 
   return (
-    <div className="min-h-screen bg-[#F5F6F8]">
+    <div className="min-h-screen bg-[#F5F6F8] text-[#031B17]">
       <div className="border-b border-[#E5E7EB] bg-[#031B17]">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-5">
           <div className="flex items-center gap-3">
