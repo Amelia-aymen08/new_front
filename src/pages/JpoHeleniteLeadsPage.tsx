@@ -68,6 +68,26 @@ function leadsToCsv(list) {
   });
   return [headers, ...lines].map((r) => r.map(csvEsc).join(";")).join("\n");
 }
+// Tous les arrivés (accueil + scan d'un commercial), avec leur fiche d'inscription et leur état de présence.
+function arrivalsToCsv({ checkins, passages, registrations, agents }) {
+  const regById = new Map(registrations.map((r) => [r.id, r]));
+  const agentById = new Map(agents.map((a) => [a.id, a]));
+  const last = new Map();
+  passages.forEach((p) => last.set(p.registrationId, p)); // triés du plus ancien au plus récent
+  const headers = ["Arrivé le", "Enregistré par", "Prénom", "Nom", "E-mail", "Téléphone", "Jour prévu", "Créneau", "Profil", "Typologie", "Horizon", "Présence", "Dernier passage"];
+  const lines = [...checkins]
+    .sort((a, b) => String(a.checkedInAt).localeCompare(String(b.checkedInAt)))
+    .map((c) => {
+      const r = regById.get(c.registrationId) || {};
+      const agent = agentById.get(c.agentId);
+      const p = last.get(c.registrationId);
+      return [
+        fmt(c.checkedInAt), agent ? `${agent.name}${agent.role === "accueil" ? " (accueil)" : ""}` : "", r.firstName, r.lastName, r.email, r.phone,
+        r.visitDate, r.timeSlot, r.profile, r.typology, r.horizon, p?.direction === "out" ? "Sorti" : "Présent", p ? fmt(p.at) : "",
+      ];
+    });
+  return [headers, ...lines].map((row) => row.map(csvEsc).join(";")).join("\n");
+}
 function download(filename, content) {
   const blob = new Blob(["﻿" + content], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
@@ -364,6 +384,7 @@ function Dashboard({ token, onLogout }) {
             <a href="/jpo-helenite-admin" className="rounded-lg border border-white/15 px-4 py-2 text-sm font-medium text-white/80 hover:bg-white/5">Inscriptions</a>
             <button onClick={() => fetchAll()} className="rounded-lg border border-white/15 px-4 py-2 text-sm font-medium text-white/80 hover:bg-white/5">Actualiser</button>
             <button onClick={() => download(`jpo-helenite-prospects-${new Date().toISOString().slice(0, 10)}.csv`, leadsToCsv(leads))} disabled={!leads.length} className="rounded-lg px-4 py-2 text-sm font-semibold text-[#031B17] hover:opacity-90 disabled:opacity-40" style={{ background: GOLD }}>Export global</button>
+            <button onClick={() => download(`jpo-helenite-arrives-${new Date().toISOString().slice(0, 10)}.csv`, arrivalsToCsv({ checkins: data.checkins || [], passages: data.passages || [], registrations, agents: allAgents }))} disabled={!presence.arrived} className="rounded-lg border border-white/15 px-4 py-2 text-sm font-medium text-white/80 hover:bg-white/5 disabled:opacity-40">Export arrivés ({presence.arrived})</button>
             <button onClick={() => { sessionStorage.removeItem(TOKEN_KEY); onLogout(); }} className="rounded-lg border border-white/15 px-4 py-2 text-sm font-medium text-white/60 hover:bg-white/5">Déconnexion</button>
           </div>
         </div>
