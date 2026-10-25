@@ -34,6 +34,7 @@ const BatimatAdminPage = lazy(() => import("./pages/BatimatAdminPage"));
 const BatimatAfterPage = lazy(() => import("./pages/BatimatAfterPage"));
 const BatimatAfterAdminPage = lazy(() => import("./pages/BatimatAfterAdminPage"));
 const JpoHelenitePage = lazy(() => import("./pages/JpoHelenitePage"));
+const JpoNicePage = lazy(() => import("./pages/JpoNicePage"));
 const JpoHeleniteAdminPage = lazy(() => import("./pages/JpoHeleniteAdminPage"));
 const JpoHeleniteLeadsPage = lazy(() => import("./pages/JpoHeleniteLeadsPage"));
 const TrackingAdminPage = lazy(() => import("./pages/TrackingAdminPage"));
@@ -166,6 +167,9 @@ function App() {
             <Route path="/batimat-after-admin" element={<BatimatAfterAdminPage />} />
             <Route path="/jpo-helenite-admin" element={<JpoHeleniteAdminPage />} />
             <Route path="/jpo-helenite-leads" element={<JpoHeleniteLeadsPage />} />
+            <Route path="/jpo_nice" element={<JpoNicePage />} />
+            {/* Même page, avec une source de suivi : /jpo_nice/commerciaux */}
+            <Route path="/jpo_nice/:source" element={<JpoNicePage />} />
             <Route path="/jpo_helenite" element={<JpoHelenitePage />} />
             {/* Même page, avec une source de suivi : /jpo_helenite/commerciaux */}
             <Route path="/jpo_helenite/:source" element={<JpoHelenitePage />} />

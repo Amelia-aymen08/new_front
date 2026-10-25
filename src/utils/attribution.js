@@ -149,10 +149,10 @@ function parseSlugSource(pathname, search) {
   };
 }
 
-// Mode 1ter : même principe pour la JPO Hélénite  /jpo_helenite/<source>
-// (ex. /jpo_helenite/commerciaux). Campagne "jpo-helenite", source = le slug.
-// La page /jpo_helenite sans slug n'est pas une source de suivi.
-const JPO_SLUG_PATH_RE = /^\/jpo[_-]helenite\/([a-z0-9][a-z0-9_-]{0,58})$/;
+// Mode 1ter : même principe pour la JPO Hélénite  /jpo_helenite/<source> (ex. /jpo_helenite/commerciaux) et pour
+// Nice  /jpo_nice/<source>. Campagne "jpo-helenite" / "jpo-nice", source = le slug.
+// Les pages /jpo_helenite et /jpo_nice sans slug ne sont pas des sources de suivi.
+const JPO_SLUG_PATH_RE = /^\/jpo[_-](helenite|nice)\/([a-z0-9][a-z0-9_-]{0,58})$/;
 
 function parseJpoSlugSource(pathname, search) {
   const match = normalizePath(pathname).match(JPO_SLUG_PATH_RE);
@@ -165,8 +165,8 @@ function parseJpoSlugSource(pathname, search) {
     .toLowerCase();
   const explicitMedium = (params.get("utm_medium") || "").trim().toLowerCase();
   return {
-    campaign: (explicitCampaign || "jpo-helenite").slice(0, 60),
-    source: match[1].slice(0, 60),
+    campaign: (explicitCampaign || `jpo-${match[1]}`).slice(0, 60),
+    source: match[2].slice(0, 60),
     medium: (explicitMedium || "link").slice(0, 60),
     heuristic: false,
   };
