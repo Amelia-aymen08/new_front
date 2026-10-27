@@ -299,7 +299,7 @@ function Dashboard({ token, onLogout }) {
             </div>
           </div>
           <div className="flex flex-wrap gap-2">
-            <a href="/jpo-helenite-admin" className="rounded-lg border border-white/15 px-4 py-2 text-sm font-medium text-white/80 hover:bg-white/5">JPO Hélénite</a>
+            <a href="/jpo-nice-leads" className="rounded-lg border border-white/15 px-4 py-2 text-sm font-medium text-white/80 hover:bg-white/5">Accueil &amp; prospects</a>
             <button onClick={() => fetchAll()} className="rounded-lg border border-white/15 px-4 py-2 text-sm font-medium text-white/80 hover:bg-white/5">Actualiser</button>
             <button onClick={() => downloadCsv(filtered)} disabled={!filtered.length} className="rounded-lg px-4 py-2 text-sm font-semibold text-[#031B17] hover:opacity-90 disabled:opacity-40" style={{ background: GOLD }}>Exporter CSV</button>
             <button onClick={() => { sessionStorage.removeItem(TOKEN_KEY); onLogout(); }} className="rounded-lg border border-white/15 px-4 py-2 text-sm font-medium text-white/60 hover:bg-white/5">Déconnexion</button>
